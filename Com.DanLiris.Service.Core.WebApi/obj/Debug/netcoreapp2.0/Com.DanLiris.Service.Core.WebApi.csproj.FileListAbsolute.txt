@@ -1,0 +1,13 @@
+G:\.NET Core Project\com.danliris.service.core\Com.DanLiris.Service.Core.WebApi\bin\Debug\netcoreapp2.0\Com.DanLiris.Service.Core.WebApi.deps.json
+G:\.NET Core Project\com.danliris.service.core\Com.DanLiris.Service.Core.WebApi\bin\Debug\netcoreapp2.0\Com.DanLiris.Service.Core.WebApi.runtimeconfig.json
+G:\.NET Core Project\com.danliris.service.core\Com.DanLiris.Service.Core.WebApi\bin\Debug\netcoreapp2.0\Com.DanLiris.Service.Core.WebApi.runtimeconfig.dev.json
+G:\.NET Core Project\com.danliris.service.core\Com.DanLiris.Service.Core.WebApi\bin\Debug\netcoreapp2.0\Com.DanLiris.Service.Core.WebApi.dll
+G:\.NET Core Project\com.danliris.service.core\Com.DanLiris.Service.Core.WebApi\bin\Debug\netcoreapp2.0\Com.DanLiris.Service.Core.WebApi.pdb
+G:\.NET Core Project\com.danliris.service.core\Com.DanLiris.Service.Core.WebApi\obj\Debug\netcoreapp2.0\Com.DanLiris.Service.Core.WebApi.csprojResolveAssemblyReference.cache
+G:\.NET Core Project\com.danliris.service.core\Com.DanLiris.Service.Core.WebApi\obj\Debug\netcoreapp2.0\Com.DanLiris.Service.Core.WebApi.csproj.CoreCompileInputs.cache
+G:\.NET Core Project\com.danliris.service.core\Com.DanLiris.Service.Core.WebApi\obj\Debug\netcoreapp2.0\Com.DanLiris.Service.Core.WebApi.AssemblyInfoInputs.cache
+G:\.NET Core Project\com.danliris.service.core\Com.DanLiris.Service.Core.WebApi\obj\Debug\netcoreapp2.0\Com.DanLiris.Service.Core.WebApi.AssemblyInfo.cs
+G:\.NET Core Project\com.danliris.service.core\Com.DanLiris.Service.Core.WebApi\obj\Debug\netcoreapp2.0\Com.DanLiris.Service.Core.WebApi.dll
+G:\.NET Core Project\com.danliris.service.core\Com.DanLiris.Service.Core.WebApi\obj\Debug\netcoreapp2.0\Com.DanLiris.Service.Core.WebApi.pdb
+G:\.NET Core Project\com.danliris.service.core\Com.DanLiris.Service.Core.WebApi\bin\Debug\netcoreapp2.0\Com.DanLiris.Service.Core.Lib.dll
+G:\.NET Core Project\com.danliris.service.core\Com.DanLiris.Service.Core.WebApi\bin\Debug\netcoreapp2.0\Com.DanLiris.Service.Core.Lib.pdb
