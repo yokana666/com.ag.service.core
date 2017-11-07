@@ -1,1 +1,0 @@
-# com.danliris.service.core
