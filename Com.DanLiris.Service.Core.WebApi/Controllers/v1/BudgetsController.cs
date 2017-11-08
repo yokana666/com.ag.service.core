@@ -24,13 +24,13 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1
             _context = context;
             _service = service;
         }
-        
+
         [HttpGet]
         public IEnumerable<Budget> GetBudget()
         {
             return _context.Budgets;
         }
-        
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBudget([FromRoute] int id)
         {
@@ -48,7 +48,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1
 
             return Ok(budget);
         }
-        
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBudget([FromRoute] int id, [FromBody] Budget budget)
         {
@@ -82,7 +82,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1
 
             return NoContent();
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> PostBudget([FromBody] Budget budget)
         {
@@ -96,7 +96,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1
             {
                 return BadRequest(e.ValidationResults);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return BadRequest(e);
             }

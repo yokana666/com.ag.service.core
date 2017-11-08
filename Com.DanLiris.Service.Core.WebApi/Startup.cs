@@ -11,7 +11,8 @@ using Com.DanLiris.Service.Core.Lib;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Com.DanLiris.Service.Core.Lib.Services;
-
+using IdentityModel;
+using IdentityServer4.AccessTokenValidation;
 
 namespace Com.DanLiris.Service.Core.WebApi
 {
@@ -33,13 +34,36 @@ namespace Com.DanLiris.Service.Core.WebApi
                 .AddDbContext<CoreDbContext>(options => options.UseSqlServer(connectionString))
                 .AddTransient<BudgetService>()
                 .AddTransient<BuyerService>()
-                .AddApiVersioning(options => {
+                .AddApiVersioning(options =>
+                {
                     options.ReportApiVersions = true;
                     options.AssumeDefaultVersionWhenUnspecified = true;
                     options.DefaultApiVersion = new ApiVersion(1, 0);
                 });
 
-            services.AddMvc();
+
+            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.ApiName = "com.danliris.service.core";
+                    options.ApiSecret = "secret";
+                    options.Authority = "https://localhost:44350";
+                    options.RequireHttpsMetadata = false;
+                    options.NameClaimType = JwtClaimTypes.Name;
+                    options.RoleClaimType = JwtClaimTypes.Role;
+                });
+
+            services
+                .AddMvcCore()
+                .AddAuthorization(options =>
+                {
+                    options.AddPolicy("service.core.read", (policyBuilder) =>
+                    {
+                        policyBuilder.RequireClaim("scope", "service.core.read");
+                    });
+                })
+                .AddJsonFormatters();
+            //services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +73,7 @@ namespace Com.DanLiris.Service.Core.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseAuthentication();
             app.UseMvc();
         }
     }

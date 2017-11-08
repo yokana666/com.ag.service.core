@@ -3,17 +3,18 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:10439/",
-      "sslPort": 0
+      "applicationUrl": "http://localhost:5100/",
+      "sslPort": 44351
     }
   },
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
+      "launchUrl": "https://localhost:44351/",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=com.danliris.db.core;Trusted_Connection=True;"
+        "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=com.danliris.db.core;Trusted_Connection=True;",
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "Com.DanLiris.Service.Core.WebApi": {

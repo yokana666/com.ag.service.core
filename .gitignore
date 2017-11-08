@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Com.DanLiris.Service.Core.Lib/bin
+/**/bin
+/**/obj
+/**/Debug
+/.vs
