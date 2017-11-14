@@ -37,7 +37,7 @@ namespace Com.DanLiris.Service.Core.WebApi.v1.ViewModels
         
         public string contact { get; set; }
 
-        public int tempo { get; set; }
+        public int? tempo { get; set; }
         
         public string type { get; set; }
         

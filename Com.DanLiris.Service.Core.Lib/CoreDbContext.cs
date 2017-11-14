@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Com.Moonlay.EntityFrameworkCore;
+﻿using Com.Moonlay.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Com.DanLiris.Service.Core.Lib.Models;
 
@@ -20,6 +17,9 @@ namespace Com.DanLiris.Service.Core.Lib
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Buyer>()
+                .HasIndex(b => b.Code);
         }
     }
 }

@@ -1,6 +1,5 @@
 using Com.DanLiris.Service.Core.Lib.Services;
 using Com.Moonlay.Models;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,12 +8,12 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 {
     public class Buyer : StandardEntity, IValidatableObject
     {
-        [StringLength(100)]
+        [StringLength(16)]
         public string Code { get; set; }
 
         [StringLength(500)]
         public string Name { get; set; }
-
+         
         [StringLength(3000)]
         public string Address { get; set; }
 
@@ -27,7 +26,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
         [StringLength(500)]
         public string Contact { get; set; }
         
-        public int Tempo { get; set; }
+        public int? Tempo { get; set; }
 
         [StringLength(500)]
         public string Type { get; set; }
@@ -40,19 +39,19 @@ namespace Com.DanLiris.Service.Core.Lib.Models
             List<ValidationResult> validationResult = new List<ValidationResult>();
             
             if (string.IsNullOrWhiteSpace(this.Code))
-                validationResult.Add(new ValidationResult("Code is required", new List<string> { "Code" }));
+                validationResult.Add(new ValidationResult("Code is required", new List<string> { "code" }));
 
             if (string.IsNullOrWhiteSpace(this.Name))
-                validationResult.Add(new ValidationResult("Name is required", new List<string> { "Name" }));
+                validationResult.Add(new ValidationResult("Name is required", new List<string> { "name" }));
 
-            if (this.Tempo < 0)
-                validationResult.Add(new ValidationResult("Tempo must be 0 or more", new List<string> { "Tempo" }));
+            if (this.Tempo.Equals(null) || this.Tempo < 0)
+                validationResult.Add(new ValidationResult("Tempo must be 0 or more", new List<string> { "tempo" }));
             
             if (string.IsNullOrWhiteSpace(this.Country))
-                validationResult.Add(new ValidationResult("Country is required", new List<string> { "Country" }));
+                validationResult.Add(new ValidationResult("Country is required", new List<string> { "country" }));
 
             if (string.IsNullOrWhiteSpace(this.Type))
-                validationResult.Add(new ValidationResult("Type is required", new List<string> { "Type" }));
+                validationResult.Add(new ValidationResult("Type is required", new List<string> { "type" }));
 
             if(validationResult.Count > 0)
             {
@@ -64,7 +63,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
                 BuyerService service = (BuyerService)validationContext.GetService(typeof(BuyerService));
 
                 if (service.DbContext.Set<Buyer>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Code.Equals(this.Code)) > 0) /* Code Unique */
-                    validationResult.Add(new ValidationResult("Code already exists", new List<string> { "Code" }));
+                    validationResult.Add(new ValidationResult("Code already exists", new List<string> { "code" }));
 
                 return validationResult;
             }
