@@ -68,13 +68,6 @@ namespace Com.DanLiris.Service.Core.WebApi.Helpers
             return Result;
         }
 
-        public Dictionary<string, object> Fail(Exception e)
-        {
-            Result.Add("exception", e);
-
-            return Result;
-        }
-
         public Dictionary<string, object> Fail(ServiceValidationExeption e)
         {
             Dictionary<string, string> Errors = new Dictionary<string, string>();

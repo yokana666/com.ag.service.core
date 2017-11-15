@@ -41,8 +41,8 @@ namespace Com.DanLiris.Service.Core.WebApi.Helpers
             catch (Exception e)
             {
                 Dictionary<string, object> Result =
-                    new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, General.INTERNAL_ERROR_MESSAGE)
-                    .Fail(e);
+                    new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, e.Message)
+                    .Fail();
                 return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
             }
         }
@@ -75,8 +75,8 @@ namespace Com.DanLiris.Service.Core.WebApi.Helpers
             catch (Exception e)
             {
                 Dictionary<string, object> Result =
-                    new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, General.INTERNAL_ERROR_MESSAGE)
-                    .Fail(e);
+                    new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, e.Message)
+                    .Fail();
                 return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
             }
         }
@@ -124,16 +124,16 @@ namespace Com.DanLiris.Service.Core.WebApi.Helpers
                 else
                 {
                     Dictionary<string, object> Result =
-                        new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, General.INTERNAL_ERROR_MESSAGE)
-                        .Fail(e);
+                        new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, e.Message)
+                        .Fail();
                     return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
                 }
             }
             catch (Exception e)
             {
                 Dictionary<string, object> Result =
-                    new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, General.INTERNAL_ERROR_MESSAGE)
-                    .Fail(e);
+                    new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, e.Message)
+                    .Fail();
                 return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
             }
         }
@@ -162,8 +162,8 @@ namespace Com.DanLiris.Service.Core.WebApi.Helpers
             catch (Exception e)
             {
                 Dictionary<string, object> Result =
-                    new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, General.INTERNAL_ERROR_MESSAGE)
-                    .Fail(e);
+                    new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, e.Message)
+                    .Fail();
                 return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
             }
         }
@@ -185,8 +185,8 @@ namespace Com.DanLiris.Service.Core.WebApi.Helpers
             catch (Exception e)
             {
                 Dictionary<string, object> Result =
-                    new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, General.INTERNAL_ERROR_MESSAGE)
-                    .Fail(e);
+                    new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, e.Message)
+                    .Fail();
                 return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
             }
         }

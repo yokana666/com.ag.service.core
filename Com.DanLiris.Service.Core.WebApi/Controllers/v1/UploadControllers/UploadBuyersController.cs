@@ -27,6 +27,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.UploadControllers
             _context = context;
             _service = service;
         }
+
         private readonly List<string> Header = new List<string>()
         {
             "Kode Buyer", "Nama", "Alamat", "Kota", "Negara", "NPWP", "Jenis Buyer", "Kontak", "Tempo"
@@ -102,11 +103,11 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.UploadControllers
             catch (Exception e)
             {
                 Dictionary<string, object> Result =
-                   new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, General.INTERNAL_ERROR_MESSAGE)
-                   .Fail(e);
+                   new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, e.Message)
+                   .Fail();
 
                 return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
-            }
+            } 
         }
     }
 }
