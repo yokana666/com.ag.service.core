@@ -5204,7 +5204,9 @@
           "Com.Moonlay.EntityFrameworkCore": "1.0.0-alpha-10122017-003",
           "Com.Moonlay.NetCore.Lib": "1.0.0-alpha-20171102-001",
           "Microsoft.EntityFrameworkCore.Design": "2.0.0",
-          "Microsoft.EntityFrameworkCore.SqlServer": "2.0.0"
+          "Microsoft.EntityFrameworkCore.SqlServer": "2.0.0",
+          "MlkPwgen": "0.3.0",
+          "System.Linq.Dynamic.Core": "1.0.7.12"
         },
         "compile": {
           "bin/placeholder/Com.DanLiris.Service.Core.Lib.dll": {}
@@ -13481,9 +13483,7 @@
       "Microsoft.AspNetCore.All >= 2.0.0",
       "Microsoft.AspNetCore.Mvc.Versioning >= 2.0.0",
       "Microsoft.NETCore.App >= 2.0.0",
-      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.0.0",
-      "MlkPwgen >= 0.3.0",
-      "System.Linq.Dynamic.Core >= 1.0.7.12"
+      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.0.0"
     ]
   },
   "packageFolders": {
@@ -13534,10 +13534,6 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
-          "MlkPwgen": {
-            "target": "Package",
-            "version": "0.3.0"
-          },
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",
             "version": "2.0.0"
@@ -13549,10 +13545,6 @@
           "CsvHelper": {
             "target": "Package",
             "version": "6.0.0"
-          },
-          "System.Linq.Dynamic.Core": {
-            "target": "Package",
-            "version": "1.0.7.12"
           },
           "Microsoft.NETCore.App": {
             "target": "Package",

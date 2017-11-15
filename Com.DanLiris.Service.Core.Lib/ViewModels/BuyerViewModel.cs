@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Com.DanLiris.Service.Core.WebApi.v1.ViewModels
+namespace Com.DanLiris.Service.Core.Lib.ViewModels
 {
     public class BuyerViewModel
     {

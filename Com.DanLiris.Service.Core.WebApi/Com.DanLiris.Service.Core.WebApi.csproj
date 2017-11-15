@@ -14,8 +14,6 @@
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
-    <PackageReference Include="MlkPwgen" Version="0.3.0" />
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.0.7.12" />
   </ItemGroup>
 
   <ItemGroup>

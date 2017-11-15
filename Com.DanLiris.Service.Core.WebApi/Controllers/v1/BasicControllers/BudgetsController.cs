@@ -9,7 +9,7 @@ using Com.Moonlay.NetCore.Lib.Service;
 using Com.DanLiris.Service.Core.Lib.Services;
 using Com.DanLiris.Service.Core.Lib.Models;
 
-namespace Com.DanLiris.Service.Core.WebApi.v1.Controllers
+namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
 {
     [Produces("application/json")]
     [ApiVersion("1.0")]

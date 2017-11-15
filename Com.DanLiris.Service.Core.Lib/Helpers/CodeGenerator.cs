@@ -1,6 +1,6 @@
 ﻿using MlkPwgen;
 
-namespace Com.DanLiris.Service.Core.WebApi.Helpers
+namespace Com.DanLiris.Service.Core.Lib.Helpers
 {
     public class CodeGenerator
     {

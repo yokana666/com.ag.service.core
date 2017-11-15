@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Com.DanLiris.Service.Core.Lib.Services;
 using IdentityModel;
 using IdentityServer4.AccessTokenValidation;
+using Newtonsoft.Json.Serialization;
 
 namespace Com.DanLiris.Service.Core.WebApi
 {
@@ -23,12 +24,13 @@ namespace Com.DanLiris.Service.Core.WebApi
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            string connectionString = Configuration.GetConnectionString("DefaultConnection") ?? Configuration["DefaultConnection"];
-            //string connectionString = "Server=(localdb)\\mssqllocaldb;Database=com.danliris.db.core;Trusted_Connection=True;";
+            //string connectionString = Configuration.GetConnectionString("DefaultConnection") ?? Configuration["DefaultConnection"];
+            string connectionString = "Server=(localdb)\\mssqllocaldb;Database=com.danliris.db.core;Trusted_Connection=True;";
             services
                 .AddDbContext<CoreDbContext>(options => options.UseSqlServer(connectionString))
                 .AddTransient<BudgetService>()
                 .AddTransient<BuyerService>()
+                .AddTransient<SupplierService>()
                 .AddApiVersioning(options =>
                 {
                     options.ReportApiVersions = true;
@@ -48,6 +50,13 @@ namespace Com.DanLiris.Service.Core.WebApi
                     options.RoleClaimType = JwtClaimTypes.Role;
                 });
 
+            services.AddCors(o => o.AddPolicy("CorePolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
             services
                 .AddMvcCore()
                 .AddAuthorization(options =>
@@ -57,15 +66,8 @@ namespace Com.DanLiris.Service.Core.WebApi
                         policyBuilder.RequireClaim("scope", "service.core.read");
                     });
                 })
-                .AddJsonFormatters();
-
-            services.AddCors(o => o.AddPolicy("CorePolicy", builder =>
-            {
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
-            }));
-            //services.AddMvc();
+                .AddJsonFormatters()
+                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
