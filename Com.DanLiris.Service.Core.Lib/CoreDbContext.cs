@@ -17,6 +17,8 @@ namespace Com.DanLiris.Service.Core.Lib
         
         public DbSet<Supplier> Suppliers { get; set; }
 
+        public DbSet<Uom> UnitOfMeasurements { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -8,8 +8,6 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 {
     public class Currency : StandardEntity, IValidatableObject
     {
-        public string MongoId { get; set; }
-
         public string Code { get; set; }
 
         public string Symbol { get; set; }

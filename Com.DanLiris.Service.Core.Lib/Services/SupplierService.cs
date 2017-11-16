@@ -9,12 +9,12 @@ using Newtonsoft.Json;
 using System.Reflection;
 using Com.Moonlay.NetCore.Lib;
 using Com.DanLiris.Service.Core.Lib.ViewModels;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
+using CsvHelper.Configuration;
+using System.Dynamic;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
-    public class SupplierService : StandardEntityService<CoreDbContext, Supplier>, IGeneralService<Supplier, SupplierViewModel>
+    public class SupplierService : StandardEntityService<CoreDbContext, Supplier>, IGeneralService<Supplier, SupplierViewModel>, IGeneralUploadService<Supplier>
     {
         public SupplierService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -43,14 +43,14 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 };
 
             Query = Query
-                .Select(b => new Supplier
+                .Select(s => new Supplier
                 {
-                    Id = b.Id,
-                    Code = b.Code,
-                    Name = b.Name,
-                    Address = b.Address,
-                    Import = b.Import,
-                    NPWP = b.NPWP
+                    Id = s.Id,
+                    Code = s.Code,
+                    Name = s.Name,
+                    Address = s.Address,
+                    Import = s.Import,
+                    NPWP = s.NPWP
                 });
 
             /* Order */
@@ -130,6 +130,79 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             supplier.SerialNumber = supplierVM.serialNumber;
 
             return supplier;
+        }
+
+        /* Upload CSV */
+        private readonly List<string> Header = new List<string>()
+        {
+            "Kode", "Nama Supplier", "Alamat", "Kontak", "PIC", "Import", "NPWP", "Serial Number"
+        };
+
+        public List<string> CsvHeader => Header;
+
+        public sealed class SupplierMap : ClassMap<Supplier>
+        {
+            public SupplierMap()
+            {
+                Map(s => s.Code).Name("Kode");
+                Map(s => s.Name).Name("Nama Supplier");
+                Map(s => s.Address).Name("Alamat");
+                Map(s => s.Contact).Name("Kontak");
+                Map(s => s.PIC).Name("PIC");
+                Map(s => s.Import).Name("Import");
+                Map(s => s.NPWP).Name("NPWP");
+                Map(s => s.SerialNumber).Name("Serial Number");
+            }
+        }
+
+        public Tuple<bool, List<object>> UploadValidate(List<Supplier> Data)
+        {
+            List<object> ErrorList = new List<object>();
+            string ErrorMessage;
+            bool Valid = true;
+
+            foreach (Supplier supplier in Data)
+            {
+                ErrorMessage = "";
+
+                if (string.IsNullOrWhiteSpace(supplier.Code))
+                {
+                    ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh kosong, ");
+                }
+                else if (Data.Any(d => d != supplier && d.Code.Equals(supplier.Code)) || this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(supplier.Code)))
+                {
+                    ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
+                }
+
+                if (string.IsNullOrWhiteSpace(supplier.Name))
+                {
+                    ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh kosong, ");
+                }
+
+                if (!string.IsNullOrEmpty(ErrorMessage)) /* Not Empty */
+                {
+                    var Error = new ExpandoObject() as IDictionary<string, object>;
+                    
+                    Error.Add("Kode", supplier.Code);
+                    Error.Add("Nama Supplier", supplier.Name);
+                    Error.Add("Alamat", supplier.Address);
+                    Error.Add("Kontak", supplier.Contact);
+                    Error.Add("PIC", supplier.PIC);
+                    Error.Add("Import", supplier.Import);
+                    Error.Add("NPWP", supplier.NPWP);
+                    Error.Add("Serial Number", supplier.SerialNumber);
+                    Error.Add("Error", ErrorMessage);
+
+                    ErrorList.Add(Error);
+                }
+            }
+
+            if (ErrorList.Count > 0)
+            {
+                Valid = false;
+            }
+
+            return Tuple.Create(Valid, ErrorList);
         }
     }
 }

@@ -8,12 +8,12 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.UploadControllers
 {
     [Produces("application/json")]
     [ApiVersion("1.0")]
-    [Route("v{version:apiVersion}/master/upload-buyers")]
-    public class UploadBuyersController : BasicUploadController<BuyerService, Buyer, BuyerService.BuyerMap, CoreDbContext>
+    [Route("v{version:apiVersion}/master/upload-suppliers")]
+    public class UploadSuppliersController : BasicUploadController<SupplierService, Supplier, SupplierService.SupplierMap, CoreDbContext>
     {
         private static readonly string ApiVersion = "1.0";
-       
-        public UploadBuyersController(BuyerService service) : base(service, ApiVersion)
+
+        public UploadSuppliersController(SupplierService service) : base(service, ApiVersion)
         {
         }
     }

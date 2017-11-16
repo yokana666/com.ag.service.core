@@ -8,20 +8,27 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 {
     public class Supplier : StandardEntity, IValidatableObject
     {
+        [StringLength(16)]
         public string Code { get; set; }
 
+        [StringLength(500)]
         public string Name { get; set; }
 
+        [StringLength(3000)]
         public string Address { get; set; }
 
+        [StringLength(500)]
         public string Contact { get; set; }
-        
+
+        [StringLength(500)]
         public string PIC { get; set; }
         
         public bool Import { get; set; }
-        
+
+        [StringLength(100)]
         public string NPWP { get; set; }
-        
+
+        [StringLength(500)]
         public string SerialNumber { get; set; }        
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

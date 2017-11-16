@@ -31,6 +31,7 @@ namespace Com.DanLiris.Service.Core.WebApi
                 .AddTransient<BudgetService>()
                 .AddTransient<BuyerService>()
                 .AddTransient<SupplierService>()
+                .AddTransient<UomService>()
                 .AddApiVersioning(options =>
                 {
                     options.ReportApiVersions = true;
@@ -54,7 +55,8 @@ namespace Com.DanLiris.Service.Core.WebApi
             {
                 builder.AllowAnyOrigin()
                        .AllowAnyMethod()
-                       .AllowAnyHeader();
+                       .AllowAnyHeader()
+                       .WithExposedHeaders("Content-Disposition", "api-version", "content-length", "content-md5", "content-type", "date", "request-id", "response-time");
             }));
 
             services

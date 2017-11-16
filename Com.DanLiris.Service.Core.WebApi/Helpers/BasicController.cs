@@ -17,7 +17,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Helpers
         where TService : StandardEntityService<TDbContext, TModel>, IGeneralService<TModel, TViewModel>
     {
         private readonly TService _service;
-        private string ApiVersion;
+        private readonly string ApiVersion;
 
         public BasicController(TService service, string ApiVersion)
         {
