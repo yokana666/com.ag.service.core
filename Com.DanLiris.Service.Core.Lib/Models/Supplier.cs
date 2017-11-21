@@ -8,7 +8,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 {
     public class Supplier : StandardEntity, IValidatableObject
     {
-        [StringLength(16)]
+        [StringLength(100)]
         public string Code { get; set; }
 
         [StringLength(500)]
@@ -23,7 +23,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
         [StringLength(500)]
         public string PIC { get; set; }
         
-        public bool Import { get; set; }
+        public bool? Import { get; set; }
 
         [StringLength(100)]
         public string NPWP { get; set; }
@@ -41,6 +41,9 @@ namespace Com.DanLiris.Service.Core.Lib.Models
             if (string.IsNullOrWhiteSpace(this.Name))
                 validationResult.Add(new ValidationResult("Name is required", new List<string> { "name" }));
 
+            if (this.Import.Equals(null))
+                this.Import = false;
+
             if (validationResult.Count.Equals(0))
             {
                 /* Service Validation */
@@ -49,7 +52,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
                 if (service.DbContext.Set<Supplier>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Code.Equals(this.Code)) > 0) /* Code Unique */
                     validationResult.Add(new ValidationResult("Code already exists", new List<string> { "code" }));
             }
-
+            
             return validationResult;
         }
     }

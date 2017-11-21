@@ -7,14 +7,14 @@ using Com.Moonlay.NetCore.Lib.Service;
 using Microsoft.EntityFrameworkCore;
 using Com.Moonlay.Models;
 using System.ComponentModel.DataAnnotations;
-using Com.DanLiris.Service.Core.Lib.Helpers;
+using Com.DanLiris.Service.Core.Lib.Interfaces;
 
 namespace Com.DanLiris.Service.Core.WebApi.Helpers
 {
     public abstract class BasicController<TService, TModel, TViewModel, TDbContext> : Controller
         where TDbContext : DbContext
         where TModel : StandardEntity, IValidatableObject
-        where TService : StandardEntityService<TDbContext, TModel>, IGeneralService<TModel, TViewModel>
+        where TService : StandardEntityService<TDbContext, TModel>, IGeneralService<TModel>, IMap<TModel, TViewModel>
     {
         private readonly TService _service;
         private readonly string ApiVersion;
@@ -48,25 +48,25 @@ namespace Com.DanLiris.Service.Core.WebApi.Helpers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTModel([FromRoute] int id)
+        public async Task<IActionResult> Get([FromRoute] int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var model = await _service.GetAsync(id);
-
-            if (model == null)
-            {
-                Dictionary<string, object> Result =
-                    new ResultFormatter(ApiVersion, General.NOT_FOUND_STATUS_CODE, General.NOT_FOUND_MESSAGE)
-                    .Fail();
-                return NotFound(Result);
-            }
-
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var model = await _service.GetAsync(id);
+
+                if (model == null)
+                {
+                    Dictionary<string, object> NotFoundResult =
+                        new ResultFormatter(ApiVersion, General.NOT_FOUND_STATUS_CODE, General.NOT_FOUND_MESSAGE)
+                        .Fail();
+                    return NotFound(NotFoundResult);
+                }
+
                 Dictionary<string, object> Result =
                     new ResultFormatter(ApiVersion, General.OK_STATUS_CODE, General.OK_MESSAGE)
                     .Ok<TModel, TViewModel>(model, _service.MapToViewModel);
@@ -82,25 +82,25 @@ namespace Com.DanLiris.Service.Core.WebApi.Helpers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTModel([FromRoute] int id, [FromBody] TViewModel viewMode)
+        public async Task<IActionResult> Put([FromRoute] int id, [FromBody] TViewModel viewModel)
         {
-            TModel model = _service.MapToModel(viewMode);
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != model.Id)
-            {
-                Dictionary<string, object> Result =
-                    new ResultFormatter(ApiVersion, General.BAD_REQUEST_STATUS_CODE, General.BAD_REQUEST_MESSAGE)
-                    .Fail();
-                return BadRequest(Result);
-            }
-
             try
             {
+                TModel model = _service.MapToModel(viewModel);
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                if (id != model.Id)
+                {
+                    Dictionary<string, object> Result =
+                        new ResultFormatter(ApiVersion, General.BAD_REQUEST_STATUS_CODE, General.BAD_REQUEST_MESSAGE)
+                        .Fail();
+                    return BadRequest(Result);
+                }
+
                 await _service.UpdateAsync(id, model);
 
                 return NoContent();
@@ -139,12 +139,12 @@ namespace Com.DanLiris.Service.Core.WebApi.Helpers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostTModel([FromBody] TViewModel viewMode)
+        public async Task<IActionResult> Post([FromBody] TViewModel viewModel)
         {
-            TModel model = _service.MapToModel(viewMode);
-
             try
             {
+                TModel model = _service.MapToModel(viewModel);
+
                 await _service.CreateAsync(model);
 
                 Dictionary<string, object> Result =
@@ -169,7 +169,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Helpers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTModel([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {

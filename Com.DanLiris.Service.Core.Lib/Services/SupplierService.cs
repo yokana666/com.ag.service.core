@@ -11,11 +11,15 @@ using Com.Moonlay.NetCore.Lib;
 using Com.DanLiris.Service.Core.Lib.ViewModels;
 using CsvHelper.Configuration;
 using System.Dynamic;
+using Com.DanLiris.Service.Core.Lib.Interfaces;
+using CsvHelper.TypeConversion;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
-    public class SupplierService : StandardEntityService<CoreDbContext, Supplier>, IGeneralService<Supplier, SupplierViewModel>, IGeneralUploadService<Supplier>
+    public class SupplierService : StandardEntityService<CoreDbContext, Supplier>, IGeneralService<Supplier>, IGeneralUploadService<SupplierViewModel>, IMap<Supplier, SupplierViewModel>
     {
+        private readonly string[] ImportAllowed = { "True", "False" };
+
         public SupplierService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
         }
@@ -29,18 +33,18 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             if (Keyword != null)
             {
                 List<string> SearchAttributes = new List<string>()
-                    {
-                        "Code", "Name"
-                    };
+                {
+                    "Code", "Name"
+                };
 
                 Query = Query.Where(General.BuildSearch(SearchAttributes, Keyword), Keyword);
             }
 
             /* Const Select */
             List<string> SelectedFields = new List<string>()
-                {
-                    "_id", "code", "name", "address", "import", "NPWP"
-                };
+            {
+                "_id", "code", "name", "address", "import", "NPWP"
+            };
 
             Query = Query
                 .Select(s => new Supplier
@@ -125,7 +129,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             supplier.Address = supplierVM.address;
             supplier.Contact = supplierVM.contact;
             supplier.PIC = supplierVM.PIC;
-            supplier.Import = supplierVM.import;
+            supplier.Import = !Equals(supplierVM.import, null) ? Convert.ToBoolean(supplierVM.import) : null; /* Check Null */
             supplier.NPWP = supplierVM.NPWP;
             supplier.SerialNumber = supplierVM.serialNumber;
 
@@ -140,57 +144,81 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
         public List<string> CsvHeader => Header;
 
-        public sealed class SupplierMap : ClassMap<Supplier>
+        public sealed class SupplierMap : ClassMap<SupplierViewModel>
         {
             public SupplierMap()
             {
-                Map(s => s.Code).Name("Kode");
-                Map(s => s.Name).Name("Nama Supplier");
-                Map(s => s.Address).Name("Alamat");
-                Map(s => s.Contact).Name("Kontak");
-                Map(s => s.PIC).Name("PIC");
-                Map(s => s.Import).Name("Import");
-                Map(s => s.NPWP).Name("NPWP");
-                Map(s => s.SerialNumber).Name("Serial Number");
+                
+                Map(s => s.code).Index(0);
+                Map(s => s.name).Index(1);
+                Map(s => s.address).Index(2);
+                Map(s => s.contact).Index(3);
+                Map(s => s.PIC).Index(4);
+                Map(s => s.import).Index(5).TypeConverter<StringConverter>();
+                Map(s => s.NPWP).Index(6);
+                Map(s => s.serialNumber).Index(7);
             }
         }
 
-        public Tuple<bool, List<object>> UploadValidate(List<Supplier> Data)
+        public Tuple<bool, List<object>> UploadValidate(List<SupplierViewModel> Data)
         {
             List<object> ErrorList = new List<object>();
             string ErrorMessage;
             bool Valid = true;
 
-            foreach (Supplier supplier in Data)
+            foreach (SupplierViewModel supplierVM in Data)
             {
                 ErrorMessage = "";
 
-                if (string.IsNullOrWhiteSpace(supplier.Code))
+                if (string.IsNullOrWhiteSpace(supplierVM.code))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh kosong, ");
                 }
-                else if (Data.Any(d => d != supplier && d.Code.Equals(supplier.Code)) || this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(supplier.Code)))
+                else if (Data.Any(d => d != supplierVM && d.code.Equals(supplierVM.code)))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
                 }
 
-                if (string.IsNullOrWhiteSpace(supplier.Name))
+                if (string.IsNullOrWhiteSpace(supplierVM.name))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh kosong, ");
                 }
 
-                if (!string.IsNullOrEmpty(ErrorMessage)) /* Not Empty */
+                if(string.IsNullOrWhiteSpace(supplierVM.import))
                 {
+                    ErrorMessage = string.Concat(ErrorMessage, "Import tidak boleh kosong, ");
+                }
+                else if(!ImportAllowed.Any(i => i.Equals(supplierVM.import, StringComparison.CurrentCultureIgnoreCase)))
+                {
+                    ErrorMessage = string.Concat(ErrorMessage, "Import harus diisi dengan True atau False, ");
+                }
+
+                if(string.IsNullOrEmpty(ErrorMessage))
+                {
+                    /* Service Validation */
+                    if(this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(supplierVM.code)))
+                    {
+                        ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
+                    }
+                }
+
+                if (string.IsNullOrEmpty(ErrorMessage))
+                {
+                    supplierVM.import = Convert.ToBoolean(supplierVM.import);
+                }
+                else
+                {
+                    ErrorMessage = ErrorMessage.Remove(ErrorMessage.Length - 2);
                     var Error = new ExpandoObject() as IDictionary<string, object>;
-                    
-                    Error.Add("Kode", supplier.Code);
-                    Error.Add("Nama Supplier", supplier.Name);
-                    Error.Add("Alamat", supplier.Address);
-                    Error.Add("Kontak", supplier.Contact);
-                    Error.Add("PIC", supplier.PIC);
-                    Error.Add("Import", supplier.Import);
-                    Error.Add("NPWP", supplier.NPWP);
-                    Error.Add("Serial Number", supplier.SerialNumber);
+
+                    Error.Add("Kode", supplierVM.code);
+                    Error.Add("Nama Supplier", supplierVM.name);
+                    Error.Add("Alamat", supplierVM.address);
+                    Error.Add("Kontak", supplierVM.code);
+                    Error.Add("PIC", supplierVM.PIC);
+                    Error.Add("Import", supplierVM.import);
+                    Error.Add("NPWP", supplierVM.NPWP);
+                    Error.Add("Serial Number", supplierVM.serialNumber);
                     Error.Add("Error", ErrorMessage);
 
                     ErrorList.Add(Error);

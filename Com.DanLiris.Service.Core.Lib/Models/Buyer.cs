@@ -8,7 +8,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 {
     public class Buyer : StandardEntity, IValidatableObject
     {
-        [StringLength(16)]
+        [StringLength(100)]
         public string Code { get; set; }
 
         [StringLength(500)]

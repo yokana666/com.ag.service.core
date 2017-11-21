@@ -7,22 +7,23 @@ using System.IO;
 using CsvHelper;
 using Com.Moonlay.NetCore.Lib.Service;
 using CsvHelper.Configuration;
-using Com.DanLiris.Service.Core.Lib.Helpers;
+using Com.DanLiris.Service.Core.Lib.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Com.Moonlay.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace Com.DanLiris.Service.Core.WebApi.Helpers
 {
-    public class BasicUploadController<TService, TModel, TModelMap, TDbContext> : Controller
+    public class BasicUploadController<TService, TModel, TViewModel, TModelMap, TDbContext> : Controller
         where TDbContext : DbContext
         where TModelMap : ClassMap
         where TModel : StandardEntity, IValidatableObject
-        where TService : StandardEntityService<TDbContext, TModel>, IGeneralUploadService<TModel>
+        where TService : StandardEntityService<TDbContext, TModel>, IGeneralUploadService<TViewModel>, IMap<TModel, TViewModel>
     {
         private readonly TService _service;
         private readonly string ApiVersion;
         private readonly string ContentType = "application/vnd.openxmlformats";
+        private readonly string FileName = string.Concat("Error Log - ", typeof(TModel).Name, " ", DateTime.Now.ToString("dd MMM yyyy"), ".csv");
 
         public BasicUploadController(TService service, string ApiVersion)
         {
@@ -40,7 +41,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Helpers
                     var UploadedFile = Request.Form.Files[0];
                     StreamReader Reader = new StreamReader(UploadedFile.OpenReadStream());
                     List<string> FileHeader = new List<string>(Reader.ReadLine().Split(","));
-                    var ValidHeader = _service.CsvHeader.SequenceEqual(FileHeader);
+                    var ValidHeader = _service.CsvHeader.SequenceEqual(FileHeader, StringComparer.OrdinalIgnoreCase);
 
                     if (ValidHeader)
                     {
@@ -52,8 +53,9 @@ namespace Com.DanLiris.Service.Core.WebApi.Helpers
                         Csv.Configuration.IgnoreQuotes = false;
                         Csv.Configuration.Delimiter = ",";
                         Csv.Configuration.RegisterClassMap<TModelMap>();
+                        Csv.Configuration.HeaderValidated = null;
 
-                        List<TModel> Data = Csv.GetRecords<TModel>().ToList();
+                        List<TViewModel> Data = Csv.GetRecords<TViewModel>().ToList();
 
                         Tuple<bool, List<object>> Validated = _service.UploadValidate(Data);
 
@@ -63,8 +65,9 @@ namespace Com.DanLiris.Service.Core.WebApi.Helpers
                         {
                             using (var Transaction = _service.DbContext.Database.BeginTransaction())
                             {
-                                foreach (TModel model in Data)
+                                foreach (TViewModel modelVM in Data)
                                 {
+                                    TModel model = _service.MapToModel(modelVM);
                                     _service.DbSet.Add(model);
                                     _service.OnCreating(model);
                                 }
@@ -89,10 +92,6 @@ namespace Com.DanLiris.Service.Core.WebApi.Helpers
                                     csvWriter.WriteRecords(Validated.Item2);
                                 }
 
-                                Type Class = typeof(TModel);
-                                
-                                string FileName = string.Concat("Error Log - ", Class.Name, " ", DateTime.Now.ToString("dd MMM yyyy"), ".csv");
-
                                 return File(memoryStream.ToArray(), ContentType, FileName);
                             }
                         }
@@ -100,7 +99,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Helpers
                     else
                     {
                         Dictionary<string, object> Result =
-                           new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, General.NO_FILE_ERROR_MESSAGE)
+                           new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, General.CSV_ERROR_MESSAGE)
                            .Fail();
 
                         return NotFound(Result);
@@ -111,15 +110,8 @@ namespace Com.DanLiris.Service.Core.WebApi.Helpers
                     Dictionary<string, object> Result =
                         new ResultFormatter(ApiVersion, General.BAD_REQUEST_STATUS_CODE, General.NO_FILE_ERROR_MESSAGE)
                             .Fail();
-                        return BadRequest(Result);
+                    return BadRequest(Result);
                 }
-            }
-            catch (ServiceValidationExeption e)
-            {
-                Dictionary<string, object> Result =
-                    new ResultFormatter(ApiVersion, General.BAD_REQUEST_STATUS_CODE, General.BAD_REQUEST_MESSAGE)
-                    .Fail(e);
-                return BadRequest(e);
             }
             catch (Exception e)
             {

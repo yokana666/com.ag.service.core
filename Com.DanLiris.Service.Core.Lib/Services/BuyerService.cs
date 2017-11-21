@@ -11,10 +11,12 @@ using Com.Moonlay.NetCore.Lib;
 using Com.DanLiris.Service.Core.Lib.ViewModels;
 using CsvHelper.Configuration;
 using System.Dynamic;
+using Com.DanLiris.Service.Core.Lib.Interfaces;
+using CsvHelper.TypeConversion;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
-    public class BuyerService : StandardEntityService<CoreDbContext, Buyer>, IGeneralService<Buyer, BuyerViewModel>, IGeneralUploadService<Buyer>
+    public class BuyerService : StandardEntityService<CoreDbContext, Buyer>, IGeneralService<Buyer>, IGeneralUploadService<BuyerViewModel>, IMap<Buyer, BuyerViewModel>
     {
         private readonly string[] Types = { "Lokal", "Ekspor", "Internal" };
         private readonly string[] Countries = { "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Anguilla", "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "British Virgin Islands", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Cayman Islands", "Chad", "Chile", "China", "Colombia", "Congo", "Cook Islands", "Costa Rica", "Cote D Ivoire", "Croatia", "Cruise Ship", "Cuba", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Estonia", "Ethiopia", "Falkland Islands", "Faroe Islands", "Fiji", "Finland", "France", "French Polynesia", "French West Indies", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Jamaica", "Japan", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Kuwait", "Kyrgyz Republic", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macau", "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Mauritania", "Mauritius", "Mexico", "Moldova", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique", "Namibia", "Nepal", "Netherlands", "Netherlands Antilles", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "Norway", "Oman", "Pakistan", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Puerto Rico", "Qatar", "Reunion", "Romania", "Russia", "Rwanda", "Saint Pierre and Miquelon", "Samoa", "San Marino", "Satellite", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "South Africa", "South Korea", "Spain", "Sri Lanka", "St Kitts and Nevis", "St Lucia", "St Vincent", "St. Lucia", "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor L'Este", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks and Caicos", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan", "Venezuela", "Vietnam", "Virgin Islands (US)", "Yemen", "Zambia", "Zimbabwe" };
@@ -32,9 +34,9 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             if (Keyword != null)
             {
                 List<string> SearchAttributes = new List<string>()
-                    {
-                        "Name"
-                    };
+                {
+                    "Name"
+                };
 
                 Query = Query.Where(General.BuildSearch(SearchAttributes, Keyword), Keyword);
             }
@@ -132,7 +134,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             buyer.City = buyerVM.city;
             buyer.Country = buyerVM.country;
             buyer.Contact = buyerVM.contact;
-            buyer.Tempo = buyerVM.tempo;
+            buyer.Tempo = !Equals(buyerVM.tempo, null) ? Convert.ToInt32(buyerVM.tempo) : null; /* Check Null */
             buyer.Type = buyerVM.type;
             buyer.NPWP = buyerVM.NPWP;
 
@@ -147,84 +149,102 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
         public List<string> CsvHeader => Header;
 
-        public sealed class BuyerMap : ClassMap<Buyer>
+        public sealed class BuyerMap : ClassMap<BuyerViewModel>
         {
             public BuyerMap()
             {
-                Map(b => b.Code).Name("Kode Buyer");
-                Map(b => b.Name).Name("Nama");
-                Map(b => b.Address).Name("Alamat");
-                Map(b => b.City).Name("Kota");
-                Map(b => b.Country).Name("Negara");
-                Map(b => b.NPWP).Name("NPWP");
-                Map(b => b.Type).Name("Jenis Buyer");
-                Map(b => b.Contact).Name("Kontak");
-                Map(b => b.Tempo).Name("Tempo");
+                Map(b => b.code).Index(0);
+                Map(b => b.name).Index(1);
+                Map(b => b.address).Index(2);
+                Map(b => b.city).Index(3);
+                Map(b => b.country).Index(4);
+                Map(b => b.NPWP).Index(5);
+                Map(b => b.type).Index(6);
+                Map(b => b.contact).Index(7);
+                Map(b => b.tempo).Index(8).TypeConverter<StringConverter>();
             }
         }
 
-        public Tuple<bool, List<object>> UploadValidate(List<Buyer> Data)
+        public Tuple<bool, List<object>> UploadValidate(List<BuyerViewModel> Data)
         {
             List<object> ErrorList = new List<object>();
             string ErrorMessage;
             bool Valid = true;
 
-            foreach (Buyer buyer in Data)
+            foreach (BuyerViewModel buyerVM in Data)
             {
                 ErrorMessage = "";
 
-                if (string.IsNullOrWhiteSpace(buyer.Code))
+                if (string.IsNullOrWhiteSpace(buyerVM.code))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh kosong, ");
                 }
-                else if (Data.Any(d => d != buyer && d.Code.Equals(buyer.Code)) || this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(buyer.Code)))
+                else if(Data.Any(d => d != buyerVM && d.code.Equals(buyerVM.code)))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
                 }
 
-                if (string.IsNullOrWhiteSpace(buyer.Name))
+                if (string.IsNullOrWhiteSpace(buyerVM.name))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh kosong, ");
                 }
 
-                if (string.IsNullOrWhiteSpace(buyer.Type))
+                if (string.IsNullOrWhiteSpace(buyerVM.type))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Jenis Buyer tidak boleh kosong, ");
                 }
-                else if (!Types.Any(t => t.Equals(buyer.Type)))
+                else if (!Types.Any(t => t.Equals(buyerVM.type)))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Jenis Buyer harus salah satu dari Lokal, Ekspor, Internal; ");
                 }
 
-                if (string.IsNullOrWhiteSpace(buyer.Country))
+                if (string.IsNullOrWhiteSpace(buyerVM.country))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Negara tidak boleh kosong, ");
                 }
-                else if (!Countries.Any(c => c.Equals(buyer.Country, StringComparison.CurrentCultureIgnoreCase)))
+                else if (!Countries.Any(c => c.Equals(buyerVM.country, StringComparison.CurrentCultureIgnoreCase)))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Negara tidak terdaftar di list Negara, ");
                 }
 
+                int Tempo = 0;
+                if (string.IsNullOrWhiteSpace(buyerVM.tempo))
+                {
+                    buyerVM.tempo = 0;
+                }
+                else if (!int.TryParse(buyerVM.tempo, out Tempo))
+                {
+                    ErrorMessage = string.Concat(ErrorMessage, "Tempo harus angka, ");
+                }
+
+                if(string.IsNullOrEmpty(ErrorMessage))
+                {
+                    /* Service Validation */
+                    if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(buyerVM.code)))
+                    {
+                        ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
+                    }
+                }
+
                 if (string.IsNullOrEmpty(ErrorMessage))
                 {
-                    if (buyer.Tempo.Equals(null))
-                        buyer.Tempo = 0;
-
-                    buyer.Country = Countries.First(c => c.Equals(buyer.Country, StringComparison.CurrentCultureIgnoreCase));
+                    buyerVM.tempo = Tempo;
+                    buyerVM.country = Countries.First(c => c.Equals(buyerVM.country, StringComparison.CurrentCultureIgnoreCase));
                 }
                 else
                 {
+                    ErrorMessage = ErrorMessage.Remove(ErrorMessage.Length - 2);
                     var Error = new ExpandoObject() as IDictionary<string, object>;
 
-                    Error.Add("Kode Buyer", buyer.Code);
-                    Error.Add("Nama", buyer.Name);
-                    Error.Add("Alamat", buyer.Address);
-                    Error.Add("Kota", buyer.Country);
-                    Error.Add("Negara", buyer.Country);
-                    Error.Add("NPWP", buyer.NPWP);
-                    Error.Add("Jenis Buyer", buyer.Type);
-                    Error.Add("Kontak", buyer.Contact);
-                    Error.Add("Tempo", buyer.Tempo);
+                    Error.Add("Kode Buyer", buyerVM.code);
+                    Error.Add("Nama", buyerVM.name);
+                    Error.Add("Alamat", buyerVM.address);
+                    Error.Add("Kota", buyerVM.city);
+                    Error.Add("Negara", buyerVM.country);
+                    Error.Add("NPWP", buyerVM.NPWP);
+                    Error.Add("Jenis Buyer", buyerVM.type);
+                    Error.Add("Kontak", buyerVM.contact);
+                    Error.Add("Tempo", buyerVM.tempo);
                     Error.Add("Error", ErrorMessage);
 
                     ErrorList.Add(Error);

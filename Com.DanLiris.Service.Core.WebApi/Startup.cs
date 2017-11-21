@@ -30,8 +30,12 @@ namespace Com.DanLiris.Service.Core.WebApi
                 .AddDbContext<CoreDbContext>(options => options.UseSqlServer(connectionString))
                 .AddTransient<BudgetService>()
                 .AddTransient<BuyerService>()
+                .AddTransient<CategoryService>()
+                .AddTransient<CurrencyService>()
+                .AddTransient<DivisionService>()
                 .AddTransient<SupplierService>()
                 .AddTransient<UomService>()
+                .AddTransient<VatService>()
                 .AddApiVersioning(options =>
                 {
                     options.ReportApiVersions = true;

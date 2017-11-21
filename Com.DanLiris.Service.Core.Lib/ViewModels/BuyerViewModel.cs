@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Com.DanLiris.Service.Core.Lib.ViewModels
 {
@@ -37,7 +34,8 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
         
         public string contact { get; set; }
 
-        public int? tempo { get; set; }
+        /* Int */
+        public dynamic tempo { get; set; }
         
         public string type { get; set; }
         

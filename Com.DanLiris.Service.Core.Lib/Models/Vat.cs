@@ -1,28 +1,42 @@
+using Com.DanLiris.Service.Core.Lib.Services;
 using Com.Moonlay.Models;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
+using System.Linq;
 
 namespace Com.DanLiris.Service.Core.Lib.Models
 {
     public class Vat : StandardEntity, IValidatableObject
     {
-        public string MongoId { get; set; }
-
+        [StringLength(500)]
         public string Name { get; set; }
 
-        public float Rate { get; set; }
-
+        public double? Rate { get; set; }
+        
         public string Description { get; set; }        
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (string.IsNullOrWhiteSpace(this.Name))
-                yield return new ValidationResult("Name is required", new List<string> { "Name" });
+            List<ValidationResult> validationResult = new List<ValidationResult>();
 
-            if (this.Rate < 0)
-                yield return new ValidationResult("Rate must be greater than zero", new List<string> { "Rate" });
+            if (string.IsNullOrWhiteSpace(this.Name))
+                validationResult.Add(new ValidationResult("Name is required", new List<string> { "name" }));
+
+            if (this.Rate.Equals(null) || this.Rate < 0)
+                validationResult.Add(new ValidationResult("Rate must be greater than zero", new List<string> { "rate" }));
+
+            if (validationResult.Count.Equals(0))
+            {
+                /* Service Validation */
+                VatService service = (VatService)validationContext.GetService(typeof(VatService));
+
+                if (service.DbContext.Set<Vat>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Name.Equals(this.Name) && r.Rate.Equals(this.Rate)) > 0) /* Name and Rate Unique */
+                {
+                    validationResult.Add(new ValidationResult("Name and Rate already exists", new List<string> { "name", "rate" }));
+                    validationResult.Add(new ValidationResult("Name and Rate already exists", new List<string> { "rate" }));
+                }
+            }
+            return validationResult;
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Com.DanLiris.Service.Core.Lib.ViewModels
 {
-    public class UomViewModel
+    public class CurrencyViewModel
     {
         public int _id { get; set; }
 
@@ -22,6 +22,13 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
 
         public string _updateAgent { get; set; }
 
-        public string unit { get; set; }
+        public string code { get; set; }
+
+        public string symbol { get; set; }
+
+        /* Double */
+        public dynamic rate { get; set; }
+
+        public string description { get; set; }
     }
 }

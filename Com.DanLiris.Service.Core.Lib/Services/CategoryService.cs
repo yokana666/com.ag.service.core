@@ -15,15 +15,15 @@ using Com.DanLiris.Service.Core.Lib.Interfaces;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
-    public class BudgetService : StandardEntityService<CoreDbContext, Budget>, IGeneralService<Budget>, IGeneralUploadService<BudgetViewModel>, IMap<Budget, BudgetViewModel>
+    public class CategoryService : StandardEntityService<CoreDbContext, Category>, IGeneralService<Category>, IGeneralUploadService<CategoryViewModel>, IMap<Category, CategoryViewModel>
     {
-        public BudgetService(IServiceProvider serviceProvider) : base(serviceProvider)
+        public CategoryService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
         }
 
-        public Tuple<List<Budget>, int, Dictionary<string, string>, List<string>> Read(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null)
+        public Tuple<List<Category>, int, Dictionary<string, string>, List<string>> Read(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null)
         {
-            IQueryable<Budget> Query = this.DbContext.Budgets;
+            IQueryable<Category> Query = this.DbContext.Categories;
             Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(Order);
 
             /* Search With Keyword */
@@ -39,12 +39,12 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
             /* Const Select */
             List<string> SelectedFields = new List<string>()
-                {
-                    "_id", "code", "name"
-                };
+            {
+                "_id", "code", "name"
+            };
 
             Query = Query
-                .Select(b => new Budget
+                .Select(b => new Category
                 {
                     Id = b.Id,
                     Code = b.Code,
@@ -72,93 +72,96 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             }
 
             /* Pagination */
-            Pageable<Budget> pageable = new Pageable<Budget>(Query, Page - 1, Size);
-            List<Budget> Data = pageable.Data.ToList<Budget>();
+            Pageable<Category> pageable = new Pageable<Category>(Query, Page - 1, Size);
+            List<Category> Data = pageable.Data.ToList<Category>();
 
             int TotalData = pageable.TotalCount;
 
             return Tuple.Create(Data, TotalData, OrderDictionary, SelectedFields);
         }
 
-        public BudgetViewModel MapToViewModel(Budget budget)
+        public CategoryViewModel MapToViewModel(Category category)
         {
-            BudgetViewModel budgetVM = new BudgetViewModel();
+            CategoryViewModel categoryVM = new CategoryViewModel();
 
-            budgetVM._id = budget.Id;
-            budgetVM._deleted = budget._IsDeleted;
-            budgetVM._active = budget.Active;
-            budgetVM._createdDate = budget._CreatedUtc;
-            budgetVM._createdBy = budget._CreatedBy;
-            budgetVM._createAgent = budget._CreatedAgent;
-            budgetVM._updatedDate = budget._LastModifiedUtc;
-            budgetVM._updatedBy = budget._LastModifiedBy;
-            budgetVM._updateAgent = budget._LastModifiedAgent;
-            budgetVM.code = budget.Code;
-            budgetVM.name = budget.Name;
+            categoryVM._id = category.Id;
+            categoryVM._deleted = category._IsDeleted;
+            categoryVM._active = category.Active;
+            categoryVM._createdDate = category._CreatedUtc;
+            categoryVM._createdBy = category._CreatedBy;
+            categoryVM._createAgent = category._CreatedAgent;
+            categoryVM._updatedDate = category._LastModifiedUtc;
+            categoryVM._updatedBy = category._LastModifiedBy;
+            categoryVM._updateAgent = category._LastModifiedAgent;
+            categoryVM.code = category.Code;
+            categoryVM.name = category.Name;
+            categoryVM.codeRequirement = category.CodeRequirement;
 
-            return budgetVM;
+            return categoryVM;
         }
 
-        public Budget MapToModel(BudgetViewModel budgetVM)
+        public Category MapToModel(CategoryViewModel categoryVM)
         {
-            Budget budget = new Budget();
+            Category category = new Category();
 
-            budget.Id = budgetVM._id;
-            budget._IsDeleted = budgetVM._deleted;
-            budget.Active = budgetVM._active;
-            budget._CreatedUtc = budgetVM._createdDate;
-            budget._CreatedBy = budgetVM._createdBy;
-            budget._CreatedAgent = budgetVM._createAgent;
-            budget._LastModifiedUtc = budgetVM._updatedDate;
-            budget._LastModifiedBy = budgetVM._updatedBy;
-            budget._LastModifiedAgent = budgetVM._updateAgent;
-            budget.Code = budgetVM.code;
-            budget.Name = budgetVM.name;
+            category.Id = categoryVM._id;
+            category._IsDeleted = categoryVM._deleted;
+            category.Active = categoryVM._active;
+            category._CreatedUtc = categoryVM._createdDate;
+            category._CreatedBy = categoryVM._createdBy;
+            category._CreatedAgent = categoryVM._createAgent;
+            category._LastModifiedUtc = categoryVM._updatedDate;
+            category._LastModifiedBy = categoryVM._updatedBy;
+            category._LastModifiedAgent = categoryVM._updateAgent;
+            category.Code = categoryVM.code;
+            category.Name = categoryVM.name;
+            category.CodeRequirement = categoryVM.codeRequirement;
 
-            return budget;
+            return category;
         }
 
         /* Upload CSV */
         private readonly List<string> Header = new List<string>()
         {
-            "Kode", "Nama"
+            "Kode", "Nama", "Kode Kebutuhan"
         };
 
         public List<string> CsvHeader => Header;
 
-        public sealed class BudgetMap : ClassMap<BudgetViewModel>
+        public sealed class CategoryMap : ClassMap<CategoryViewModel>
         {
-            public BudgetMap()
+            public CategoryMap()
             {
-                Map(b => b.code).Index(0);
-                Map(b => b.name).Index(1);
+                Map(c => c.code).Index(0);
+                Map(c => c.name).Index(1);
+                Map(c => c.codeRequirement).Index(2);
             }
         }
 
-        public Tuple<bool, List<object>> UploadValidate(List<BudgetViewModel> Data)
+        public Tuple<bool, List<object>> UploadValidate(List<CategoryViewModel> Data)
         {
             List<object> ErrorList = new List<object>();
             string ErrorMessage;
             bool Valid = true;
 
-            foreach (BudgetViewModel budgetVM in Data)
+            foreach (CategoryViewModel categoryVM in Data)
             {
                 ErrorMessage = "";
 
-                if (string.IsNullOrWhiteSpace(budgetVM.code))
+                if (string.IsNullOrWhiteSpace(categoryVM.code))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh kosong, ");
                 }
-                else if(Data.Any(d => d != budgetVM && d.code.Equals(budgetVM.code)))
+                else if (Data.Any(d => d != categoryVM && d.code.Equals(categoryVM.code)))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
                 }
 
-                if (string.IsNullOrWhiteSpace(budgetVM.name))
+                if (string.IsNullOrWhiteSpace(categoryVM.name))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh kosong, ");
                 }
-                else if(Data.Any(d => d != budgetVM && d.name.Equals(budgetVM.name)))
+                else if(Data.Any(d => d != categoryVM && d.name.Equals(categoryVM.name)))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh duplikat, ");
                 }
@@ -166,24 +169,25 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 if(string.IsNullOrEmpty(ErrorMessage))
                 {
                     /* Service Validation */
-                    if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(budgetVM.code)))
+                    if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(categoryVM.code)))
                     {
                         ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
                     }
 
-                    if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Name.Equals(budgetVM.name)))
+                    if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Name.Equals(categoryVM.name)))
                     {
                         ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh duplikat, ");
                     }
                 }
 
-                if (!string.IsNullOrEmpty(ErrorMessage)) /* Not Empty */
+                if (!string.IsNullOrEmpty(ErrorMessage))
                 {
                     ErrorMessage = ErrorMessage.Remove(ErrorMessage.Length - 2);
                     var Error = new ExpandoObject() as IDictionary<string, object>;
 
-                    Error.Add("Kode", budgetVM.code);
-                    Error.Add("Nama", budgetVM.name);
+                    Error.Add("Kode", categoryVM.code);
+                    Error.Add("Nama", categoryVM.name);
+                    Error.Add("Kode Kebutuhan", categoryVM.codeRequirement);
                     Error.Add("Error", ErrorMessage);
 
                     ErrorList.Add(Error);

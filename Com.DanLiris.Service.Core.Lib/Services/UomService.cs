@@ -9,12 +9,13 @@ using Newtonsoft.Json;
 using System.Reflection;
 using Com.Moonlay.NetCore.Lib;
 using Com.DanLiris.Service.Core.Lib.ViewModels;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
+using Com.DanLiris.Service.Core.Lib.Interfaces;
+using CsvHelper.Configuration;
+using System.Dynamic;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
-    public class UomService : StandardEntityService<CoreDbContext, Uom>, IGeneralService<Uom, UomViewModel>
+    public class UomService : StandardEntityService<CoreDbContext, Uom>, IGeneralService<Uom>, IGeneralUploadService<UomViewModel>, IMap<Uom, UomViewModel>
     {
         public UomService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -29,18 +30,18 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             if (Keyword != null)
             {
                 List<string> SearchAttributes = new List<string>()
-                    {
-                        "Unit"
-                    };
+                {
+                    "Unit"
+                };
 
                 Query = Query.Where(General.BuildSearch(SearchAttributes, Keyword), Keyword);
             }
 
             /* Const Select */
             List<string> SelectedFields = new List<string>()
-                {
-                    "_id", "unit"
-                };
+            {
+                "_id", "unit"
+            };
 
             Query = Query
                 .Select(u => new Uom
@@ -112,6 +113,70 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             uom.Unit = uomVM.unit;
 
             return uom;
+        }
+
+        /* Upload CSV */
+        private readonly List<string> Header = new List<string>()
+        {
+            "Unit"
+        };
+
+        public List<string> CsvHeader => Header;
+
+        public sealed class UomMap : ClassMap<UomViewModel>
+        {
+            public UomMap()
+            {
+                Map(u => u.unit).Index(0);
+            }
+        }
+
+        public Tuple<bool, List<object>> UploadValidate(List<UomViewModel> Data)
+        {
+            List<object> ErrorList = new List<object>();
+            string ErrorMessage;
+            bool Valid = true;
+
+            foreach (UomViewModel uomVM in Data)
+            {
+                ErrorMessage = "";
+
+                if (string.IsNullOrWhiteSpace(uomVM.unit))
+                {
+                    ErrorMessage = string.Concat(ErrorMessage, "Unit tidak boleh kosong, ");
+                }
+                else if (Data.Any(d => d != uomVM && d.unit.Equals(uomVM.unit)))
+                {
+                    ErrorMessage = string.Concat(ErrorMessage, "Unit tidak boleh duplikat, ");
+                }
+
+                if(string.IsNullOrEmpty(ErrorMessage))
+                {
+                    /* Service Validation */
+                    if(this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Unit.Equals(uomVM.unit)))
+                    {
+                        ErrorMessage = string.Concat(ErrorMessage, "Unit tidak boleh duplikat, ");
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(ErrorMessage)) /* Not Empty */
+                {
+                    ErrorMessage = ErrorMessage.Remove(ErrorMessage.Length - 2);
+                    var Error = new ExpandoObject() as IDictionary<string, object>;
+
+                    Error.Add("Unit", uomVM.unit);
+                    Error.Add("Error", ErrorMessage);
+
+                    ErrorList.Add(Error);
+                }
+            }
+
+            if (ErrorList.Count > 0)
+            {
+                Valid = false;
+            }
+
+            return Tuple.Create(Valid, ErrorList);
         }
     }
 }

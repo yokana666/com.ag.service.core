@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Com.DanLiris.Service.Core.Lib.ViewModels
 {
@@ -35,7 +32,8 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
 
         public string PIC { get; set; }
 
-        public bool import { get; set; }
+        /* Bool */
+        public dynamic import { get; set; }
 
         public string NPWP { get; set; }
 
