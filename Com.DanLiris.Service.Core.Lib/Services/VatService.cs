@@ -13,16 +13,17 @@ using Com.DanLiris.Service.Core.Lib.Interfaces;
 using CsvHelper.Configuration;
 using System.Dynamic;
 using CsvHelper.TypeConversion;
+using Microsoft.Extensions.Primitives;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
-    public class VatService : StandardEntityService<CoreDbContext, Vat>, IGeneralService<Vat>, IGeneralUploadService<VatViewModel>, IMap<Vat, VatViewModel>
+    public class VatService : BasicService<CoreDbContext, Vat>, IGeneralUploadService<VatViewModel>, IMap<Vat, VatViewModel>
     {
         public VatService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
         }
 
-        public Tuple<List<Vat>, int, Dictionary<string, string>, List<string>> Read(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null)
+        public override Tuple<List<Vat>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null)
         {
             IQueryable<Vat> Query = this.DbContext.Vats;
             Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(Order);
@@ -115,7 +116,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             vat._LastModifiedBy = vatVM._updatedBy;
             vat._LastModifiedAgent = vatVM._updateAgent;
             vat.Name = vatVM.name;
-            vat.Rate = vatVM.rate;
+            vat.Rate = !Equals(vatVM.rate, null) ? Convert.ToDouble(vatVM.rate) : null; /* Check Null */
             vat.Description = vatVM.description;
 
             return vat;
@@ -139,7 +140,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             }
         }
 
-        public Tuple<bool, List<object>> UploadValidate(List<VatViewModel> Data)
+        public Tuple<bool, List<object>> UploadValidate(List<VatViewModel> Data, List<KeyValuePair<string, StringValues>> Body)
         {
             List<object> ErrorList = new List<object>();
             string ErrorMessage;

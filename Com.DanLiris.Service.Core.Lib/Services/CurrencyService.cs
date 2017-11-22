@@ -13,16 +13,17 @@ using Com.DanLiris.Service.Core.Lib.Interfaces;
 using CsvHelper.Configuration;
 using System.Dynamic;
 using CsvHelper.TypeConversion;
+using Microsoft.Extensions.Primitives;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
-    public class CurrencyService : StandardEntityService<CoreDbContext, Currency>, IGeneralService<Currency>, IGeneralUploadService<CurrencyViewModel>, IMap<Currency, CurrencyViewModel>
+    public class CurrencyService : BasicService<CoreDbContext, Currency>, IGeneralUploadService<CurrencyViewModel>, IMap<Currency, CurrencyViewModel>
     {
         public CurrencyService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
         }
 
-        public Tuple<List<Currency>, int, Dictionary<string, string>, List<string>> Read(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null)
+        public override Tuple<List<Currency>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null)
         {
             IQueryable<Currency> Query = this.DbContext.Currencies;
             Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(Order);
@@ -118,7 +119,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             currency._LastModifiedAgent = currencyVM._updateAgent;
             currency.Code = currencyVM.code;
             currency.Symbol = currencyVM.symbol;
-            currency.Rate = currencyVM.rate;
+            currency.Rate = !Equals(currencyVM.rate, null) ? Convert.ToDouble(currencyVM.rate) : null; /* Check Null */
             currency.Description = currencyVM.description;
 
             return currency;
@@ -143,7 +144,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             }
         }
 
-        public Tuple<bool, List<object>> UploadValidate(List<CurrencyViewModel> Data)
+        public Tuple<bool, List<object>> UploadValidate(List<CurrencyViewModel> Data, List<KeyValuePair<string, StringValues>> Body)
         {
             List<object> ErrorList = new List<object>();
             string ErrorMessage;

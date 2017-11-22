@@ -20,7 +20,13 @@ namespace Com.DanLiris.Service.Core.Lib
 
         public DbSet<Division> Divisions { get; set; }
 
+        public DbSet<GarmentCurrency> GarmentCurrencies { get; set; }
+
+        public DbSet<Storage> Storages { get; set; }
+
         public DbSet<Supplier> Suppliers { get; set; }
+
+        public DbSet<Unit> Units { get; set; }
 
         public DbSet<Uom> UnitOfMeasurements { get; set; }
 

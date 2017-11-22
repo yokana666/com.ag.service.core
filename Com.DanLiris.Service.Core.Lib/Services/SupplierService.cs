@@ -13,10 +13,11 @@ using CsvHelper.Configuration;
 using System.Dynamic;
 using Com.DanLiris.Service.Core.Lib.Interfaces;
 using CsvHelper.TypeConversion;
+using Microsoft.Extensions.Primitives;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
-    public class SupplierService : StandardEntityService<CoreDbContext, Supplier>, IGeneralService<Supplier>, IGeneralUploadService<SupplierViewModel>, IMap<Supplier, SupplierViewModel>
+    public class SupplierService : BasicService<CoreDbContext, Supplier>, IGeneralUploadService<SupplierViewModel>, IMap<Supplier, SupplierViewModel>
     {
         private readonly string[] ImportAllowed = { "True", "False" };
 
@@ -24,7 +25,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         {
         }
 
-        public Tuple<List<Supplier>, int, Dictionary<string, string>, List<string>> Read(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null)
+        public override Tuple<List<Supplier>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null)
         {
             IQueryable<Supplier> Query = this.DbContext.Suppliers;
             Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(Order);
@@ -160,7 +161,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             }
         }
 
-        public Tuple<bool, List<object>> UploadValidate(List<SupplierViewModel> Data)
+        public Tuple<bool, List<object>> UploadValidate(List<SupplierViewModel> Data, List<KeyValuePair<string, StringValues>> Body)
         {
             List<object> ErrorList = new List<object>();
             string ErrorMessage;

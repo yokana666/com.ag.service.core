@@ -7,6 +7,7 @@ namespace Com.DanLiris.Service.Core.Lib.Helpers
     {
         public const string ASCENDING = "asc";
         public const string DESCENDING = "desc";
+        public const string ASIA_DATE_FORMAT = "ddd MMM dd yyyy HH:mm:ss 'GMT'K '(SE Asia Standard Time)'";
 
         public static string TransformOrderBy(string Order)
         {

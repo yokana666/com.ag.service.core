@@ -12,16 +12,17 @@ using Com.DanLiris.Service.Core.Lib.ViewModels;
 using Com.DanLiris.Service.Core.Lib.Interfaces;
 using CsvHelper.Configuration;
 using System.Dynamic;
+using Microsoft.Extensions.Primitives;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
-    public class UomService : StandardEntityService<CoreDbContext, Uom>, IGeneralService<Uom>, IGeneralUploadService<UomViewModel>, IMap<Uom, UomViewModel>
+    public class UomService : BasicService<CoreDbContext, Uom>, IGeneralUploadService<UomViewModel>, IMap<Uom, UomViewModel>
     {
         public UomService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
         }
 
-        public Tuple<List<Uom>, int, Dictionary<string, string>, List<string>> Read(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null)
+        public override Tuple<List<Uom>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null)
         {
             IQueryable<Uom> Query = this.DbContext.UnitOfMeasurements;
             Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(Order);
@@ -131,7 +132,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             }
         }
 
-        public Tuple<bool, List<object>> UploadValidate(List<UomViewModel> Data)
+        public Tuple<bool, List<object>> UploadValidate(List<UomViewModel> Data, List<KeyValuePair<string, StringValues>> Body)
         {
             List<object> ErrorList = new List<object>();
             string ErrorMessage;

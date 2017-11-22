@@ -33,7 +33,10 @@ namespace Com.DanLiris.Service.Core.WebApi
                 .AddTransient<CategoryService>()
                 .AddTransient<CurrencyService>()
                 .AddTransient<DivisionService>()
+                .AddTransient<GarmentCurrencyService>()
+                .AddTransient<StorageService>()
                 .AddTransient<SupplierService>()
+                .AddTransient<UnitService>()
                 .AddTransient<UomService>()
                 .AddTransient<VatService>()
                 .AddApiVersioning(options =>

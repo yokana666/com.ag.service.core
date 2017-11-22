@@ -12,16 +12,17 @@ using Com.DanLiris.Service.Core.Lib.ViewModels;
 using CsvHelper.Configuration;
 using System.Dynamic;
 using Com.DanLiris.Service.Core.Lib.Interfaces;
+using Microsoft.Extensions.Primitives;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
-    public class CategoryService : StandardEntityService<CoreDbContext, Category>, IGeneralService<Category>, IGeneralUploadService<CategoryViewModel>, IMap<Category, CategoryViewModel>
+    public class CategoryService : BasicService<CoreDbContext, Category>, IGeneralUploadService<CategoryViewModel>, IMap<Category, CategoryViewModel>
     {
         public CategoryService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
         }
 
-        public Tuple<List<Category>, int, Dictionary<string, string>, List<string>> Read(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null)
+        public override Tuple<List<Category>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null)
         {
             IQueryable<Category> Query = this.DbContext.Categories;
             Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(Order);
@@ -138,7 +139,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             }
         }
 
-        public Tuple<bool, List<object>> UploadValidate(List<CategoryViewModel> Data)
+        public Tuple<bool, List<object>> UploadValidate(List<CategoryViewModel> Data, List<KeyValuePair<string, StringValues>> Body)
         {
             List<object> ErrorList = new List<object>();
             string ErrorMessage;

@@ -56,8 +56,8 @@ namespace Com.DanLiris.Service.Core.WebApi.Helpers
                         Csv.Configuration.HeaderValidated = null;
 
                         List<TViewModel> Data = Csv.GetRecords<TViewModel>().ToList();
-
-                        Tuple<bool, List<object>> Validated = _service.UploadValidate(Data);
+                        
+                        Tuple<bool, List<object>> Validated = _service.UploadValidate(Data, Request.Form.ToList());
 
                         Reader.Close();
 

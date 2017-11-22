@@ -17,18 +17,18 @@ using Microsoft.Extensions.Primitives;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
-    public class BuyerService : BasicService<CoreDbContext, Buyer>, IGeneralUploadService<BuyerViewModel>, IMap<Buyer, BuyerViewModel>
+    public class UnitService : BasicService<CoreDbContext, Unit>, IGeneralUploadService<UnitViewModel>, IMap<Unit, UnitViewModel>
     {
         private readonly string[] Types = { "Lokal", "Ekspor", "Internal" };
         private readonly string[] Countries = { "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Anguilla", "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "British Virgin Islands", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Cayman Islands", "Chad", "Chile", "China", "Colombia", "Congo", "Cook Islands", "Costa Rica", "Cote D Ivoire", "Croatia", "Cruise Ship", "Cuba", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Estonia", "Ethiopia", "Falkland Islands", "Faroe Islands", "Fiji", "Finland", "France", "French Polynesia", "French West Indies", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Jamaica", "Japan", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Kuwait", "Kyrgyz Republic", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macau", "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Mauritania", "Mauritius", "Mexico", "Moldova", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique", "Namibia", "Nepal", "Netherlands", "Netherlands Antilles", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "Norway", "Oman", "Pakistan", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Puerto Rico", "Qatar", "Reunion", "Romania", "Russia", "Rwanda", "Saint Pierre and Miquelon", "Samoa", "San Marino", "Satellite", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "South Africa", "South Korea", "Spain", "Sri Lanka", "St Kitts and Nevis", "St Lucia", "St Vincent", "St. Lucia", "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor L'Este", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks and Caicos", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan", "Venezuela", "Vietnam", "Virgin Islands (US)", "Yemen", "Zambia", "Zimbabwe" };
 
-        public BuyerService(IServiceProvider serviceProvider) : base(serviceProvider)
+        public UnitService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
         }
 
-        public override Tuple<List<Buyer>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null)
+        public override Tuple<List<Unit>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null)
         {
-            IQueryable<Buyer> Query = this.DbContext.Buyers;
+            IQueryable<Unit> Query = this.DbContext.Units;
             Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(Order);
 
             /* Search With Keyword */
@@ -36,7 +36,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             {
                 List<string> SearchAttributes = new List<string>()
                 {
-                    "Name"
+                    "Code", "DivisionName", "Name"
                 };
 
                 Query = Query.Where(General.BuildSearch(SearchAttributes, Keyword), Keyword);
@@ -45,20 +45,17 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
             {
-                "_id", "code", "name", "address", "city", "country", "contact", "tempo"
+                "_id", "code", "division", "name"
             };
 
             Query = Query
-                .Select(b => new Buyer
+                .Select(u => new Unit
                 {
-                    Id = b.Id,
-                    Code = b.Code,
-                    Name = b.Name,
-                    Address = b.Address,
-                    City = b.City,
-                    Country = b.Country,
-                    Contact = b.Contact,
-                    Tempo = b.Tempo
+                    Id = u.Id,
+                    Code = u.Code,
+                    DivisionId = u.DivisionId,
+                    DivisionName = u.DivisionName,
+                    Name = u.Name
                 });
 
             /* Order */
@@ -82,170 +79,146 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             }
 
             /* Pagination */
-            Pageable<Buyer> pageable = new Pageable<Buyer>(Query, Page - 1, Size);
-            List<Buyer> Data = pageable.Data.ToList<Buyer>();
+            Pageable<Unit> pageable = new Pageable<Unit>(Query, Page - 1, Size);
+            List<Unit> Data = pageable.Data.ToList<Unit>();
 
             int TotalData = pageable.TotalCount;
 
             return Tuple.Create(Data, TotalData, OrderDictionary, SelectedFields);
         }
 
-        public BuyerViewModel MapToViewModel(Buyer buyer)
+        public UnitViewModel MapToViewModel(Unit unit)
         {
-            BuyerViewModel buyerVM = new BuyerViewModel();
+            UnitViewModel unitVM = new UnitViewModel();
+            unitVM.division = new UnitDivisionViewModel();
 
-            buyerVM._id = buyer.Id;
-            buyerVM._deleted = buyer._IsDeleted;
-            buyerVM._active = buyer.Active;
-            buyerVM._createdDate = buyer._CreatedUtc;
-            buyerVM._createdBy = buyer._CreatedBy;
-            buyerVM._createAgent = buyer._CreatedAgent;
-            buyerVM._updatedDate = buyer._LastModifiedUtc;
-            buyerVM._updatedBy = buyer._LastModifiedBy;
-            buyerVM._updateAgent = buyer._LastModifiedAgent;
-            buyerVM.code = buyer.Code;
-            buyerVM.name = buyer.Name;
-            buyerVM.address = buyer.Address;
-            buyerVM.city = buyer.City;
-            buyerVM.country = buyer.Country;
-            buyerVM.contact = buyer.Contact;
-            buyerVM.tempo = buyer.Tempo;
-            buyerVM.type = buyer.Type;
-            buyerVM.NPWP = buyer.NPWP;
-
-            return buyerVM;
+            unitVM._id = unit.Id;
+            unitVM._deleted = unit._IsDeleted;
+            unitVM._active = unit.Active;
+            unitVM._createdDate = unit._CreatedUtc;
+            unitVM._createdBy = unit._CreatedBy;
+            unitVM._createAgent = unit._CreatedAgent;
+            unitVM._updatedDate = unit._LastModifiedUtc;
+            unitVM._updatedBy = unit._LastModifiedBy;
+            unitVM._updateAgent = unit._LastModifiedAgent;
+            unitVM.code = unit.Code;
+            unitVM.division._id = unit.DivisionId;
+            unitVM.division.name = unit.DivisionName;
+            unitVM.name = unit.Name;
+            unitVM.description = unit.Description;
+            
+            return unitVM;
         }
 
-        public Buyer MapToModel(BuyerViewModel buyerVM)
+        public Unit MapToModel(UnitViewModel unitVM)
         {
-            Buyer buyer = new Buyer();
+            Unit unit = new Unit();
 
-            buyer.Id = buyerVM._id;
-            buyer._IsDeleted = buyerVM._deleted;
-            buyer.Active = buyerVM._active;
-            buyer._CreatedUtc = buyerVM._createdDate;
-            buyer._CreatedBy = buyerVM._createdBy;
-            buyer._CreatedAgent = buyerVM._createAgent;
-            buyer._LastModifiedUtc = buyerVM._updatedDate;
-            buyer._LastModifiedBy = buyerVM._updatedBy;
-            buyer._LastModifiedAgent = buyerVM._updateAgent;
-            buyer.Code = buyerVM.code;
-            buyer.Name = buyerVM.name;
-            buyer.Address = buyerVM.address;
-            buyer.City = buyerVM.city;
-            buyer.Country = buyerVM.country;
-            buyer.Contact = buyerVM.contact;
-            buyer.Tempo = !Equals(buyerVM.tempo, null) ? Convert.ToInt32(buyerVM.tempo) : null; /* Check Null */
-            buyer.Type = buyerVM.type;
-            buyer.NPWP = buyerVM.NPWP;
+            unit.Id = unitVM._id;
+            unit._IsDeleted = unitVM._deleted;
+            unit.Active = unitVM._active;
+            unit._CreatedUtc = unitVM._createdDate;
+            unit._CreatedBy = unitVM._createdBy;
+            unit._CreatedAgent = unitVM._createAgent;
+            unit._LastModifiedUtc = unitVM._updatedDate;
+            unit._LastModifiedBy = unitVM._updatedBy;
+            unit._LastModifiedAgent = unitVM._updateAgent;
+            unit.Code = unitVM.code;
+            unit.DivisionId = unitVM.division._id;
+            unit.DivisionName = unitVM.division.name;
+            unit.Name = unitVM.name;
+            unit.Description = unitVM.description;
 
-            return buyer;
+            return unit;
         }
 
         /* Upload CSV */
         private readonly List<string> Header = new List<string>()
         {
-            "Kode Buyer", "Nama", "Alamat", "Kota", "Negara", "NPWP", "Jenis Buyer", "Kontak", "Tempo"
+            "Kode Unit", "Divisi", "Nama", "Deskripsi"
         };
 
         public List<string> CsvHeader => Header;
 
-        public sealed class BuyerMap : ClassMap<BuyerViewModel>
+        public sealed class UnitMap : ClassMap<UnitViewModel>
         {
-            public BuyerMap()
+            public UnitMap()
             {
                 Map(b => b.code).Index(0);
-                Map(b => b.name).Index(1);
-                Map(b => b.address).Index(2);
-                Map(b => b.city).Index(3);
-                Map(b => b.country).Index(4);
-                Map(b => b.NPWP).Index(5);
-                Map(b => b.type).Index(6);
-                Map(b => b.contact).Index(7);
-                Map(b => b.tempo).Index(8).TypeConverter<StringConverter>();
+                Map(b => b.division.name).Index(1);
+                Map(b => b.name).Index(2);
+                Map(b => b.description).Index(3);
             }
         }
 
-        public Tuple<bool, List<object>> UploadValidate(List<BuyerViewModel> Data, List<KeyValuePair<string, StringValues>> Body)
+        public Tuple<bool, List<object>> UploadValidate(List<UnitViewModel> Data, List<KeyValuePair<string, StringValues>> Body)
         {
+            Division division = null;
             List<object> ErrorList = new List<object>();
             string ErrorMessage;
             bool Valid = true;
 
-            foreach (BuyerViewModel buyerVM in Data)
+            foreach (UnitViewModel unitVM in Data)
             {
                 ErrorMessage = "";
 
-                if (string.IsNullOrWhiteSpace(buyerVM.code))
+                if (string.IsNullOrWhiteSpace(unitVM.code))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh kosong, ");
                 }
-                else if(Data.Any(d => d != buyerVM && d.code.Equals(buyerVM.code)))
+                else if (Data.Any(d => d != unitVM && d.code.Equals(unitVM.code)))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
                 }
 
-                if (string.IsNullOrWhiteSpace(buyerVM.name))
+                if (string.IsNullOrWhiteSpace(unitVM.name))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh kosong, ");
                 }
-
-                if (string.IsNullOrWhiteSpace(buyerVM.type))
+                else if (Data.Any(d => d != unitVM && d.name.Equals(unitVM.name)))
                 {
-                    ErrorMessage = string.Concat(ErrorMessage, "Jenis Buyer tidak boleh kosong, ");
-                }
-                else if (!Types.Any(t => t.Equals(buyerVM.type)))
-                {
-                    ErrorMessage = string.Concat(ErrorMessage, "Jenis Buyer harus salah satu dari Lokal, Ekspor, Internal; ");
+                    ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh duplikat, ");
                 }
 
-                if (string.IsNullOrWhiteSpace(buyerVM.country))
+                if(string.IsNullOrWhiteSpace(unitVM.division.name))
                 {
-                    ErrorMessage = string.Concat(ErrorMessage, "Negara tidak boleh kosong, ");
-                }
-                else if (!Countries.Any(c => c.Equals(buyerVM.country, StringComparison.CurrentCultureIgnoreCase)))
-                {
-                    ErrorMessage = string.Concat(ErrorMessage, "Negara tidak terdaftar di list Negara, ");
+                    ErrorMessage = string.Concat(ErrorMessage, "Divisi tidak boleh kosong, ");
                 }
 
-                int Tempo = 0;
-                if (string.IsNullOrWhiteSpace(buyerVM.tempo))
-                {
-                    buyerVM.tempo = 0;
-                }
-                else if (!int.TryParse(buyerVM.tempo, out Tempo))
-                {
-                    ErrorMessage = string.Concat(ErrorMessage, "Tempo harus angka, ");
-                }
-
-                if(string.IsNullOrEmpty(ErrorMessage))
+                if (string.IsNullOrEmpty(ErrorMessage))
                 {
                     /* Service Validation */
-                    if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(buyerVM.code)))
+                    division = this.DbContext.Set<Division>().FirstOrDefault(d => d._IsDeleted.Equals(false) && d.Name.Equals(unitVM.division.name));
+
+                    if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(unitVM.code)))
                     {
                         ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
+                    }
+
+                    if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Name.Equals(unitVM.name)))
+                    {
+                        ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh duplikat, ");
+                    }
+
+                    if (division == null)
+                    {
+                        ErrorMessage = string.Concat(ErrorMessage, "Divisi tidak terdaftar di Master Divisi, ");
                     }
                 }
 
                 if (string.IsNullOrEmpty(ErrorMessage))
                 {
-                    buyerVM.tempo = Tempo;
-                    buyerVM.country = Countries.First(c => c.Equals(buyerVM.country, StringComparison.CurrentCultureIgnoreCase));
+                    unitVM.division._id = division.Id;
                 }
                 else
                 {
                     ErrorMessage = ErrorMessage.Remove(ErrorMessage.Length - 2);
                     var Error = new ExpandoObject() as IDictionary<string, object>;
 
-                    Error.Add("Kode Buyer", buyerVM.code);
-                    Error.Add("Nama", buyerVM.name);
-                    Error.Add("Alamat", buyerVM.address);
-                    Error.Add("Kota", buyerVM.city);
-                    Error.Add("Negara", buyerVM.country);
-                    Error.Add("NPWP", buyerVM.NPWP);
-                    Error.Add("Jenis Buyer", buyerVM.type);
-                    Error.Add("Kontak", buyerVM.contact);
-                    Error.Add("Tempo", buyerVM.tempo);
+                    Error.Add("Kode Unit", unitVM.code);
+                    Error.Add("Divisi", unitVM.name);
+                    Error.Add("Nama", unitVM.name);
+                    Error.Add("Deskripsi", unitVM.description);
                     Error.Add("Error", ErrorMessage);
 
                     ErrorList.Add(Error);
