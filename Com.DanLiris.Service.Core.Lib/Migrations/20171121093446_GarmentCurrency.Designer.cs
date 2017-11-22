@@ -11,8 +11,8 @@ using System;
 namespace Com.DanLiris.Service.Core.Lib.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    [Migration("20171106111618_Initial")]
-    partial class Initial
+    [Migration("20171121093446_GarmentCurrency")]
+    partial class GarmentCurrency
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -90,11 +90,11 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.Property<bool>("Active");
 
-                    b.Property<string>("Code");
+                    b.Property<string>("Code")
+                        .HasMaxLength(100);
 
-                    b.Property<string>("MongoId");
-
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasMaxLength(500);
 
                     b.Property<string>("_CreatedAgent")
                         .IsRequired()
@@ -140,23 +140,31 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.Property<bool>("Active");
 
-                    b.Property<string>("Address");
+                    b.Property<string>("Address")
+                        .HasMaxLength(3000);
 
-                    b.Property<string>("City");
+                    b.Property<string>("City")
+                        .HasMaxLength(500);
 
-                    b.Property<string>("Code");
+                    b.Property<string>("Code")
+                        .HasMaxLength(100);
 
-                    b.Property<string>("Contact");
+                    b.Property<string>("Contact")
+                        .HasMaxLength(500);
 
-                    b.Property<string>("Country");
+                    b.Property<string>("Country")
+                        .HasMaxLength(500);
 
-                    b.Property<string>("NPWP");
+                    b.Property<string>("NPWP")
+                        .HasMaxLength(100);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasMaxLength(500);
 
-                    b.Property<int>("Tempo");
+                    b.Property<int?>("Tempo");
 
-                    b.Property<string>("Type");
+                    b.Property<string>("Type")
+                        .HasMaxLength(500);
 
                     b.Property<string>("_CreatedAgent")
                         .IsRequired()
@@ -191,6 +199,8 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     b.Property<DateTime>("_LastModifiedUtc");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Code");
 
                     b.ToTable("Buyers");
                 });
@@ -202,13 +212,14 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.Property<bool>("Active");
 
-                    b.Property<string>("Code");
+                    b.Property<string>("Code")
+                        .HasMaxLength(100);
 
-                    b.Property<string>("CodeRequirement");
+                    b.Property<string>("CodeRequirement")
+                        .HasMaxLength(500);
 
-                    b.Property<string>("MongoId");
-
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasMaxLength(500);
 
                     b.Property<string>("_CreatedAgent")
                         .IsRequired()
@@ -244,7 +255,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.Currency", b =>
@@ -254,15 +265,15 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.Property<bool>("Active");
 
-                    b.Property<string>("Code");
+                    b.Property<string>("Code")
+                        .HasMaxLength(100);
 
                     b.Property<string>("Description");
 
-                    b.Property<string>("MongoId");
+                    b.Property<double?>("Rate");
 
-                    b.Property<float>("Rate");
-
-                    b.Property<string>("Symbol");
+                    b.Property<string>("Symbol")
+                        .HasMaxLength(50);
 
                     b.Property<string>("_CreatedAgent")
                         .IsRequired()
@@ -298,7 +309,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Currency");
+                    b.ToTable("Currencies");
                 });
 
             modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.Division", b =>
@@ -308,13 +319,13 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.Property<bool>("Active");
 
-                    b.Property<string>("Code");
+                    b.Property<string>("Code")
+                        .HasMaxLength(100);
 
                     b.Property<string>("Description");
 
-                    b.Property<string>("MongoId");
-
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasMaxLength(500);
 
                     b.Property<string>("_CreatedAgent")
                         .IsRequired()
@@ -350,7 +361,58 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Division");
+                    b.ToTable("Divisions");
+                });
+
+            modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.GarmentCurrency", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Active");
+
+                    b.Property<string>("Code")
+                        .HasMaxLength(100);
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<double?>("Rate");
+
+                    b.Property<string>("_CreatedAgent")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("_CreatedUtc");
+
+                    b.Property<string>("_DeletedAgent")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_DeletedBy")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("_DeletedUtc");
+
+                    b.Property<bool>("_IsDeleted");
+
+                    b.Property<string>("_LastModifiedAgent")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_LastModifiedBy")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("_LastModifiedUtc");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GarmentCurrencies");
                 });
 
             modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.Holiday", b =>
@@ -418,23 +480,28 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.Property<bool>("Active");
 
-                    b.Property<string>("Address");
+                    b.Property<string>("Address")
+                        .HasMaxLength(3000);
 
-                    b.Property<string>("Code");
+                    b.Property<string>("Code")
+                        .HasMaxLength(100);
 
-                    b.Property<string>("Contact");
+                    b.Property<string>("Contact")
+                        .HasMaxLength(500);
 
-                    b.Property<bool>("Import");
+                    b.Property<bool?>("Import");
 
-                    b.Property<string>("MongoId");
+                    b.Property<string>("NPWP")
+                        .HasMaxLength(100);
 
-                    b.Property<string>("NPWP");
+                    b.Property<string>("Name")
+                        .HasMaxLength(500);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("PIC")
+                        .HasMaxLength(500);
 
-                    b.Property<string>("PIC");
-
-                    b.Property<string>("SerialNumber");
+                    b.Property<string>("SerialNumber")
+                        .HasMaxLength(500);
 
                     b.Property<string>("_CreatedAgent")
                         .IsRequired()
@@ -470,7 +537,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Supplier");
+                    b.ToTable("Suppliers");
                 });
 
             modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.TermOfPayment", b =>
@@ -532,15 +599,18 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.Property<bool>("Active");
 
-                    b.Property<string>("Code");
+                    b.Property<string>("Code")
+                        .HasMaxLength(100);
 
                     b.Property<string>("Description");
 
                     b.Property<int>("DivisionId");
 
-                    b.Property<string>("MongoId");
+                    b.Property<string>("DivisionName")
+                        .HasMaxLength(500);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasMaxLength(500);
 
                     b.Property<string>("_CreatedAgent")
                         .IsRequired()
@@ -576,21 +646,18 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DivisionId");
-
-                    b.ToTable("Unit");
+                    b.ToTable("Units");
                 });
 
-            modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.UOM", b =>
+            modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.Uom", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Active");
 
-                    b.Property<string>("MongoId");
-
-                    b.Property<string>("Unit");
+                    b.Property<string>("Unit")
+                        .HasMaxLength(500);
 
                     b.Property<string>("_CreatedAgent")
                         .IsRequired()
@@ -626,7 +693,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UOM");
+                    b.ToTable("UnitOfMeasurements");
                 });
 
             modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.Vat", b =>
@@ -638,11 +705,10 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<string>("MongoId");
+                    b.Property<string>("Name")
+                        .HasMaxLength(500);
 
-                    b.Property<string>("Name");
-
-                    b.Property<float>("Rate");
+                    b.Property<double?>("Rate");
 
                     b.Property<string>("_CreatedAgent")
                         .IsRequired()
@@ -678,7 +744,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Vat");
+                    b.ToTable("Vats");
                 });
 
             modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.AccountBank", b =>
@@ -690,14 +756,6 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                 });
 
             modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.Holiday", b =>
-                {
-                    b.HasOne("Com.DanLiris.Service.Core.Lib.Models.Division", "Division")
-                        .WithMany()
-                        .HasForeignKey("DivisionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.Unit", b =>
                 {
                     b.HasOne("Com.DanLiris.Service.Core.Lib.Models.Division", "Division")
                         .WithMany()

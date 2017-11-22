@@ -16,9 +16,8 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Active = table.Column<bool>(type: "bit", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MongoId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -42,15 +41,15 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Active = table.Column<bool>(type: "bit", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Contact = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NPWP = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Tempo = table.Column<int>(type: "int", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(3000)", maxLength: 3000, nullable: true),
+                    City = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Contact = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Country = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    NPWP = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Tempo = table.Column<int>(type: "int", nullable: true),
+                    Type = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -68,16 +67,15 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Category",
+                name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Active = table.Column<bool>(type: "bit", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CodeRequirement = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MongoId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    CodeRequirement = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -91,21 +89,20 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Category", x => x.Id);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Currency",
+                name: "Currencies",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Active = table.Column<bool>(type: "bit", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MongoId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Rate = table.Column<float>(type: "real", nullable: false),
-                    Symbol = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Rate = table.Column<double>(type: "float", nullable: true),
+                    Symbol = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -119,7 +116,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Currency", x => x.Id);
+                    table.PrimaryKey("PK_Currencies", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -150,21 +147,20 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Supplier",
+                name: "Suppliers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Active = table.Column<bool>(type: "bit", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Contact = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Import = table.Column<bool>(type: "bit", nullable: false),
-                    MongoId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NPWP = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PIC = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SerialNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(3000)", maxLength: 3000, nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Contact = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Import = table.Column<bool>(type: "bit", nullable: true),
+                    NPWP = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    PIC = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    SerialNumber = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -178,7 +174,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Supplier", x => x.Id);
+                    table.PrimaryKey("PK_Suppliers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -209,14 +205,13 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UOM",
+                name: "UnitOfMeasurements",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Active = table.Column<bool>(type: "bit", nullable: false),
-                    MongoId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Unit = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Unit = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -230,20 +225,19 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UOM", x => x.Id);
+                    table.PrimaryKey("PK_UnitOfMeasurements", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Vat",
+                name: "Vats",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Active = table.Column<bool>(type: "bit", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MongoId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Rate = table.Column<float>(type: "real", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Rate = table.Column<double>(type: "float", nullable: true),
                     _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -257,7 +251,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Vat", x => x.Id);
+                    table.PrimaryKey("PK_Vats", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -290,9 +284,9 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                 {
                     table.PrimaryKey("PK_AccountBank", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AccountBank_Currency_CurrencyId",
+                        name: "FK_AccountBank_Currencies_CurrencyId",
                         column: x => x.CurrencyId,
-                        principalTable: "Currency",
+                        principalTable: "Currencies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -372,6 +366,11 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                 column: "CurrencyId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Buyers_Code",
+                table: "Buyers",
+                column: "Code");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Holiday_DivisionId",
                 table: "Holiday",
                 column: "DivisionId");
@@ -394,13 +393,13 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                 name: "Buyers");
 
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Holiday");
 
             migrationBuilder.DropTable(
-                name: "Supplier");
+                name: "Suppliers");
 
             migrationBuilder.DropTable(
                 name: "TermOfPayment");
@@ -409,13 +408,13 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                 name: "Unit");
 
             migrationBuilder.DropTable(
-                name: "UOM");
+                name: "UnitOfMeasurements");
 
             migrationBuilder.DropTable(
-                name: "Vat");
+                name: "Vats");
 
             migrationBuilder.DropTable(
-                name: "Currency");
+                name: "Currencies");
 
             migrationBuilder.DropTable(
                 name: "Division");
