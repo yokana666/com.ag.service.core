@@ -24,18 +24,22 @@ namespace Com.DanLiris.Service.Core.WebApi
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            //string connectionString = Configuration.GetConnectionString("DefaultConnection") ?? Configuration["DefaultConnection"];
-            string connectionString = "Server=(localdb)\\mssqllocaldb;Database=com.danliris.db.core;Trusted_Connection=True;";
+            string connectionString = Configuration.GetConnectionString("DefaultConnection") ?? Configuration["DefaultConnection"];
+
             services
                 .AddDbContext<CoreDbContext>(options => options.UseSqlServer(connectionString))
+                .AddTransient<AccountBankService>()
                 .AddTransient<BudgetService>()
                 .AddTransient<BuyerService>()
                 .AddTransient<CategoryService>()
                 .AddTransient<CurrencyService>()
                 .AddTransient<DivisionService>()
                 .AddTransient<GarmentCurrencyService>()
+                .AddTransient<HolidayService>()
+                .AddTransient<ProductService>()
                 .AddTransient<StorageService>()
                 .AddTransient<SupplierService>()
+                .AddTransient<TermOfPaymentService>()
                 .AddTransient<UnitService>()
                 .AddTransient<UomService>()
                 .AddTransient<VatService>()

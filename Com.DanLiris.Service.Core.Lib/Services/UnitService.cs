@@ -1,5 +1,4 @@
 ﻿using Com.DanLiris.Service.Core.Lib.Models;
-using Com.Moonlay.NetCore.Lib.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +11,6 @@ using Com.DanLiris.Service.Core.Lib.ViewModels;
 using CsvHelper.Configuration;
 using System.Dynamic;
 using Com.DanLiris.Service.Core.Lib.Interfaces;
-using CsvHelper.TypeConversion;
 using Microsoft.Extensions.Primitives;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
@@ -153,10 +151,10 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
         public Tuple<bool, List<object>> UploadValidate(List<UnitViewModel> Data, List<KeyValuePair<string, StringValues>> Body)
         {
-            Division division = null;
             List<object> ErrorList = new List<object>();
             string ErrorMessage;
             bool Valid = true;
+            Division division = null;
 
             foreach (UnitViewModel unitVM in Data)
             {

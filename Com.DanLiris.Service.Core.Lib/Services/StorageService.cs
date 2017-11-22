@@ -120,9 +120,19 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             storage.Code = storageVM.code;
             storage.Name = storageVM.name;
             storage.Description = storageVM.description;
-            storage.UnitId = !Equals(storageVM.unit, null) ? storageVM.unit._id : null;
-            storage.UnitName = !Equals(storageVM.unit, null) ? storageVM.unit.name : null;
-            storage.DivisionName = !Equals(storageVM.unit, null) ? storageVM.unit.division.name : null;
+
+            if(!Equals(storageVM.unit, null))
+            {
+                storage.UnitId = storageVM.unit._id;
+                storage.UnitName = storageVM.unit.name;
+                storage.DivisionName = storageVM.unit.division.name;
+            }
+            else
+            {
+                storage.UnitId = null;
+                storage.UnitName = null;
+                storage.DivisionName = null;
+            }
 
             return storage;
         }

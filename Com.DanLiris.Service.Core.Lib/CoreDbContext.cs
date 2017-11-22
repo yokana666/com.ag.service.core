@@ -10,6 +10,8 @@ namespace Com.DanLiris.Service.Core.Lib
         {
         }
 
+        public DbSet<AccountBank> AccountBanks { get; set; }
+
         public DbSet<Budget> Budgets { get; set; }
 
         public DbSet<Buyer> Buyers { get; set; }
@@ -22,9 +24,15 @@ namespace Com.DanLiris.Service.Core.Lib
 
         public DbSet<GarmentCurrency> GarmentCurrencies { get; set; }
 
+        public DbSet<Holiday> Holidays { get; set; }
+
+        public DbSet<Product> Products { get; set; }
+
         public DbSet<Storage> Storages { get; set; }
 
         public DbSet<Supplier> Suppliers { get; set; }
+
+        public DbSet<TermOfPayment> TermOfPayments { get; set; }
 
         public DbSet<Unit> Units { get; set; }
 
