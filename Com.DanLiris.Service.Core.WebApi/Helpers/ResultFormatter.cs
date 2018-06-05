@@ -3,19 +3,18 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 
 namespace Com.DanLiris.Service.Core.WebApi.Helpers
 {
-    public class ResultFormatter<TModel, TViewModel>
+    public class ResultFormatter
     {
-        public delegate TViewModel MapCallBack(TModel model);
-
         public Dictionary<string, object> Result { get; set; }
 
         public ResultFormatter(string ApiVersion, int StatusCode, string Message)
         {
-           Result = new Dictionary<string, object>();
-           AddResponseInformation(Result, ApiVersion, StatusCode, Message);
+            Result = new Dictionary<string, object>();
+            AddResponseInformation(Result, ApiVersion, StatusCode, Message);
         }
 
         public Dictionary<string, object> Ok()
@@ -23,30 +22,77 @@ namespace Com.DanLiris.Service.Core.WebApi.Helpers
             return Result;
         }
 
-        public Dictionary<string, object> Ok(List<TModel> Data, MapCallBack Map, int Page, int Size, int TotalData, int TotalPageData)
+        public Dictionary<string, object> Ok<TModel>(List<TModel> Data, int Page, int Size, int TotalData, int TotalPageData, Dictionary<string, string> Order, List<string> Select)
         {
-            Dictionary<string, object> Info = new Dictionary<string, object>();
-            Info.Add("count", TotalPageData);
-            Info.Add("page", Page);
-            Info.Add("size", Size);
-            Info.Add("total", TotalData);
-            
-            List<TViewModel> DataVM = new List<TViewModel>();
-
-            foreach(TModel d in Data)
+            Dictionary<string, object> Info = new Dictionary<string, object>
             {
-                DataVM.Add(Map(d));
+                { "count", TotalPageData },
+                { "page", Page },
+                { "size", Size },
+                { "total", TotalData },
+                { "order", Order }
+            };
+
+            if (Select.Count > 0)
+            {
+                var DataObj = Data.AsQueryable().Select(string.Concat("new(", string.Join(",", Select), ")"));
+                Result.Add("data", DataObj);
+                Info.Add("select", Select);
+            }
+            else
+            {
+                Result.Add("data", Data);
             }
 
-            Result.Add("data", DataVM);
             Result.Add("info", Info);
 
             return Result;
         }
 
-        public Dictionary<string, object> Ok(TModel Data, MapCallBack Map)
+        public Dictionary<string, object> Ok<TModel, TViewModel>(List<TModel> Data, Func<TModel, TViewModel> MapToViewModel, int Page, int Size, int TotalData, int TotalPageData, Dictionary<string, string> Order, List<string> Select)
         {
-            Result.Add("data", Map(Data));
+            Dictionary<string, object> Info = new Dictionary<string, object>
+            {
+                { "count", TotalPageData },
+                { "page", Page },
+                { "size", Size },
+                { "total", TotalData },
+                { "order", Order }
+            };
+
+            List<TViewModel> DataVM = new List<TViewModel>();
+
+            foreach (TModel d in Data)
+            {
+                DataVM.Add(MapToViewModel(d));
+            }
+
+            if (Select.Count > 0)
+            {
+                var DataObj = DataVM.AsQueryable().Select(string.Concat("new(", string.Join(",", Select), ")"));
+                Result.Add("data", DataObj);
+                Info.Add("select", Select);
+            }
+            else
+            {
+                Result.Add("data", DataVM);
+            }
+
+            Result.Add("info", Info);
+
+            return Result;
+        }
+
+        public Dictionary<string, object> Ok<TModel>(TModel Data)
+        {
+            Result.Add("data", Data);
+
+            return Result;
+        }
+
+        public Dictionary<string, object> Ok<TModel, TViewModel>(TModel Data, Func<TModel, TViewModel> MapToViewModel)
+        {
+            Result.Add("data", MapToViewModel(Data));
 
             return Result;
         }
@@ -56,18 +102,11 @@ namespace Com.DanLiris.Service.Core.WebApi.Helpers
             return Result;
         }
 
-        public Dictionary<string, object> Fail(Exception e)
-        {
-            Result.Add("exception", e);
-
-            return Result;
-        }
-
         public Dictionary<string, object> Fail(ServiceValidationExeption e)
         {
             Dictionary<string, string> Errors = new Dictionary<string, string>();
 
-            foreach(ValidationResult error in e.ValidationResults)
+            foreach (ValidationResult error in e.ValidationResults)
             {
                 Errors.Add(error.MemberNames.First(), error.ErrorMessage);
             }

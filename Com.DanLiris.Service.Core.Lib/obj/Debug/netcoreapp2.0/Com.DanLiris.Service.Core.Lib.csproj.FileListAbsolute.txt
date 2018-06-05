@@ -1,9 +1,0 @@
-G:\.NET Core Project\com.danliris.service.core\Com.DanLiris.Service.Core.Lib\bin\Debug\netcoreapp2.0\Com.DanLiris.Service.Core.Lib.deps.json
-G:\.NET Core Project\com.danliris.service.core\Com.DanLiris.Service.Core.Lib\bin\Debug\netcoreapp2.0\Com.DanLiris.Service.Core.Lib.dll
-G:\.NET Core Project\com.danliris.service.core\Com.DanLiris.Service.Core.Lib\obj\Debug\netcoreapp2.0\Com.DanLiris.Service.Core.Lib.csprojResolveAssemblyReference.cache
-G:\.NET Core Project\com.danliris.service.core\Com.DanLiris.Service.Core.Lib\obj\Debug\netcoreapp2.0\Com.DanLiris.Service.Core.Lib.csproj.CoreCompileInputs.cache
-G:\.NET Core Project\com.danliris.service.core\Com.DanLiris.Service.Core.Lib\obj\Debug\netcoreapp2.0\Com.DanLiris.Service.Core.Lib.AssemblyInfoInputs.cache
-G:\.NET Core Project\com.danliris.service.core\Com.DanLiris.Service.Core.Lib\obj\Debug\netcoreapp2.0\Com.DanLiris.Service.Core.Lib.AssemblyInfo.cs
-G:\.NET Core Project\com.danliris.service.core\Com.DanLiris.Service.Core.Lib\bin\Debug\netcoreapp2.0\Com.DanLiris.Service.Core.Lib.pdb
-G:\.NET Core Project\com.danliris.service.core\Com.DanLiris.Service.Core.Lib\obj\Debug\netcoreapp2.0\Com.DanLiris.Service.Core.Lib.dll
-G:\.NET Core Project\com.danliris.service.core\Com.DanLiris.Service.Core.Lib\obj\Debug\netcoreapp2.0\Com.DanLiris.Service.Core.Lib.pdb
