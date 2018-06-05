@@ -18,7 +18,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Helpers
         where TDbContext : DbContext
         where TModelMap : ClassMap
         where TModel : StandardEntity, IValidatableObject
-        where TService : StandardEntityService<TDbContext, TModel>, IGeneralUploadService<TViewModel>, IMap<TModel, TViewModel>
+        where TService : StandardEntityService<TDbContext, TModel>, IBasicUploadCsvService<TViewModel>, IMap<TModel, TViewModel>
     {
         private readonly TService _service;
         private readonly string ApiVersion;

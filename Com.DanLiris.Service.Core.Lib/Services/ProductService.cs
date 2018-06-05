@@ -17,7 +17,7 @@ using Microsoft.Extensions.Primitives;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
-    public class ProductService : BasicService<CoreDbContext, Product>, IGeneralUploadService<ProductViewModel>, IMap<Product, ProductViewModel>
+    public class ProductService : BasicService<CoreDbContext, Product>, IBasicUploadCsvService<ProductViewModel>, IMap<Product, ProductViewModel>
     {
         public ProductService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -36,7 +36,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     "Code", "Name"
                 };
 
-                Query = Query.Where(General.BuildSearch(SearchAttributes, Keyword), Keyword);
+                Query = Query.Where(General.BuildSearch(SearchAttributes), Keyword);
             }
 
             /* Const Select */

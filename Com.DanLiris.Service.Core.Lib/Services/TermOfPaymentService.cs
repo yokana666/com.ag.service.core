@@ -31,7 +31,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     "Code", "termOfPayment"
                 };
 
-                Query = Query.Where(General.BuildSearch(SearchAttributes, Keyword), Keyword);
+                Query = Query.Where(General.BuildSearch(SearchAttributes), Keyword);
             }
 
             /* Const Select */

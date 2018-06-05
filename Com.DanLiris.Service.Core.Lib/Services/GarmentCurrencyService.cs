@@ -18,7 +18,7 @@ using System.Globalization;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
-    public class GarmentCurrencyService : BasicService<CoreDbContext, GarmentCurrency>, IGeneralUploadService<GarmentCurrencyViewModel>, IMap<GarmentCurrency, GarmentCurrencyViewModel>
+    public class GarmentCurrencyService : BasicService<CoreDbContext, GarmentCurrency>, IBasicUploadCsvService<GarmentCurrencyViewModel>, IMap<GarmentCurrency, GarmentCurrencyViewModel>
     {
         public GarmentCurrencyService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -37,7 +37,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     "Code", "Symbol"
                 };
 
-                Query = Query.Where(General.BuildSearch(SearchAttributes, Keyword), Keyword);
+                Query = Query.Where(General.BuildSearch(SearchAttributes), Keyword);
             }
 
             /* Const Select */

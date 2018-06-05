@@ -17,7 +17,7 @@ using Microsoft.Extensions.Primitives;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
-    public class SupplierService : BasicService<CoreDbContext, Supplier>, IGeneralUploadService<SupplierViewModel>, IMap<Supplier, SupplierViewModel>
+    public class SupplierService : BasicService<CoreDbContext, Supplier>, IBasicUploadCsvService<SupplierViewModel>, IMap<Supplier, SupplierViewModel>
     {
         private readonly string[] ImportAllowed = { "True", "False" };
 
@@ -38,7 +38,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     "Code", "Name"
                 };
 
-                Query = Query.Where(General.BuildSearch(SearchAttributes, Keyword), Keyword);
+                Query = Query.Where(General.BuildSearch(SearchAttributes), Keyword);
             }
 
             /* Const Select */

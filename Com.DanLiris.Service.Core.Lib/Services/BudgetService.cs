@@ -16,7 +16,7 @@ using Microsoft.Extensions.Primitives;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
-    public class BudgetService : BasicService<CoreDbContext, Budget>, IGeneralUploadService<BudgetViewModel>, IMap<Budget, BudgetViewModel>
+    public class BudgetService : BasicService<CoreDbContext, Budget>, IBasicUploadCsvService<BudgetViewModel>, IMap<Budget, BudgetViewModel>
     {
         public BudgetService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -35,14 +35,14 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     "Code", "Name"
                 };
 
-                Query = Query.Where(General.BuildSearch(SearchAttributes, Keyword), Keyword);
+                Query = Query.Where(General.BuildSearch(SearchAttributes), Keyword);
             }
 
             /* Const Select */
             List<string> SelectedFields = new List<string>()
-                {
-                    "_id", "code", "name"
-                };
+            {
+                "_id", "code", "name"
+            };
 
             Query = Query
                 .Select(b => new Budget

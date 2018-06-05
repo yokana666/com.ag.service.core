@@ -16,7 +16,7 @@ using Microsoft.Extensions.Primitives;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
-    public class UomService : BasicService<CoreDbContext, Uom>, IGeneralUploadService<UomViewModel>, IMap<Uom, UomViewModel>
+    public class UomService : BasicService<CoreDbContext, Uom>, IBasicUploadCsvService<UomViewModel>, IMap<Uom, UomViewModel>
     {
         public UomService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -35,7 +35,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     "Unit"
                 };
 
-                Query = Query.Where(General.BuildSearch(SearchAttributes, Keyword), Keyword);
+                Query = Query.Where(General.BuildSearch(SearchAttributes), Keyword);
             }
 
             /* Const Select */

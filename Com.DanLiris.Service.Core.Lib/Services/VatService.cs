@@ -17,7 +17,7 @@ using Microsoft.Extensions.Primitives;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
-    public class VatService : BasicService<CoreDbContext, Vat>, IGeneralUploadService<VatViewModel>, IMap<Vat, VatViewModel>
+    public class VatService : BasicService<CoreDbContext, Vat>, IBasicUploadCsvService<VatViewModel>, IMap<Vat, VatViewModel>
     {
         public VatService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -36,7 +36,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     "Name"
                 };
 
-                Query = Query.Where(General.BuildSearch(SearchAttributes, Keyword), Keyword);
+                Query = Query.Where(General.BuildSearch(SearchAttributes), Keyword);
             }
 
             /* Const Select */

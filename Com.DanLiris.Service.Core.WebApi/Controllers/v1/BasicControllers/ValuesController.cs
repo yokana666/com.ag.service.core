@@ -22,10 +22,10 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
         }
 
         [HttpGet]
-        [Authorize("service.core.read")]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            yield return "hello";
+            //return Ok(User.Identity.Name);
+            return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
         }
     }
 }

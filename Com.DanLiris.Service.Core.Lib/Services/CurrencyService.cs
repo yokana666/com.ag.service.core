@@ -17,7 +17,7 @@ using Microsoft.Extensions.Primitives;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
-    public class CurrencyService : BasicService<CoreDbContext, Currency>, IGeneralUploadService<CurrencyViewModel>, IMap<Currency, CurrencyViewModel>
+    public class CurrencyService : BasicService<CoreDbContext, Currency>, IBasicUploadCsvService<CurrencyViewModel>, IMap<Currency, CurrencyViewModel>
     {
         public CurrencyService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -36,7 +36,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     "Code", "Symbol"
                 };
 
-                Query = Query.Where(General.BuildSearch(SearchAttributes, Keyword), Keyword);
+                Query = Query.Where(General.BuildSearch(SearchAttributes), Keyword);
             }
 
             /* Const Select */

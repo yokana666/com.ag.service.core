@@ -16,7 +16,7 @@ using Microsoft.Extensions.Primitives;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
-    public class CategoryService : BasicService<CoreDbContext, Category>, IGeneralUploadService<CategoryViewModel>, IMap<Category, CategoryViewModel>
+    public class CategoryService : BasicService<CoreDbContext, Category>, IBasicUploadCsvService<CategoryViewModel>, IMap<Category, CategoryViewModel>
     {
         public CategoryService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -35,7 +35,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     "Code", "Name"
                 };
 
-                Query = Query.Where(General.BuildSearch(SearchAttributes, Keyword), Keyword);
+                Query = Query.Where(General.BuildSearch(SearchAttributes), Keyword);
             }
 
             /* Const Select */
