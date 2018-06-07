@@ -1,3 +1,4 @@
+using Com.DanLiris.Service.Core.Lib.Helpers;
 using Com.DanLiris.Service.Core.Lib.Services;
 using Com.Moonlay.Models;
 using System;
@@ -10,6 +11,9 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 {
     public class Uom : StandardEntity, IValidatableObject
     {
+        [MaxLength(255)]
+        public string UId { get; set; }
+
         [StringLength(500)]
         public string Unit { get; set; }
 

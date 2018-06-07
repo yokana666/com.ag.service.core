@@ -1,3 +1,4 @@
+using Com.DanLiris.Service.Core.Lib.Helpers;
 using Com.DanLiris.Service.Core.Lib.Services;
 using Com.Moonlay.Models;
 using System.Collections.Generic;
@@ -8,6 +9,9 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 {
     public class Vat : StandardEntity, IValidatableObject
     {
+        [MaxLength(255)]
+        public string UId { get; set; }
+
         [StringLength(500)]
         public string Name { get; set; }
 

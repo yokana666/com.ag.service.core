@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Com.DanLiris.Service.Core.Lib.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -24,6 +24,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     CurrencyCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CurrencyId = table.Column<int>(type: "int", nullable: true),
                     SwiftCode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    UId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -49,6 +50,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     Active = table.Column<bool>(type: "bit", nullable: false),
                     Code = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    UId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -81,6 +83,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     Name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     Tempo = table.Column<int>(type: "int", nullable: true),
                     Type = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    UId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -107,6 +110,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     Code = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     CodeRequirement = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     Name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    UId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -124,6 +128,32 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Comodities",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    _DeletedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _DeletedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    _IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    _LastModifiedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _LastModifiedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _LastModifiedUtc = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comodities", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Currencies",
                 columns: table => new
                 {
@@ -134,6 +164,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Rate = table.Column<double>(type: "float", nullable: true),
                     Symbol = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    UId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -160,6 +191,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     Code = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    UId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -186,6 +218,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     Code = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Rate = table.Column<double>(type: "float", nullable: true),
+                    UId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -215,6 +248,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     DivisionId = table.Column<int>(type: "int", nullable: true),
                     DivisionName = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     Name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    UId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -232,6 +266,33 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MaterialConstructions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    _DeletedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _DeletedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    _IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    _LastModifiedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _LastModifiedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _LastModifiedUtc = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MaterialConstructions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -245,6 +306,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
                     Tags = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    UId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     UomId = table.Column<int>(type: "int", nullable: true),
                     UomUnit = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
@@ -264,6 +326,32 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Qualities",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    _DeletedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _DeletedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    _IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    _LastModifiedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _LastModifiedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _LastModifiedUtc = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Qualities", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Storages",
                 columns: table => new
                 {
@@ -274,6 +362,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DivisionName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    UId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     UnitId = table.Column<int>(type: "int", nullable: true),
                     UnitName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
@@ -307,6 +396,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     Name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     PIC = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     SerialNumber = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    UId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -332,6 +422,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     Active = table.Column<bool>(type: "bit", nullable: false),
                     Code = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     IsExport = table.Column<bool>(type: "bit", nullable: false),
+                    UId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -356,6 +447,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Active = table.Column<bool>(type: "bit", nullable: false),
+                    UId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Unit = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
@@ -385,6 +477,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     DivisionId = table.Column<int>(type: "int", nullable: false),
                     DivisionName = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     Name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    UId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -411,6 +504,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     Rate = table.Column<double>(type: "float", nullable: true),
+                    UId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     _CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -425,6 +519,33 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Vats", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "YarnMaterials",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    _DeletedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _DeletedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    _IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    _LastModifiedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _LastModifiedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _LastModifiedUtc = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_YarnMaterials", x => x.Id);
                 });
 
             migrationBuilder.CreateIndex(
@@ -448,6 +569,9 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                 name: "Categories");
 
             migrationBuilder.DropTable(
+                name: "Comodities");
+
+            migrationBuilder.DropTable(
                 name: "Currencies");
 
             migrationBuilder.DropTable(
@@ -460,7 +584,13 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                 name: "Holidays");
 
             migrationBuilder.DropTable(
+                name: "MaterialConstructions");
+
+            migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "Qualities");
 
             migrationBuilder.DropTable(
                 name: "Storages");
@@ -479,6 +609,9 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
             migrationBuilder.DropTable(
                 name: "Vats");
+
+            migrationBuilder.DropTable(
+                name: "YarnMaterials");
         }
     }
 }

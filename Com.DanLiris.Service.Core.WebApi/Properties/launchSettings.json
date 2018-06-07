@@ -9,9 +9,8 @@
   },
   "profiles": {
     "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "https://localhost:44351/",
+      "commandName": "Project",
+      "applicationUrl": "http://localhost:5100/",
       "environmentVariables": {
         "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=com.danliris.db.core;Trusted_Connection=True;",
         "ASPNETCORE_ENVIRONMENT": "Development"

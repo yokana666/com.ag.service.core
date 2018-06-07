@@ -25,5 +25,6 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
         public string code { get; set; }
 
         public string name { get; set; }
+
     }
 }

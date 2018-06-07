@@ -1,3 +1,4 @@
+using Com.DanLiris.Service.Core.Lib.Helpers;
 using Com.DanLiris.Service.Core.Lib.Services;
 using Com.Moonlay.Models;
 using System;
@@ -10,6 +11,9 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 {
     public class Currency : StandardEntity, IValidatableObject
     {
+        [MaxLength(255)]
+        public string UId { get; set; }
+
         [StringLength(100)]
         public string Code { get; set; }
 
