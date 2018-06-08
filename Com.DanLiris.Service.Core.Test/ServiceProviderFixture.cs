@@ -29,6 +29,14 @@ namespace Com.DanLiris.Service.Core.Test
                 }, ServiceLifetime.Transient)
                 .AddTransient<BudgetService>(provider => new BudgetService(provider))
                 .AddTransient<BudgetServiceDataUtil>()
+                .AddTransient<ComodityService>(provider => new ComodityService(provider))
+                .AddTransient<ComodityServiceDataUtil>()
+                .AddTransient<QualityService>(provider => new QualityService(provider))
+                .AddTransient<QualityServiceDataUtil>()
+                .AddTransient<YarnMaterialService>(provider => new YarnMaterialService(provider))
+                .AddTransient<YarnMaterialServiceDataUtil>()
+                .AddTransient<MaterialConstructionService>(provider => new MaterialConstructionService(provider))
+                .AddTransient<MaterialConstructionServiceDataUtil>()
                 .BuildServiceProvider();
 
             CoreDbContext dbContext = ServiceProvider.GetService<CoreDbContext>();

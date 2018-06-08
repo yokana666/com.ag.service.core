@@ -4,11 +4,15 @@ using System.Collections.Generic;
 using System;
 using Com.DanLiris.Service.Core.Lib.Services;
 using System.Linq;
+using Com.DanLiris.Service.Core.Lib.Helpers;
 
 namespace Com.DanLiris.Service.Core.Lib.Models
 {
     public class GarmentCurrency : StandardEntity, IValidatableObject
     {
+        [MaxLength(255)]
+        public string UId { get; set; }
+
         [StringLength(100)]
         public string Code { get; set; }
 

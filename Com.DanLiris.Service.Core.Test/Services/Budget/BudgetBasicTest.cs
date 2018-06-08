@@ -37,7 +37,7 @@ namespace Com.DanLiris.Service.Core.Test.Service.Budget
             return new Models.Budget()
             {
                 Code = guid,
-                Name = string.Format("TEST BUDGET {0}", guid),
+                Name = "TEST BUDGET",
             };
         }
     }

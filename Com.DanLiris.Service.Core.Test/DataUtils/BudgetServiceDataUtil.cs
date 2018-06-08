@@ -1,40 +1,48 @@
 ﻿using Com.DanLiris.Service.Core.Lib;
 using Com.DanLiris.Service.Core.Lib.Models;
 using Com.DanLiris.Service.Core.Lib.Services;
+using Com.DanLiris.Service.Core.Lib.ViewModels;
+using Com.DanLiris.Service.Core.Test.Helpers;
+using Com.DanLiris.Service.Core.Test.Interface;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Com.DanLiris.Service.Core.Test.DataUtils
 {
-    public class BudgetServiceDataUtil
+    public class BudgetServiceDataUtil : BasicDataUtil<CoreDbContext, BudgetService, Budget>, IEmptyData<BudgetViewModel>
     {
-        public CoreDbContext DbContext { get; set; }
 
-        public BudgetService BudgetService { get; set; }
-
-        public BudgetServiceDataUtil(CoreDbContext dbContext, BudgetService budgetService)
+        public BudgetServiceDataUtil(CoreDbContext dbContext, BudgetService service) : base(dbContext, service)
         {
-            this.DbContext = dbContext;
-            this.BudgetService = budgetService;
+        }        
+
+        public BudgetViewModel GetEmptyData()
+        {
+            BudgetViewModel Data = new BudgetViewModel();
+
+            Data.name = "";
+            Data.code = "";
+            return Data;
         }
-        
-        public Task<Budget> GetTestBuget()
+
+        public override Budget GetNewData()
         {
-            Budget testBudget = BudgetService.DbSet.FirstOrDefault(budget => budget.Code.Equals("Test"));
-
-            if (testBudget != null)
-                return Task.FromResult(testBudget);
-            else
+            string guid = Guid.NewGuid().ToString();
+            Budget TestData = new Budget
             {
-                testBudget = new Budget()
-                {
-                    Code = "Test",
-                    Name = "Test Budget"
-                };
+                Name = "TEST",
+                Code = guid
+            };
 
-                int id = BudgetService.Create(testBudget);
-                return BudgetService.GetAsync(id);
-            }
+            return TestData;
+        }
+
+        public override async Task<Budget> GetTestDataAsync()
+        {
+            Budget Data = GetNewData();
+            await this.Service.CreateModel(Data);
+            return Data;
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Com.DanLiris.Service.Core.WebApi
 
             services
                 .AddDbContext<CoreDbContext>(options => options.UseSqlServer(connectionString))
-                .AddScoped<AccountBankService>()
+                //.AddScoped<AccountBankService>()
                 .AddScoped<BudgetService>()
                 .AddScoped<BuyerService>()
                 .AddScoped<CategoryService>()
@@ -46,8 +46,12 @@ namespace Com.DanLiris.Service.Core.WebApi
                 .AddScoped<TermOfPaymentService>()
                 .AddScoped<UnitService>()
                 .AddScoped<UomService>()
-                .AddScoped<VatService>();
-                
+                .AddScoped<VatService>()
+                .AddScoped<QualityService>()
+                .AddScoped<ComodityService>()
+                .AddScoped<YarnMaterialService>()
+                .AddScoped<MaterialConstructionService>();
+
             services    
                 .AddApiVersioning(options =>
                 {
@@ -94,8 +98,12 @@ namespace Com.DanLiris.Service.Core.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<CoreDbContext>();
+                context.Database.Migrate();
+            }
             app.UseAuthentication();
-
             app.UseCors("CorePolicy");
 
             app.UseMvc();

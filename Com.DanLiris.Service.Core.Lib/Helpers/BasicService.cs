@@ -12,6 +12,8 @@ namespace Com.DanLiris.Service.Core.Lib.Helpers
         where TDbContext : DbContext
         where TModel : StandardEntity, IValidatableObject
     {
+        public string Username { get; set; }
+        public string Token { get; set; }
         public BasicService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
         }

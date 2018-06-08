@@ -40,6 +40,10 @@ namespace Com.DanLiris.Service.Core.Lib
 
         public DbSet<Vat> Vats { get; set; }
 
+        public DbSet<Quality> Qualities { get; set; }
+        public DbSet<Comodity> Comodities { get; set; }
+        public DbSet<YarnMaterial> YarnMaterials { get; set; }
+        public DbSet<MaterialConstruction> MaterialConstructions { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
