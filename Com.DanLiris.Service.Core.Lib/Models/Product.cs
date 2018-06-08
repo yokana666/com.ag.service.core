@@ -1,4 +1,5 @@
-﻿using Com.DanLiris.Service.Core.Lib.Services;
+﻿using Com.DanLiris.Service.Core.Lib.Helpers;
+using Com.DanLiris.Service.Core.Lib.Services;
 using Com.Moonlay.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,6 +9,9 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 {
     public class Product : StandardEntity, IValidatableObject
     {
+        [MaxLength(255)]
+        public string UId { get; set; }
+
         [StringLength(100)]
         public string Code { get; set; }
 
