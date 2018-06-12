@@ -44,6 +44,7 @@ namespace Com.DanLiris.Service.Core.Lib
         public DbSet<Comodity> Comodities { get; set; }
         public DbSet<YarnMaterial> YarnMaterials { get; set; }
         public DbSet<MaterialConstruction> MaterialConstructions { get; set; }
+        public DbSet<DesignMotive> DesignMotives { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

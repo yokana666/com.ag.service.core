@@ -90,53 +90,59 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
         public ProductViewModel MapToViewModel(Product product)
         {
-            ProductViewModel productVM = new ProductViewModel();
-            productVM.currency = new ProductCurrencyViewModel();
-            productVM.uom = new ProductUomViewModel();
-
-            productVM._id = product.Id;
-            productVM._deleted = product._IsDeleted;
-            productVM._active = product.Active;
-            productVM._createdDate = product._CreatedUtc;
-            productVM._createdBy = product._CreatedBy;
-            productVM._createAgent = product._CreatedAgent;
-            productVM._updatedDate = product._LastModifiedUtc;
-            productVM._updatedBy = product._LastModifiedBy;
-            productVM._updateAgent = product._LastModifiedAgent;
-            productVM.code = product.Code;
-            productVM.name = product.Name;
-            productVM.price = product.Price;
-            productVM.currency._id = product.CurrencyId;
-            productVM.currency.code = product.CurrencyCode;
-            productVM.description = product.Description;
-            productVM.uom._id = product.UomId;
-            productVM.uom.unit = product.UomUnit;
-            productVM.tags = product.Tags;
+            ProductViewModel productVM = new ProductViewModel
+            {
+                Id = product.Id,
+                _IsDeleted = product._IsDeleted,
+                Active = product.Active,
+                _CreatedUtc = product._CreatedUtc,
+                _CreatedBy = product._CreatedBy,
+                _CreatedAgent = product._CreatedAgent,
+                _LastModifiedUtc = product._LastModifiedUtc,
+                _LastModifiedBy = product._LastModifiedBy,
+                _LastModifiedAgent = product._LastModifiedAgent,
+                Code = product.Code,
+                Name = product.Name,
+                Price = product.Price,
+                Currency = new ProductCurrencyViewModel
+                {
+                    Id = product.CurrencyId,
+                    Code = product.CurrencyCode
+                },
+                Description = product.Description,
+                UOM = new ProductUomViewModel
+                {
+                    Id = product.UomId,
+                    Unit = product.UomUnit
+                },
+                Tags = product.Tags
+            };
 
             return productVM;
         }
 
         public Product MapToModel(ProductViewModel productVM)
         {
-            Product product = new Product();
-
-            product.Id = productVM._id;
-            product._IsDeleted = productVM._deleted;
-            product.Active = productVM._active;
-            product._CreatedUtc = productVM._createdDate;
-            product._CreatedBy = productVM._createdBy;
-            product._CreatedAgent = productVM._createAgent;
-            product._LastModifiedUtc = productVM._updatedDate;
-            product._LastModifiedBy = productVM._updatedBy;
-            product._LastModifiedAgent = productVM._updateAgent;
-            product.Code = productVM.code;
-            product.Name = productVM.name;
-            product.Price = !Equals(productVM.price, null) ? Convert.ToDecimal(productVM.price) : 0; /* Check Null */
-
-            if (!Equals(productVM.currency, null))
+            Product product = new Product
             {
-                product.CurrencyId = productVM.currency._id;
-                product.CurrencyCode = productVM.currency.code;
+                Id = productVM.Id,
+                _IsDeleted = productVM._IsDeleted,
+                Active = productVM.Active,
+                _CreatedUtc = productVM._CreatedUtc,
+                _CreatedBy = productVM._CreatedBy,
+                _CreatedAgent = productVM._CreatedAgent,
+                _LastModifiedUtc = productVM._LastModifiedUtc,
+                _LastModifiedBy = productVM._LastModifiedBy,
+                _LastModifiedAgent = productVM._LastModifiedAgent,
+                Code = productVM.Code,
+                Name = productVM.Name,
+                Price = !Equals(productVM.Price, null) ? Convert.ToDecimal(productVM.Price) : 0 /* Check Null */
+            };
+
+            if (!Equals(productVM.Currency, null))
+            {
+                product.CurrencyId = productVM.Currency.Id;
+                product.CurrencyCode = productVM.Currency.Code;
             }
             else
             {
@@ -144,12 +150,12 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 product.CurrencyCode = null;
             }
 
-            product.Description = productVM.description;
+            product.Description = productVM.Description;
             
-            if(!Equals(productVM.uom, null))
+            if(!Equals(productVM.UOM, null))
             {
-                product.UomId = productVM.uom._id;
-                product.UomUnit = productVM.uom.unit;
+                product.UomId = productVM.UOM.Id;
+                product.UomUnit = productVM.UOM.Unit;
             }
             else
             {
@@ -157,7 +163,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 product.UomUnit = null;
             }
 
-            product.Tags = productVM.tags;
+            product.Tags = productVM.Tags;
 
             return product;
         }
@@ -174,13 +180,13 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         {
             public ProductMap()
             {
-                Map(p => p.code).Index(0);
-                Map(p => p.name).Index(1);
-                Map(p => p.uom.unit).Index(2);
-                Map(p => p.currency.code).Index(3);
-                Map(p => p.price).Index(4).TypeConverter<StringConverter>();
-                Map(p => p.tags).Index(5);
-                Map(p => p.description).Index(6);
+                Map(p => p.Code).Index(0);
+                Map(p => p.Name).Index(1);
+                Map(p => p.UOM.Unit).Index(2);
+                Map(p => p.Currency.Code).Index(3);
+                Map(p => p.Price).Index(4).TypeConverter<StringConverter>();
+                Map(p => p.Tags).Index(5);
+                Map(p => p.Description).Index(6);
             }
         }
 
@@ -196,40 +202,40 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             {
                 ErrorMessage = "";
 
-                if (string.IsNullOrWhiteSpace(productVM.code))
+                if (string.IsNullOrWhiteSpace(productVM.Code))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh kosong, ");
                 }
-                else if (Data.Any(d => d != productVM && d.code.Equals(productVM.code)))
+                else if (Data.Any(d => d != productVM && d.Code.Equals(productVM.Code)))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
                 }
 
-                if (string.IsNullOrWhiteSpace(productVM.name))
+                if (string.IsNullOrWhiteSpace(productVM.Name))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh kosong, ");
                 }
-                else if (Data.Any(d => d != productVM && d.name.Equals(productVM.name)))
+                else if (Data.Any(d => d != productVM && d.Name.Equals(productVM.Name)))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh duplikat, ");
                 }
 
-                if(string.IsNullOrWhiteSpace(productVM.uom.unit))
+                if(string.IsNullOrWhiteSpace(productVM.UOM.Unit))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Satuan tidak boleh kosong, ");
                 }
 
-                if (string.IsNullOrWhiteSpace(productVM.currency.code))
+                if (string.IsNullOrWhiteSpace(productVM.Currency.Code))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Mata Uang tidak boleh kosong, ");
                 }
 
                 decimal Price = 0;
-                if (string.IsNullOrWhiteSpace(productVM.price))
+                if (string.IsNullOrWhiteSpace(productVM.Price))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Harga tidak boleh kosong, ");
                 }
-                else if (!decimal.TryParse(productVM.price, out Price))
+                else if (!decimal.TryParse(productVM.Price, out Price))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Harga harus numerik, ");
                 }
@@ -239,7 +245,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 }
                 else
                 {
-                    string[] PriceSplit = productVM.price.Split('.');
+                    string[] PriceSplit = productVM.Price.Split('.');
                     if (PriceSplit.Count().Equals(2) && PriceSplit[1].Length > 2)
                     {
                         ErrorMessage = string.Concat(ErrorMessage, "Harga maksimal memiliki 2 digit dibelakang koma, ");
@@ -249,15 +255,15 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 if (string.IsNullOrEmpty(ErrorMessage))
                 {
                     /* Service Validation */
-                    currency = this.DbContext.Set<Currency>().FirstOrDefault(d => d._IsDeleted.Equals(false) && d.Code.Equals(productVM.currency.code));
-                    uom = this.DbContext.Set<Uom>().FirstOrDefault(d => d._IsDeleted.Equals(false) && d.Unit.Equals(productVM.uom.unit));
+                    currency = this.DbContext.Set<Currency>().FirstOrDefault(d => d._IsDeleted.Equals(false) && d.Code.Equals(productVM.Currency.Code));
+                    uom = this.DbContext.Set<Uom>().FirstOrDefault(d => d._IsDeleted.Equals(false) && d.Unit.Equals(productVM.UOM.Unit));
 
-                    if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(productVM.code)))
+                    if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(productVM.Code)))
                     {
                         ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
                     }
 
-                    if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Name.Equals(productVM.name)))
+                    if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Name.Equals(productVM.Name)))
                     {
                         ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh duplikat, ");
                     }
@@ -275,22 +281,22 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
                 if (string.IsNullOrEmpty(ErrorMessage))
                 {
-                    productVM.price = Price;
-                    productVM.currency._id = currency.Id;
-                    productVM.uom._id = uom.Id;
+                    productVM.Price = Price;
+                    productVM.Currency.Id = currency.Id;
+                    productVM.UOM.Id = uom.Id;
                 }
                 else
                 {
                     ErrorMessage = ErrorMessage.Remove(ErrorMessage.Length - 2);
                     var Error = new ExpandoObject() as IDictionary<string, object>;
 
-                    Error.Add("Kode Barang", productVM.code);
-                    Error.Add("Nama Barang", productVM.name);
-                    Error.Add("Satuan", productVM.uom.unit);
-                    Error.Add("Mata Uang", productVM.currency.code);
-                    Error.Add("Harga", productVM.price);
-                    Error.Add("Tags", productVM.tags);
-                    Error.Add("Keterangan", productVM.description);
+                    Error.Add("Kode Barang", productVM.Code);
+                    Error.Add("Nama Barang", productVM.Name);
+                    Error.Add("Satuan", productVM.UOM.Unit);
+                    Error.Add("Mata Uang", productVM.Currency.Code);
+                    Error.Add("Harga", productVM.Price);
+                    Error.Add("Tags", productVM.Tags);
+                    Error.Add("Keterangan", productVM.Description);
                     Error.Add("Error", ErrorMessage);
 
                     ErrorList.Add(Error);

@@ -1,43 +1,26 @@
-﻿using System;
+﻿using Com.DanLiris.Service.Core.Lib.Helpers;
+using System;
 
 namespace Com.DanLiris.Service.Core.Lib.ViewModels
 {
-    public class BuyerViewModel
+    public class BuyerViewModel : BasicViewModel
     {
-        public int _id { get; set; }
-
-        public bool _deleted { get; set; }
-
-        public bool _active { get; set; }
-
-        public DateTime _createdDate { get; set; }
-
-        public string _createdBy { get; set; }
-
-        public string _createAgent { get; set; }
-
-        public DateTime _updatedDate { get; set; }
-
-        public string _updatedBy { get; set; }
-
-        public string _updateAgent { get; set; }
-
-        public string code { get; set; }
+        public string Code { get; set; }
         
-        public string name { get; set; }
+        public string Name { get; set; }
         
-        public string address { get; set; }
+        public string Address { get; set; }
         
-        public string city { get; set; }
+        public string City { get; set; }
         
-        public string country { get; set; }
+        public string Country { get; set; }
         
-        public string contact { get; set; }
+        public string Contact { get; set; }
 
         /* Int */
-        public dynamic tempo { get; set; }
+        public dynamic Tempo { get; set; }
         
-        public string type { get; set; }
+        public string Type { get; set; }
         
         public string NPWP { get; set; }
     }

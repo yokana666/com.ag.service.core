@@ -32,7 +32,7 @@ namespace Com.DanLiris.Service.Core.WebApi
 
             services
                 .AddDbContext<CoreDbContext>(options => options.UseSqlServer(connectionString))
-                //.AddScoped<AccountBankService>()
+                .AddScoped<AccountBankService>()
                 .AddScoped<BudgetService>()
                 .AddScoped<BuyerService>()
                 .AddScoped<CategoryService>()
