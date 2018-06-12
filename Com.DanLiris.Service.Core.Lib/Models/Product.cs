@@ -22,6 +22,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
         public int? CurrencyId { get; set; }
 
         public string CurrencyCode { get; set; }
+        public string CurrencySymbol { get; set; }
 
         public string Description { get; set; }
 
