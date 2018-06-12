@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Com.DanLiris.Service.Core.Lib.ViewModels
 {
-    public class MaterialConstructionViewModel : BasicViewModel, IValidatableObject
+    public class MaterialConstructionViewModel : BasicViewModel
     {
         public string Code { get; set; }
         public string Name { get; set; }
