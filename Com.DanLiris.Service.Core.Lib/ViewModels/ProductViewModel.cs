@@ -1,53 +1,37 @@
-﻿using System;
+﻿using Com.DanLiris.Service.Core.Lib.Helpers;
+using System;
 
 namespace Com.DanLiris.Service.Core.Lib.ViewModels
 {
-    public class ProductViewModel
+    public class ProductViewModel : BasicViewModel
     {
-        public int _id { get; set; }
 
-        public bool _deleted { get; set; }
+        public string Code { get; set; }
 
-        public bool _active { get; set; }
+        public string Name { get; set; }
 
-        public DateTime _createdDate { get; set; }
+        public dynamic Price { get; set; }
 
-        public string _createdBy { get; set; }
+        public ProductCurrencyViewModel Currency { get; set; }
 
-        public string _createAgent { get; set; }
+        public string Description { get; set; }
 
-        public DateTime _updatedDate { get; set; }
+        public ProductUomViewModel UOM { get; set; }
 
-        public string _updatedBy { get; set; }
-
-        public string _updateAgent { get; set; }
-
-        public string code { get; set; }
-
-        public string name { get; set; }
-
-        public dynamic price { get; set; }
-
-        public ProductCurrencyViewModel currency { get; set; }
-
-        public string description { get; set; }
-
-        public ProductUomViewModel uom { get; set; }
-
-        public string tags { get; set; }
+        public string Tags { get; set; }
     }
 
     public class ProductCurrencyViewModel
     {
-        public int? _id { get; set; }
+        public int? Id { get; set; }
 
-        public string code { get; set; }
+        public string Code { get; set; }
     }
 
     public class ProductUomViewModel
     {
-        public int? _id { get; set; }
+        public int? Id { get; set; }
 
-        public string unit { get; set; }
+        public string Unit { get; set; }
     }
 }

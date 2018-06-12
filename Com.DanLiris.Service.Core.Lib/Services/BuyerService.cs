@@ -93,23 +93,23 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         {
             BuyerViewModel buyerVM = new BuyerViewModel();
 
-            buyerVM._id = buyer.Id;
-            buyerVM._deleted = buyer._IsDeleted;
-            buyerVM._active = buyer.Active;
-            buyerVM._createdDate = buyer._CreatedUtc;
-            buyerVM._createdBy = buyer._CreatedBy;
-            buyerVM._createAgent = buyer._CreatedAgent;
-            buyerVM._updatedDate = buyer._LastModifiedUtc;
-            buyerVM._updatedBy = buyer._LastModifiedBy;
-            buyerVM._updateAgent = buyer._LastModifiedAgent;
-            buyerVM.code = buyer.Code;
-            buyerVM.name = buyer.Name;
-            buyerVM.address = buyer.Address;
-            buyerVM.city = buyer.City;
-            buyerVM.country = buyer.Country;
-            buyerVM.contact = buyer.Contact;
-            buyerVM.tempo = buyer.Tempo;
-            buyerVM.type = buyer.Type;
+            buyerVM.Id = buyer.Id;
+            buyerVM._IsDeleted= buyer._IsDeleted;
+            buyerVM.Active= buyer.Active;
+            buyerVM._CreatedUtc= buyer._CreatedUtc;
+            buyerVM._CreatedBy = buyer._CreatedBy;
+            buyerVM._CreatedAgent = buyer._CreatedAgent;
+            buyerVM._LastModifiedUtc = buyer._LastModifiedUtc;
+            buyerVM._LastModifiedBy = buyer._LastModifiedBy;
+            buyerVM._LastModifiedAgent = buyer._LastModifiedAgent;
+            buyerVM.Code = buyer.Code;
+            buyerVM.Name = buyer.Name;
+            buyerVM.Address = buyer.Address;
+            buyerVM.City = buyer.City;
+            buyerVM.Country = buyer.Country;
+            buyerVM.Contact = buyer.Contact;
+            buyerVM.Tempo = buyer.Tempo;
+            buyerVM.Type = buyer.Type;
             buyerVM.NPWP = buyer.NPWP;
 
             return buyerVM;
@@ -119,23 +119,23 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         {
             Buyer buyer = new Buyer();
 
-            buyer.Id = buyerVM._id;
-            buyer._IsDeleted = buyerVM._deleted;
-            buyer.Active = buyerVM._active;
-            buyer._CreatedUtc = buyerVM._createdDate;
-            buyer._CreatedBy = buyerVM._createdBy;
-            buyer._CreatedAgent = buyerVM._createAgent;
-            buyer._LastModifiedUtc = buyerVM._updatedDate;
-            buyer._LastModifiedBy = buyerVM._updatedBy;
-            buyer._LastModifiedAgent = buyerVM._updateAgent;
-            buyer.Code = buyerVM.code;
-            buyer.Name = buyerVM.name;
-            buyer.Address = buyerVM.address;
-            buyer.City = buyerVM.city;
-            buyer.Country = buyerVM.country;
-            buyer.Contact = buyerVM.contact;
-            buyer.Tempo = !Equals(buyerVM.tempo, null) ? Convert.ToInt32(buyerVM.tempo) : null; /* Check Null */
-            buyer.Type = buyerVM.type;
+            buyer.Id = buyerVM.Id;
+            buyer._IsDeleted = buyerVM._IsDeleted;
+            buyer.Active = buyerVM.Active;
+            buyer._CreatedUtc = buyerVM._CreatedUtc;
+            buyer._CreatedBy = buyerVM._CreatedBy;
+            buyer._CreatedAgent = buyerVM._CreatedAgent;
+            buyer._LastModifiedUtc = buyerVM._LastModifiedUtc;
+            buyer._LastModifiedBy = buyerVM._LastModifiedBy;
+            buyer._LastModifiedAgent = buyerVM._LastModifiedAgent;
+            buyer.Code = buyerVM.Code;
+            buyer.Name = buyerVM.Name;
+            buyer.Address = buyerVM.Address;
+            buyer.City = buyerVM.City;
+            buyer.Country = buyerVM.Country;
+            buyer.Contact = buyerVM.Contact;
+            buyer.Tempo = !Equals(buyerVM.Tempo, null) ? Convert.ToInt32(buyerVM.Tempo) : null; /* Check Null */
+            buyer.Type = buyerVM.Type;
             buyer.NPWP = buyerVM.NPWP;
 
             return buyer;
@@ -153,15 +153,15 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         {
             public BuyerMap()
             {
-                Map(b => b.code).Index(0);
-                Map(b => b.name).Index(1);
-                Map(b => b.address).Index(2);
-                Map(b => b.city).Index(3);
-                Map(b => b.country).Index(4);
+                Map(b => b.Code).Index(0);
+                Map(b => b.Name).Index(1);
+                Map(b => b.Address).Index(2);
+                Map(b => b.City).Index(3);
+                Map(b => b.Country).Index(4);
                 Map(b => b.NPWP).Index(5);
-                Map(b => b.type).Index(6);
-                Map(b => b.contact).Index(7);
-                Map(b => b.tempo).Index(8).TypeConverter<StringConverter>();
+                Map(b => b.Type).Index(6);
+                Map(b => b.Contact).Index(7);
+                Map(b => b.Tempo).Index(8).TypeConverter<StringConverter>();
             }
         }
 
@@ -175,44 +175,44 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             {
                 ErrorMessage = "";
 
-                if (string.IsNullOrWhiteSpace(buyerVM.code))
+                if (string.IsNullOrWhiteSpace(buyerVM.Code))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh kosong, ");
                 }
-                else if(Data.Any(d => d != buyerVM && d.code.Equals(buyerVM.code)))
+                else if(Data.Any(d => d != buyerVM && d.Code.Equals(buyerVM.Code)))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
                 }
 
-                if (string.IsNullOrWhiteSpace(buyerVM.name))
+                if (string.IsNullOrWhiteSpace(buyerVM.Name))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh kosong, ");
                 }
 
-                if (string.IsNullOrWhiteSpace(buyerVM.type))
+                if (string.IsNullOrWhiteSpace(buyerVM.Type))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Jenis Buyer tidak boleh kosong, ");
                 }
-                else if (!Types.Any(t => t.Equals(buyerVM.type)))
+                else if (!Types.Any(t => t.Equals(buyerVM.Type)))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Jenis Buyer harus salah satu dari Lokal, Ekspor, Internal; ");
                 }
 
-                if (string.IsNullOrWhiteSpace(buyerVM.country))
+                if (string.IsNullOrWhiteSpace(buyerVM.Country))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Negara tidak boleh kosong, ");
                 }
-                else if (!Countries.Any(c => c.Equals(buyerVM.country, StringComparison.CurrentCultureIgnoreCase)))
+                else if (!Countries.Any(c => c.Equals(buyerVM.Country, StringComparison.CurrentCultureIgnoreCase)))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Negara tidak terdaftar di list Negara, ");
                 }
 
                 int Tempo = 0;
-                if (string.IsNullOrWhiteSpace(buyerVM.tempo))
+                if (string.IsNullOrWhiteSpace(buyerVM.Tempo))
                 {
-                    buyerVM.tempo = 0;
+                    buyerVM.Tempo = 0;
                 }
-                else if (!int.TryParse(buyerVM.tempo, out Tempo))
+                else if (!int.TryParse(buyerVM.Tempo, out Tempo))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Tempo harus angka, ");
                 }
@@ -220,7 +220,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 if(string.IsNullOrEmpty(ErrorMessage))
                 {
                     /* Service Validation */
-                    if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(buyerVM.code)))
+                    if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(buyerVM.Code)))
                     {
                         ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
                     }
@@ -228,23 +228,23 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
                 if (string.IsNullOrEmpty(ErrorMessage))
                 {
-                    buyerVM.tempo = Tempo;
-                    buyerVM.country = Countries.First(c => c.Equals(buyerVM.country, StringComparison.CurrentCultureIgnoreCase));
+                    buyerVM.Tempo = Tempo;
+                    buyerVM.Country = Countries.First(c => c.Equals(buyerVM.Country, StringComparison.CurrentCultureIgnoreCase));
                 }
                 else
                 {
                     ErrorMessage = ErrorMessage.Remove(ErrorMessage.Length - 2);
                     var Error = new ExpandoObject() as IDictionary<string, object>;
 
-                    Error.Add("Kode Buyer", buyerVM.code);
-                    Error.Add("Nama", buyerVM.name);
-                    Error.Add("Alamat", buyerVM.address);
-                    Error.Add("Kota", buyerVM.city);
-                    Error.Add("Negara", buyerVM.country);
+                    Error.Add("Kode Buyer", buyerVM.Code);
+                    Error.Add("Nama", buyerVM.Name);
+                    Error.Add("Alamat", buyerVM.Address);
+                    Error.Add("Kota", buyerVM.City);
+                    Error.Add("Negara", buyerVM.Country);
                     Error.Add("NPWP", buyerVM.NPWP);
-                    Error.Add("Jenis Buyer", buyerVM.type);
-                    Error.Add("Kontak", buyerVM.contact);
-                    Error.Add("Tempo", buyerVM.tempo);
+                    Error.Add("Jenis Buyer", buyerVM.Type);
+                    Error.Add("Kontak", buyerVM.Contact);
+                    Error.Add("Tempo", buyerVM.Tempo);
                     Error.Add("Error", ErrorMessage);
 
                     ErrorList.Add(Error);

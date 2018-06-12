@@ -25,7 +25,8 @@ namespace Com.DanLiris.Service.Core.WebApi
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            string connectionString = Configuration.GetConnectionString("DefaultConnection") ?? Configuration["DefaultConnection"];
+            string connectionString = "Server=LOUISVUITTON\\SQLEXPRESS;Database=com.danliris.db.core.test;Trusted_Connection=True;";
+            //string connectionString = Configuration.GetConnectionString("DefaultConnection") ?? Configuration["DefaultConnection"];
             string authority = Configuration["Authority"];
             string clientId = Configuration["ClientId"];
             string secret = Configuration["Secret"];

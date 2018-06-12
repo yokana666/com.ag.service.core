@@ -82,36 +82,38 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
         public UomViewModel MapToViewModel(Uom uom)
         {
-            UomViewModel uomVM = new UomViewModel();
-
-            uomVM._id = uom.Id;
-            uomVM._deleted = uom._IsDeleted;
-            uomVM._active = uom.Active;
-            uomVM._createdDate = uom._CreatedUtc;
-            uomVM._createdBy = uom._CreatedBy;
-            uomVM._createAgent = uom._CreatedAgent;
-            uomVM._updatedDate = uom._LastModifiedUtc;
-            uomVM._updatedBy = uom._LastModifiedBy;
-            uomVM._updateAgent = uom._LastModifiedAgent;
-            uomVM.unit = uom.Unit;
+            UomViewModel uomVM = new UomViewModel
+            {
+                Id = uom.Id,
+                _IsDeleted = uom._IsDeleted,
+                Active = uom.Active,
+                _CreatedUtc = uom._CreatedUtc,
+                _CreatedBy = uom._CreatedBy,
+                _CreatedAgent = uom._CreatedAgent,
+                _LastModifiedUtc = uom._LastModifiedUtc,
+                _LastModifiedBy = uom._LastModifiedBy,
+                _LastModifiedAgent = uom._LastModifiedAgent,
+                Unit = uom.Unit
+            };
 
             return uomVM;
         }
 
         public Uom MapToModel(UomViewModel uomVM)
         {
-            Uom uom = new Uom();
-
-            uom.Id = uomVM._id;
-            uom._IsDeleted = uomVM._deleted;
-            uom.Active = uomVM._active;
-            uom._CreatedUtc = uomVM._createdDate;
-            uom._CreatedBy = uomVM._createdBy;
-            uom._CreatedAgent = uomVM._createAgent;
-            uom._LastModifiedUtc = uomVM._updatedDate;
-            uom._LastModifiedBy = uomVM._updatedBy;
-            uom._LastModifiedAgent = uomVM._updateAgent;
-            uom.Unit = uomVM.unit;
+            Uom uom = new Uom
+            {
+                Id = uomVM.Id,
+                _IsDeleted = uomVM._IsDeleted,
+                Active = uomVM.Active,
+                _CreatedUtc = uomVM._CreatedUtc,
+                _CreatedBy = uomVM._CreatedBy,
+                _CreatedAgent = uomVM._CreatedAgent,
+                _LastModifiedUtc = uomVM._LastModifiedUtc,
+                _LastModifiedBy = uomVM._LastModifiedBy,
+                _LastModifiedAgent = uomVM._LastModifiedAgent,
+                Unit = uomVM.Unit
+            };
 
             return uom;
         }
@@ -128,7 +130,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         {
             public UomMap()
             {
-                Map(u => u.unit).Index(0);
+                Map(u => u.Unit).Index(0);
             }
         }
 
@@ -142,11 +144,11 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             {
                 ErrorMessage = "";
 
-                if (string.IsNullOrWhiteSpace(uomVM.unit))
+                if (string.IsNullOrWhiteSpace(uomVM.Unit))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Unit tidak boleh kosong, ");
                 }
-                else if (Data.Any(d => d != uomVM && d.unit.Equals(uomVM.unit)))
+                else if (Data.Any(d => d != uomVM && d.Unit.Equals(uomVM.Unit)))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Unit tidak boleh duplikat, ");
                 }
@@ -154,7 +156,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 if(string.IsNullOrEmpty(ErrorMessage))
                 {
                     /* Service Validation */
-                    if(this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Unit.Equals(uomVM.unit)))
+                    if(this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Unit.Equals(uomVM.Unit)))
                     {
                         ErrorMessage = string.Concat(ErrorMessage, "Unit tidak boleh duplikat, ");
                     }
@@ -165,7 +167,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     ErrorMessage = ErrorMessage.Remove(ErrorMessage.Length - 2);
                     var Error = new ExpandoObject() as IDictionary<string, object>;
 
-                    Error.Add("Unit", uomVM.unit);
+                    Error.Add("Unit", uomVM.Unit);
                     Error.Add("Error", ErrorMessage);
 
                     ErrorList.Add(Error);
