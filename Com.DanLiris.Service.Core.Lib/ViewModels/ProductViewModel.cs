@@ -26,6 +26,8 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
         public int? Id { get; set; }
 
         public string Code { get; set; }
+
+        public string Symbol { get; set; }
     }
 
     public class ProductUomViewModel

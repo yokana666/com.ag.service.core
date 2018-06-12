@@ -41,7 +41,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
             {
-                "_id", "unit"
+                "Id", "Unit"
             };
 
             Query = Query
