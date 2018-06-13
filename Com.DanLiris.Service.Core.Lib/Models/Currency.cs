@@ -29,13 +29,13 @@ namespace Com.DanLiris.Service.Core.Lib.Models
             List<ValidationResult> validationResult = new List<ValidationResult>();
 
             if (string.IsNullOrWhiteSpace(this.Code))
-                validationResult.Add(new ValidationResult("Code is required", new List<string> { "code" }));
+                validationResult.Add(new ValidationResult("Code is required", new List<string> { "Code" }));
                 
             if (string.IsNullOrWhiteSpace(this.Symbol))
-                validationResult.Add(new ValidationResult("Symbol is required", new List<string> { "symbol" }));
+                validationResult.Add(new ValidationResult("Symbol is required", new List<string> { "Symbol" }));
 
             if (this.Rate.Equals(null) || this.Rate < 0)
-                validationResult.Add(new ValidationResult("Rate must be greater than zero", new List<string> { "rate" }));
+                validationResult.Add(new ValidationResult("Rate must be greater than zero", new List<string> { "Rate" }));
 
             if (validationResult.Count.Equals(0))
             {
@@ -43,10 +43,10 @@ namespace Com.DanLiris.Service.Core.Lib.Models
                 CurrencyService service = (CurrencyService)validationContext.GetService(typeof(CurrencyService));
 
                 if (service.DbContext.Set<Currency>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Code.Equals(this.Code)) > 0) /* Code Unique */
-                    validationResult.Add(new ValidationResult("Code already exists", new List<string> { "code" }));
+                    validationResult.Add(new ValidationResult("Code already exists", new List<string> { "Code" }));
 
                 if (service.DbContext.Set<Currency>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Description.Equals(this.Description)) > 0) /* Description Unique */
-                    validationResult.Add(new ValidationResult("Description already exists", new List<string> { "description" }));
+                    validationResult.Add(new ValidationResult("Description already exists", new List<string> { "Description" }));
             }
 
             return validationResult;
