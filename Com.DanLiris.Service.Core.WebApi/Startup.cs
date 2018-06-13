@@ -9,6 +9,9 @@ using Com.DanLiris.Service.Core.Lib.Services;
 using IdentityModel;
 using IdentityServer4.AccessTokenValidation;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Com.DanLiris.Service.Core.WebApi
 {
@@ -69,6 +72,9 @@ namespace Com.DanLiris.Service.Core.WebApi
             //        options.RequireHttpsMetadata = false;
             //        options.NameClaimType = JwtClaimTypes.Name;
             //    });
+
+            string Secret = Configuration.GetValue<string>("Secret") ?? Configuration["Secret"];
+            SymmetricSecurityKey Key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Secret));
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
