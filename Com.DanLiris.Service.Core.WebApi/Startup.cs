@@ -60,14 +60,26 @@ namespace Com.DanLiris.Service.Core.WebApi
                     options.DefaultApiVersion = new ApiVersion(1, 1);
                 });
 
-            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-                .AddIdentityServerAuthentication(options =>
+            //services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+            //    .AddIdentityServerAuthentication(options =>
+            //    {
+            //        options.ApiName = "com.danliris.service";
+            //        options.ApiSecret = secret;
+            //        options.Authority = authority;
+            //        options.RequireHttpsMetadata = false;
+            //        options.NameClaimType = JwtClaimTypes.Name;
+            //    });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
                 {
-                    options.ApiName = "com.danliris.service";
-                    options.ApiSecret = secret;
-                    options.Authority = authority;
-                    options.RequireHttpsMetadata = false;
-                    options.NameClaimType = JwtClaimTypes.Name;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false,
+                        ValidateIssuer = false,
+                        ValidateLifetime = false,
+                        IssuerSigningKey = Key
+                    };
                 });
 
             services.AddCors(o => o.AddPolicy("CorePolicy", builder =>
@@ -80,13 +92,7 @@ namespace Com.DanLiris.Service.Core.WebApi
 
             services
                 .AddMvcCore()
-                .AddAuthorization(options =>
-                {
-                    options.AddPolicy("service.core.read", (policyBuilder) =>
-                    {
-                        policyBuilder.RequireClaim("scope", "service.core.read");
-                    });
-                })
+                .AddAuthorization()
                 .AddJsonFormatters()
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
         }
