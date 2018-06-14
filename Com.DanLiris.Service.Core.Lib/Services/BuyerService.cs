@@ -25,9 +25,11 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         {
         }
 
-        public override Tuple<List<Buyer>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null)
+        public override Tuple<List<Buyer>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null,string Filter="{}")
         {
             IQueryable<Buyer> Query = this.DbContext.Buyers;
+            Dictionary<string, object> FilterDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(Filter);
+            Query = ConfigureFilter(Query, FilterDictionary);
             Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(Order);
 
             /* Search With Keyword */
@@ -95,9 +97,9 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             BuyerViewModel buyerVM = new BuyerViewModel();
 
             buyerVM.Id = buyer.Id;
-            buyerVM._IsDeleted= buyer._IsDeleted;
-            buyerVM.Active= buyer.Active;
-            buyerVM._CreatedUtc= buyer._CreatedUtc;
+            buyerVM._IsDeleted = buyer._IsDeleted;
+            buyerVM.Active = buyer.Active;
+            buyerVM._CreatedUtc = buyer._CreatedUtc;
             buyerVM._CreatedBy = buyer._CreatedBy;
             buyerVM._CreatedAgent = buyer._CreatedAgent;
             buyerVM._LastModifiedUtc = buyer._LastModifiedUtc;
@@ -180,7 +182,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh kosong, ");
                 }
-                else if(Data.Any(d => d != buyerVM && d.Code.Equals(buyerVM.Code)))
+                else if (Data.Any(d => d != buyerVM && d.Code.Equals(buyerVM.Code)))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
                 }
@@ -218,7 +220,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     ErrorMessage = string.Concat(ErrorMessage, "Tempo harus angka, ");
                 }
 
-                if(string.IsNullOrEmpty(ErrorMessage))
+                if (string.IsNullOrEmpty(ErrorMessage))
                 {
                     /* Service Validation */
                     if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(buyerVM.Code)))

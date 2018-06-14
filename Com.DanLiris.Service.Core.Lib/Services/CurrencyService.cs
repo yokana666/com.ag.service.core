@@ -23,9 +23,11 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         {
         }
 
-        public override Tuple<List<Currency>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null)
+        public override Tuple<List<Currency>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null, string Filter = "{}")
         {
             IQueryable<Currency> Query = this.DbContext.Currencies;
+            Dictionary<string, object> FilterDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(Filter);
+            Query = ConfigureFilter(Query, FilterDictionary);
             Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(Order);
 
             /* Search With Keyword */
@@ -200,7 +202,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     ErrorMessage = string.Concat(ErrorMessage, "Keterangan tidak boleh duplikat, ");
                 }
 
-                if(string.IsNullOrEmpty(ErrorMessage))
+                if (string.IsNullOrEmpty(ErrorMessage))
                 {
                     /* Service Validation */
                     if(this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(currencyVM.Code)))
