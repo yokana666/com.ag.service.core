@@ -24,7 +24,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         {
         }
 
-        public override Tuple<List<GarmentCurrency>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null)
+        public override Tuple<List<GarmentCurrency>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null, string Filter = "{}")
         {
             IQueryable<GarmentCurrency> Query = this.DbContext.GarmentCurrencies;
             Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(Order);
@@ -148,7 +148,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             DateTime Date;
             string DateString = Body.SingleOrDefault(s => s.Key.Equals(DATE_KEYWORD)).Value;
             bool ValidDate = DateTime.TryParseExact(DateString, General.ASIA_DATE_FORMAT, CultureInfo.InvariantCulture, DateTimeStyles.None, out Date);
-            
+
             List<object> ErrorList = new List<object>();
             string ErrorMessage;
             bool Valid = true;
@@ -184,11 +184,11 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     }
                 }
 
-                if(!ValidDate)
+                if (!ValidDate)
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Tanggal tidak boleh kosong, ");
                 }
-                else if(Date > DateTime.Now)
+                else if (Date > DateTime.Now)
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Tanggal tidak boleh lebih dari tanggal hari ini, ");
                 }
@@ -196,7 +196,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 if (string.IsNullOrEmpty(ErrorMessage))
                 {
                     /* Service Validation */
-                    if(!this.DbContext.Set<Currency>().Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(garmentCurrencyVM.code)))
+                    if (!this.DbContext.Set<Currency>().Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(garmentCurrencyVM.code)))
                     {
                         ErrorMessage = string.Concat(ErrorMessage, "Mata Uang tidak terdaftar dalam master Mata Uang, ");
                     }
