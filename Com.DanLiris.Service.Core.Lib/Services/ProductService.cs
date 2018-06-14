@@ -42,7 +42,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
             {
-                "_id", "code", "name", "uom", "currency", "price", "tags"
+                "Id", "Code", "Name", "UOM", "Currency", "Price", "Tags", "_LastModifiedUtc"
             };
 
             Query = Query
@@ -62,7 +62,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Order */
             if (OrderDictionary.Count.Equals(0))
             {
-                OrderDictionary.Add("_updatedDate", General.DESCENDING);
+                OrderDictionary.Add("_LastModifiedUtc", General.DESCENDING);
 
                 Query = Query.OrderByDescending(b => b._LastModifiedUtc); /* Default Order */
             }

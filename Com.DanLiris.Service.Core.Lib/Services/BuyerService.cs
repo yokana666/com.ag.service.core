@@ -44,7 +44,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
             {
-                "_id", "code", "name", "address", "city", "country", "contact", "tempo"
+                "Id", "Code", "Name", "Address", "City", "Country", "Contact", "Tempo", "_LastModifiedUtc"
             };
 
             Query = Query
@@ -57,13 +57,14 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     City = b.City,
                     Country = b.Country,
                     Contact = b.Contact,
-                    Tempo = b.Tempo
+                    Tempo = b.Tempo,
+                    _LastModifiedUtc = b._LastModifiedUtc
                 });
 
             /* Order */
             if (OrderDictionary.Count.Equals(0))
             {
-                OrderDictionary.Add("_updatedDate", General.DESCENDING);
+                OrderDictionary.Add("_LastModifiedUtc", General.DESCENDING);
 
                 Query = Query.OrderByDescending(b => b._LastModifiedUtc); /* Default Order */
             }
