@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Dynamic.Core;
 
 namespace Com.DanLiris.Service.Core.Lib.Helpers
 {
@@ -23,7 +25,7 @@ namespace Com.DanLiris.Service.Core.Lib.Helpers
             return await this.CreateAsync(Model);
         }
 
-        public abstract Tuple<List<TModel>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null);
+        public abstract Tuple<List<TModel>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null, string Filter = "{}");
 
         public virtual async Task<TModel> ReadModelById(int Id)
         {
@@ -38,6 +40,22 @@ namespace Com.DanLiris.Service.Core.Lib.Helpers
         public virtual async Task<int> DeleteModel(int Id)
         {
             return await this.DeleteAsync(Id);
+        }
+
+        public virtual IQueryable<TModel> ConfigureFilter(IQueryable<TModel> Query, Dictionary<string, object> FilterDictionary)
+        {
+            if (FilterDictionary != null && !FilterDictionary.Count.Equals(0))
+            {
+                foreach (var f in FilterDictionary)
+                {
+                    string Key = f.Key;
+                    object Value = f.Value;
+                    string filterQuery = string.Concat(string.Empty, Key, " == @0");
+
+                    Query = Query.Where(filterQuery, Value);
+                }
+            }
+            return Query;
         }
     }
 }
