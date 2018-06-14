@@ -37,6 +37,7 @@ namespace Com.DanLiris.Service.Core.Lib
         public DbSet<Unit> Units { get; set; }
 
         public DbSet<Uom> UnitOfMeasurements { get; set; }
+        public DbSet<OrderType> OrderTypes { get; set; }
 
         public DbSet<Vat> Vats { get; set; }
 

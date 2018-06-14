@@ -44,7 +44,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
             {
-                "Id", "Code", "Name", "UOM", "Currency", "Price", "Tags"
+                "Id", "Code", "Name", "UOM", "Currency", "Price", "Tags", "_LastModifiedUtc"
             };
 
             Query = Query
@@ -84,7 +84,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             }
 
             /* Pagination */
-            Pageable<Product> pageable = new Pageable<Product>(this.DbContext.Products, Page - 1, Size);
+            Pageable<Product> pageable = new Pageable<Product>(Query, Page - 1, Size);
             List<Product> Data = pageable.Data.ToList<Product>();
 
             int TotalData = pageable.TotalCount;

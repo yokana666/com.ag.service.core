@@ -36,6 +36,7 @@ namespace Com.DanLiris.Service.Core.WebApi
             services
                 .AddDbContext<CoreDbContext>(options => options.UseSqlServer(connectionString))
                 .AddScoped<AccountBankService>()
+                .AddScoped<DesignMotiveService>()
                 .AddScoped<BudgetService>()
                 .AddScoped<BuyerService>()
                 .AddScoped<CategoryService>()
@@ -52,6 +53,7 @@ namespace Com.DanLiris.Service.Core.WebApi
                 .AddScoped<VatService>()
                 .AddScoped<QualityService>()
                 .AddScoped<ComodityService>()
+                .AddScoped<OrderTypeService>()
                 .AddScoped<YarnMaterialService>()
                 .AddScoped<MaterialConstructionService>();
 
