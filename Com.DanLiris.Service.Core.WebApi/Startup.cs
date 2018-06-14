@@ -53,6 +53,7 @@ namespace Com.DanLiris.Service.Core.WebApi
                 .AddScoped<VatService>()
                 .AddScoped<QualityService>()
                 .AddScoped<ComodityService>()
+                .AddScoped<OrderTypeService>()
                 .AddScoped<YarnMaterialService>()
                 .AddScoped<MaterialConstructionService>();
 

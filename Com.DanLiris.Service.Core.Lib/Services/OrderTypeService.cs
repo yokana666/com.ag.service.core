@@ -13,16 +13,29 @@ using System.Text;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
-    public class DesignMotiveService : BasicService<CoreDbContext, DesignMotive>, IMap<DesignMotive, DesignMotiveViewModel>
+    public class OrderTypeService : BasicService<CoreDbContext, OrderType>, IMap<OrderType, OrderTypeViewModel>
     {
-        public DesignMotiveService(IServiceProvider serviceProvider) : base(serviceProvider)
+        public OrderTypeService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
-
         }
 
-        public override Tuple<List<DesignMotive>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null,string Filter="{}")
+        public OrderType MapToModel(OrderTypeViewModel viewModel)
         {
-            IQueryable<DesignMotive> Query = DbContext.DesignMotives;
+            OrderType model = new OrderType();
+            PropertyCopier<OrderTypeViewModel, OrderType>.Copy(viewModel, model);
+            return model;
+        }
+
+        public OrderTypeViewModel MapToViewModel(OrderType model)
+        {
+            OrderTypeViewModel viewModel = new OrderTypeViewModel();
+            PropertyCopier<OrderType, OrderTypeViewModel>.Copy(model, viewModel);
+            return viewModel;
+        }
+
+        public override Tuple<List<OrderType>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null, string Filter = "{}")
+        {
+            IQueryable<OrderType> Query = this.DbContext.OrderTypes;
             Dictionary<string, object> FilterDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(Filter);
             Query = ConfigureFilter(Query, FilterDictionary);
             Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(Order);
@@ -45,17 +58,18 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             };
 
             Query = Query
-                .Select(b => new DesignMotive
+                .Select(b => new OrderType
                 {
                     Id = b.Id,
                     Code = b.Code,
-                    Name = b.Name
+                    Name = b.Name,
+                    _LastModifiedUtc = b._LastModifiedUtc
                 });
 
             /* Order */
             if (OrderDictionary.Count.Equals(0))
             {
-                OrderDictionary.Add("_LastModifiedUtc", General.DESCENDING);
+                OrderDictionary.Add("_updatedDate", General.DESCENDING);
 
                 Query = Query.OrderByDescending(b => b._LastModifiedUtc); /* Default Order */
             }
@@ -73,39 +87,12 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             }
 
             /* Pagination */
-            Pageable<DesignMotive> pageable = new Pageable<DesignMotive>(Query, Page - 1, Size);
-            List<DesignMotive> Data = pageable.Data.ToList<DesignMotive>();
+            Pageable<OrderType> pageable = new Pageable<OrderType>(Query, Page - 1, Size);
+            List<OrderType> Data = pageable.Data.ToList<OrderType>();
 
             int TotalData = pageable.TotalCount;
 
             return Tuple.Create(Data, TotalData, OrderDictionary, SelectedFields);
-        }
-
-        public override void OnCreating(DesignMotive model)
-        {
-            CodeGenerator codeGenerator = new CodeGenerator();
-
-            do
-            {
-                model.Code = codeGenerator.GenerateCode();
-            }
-            while (this.DbSet.Any(d => d.Code.Equals(model.Code)));
-
-            base.OnCreating(model);
-        }
-
-        public DesignMotive MapToModel(DesignMotiveViewModel viewModel)
-        {
-            DesignMotive model = new DesignMotive();
-            PropertyCopier<DesignMotiveViewModel, DesignMotive>.Copy(viewModel, model);
-            return model;
-        }
-
-        public DesignMotiveViewModel MapToViewModel(DesignMotive model)
-        {
-            DesignMotiveViewModel viewModel = new DesignMotiveViewModel();
-            PropertyCopier<DesignMotive, DesignMotiveViewModel>.Copy(model, viewModel);
-            return viewModel;
         }
     }
 }

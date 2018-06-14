@@ -66,7 +66,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Order */
             if (OrderDictionary.Count.Equals(0))
             {
-                OrderDictionary.Add("_LastModifiedUtc", General.DESCENDING);
+                OrderDictionary.Add("_updatedDate", General.DESCENDING);
 
                 Query = Query.OrderByDescending(b => b._LastModifiedUtc); /* Default Order */
             }
@@ -84,7 +84,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             }
 
             /* Pagination */
-            Pageable<Product> pageable = new Pageable<Product>(this.DbContext.Products, Page - 1, Size);
+            Pageable<Product> pageable = new Pageable<Product>(Query, Page - 1, Size);
             List<Product> Data = pageable.Data.ToList<Product>();
 
             int TotalData = pageable.TotalCount;
