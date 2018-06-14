@@ -44,7 +44,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
             {
-                "_id", "code", "symbol", "description"
+                "Id", "Code", "Symbol", "Description"
             };
 
             Query = Query
@@ -53,7 +53,8 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     Id = c.Id,
                     Code = c.Code,
                     Symbol = c.Symbol,
-                    Description = c.Description
+                    Description = c.Description,
+                    _LastModifiedUtc = c._LastModifiedUtc
                 });
 
             /* Order */
@@ -89,19 +90,19 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         {
             CurrencyViewModel currencyVM = new CurrencyViewModel();
 
-            currencyVM._id = currency.Id;
-            currencyVM._deleted = currency._IsDeleted;
-            currencyVM._active = currency.Active;
-            currencyVM._createdDate = currency._CreatedUtc;
-            currencyVM._createdBy = currency._CreatedBy;
-            currencyVM._createAgent = currency._CreatedAgent;
-            currencyVM._updatedDate = currency._LastModifiedUtc;
-            currencyVM._updatedBy = currency._LastModifiedBy;
-            currencyVM._updateAgent = currency._LastModifiedAgent;
-            currencyVM.code = currency.Code;
-            currencyVM.symbol = currency.Symbol;
-            currencyVM.rate = currency.Rate;
-            currencyVM.description = currency.Description;
+            currencyVM.Id = currency.Id;
+            currencyVM._IsDeleted = currency._IsDeleted;
+            currencyVM.Active = currency.Active;
+            currencyVM._CreatedUtc = currency._CreatedUtc;
+            currencyVM._CreatedBy = currency._CreatedBy;
+            currencyVM._CreatedAgent = currency._CreatedAgent;
+            currencyVM._LastModifiedUtc = currency._LastModifiedUtc;
+            currencyVM._LastModifiedBy = currency._LastModifiedBy;
+            currencyVM._LastModifiedAgent = currency._LastModifiedAgent;
+            currencyVM.Code = currency.Code;
+            currencyVM.Symbol = currency.Symbol;
+            currencyVM.Rate = currency.Rate;
+            currencyVM.Description = currency.Description;
 
             return currencyVM;
         }
@@ -110,19 +111,19 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         {
             Currency currency = new Currency();
 
-            currency.Id = currencyVM._id;
-            currency._IsDeleted = currencyVM._deleted;
-            currency.Active = currencyVM._active;
-            currency._CreatedUtc = currencyVM._createdDate;
-            currency._CreatedBy = currencyVM._createdBy;
-            currency._CreatedAgent = currencyVM._createAgent;
-            currency._LastModifiedUtc = currencyVM._updatedDate;
-            currency._LastModifiedBy = currencyVM._updatedBy;
-            currency._LastModifiedAgent = currencyVM._updateAgent;
-            currency.Code = currencyVM.code;
-            currency.Symbol = currencyVM.symbol;
-            currency.Rate = !Equals(currencyVM.rate, null) ? Convert.ToDouble(currencyVM.rate) : null; /* Check Null */
-            currency.Description = currencyVM.description;
+            currency.Id = currencyVM.Id;
+            currency._IsDeleted = currencyVM._IsDeleted;
+            currency.Active = currencyVM.Active;
+            currency._CreatedUtc = currencyVM._CreatedUtc;
+            currency._CreatedBy = currencyVM._CreatedBy;
+            currency._CreatedAgent = currencyVM._CreatedAgent;
+            currency._LastModifiedUtc = currencyVM._LastModifiedUtc;
+            currency._LastModifiedBy = currencyVM._LastModifiedBy;
+            currency._LastModifiedAgent = currencyVM._LastModifiedAgent;
+            currency.Code = currencyVM.Code;
+            currency.Symbol = currencyVM.Symbol;
+            currency.Rate = !Equals(currencyVM.Rate, null) ? Convert.ToDouble(currencyVM.Rate) : null; /* Check Null */
+            currency.Description = currencyVM.Description;
 
             return currency;
         }
@@ -139,10 +140,10 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         {
             public CurrencyMap()
             {
-                Map(c => c.code).Index(0);
-                Map(c => c.symbol).Index(1);
-                Map(c => c.rate).Index(2).TypeConverter<StringConverter>();
-                Map(c => c.description).Index(3);
+                Map(c => c.Code).Index(0);
+                Map(c => c.Symbol).Index(1);
+                Map(c => c.Rate).Index(2).TypeConverter<StringConverter>();
+                Map(c => c.Description).Index(3);
             }
         }
 
@@ -156,26 +157,26 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             {
                 ErrorMessage = "";
 
-                if (string.IsNullOrWhiteSpace(currencyVM.code))
+                if (string.IsNullOrWhiteSpace(currencyVM.Code))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh kosong, ");
                 }
-                else if (Data.Any(d => d != currencyVM && d.code.Equals(currencyVM.code)))
+                else if (Data.Any(d => d != currencyVM && d.Code.Equals(currencyVM.Code)))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
                 }
 
-                if (string.IsNullOrWhiteSpace(currencyVM.symbol))
+                if(string.IsNullOrWhiteSpace(currencyVM.Symbol))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Simbol tidak boleh kosong, ");
                 }
 
                 double Rate = 0;
-                if (string.IsNullOrWhiteSpace(currencyVM.rate))
+                if (string.IsNullOrWhiteSpace(currencyVM.Rate))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Rate tidak boleh kosong, ");
                 }
-                else if (!double.TryParse(currencyVM.rate, out Rate))
+                else if (!double.TryParse(currencyVM.Rate, out Rate))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Rate harus numerik, ");
                 }
@@ -185,18 +186,18 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 }
                 else
                 {
-                    string[] RateSplit = currencyVM.rate.Split('.');
+                    string[] RateSplit = currencyVM.Rate.Split('.');
                     if (RateSplit.Count().Equals(2) && RateSplit[1].Length > 2)
                     {
                         ErrorMessage = string.Concat(ErrorMessage, "Rate maksimal memiliki 2 digit dibelakang koma, ");
                     }
                 }
 
-                if (string.IsNullOrWhiteSpace(currencyVM.description))
+                if (string.IsNullOrWhiteSpace(currencyVM.Description))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Keterangan tidak boleh kosong, ");
                 }
-                else if (Data.Any(d => d != currencyVM && d.description.Equals(currencyVM.description)))
+                else if (Data.Any(d => d != currencyVM && d.Description.Equals(currencyVM.Description)))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Keterangan tidak boleh duplikat, ");
                 }
@@ -204,12 +205,12 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 if (string.IsNullOrEmpty(ErrorMessage))
                 {
                     /* Service Validation */
-                    if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(currencyVM.code)))
+                    if(this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(currencyVM.Code)))
                     {
                         ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
                     }
 
-                    if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Description.Equals(currencyVM.description)))
+                    if(this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Description.Equals(currencyVM.Description)))
                     {
                         ErrorMessage = string.Concat(ErrorMessage, "Keterangan tidak boleh duplikat, ");
                     }
@@ -217,17 +218,17 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
                 if (string.IsNullOrEmpty(ErrorMessage))
                 {
-                    currencyVM.rate = Rate;
+                    currencyVM.Rate = Rate;
                 }
                 else
                 {
                     ErrorMessage = ErrorMessage.Remove(ErrorMessage.Length - 2);
                     var Error = new ExpandoObject() as IDictionary<string, object>;
 
-                    Error.Add("Kode", currencyVM.code);
-                    Error.Add("Simbol", currencyVM.symbol);
-                    Error.Add("Rate", currencyVM.rate);
-                    Error.Add("Keterangan", currencyVM.description);
+                    Error.Add("Kode", currencyVM.Code);
+                    Error.Add("Simbol", currencyVM.Symbol);
+                    Error.Add("Rate", currencyVM.Rate);
+                    Error.Add("Keterangan", currencyVM.Description);
                     Error.Add("Error", ErrorMessage);
 
                     ErrorList.Add(Error);

@@ -50,7 +50,8 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 .Select(u => new Uom
                 {
                     Id = u.Id,
-                    Unit = u.Unit
+                    Unit = u.Unit,
+                    _LastModifiedUtc = u._LastModifiedUtc
                 });
 
             /* Order */

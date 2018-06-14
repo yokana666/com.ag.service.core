@@ -9,6 +9,9 @@ using Com.DanLiris.Service.Core.Lib.Services;
 using IdentityModel;
 using IdentityServer4.AccessTokenValidation;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Com.DanLiris.Service.Core.WebApi
 {
@@ -60,14 +63,29 @@ namespace Com.DanLiris.Service.Core.WebApi
                     options.DefaultApiVersion = new ApiVersion(1, 1);
                 });
 
-            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-                .AddIdentityServerAuthentication(options =>
+            //services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+            //    .AddIdentityServerAuthentication(options =>
+            //    {
+            //        options.ApiName = "com.danliris.service";
+            //        options.ApiSecret = secret;
+            //        options.Authority = authority;
+            //        options.RequireHttpsMetadata = false;
+            //        options.NameClaimType = JwtClaimTypes.Name;
+            //    });
+
+            string Secret = Configuration.GetValue<string>("Secret") ?? Configuration["Secret"];
+            SymmetricSecurityKey Key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Secret));
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
                 {
-                    options.ApiName = "com.danliris.service";
-                    options.ApiSecret = secret;
-                    options.Authority = authority;
-                    options.RequireHttpsMetadata = false;
-                    options.NameClaimType = JwtClaimTypes.Name;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false,
+                        ValidateIssuer = false,
+                        ValidateLifetime = false,
+                        IssuerSigningKey = Key
+                    };
                 });
 
             services.AddCors(o => o.AddPolicy("CorePolicy", builder =>
@@ -80,13 +98,7 @@ namespace Com.DanLiris.Service.Core.WebApi
 
             services
                 .AddMvcCore()
-                .AddAuthorization(options =>
-                {
-                    options.AddPolicy("service.core.read", (policyBuilder) =>
-                    {
-                        policyBuilder.RequireClaim("scope", "service.core.read");
-                    });
-                })
+                .AddAuthorization()
                 .AddJsonFormatters()
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
         }
