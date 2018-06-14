@@ -55,8 +55,10 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     UomUnit = p.UomUnit,
                     CurrencyId = p.CurrencyId,
                     CurrencyCode = p.CurrencyCode,
+                    CurrencySymbol = p.CurrencySymbol,
                     Price = p.Price,
-                    Tags = p.Tags
+                    Tags = p.Tags,
+                    _LastModifiedUtc = p._LastModifiedUtc
                 });
 
             /* Order */
@@ -107,7 +109,8 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 Currency = new ProductCurrencyViewModel
                 {
                     Id = product.CurrencyId,
-                    Code = product.CurrencyCode
+                    Code = product.CurrencyCode,
+                    Symbol = product.CurrencySymbol
                 },
                 Description = product.Description,
                 UOM = new ProductUomViewModel
@@ -143,6 +146,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             {
                 product.CurrencyId = productVM.Currency.Id;
                 product.CurrencyCode = productVM.Currency.Code;
+                product.CurrencySymbol = productVM.Currency.Symbol;
             }
             else
             {
@@ -151,8 +155,8 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             }
 
             product.Description = productVM.Description;
-            
-            if(!Equals(productVM.UOM, null))
+
+            if (!Equals(productVM.UOM, null))
             {
                 product.UomId = productVM.UOM.Id;
                 product.UomUnit = productVM.UOM.Unit;
@@ -220,7 +224,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh duplikat, ");
                 }
 
-                if(string.IsNullOrWhiteSpace(productVM.UOM.Unit))
+                if (string.IsNullOrWhiteSpace(productVM.UOM.Unit))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Satuan tidak boleh kosong, ");
                 }

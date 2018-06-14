@@ -41,14 +41,15 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
             {
-                "_id", "unit"
+                "Id", "Unit"
             };
 
             Query = Query
                 .Select(u => new Uom
                 {
                     Id = u.Id,
-                    Unit = u.Unit
+                    Unit = u.Unit,
+                    _LastModifiedUtc = u._LastModifiedUtc
                 });
 
             /* Order */

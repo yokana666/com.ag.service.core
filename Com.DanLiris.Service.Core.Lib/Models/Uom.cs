@@ -22,7 +22,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
             List<ValidationResult> validationResult = new List<ValidationResult>();
 
             if (string.IsNullOrWhiteSpace(this.Unit))
-                validationResult.Add(new ValidationResult("Unit is required", new List<string> { "unit" }));
+                validationResult.Add(new ValidationResult("Unit is required", new List<string> { "Unit" }));
 
             if (validationResult.Count.Equals(0))
             {
@@ -30,7 +30,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
                 UomService service = (UomService)validationContext.GetService(typeof(UomService));
 
                 if (service.DbContext.Set<Uom>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Unit.Equals(this.Unit)) > 0) /* Unit Unique */
-                    validationResult.Add(new ValidationResult("Unit already exists", new List<string> { "unit" }));
+                    validationResult.Add(new ValidationResult("Unit already exists", new List<string> { "Unit" }));
             }
 
             return validationResult;
