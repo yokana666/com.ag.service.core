@@ -18,7 +18,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         {
         }
 
-        public override Tuple<List<AccountBank>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null,string Filter="{}")
+        public override Tuple<List<AccountBank>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null, string Filter = "{}")
         {
             IQueryable<AccountBank> Query = this.DbContext.AccountBanks;
 
@@ -41,7 +41,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
             {
-                "_id", "code", "bankName", "bankAddress", "accountName", "accountNumber", "swiftCode", "currency"
+                "Id", "Code", "BankName", "BankAddress", "AccountName", "AccountNumber", "SwiftCode", "Currency"
             };
 
             Query = Query
@@ -61,7 +61,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Order */
             if (OrderDictionary.Count.Equals(0))
             {
-                OrderDictionary.Add("_updatedDate", General.DESCENDING);
+                OrderDictionary.Add("_LastModifiedUtc", General.DESCENDING);
 
                 Query = Query.OrderByDescending(b => b._LastModifiedUtc); /* Default Order */
             }
@@ -90,25 +90,15 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         public AccountBankViewModel MapToViewModel(AccountBank accountBank)
         {
             AccountBankViewModel accountBankVM = new AccountBankViewModel();
-            accountBankVM.currency = new AccountBankCurrencyViewModel();
+            PropertyCopier<AccountBank, AccountBankViewModel>.Copy(accountBank, accountBankVM);
 
-            accountBankVM._id = accountBank.Id;
-            accountBankVM._deleted = accountBank._IsDeleted;
-            accountBankVM._active = accountBank.Active;
-            accountBankVM._createdDate = accountBank._CreatedUtc;
-            accountBankVM._createdBy = accountBank._CreatedBy;
-            accountBankVM._createAgent = accountBank._CreatedAgent;
-            accountBankVM._updatedDate = accountBank._LastModifiedUtc;
-            accountBankVM._updatedBy = accountBank._LastModifiedBy;
-            accountBankVM._updateAgent = accountBank._LastModifiedAgent;
-            accountBankVM.code = accountBank.Code;
-            accountBankVM.bankName = accountBank.BankName;
-            accountBankVM.bankAddress = accountBank.BankAddress;
-            accountBankVM.accountName = accountBank.AccountName;
-            accountBankVM.accountNumber = accountBank.AccountNumber;
-            accountBankVM.swiftCode = accountBank.SwiftCode;
-            accountBankVM.currency._id = accountBank.CurrencyId;
-            accountBankVM.currency.code = accountBank.CurrencyCode;
+            accountBankVM.Currency = new CurrencyViewModel
+            {
+                Id = (int)accountBank.CurrencyId,
+                Code = accountBank.CurrencyCode,
+                Rate = accountBank.CurrencyId,
+                Symbol = accountBank.CurrencySymbol
+            };
 
             return accountBankVM;
         }
@@ -116,32 +106,21 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         public AccountBank MapToModel(AccountBankViewModel accountBankVM)
         {
             AccountBank accountBank = new AccountBank();
+            PropertyCopier<AccountBankViewModel, AccountBank>.Copy(accountBankVM, accountBank);
 
-            accountBank.Id = accountBankVM._id;
-            accountBank._IsDeleted = accountBankVM._deleted;
-            accountBank.Active = accountBankVM._active;
-            accountBank._CreatedUtc = accountBankVM._createdDate;
-            accountBank._CreatedBy = accountBankVM._createdBy;
-            accountBank._CreatedAgent = accountBankVM._createAgent;
-            accountBank._LastModifiedUtc = accountBankVM._updatedDate;
-            accountBank._LastModifiedBy = accountBankVM._updatedBy;
-            accountBank._LastModifiedAgent = accountBankVM._updateAgent;
-            accountBank.Code = accountBankVM.code;
-            accountBank.BankName = accountBankVM.bankName;
-            accountBank.BankAddress = accountBankVM.bankAddress;
-            accountBank.AccountName = accountBankVM.accountName;
-            accountBank.AccountNumber = accountBankVM.accountNumber;
-            accountBank.SwiftCode = accountBankVM.swiftCode;
-
-            if(!Equals(accountBankVM.currency, null))
+            if (!Equals(accountBankVM.Currency, null))
             {
-                accountBank.CurrencyId = accountBankVM.currency._id;
-                accountBank.CurrencyCode = accountBankVM.currency.code;
+                accountBank.CurrencyId = accountBankVM.Currency.Id;
+                accountBank.CurrencyCode = accountBankVM.Currency.Code;
+                accountBank.CurrencyRate = accountBankVM.Currency.Rate; 
+                accountBank.CurrencySymbol = accountBankVM.Currency.Symbol;
             }
             else
             {
                 accountBank.CurrencyId = null;
                 accountBank.CurrencyCode = null;
+                accountBank.CurrencyRate = 0;
+                accountBank.CurrencySymbol = null;
             }
 
             return accountBank;

@@ -35,21 +35,28 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 
         public string CurrencyCode { get; set; }
 
+        public string CurrencySymbol { get; set; }
+
+        /* Double */
+        public double CurrencyRate { get; set; }
+
+        public string CurrencyDescription { get; set; }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             List<ValidationResult> validationResult = new List<ValidationResult>();
 
             if (string.IsNullOrWhiteSpace(this.BankName))
-                validationResult.Add(new ValidationResult("Bank Name is required", new List<string> { "bankName" }));
+                validationResult.Add(new ValidationResult("Bank Name is required", new List<string> { "BankName" }));
 
             if (string.IsNullOrWhiteSpace(this.AccountName))
-                validationResult.Add(new ValidationResult("Account Name is required", new List<string> { "accountName" }));
+                validationResult.Add(new ValidationResult("Account Name is required", new List<string> { "AccountName" }));
 
             if (string.IsNullOrWhiteSpace(this.AccountNumber))
-                validationResult.Add(new ValidationResult("Account Number is required", new List<string> { "accountNumber" }));
+                validationResult.Add(new ValidationResult("Account Number is required", new List<string> { "AccountNumber" }));
 
             if(CurrencyId.Equals(null))
-                validationResult.Add(new ValidationResult("Currency is required", new List<string> { "currency" }));
+                validationResult.Add(new ValidationResult("Currency is required", new List<string> { "CurrencyID" }));
 
             if (validationResult.Count.Equals(0))
             {
@@ -58,8 +65,8 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 
                 if (service.DbContext.Set<AccountBank>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.BankName.Equals(this.BankName) && r.AccountNumber.Equals(this.AccountNumber)) > 0) /* Unique */
                 {
-                    validationResult.Add(new ValidationResult("Bank Name and Account Number already exists", new List<string> { "bankName" }));
-                    validationResult.Add(new ValidationResult("Bank Name and Account Number already exists", new List<string> { "accountNumber" }));
+                    validationResult.Add(new ValidationResult("Bank Name and Account Number already exists", new List<string> { "BankName" }));
+                    validationResult.Add(new ValidationResult("Bank Name and Account Number already exists", new List<string> { "AccountNumber" }));
                 }
             }
 
