@@ -1,46 +1,22 @@
-﻿using System;
+﻿using Com.DanLiris.Service.Core.Lib.Helpers;
+using System;
 
 namespace Com.DanLiris.Service.Core.Lib.ViewModels
 {
-    public class AccountBankViewModel
+    public class AccountBankViewModel : BasicViewModel
     {
-        public int _id { get; set; }
+        public string Code { get; set; }
 
-        public bool _deleted { get; set; }
+        public string BankName { get; set; }
 
-        public bool _active { get; set; }
+        public string BankAddress { get; set; }
 
-        public DateTime _createdDate { get; set; }
+        public string AccountName { get; set; }
 
-        public string _createdBy { get; set; }
+        public string AccountNumber { get; set; }
 
-        public string _createAgent { get; set; }
+        public string SwiftCode { get; set; }
 
-        public DateTime _updatedDate { get; set; }
-
-        public string _updatedBy { get; set; }
-
-        public string _updateAgent { get; set; }
-
-        public string code { get; set; }
-
-        public string bankName { get; set; }
-
-        public string bankAddress { get; set; }
-
-        public string accountName { get; set; }
-
-        public string accountNumber { get; set; }
-
-        public string swiftCode { get; set; }
-
-        public AccountBankCurrencyViewModel currency { get; set; }
-    }
-
-    public class AccountBankCurrencyViewModel
-    {
-        public int? _id { get; set; }
-
-        public string code { get; set; }
+        public CurrencyViewModel Currency { get; set; }
     }
 }

@@ -16,14 +16,14 @@ namespace Com.DanLiris.Service.Core.Lib.Models
         public string Code { get; set; }
 
         [StringLength(1000)]
-        public string termOfPayment { get; set; }
+        public string Name { get; set; }
 
         public bool IsExport { get; set; }     
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (string.IsNullOrWhiteSpace(this.termOfPayment))
-                yield return new ValidationResult("Term of Payment is required", new List<string> { "termOfPayment" });
+            if (string.IsNullOrWhiteSpace(this.Name))
+                yield return new ValidationResult("Term of Payment is required", new List<string> { "Name" });
         }
     }
 }
