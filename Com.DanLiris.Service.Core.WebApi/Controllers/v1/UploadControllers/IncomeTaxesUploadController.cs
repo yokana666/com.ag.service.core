@@ -9,12 +9,12 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.UploadControllers
 {
     [Produces("application/json")]
     [ApiVersion("1.0")]
-    [Route("v{version:apiVersion}/master/upload-vats")]
-    public class VatsUploadController : BasicUploadController<VatService, Vat, VatViewModel, VatService.VatMap, CoreDbContext>
+    [Route("v{version:apiVersion}/master/upload-income-taxes")]
+    public class IncomeTaxesUploadController : BasicUploadController<IncomeTaxService, IncomeTax, IncomeTaxViewModel, IncomeTaxService.IncomeTaxMap, CoreDbContext>
     {
         private static readonly string ApiVersion = "1.0";
 
-        public VatsUploadController(VatService service) : base(service, ApiVersion)
+        public IncomeTaxesUploadController(IncomeTaxService service) : base(service, ApiVersion)
         {
         }
     }

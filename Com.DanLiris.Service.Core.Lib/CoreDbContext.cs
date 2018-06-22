@@ -39,7 +39,7 @@ namespace Com.DanLiris.Service.Core.Lib
         public DbSet<Uom> UnitOfMeasurements { get; set; }
         public DbSet<OrderType> OrderTypes { get; set; }
 
-        public DbSet<Vat> Vats { get; set; }
+        public DbSet<IncomeTax> IncomeTaxes { get; set; }
 
         public DbSet<Quality> Qualities { get; set; }
         public DbSet<Comodity> Comodities { get; set; }

@@ -9,12 +9,12 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
 {
     [Produces("application/json")]
     [ApiVersion("1.0")]
-    [Route("v{version:apiVersion}/master/vats")]
-    public class VatsController : BasicController<VatService, Vat, VatViewModel, CoreDbContext>
+    [Route("v{version:apiVersion}/master/income-taxes")]
+    public class IncomeTaxesController : BasicController<IncomeTaxService, IncomeTax, IncomeTaxViewModel, CoreDbContext>
     {
         private static readonly string ApiVersion = "1.0";
 
-        public VatsController(VatService service) : base(service, ApiVersion)
+        public IncomeTaxesController(IncomeTaxService service) : base(service, ApiVersion)
         {
         }
     }

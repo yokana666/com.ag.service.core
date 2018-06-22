@@ -37,6 +37,8 @@ namespace Com.DanLiris.Service.Core.Test
                 .AddTransient<YarnMaterialServiceDataUtil>()
                 .AddTransient<MaterialConstructionService>(provider => new MaterialConstructionService(provider))
                 .AddTransient<MaterialConstructionServiceDataUtil>()
+                .AddTransient<IncomeTaxService>(provider => new IncomeTaxService(provider))
+                .AddTransient<IncomeTaxDataUtil>()
                 .BuildServiceProvider();
 
             CoreDbContext dbContext = ServiceProvider.GetService<CoreDbContext>();

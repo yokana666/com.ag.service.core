@@ -51,7 +51,7 @@ namespace Com.DanLiris.Service.Core.WebApi
                 .AddScoped<TermOfPaymentService>()
                 .AddScoped<UnitService>()
                 .AddScoped<UomService>()
-                .AddScoped<VatService>()
+                .AddScoped<IncomeTaxService>()
                 .AddScoped<QualityService>()
                 .AddScoped<ComodityService>()
                 .AddScoped<OrderTypeService>()
