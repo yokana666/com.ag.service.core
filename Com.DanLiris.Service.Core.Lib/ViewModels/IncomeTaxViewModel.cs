@@ -2,7 +2,7 @@
 
 namespace Com.DanLiris.Service.Core.Lib.ViewModels
 {
-    public class VatViewModel
+    public class IncomeTaxViewModel
     {
         public int _id { get; set; }
 

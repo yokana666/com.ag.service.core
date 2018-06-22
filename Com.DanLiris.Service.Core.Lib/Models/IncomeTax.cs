@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Com.DanLiris.Service.Core.Lib.Models
 {
-    public class Vat : StandardEntity, IValidatableObject
+    public class IncomeTax : StandardEntity, IValidatableObject
     {
         [MaxLength(255)]
         public string UId { get; set; }
@@ -32,9 +32,9 @@ namespace Com.DanLiris.Service.Core.Lib.Models
             if (validationResult.Count.Equals(0))
             {
                 /* Service Validation */
-                VatService service = (VatService)validationContext.GetService(typeof(VatService));
+                IncomeTaxService service = (IncomeTaxService)validationContext.GetService(typeof(IncomeTaxService));
 
-                if (service.DbContext.Set<Vat>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Name.Equals(this.Name) && r.Rate.Equals(this.Rate)) > 0) /* Name and Rate Unique */
+                if (service.DbContext.Set<IncomeTax>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Name.Equals(this.Name) && r.Rate.Equals(this.Rate)) > 0) /* Name and Rate Unique */
                 {
                     validationResult.Add(new ValidationResult("Name and Rate already exists", new List<string> { "name" }));
                     validationResult.Add(new ValidationResult("Name and Rate already exists", new List<string> { "rate" }));
