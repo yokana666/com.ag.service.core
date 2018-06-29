@@ -19,6 +19,9 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 
         public int DivisionId { get; set; }
 
+        [StringLength(100)]
+        public string DivisionCode { get; set; }
+
         [StringLength(500)]
         public string DivisionName { get; set; }
 
