@@ -54,6 +54,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     Id = u.Id,
                     Code = u.Code,
                     DivisionId = u.DivisionId,
+                    DivisionCode = u.DivisionCode,
                     DivisionName = u.DivisionName,
                     Name = u.Name
                 });
@@ -103,6 +104,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             unitVM._updateAgent = unit._LastModifiedAgent;
             unitVM.code = unit.Code;
             unitVM.division._id = unit.DivisionId;
+            unitVM.division.code = unit.DivisionCode;
             unitVM.division.name = unit.DivisionName;
             unitVM.name = unit.Name;
             unitVM.description = unit.Description;
@@ -125,6 +127,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             unit._LastModifiedAgent = unitVM._updateAgent;
             unit.Code = unitVM.code;
             unit.DivisionId = unitVM.division._id;
+            unit.DivisionCode = unitVM.division.code;
             unit.DivisionName = unitVM.division.name;
             unit.Name = unitVM.name;
             unit.Description = unitVM.description;
@@ -209,6 +212,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 if (string.IsNullOrEmpty(ErrorMessage))
                 {
                     unitVM.division._id = division.Id;
+                    unitVM.division.code = division.Code;
                 }
                 else
                 {
