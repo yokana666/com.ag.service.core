@@ -12,7 +12,6 @@ using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Com.DanLiris.Service.Core.Lib.Services.Account_and_Roles;
 
 namespace Com.DanLiris.Service.Core.WebApi
 {
@@ -24,7 +23,7 @@ namespace Com.DanLiris.Service.Core.WebApi
         {
             Configuration = configuration;
         }
-
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -37,7 +36,6 @@ namespace Com.DanLiris.Service.Core.WebApi
             services
                 .AddDbContext<CoreDbContext>(options => options.UseSqlServer(connectionString))
                 .AddScoped<AccountBankService>()
-                .AddScoped<AccountService>()
                 .AddScoped<DesignMotiveService>()
                 .AddScoped<BudgetService>()
                 .AddScoped<BuyerService>()
@@ -58,10 +56,9 @@ namespace Com.DanLiris.Service.Core.WebApi
                 .AddScoped<ComodityService>()
                 .AddScoped<OrderTypeService>()
                 .AddScoped<YarnMaterialService>()
-                .AddScoped<MaterialConstructionService>()
-                .AddScoped<ProcessTypeService>()
-                .AddScoped<FinishTypeService>();
-            services
+                .AddScoped<MaterialConstructionService>();
+
+            services    
                 .AddApiVersioning(options =>
                 {
                     options.ReportApiVersions = true;

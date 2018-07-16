@@ -55,8 +55,7 @@ namespace Com.DanLiris.Service.Core.Test
                         .AddTransient<QualityServiceDataUtil>()
                         .AddTransient<YarnMaterialServiceDataUtil>()
                         .AddTransient<ComodityServiceDataUtil>()
-                        .AddTransient<IncomeTaxDataUtil>()
-                        .AddTransient<ProcessTypeDataUtil>();
+                        .AddTransient<IncomeTaxDataUtil>();
                 })
                 .UseStartup<Startup>();
 
