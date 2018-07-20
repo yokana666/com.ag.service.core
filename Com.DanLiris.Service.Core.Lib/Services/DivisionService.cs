@@ -45,13 +45,14 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
                 {
-                    "_id", "name"
+                    "_id", "code", "name"
                 };
 
             Query = Query
                 .Select(b => new Division
                 {
                     Id = b.Id,
+                    Code = b.Code,
                     Name = b.Name
                 });
 
