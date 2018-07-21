@@ -3,7 +3,7 @@ dist: trusty
 language: csharp
 mono: none
 dotnet: 2.0.0
-solution: Com.Danliris.Service.Core.sln
+solution: Com.DanLiris.Service.Core.sln
 services:
     - docker
 env:
@@ -19,14 +19,14 @@ before_script:
     - sleep 60
 
 script:
-    - dotnet restore Com.Danliris.Service.Core.Test/Com.Danliris.Service.Core.Test.csproj
-    - dotnet build Com.Danliris.Service.Core.Test/Com.Danliris.Service.Core.Test.csproj
-    - dotnet test Com.Danliris.Service.Core.Test/Com.Danliris.Service.Core.Test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
+    - dotnet restore Com.DanLiris.Service.Core.Test/Com.DanLiris.Service.Core.Test.csproj
+    - dotnet build Com.DanLiris.Service.Core.Test/Com.DanLiris.Service.Core.Test.csproj
+    - dotnet test Com.DanLiris.Service.Core.Test/Com.DanLiris.Service.Core.Test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
 
 after_success:
     - curl -s https://codecov.io/bash > codecov
     - chmod +x codecov
-    - ./codecov -f "/home/travis/build/danliris/com.danliris.service.Core/Com.Danliris.Service.Core.Test/coverage.info"
+    - ./codecov -f "/home/travis/build/danliris/com.danliris.service.Core/Com.DanLiris.Service.Core.Test/coverage.info"
     - if [ "$TRAVIS_PULL_REQUEST" == false ]; then
       docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
 
