@@ -11,7 +11,7 @@ using Xunit;
 namespace Com.DanLiris.Service.Core.Test.Controllers.IncomeTax
 {
     [Collection("TestFixture Collection")]
-    class IncomeTaxBasicTest
+    public class IncomeTaxBasicTest
     {
         private const string URI = "v1/master/income-taxes";
 
