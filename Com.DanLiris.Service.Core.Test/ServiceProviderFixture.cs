@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Com.DanLiris.Service.Core.Test
@@ -14,10 +15,13 @@ namespace Com.DanLiris.Service.Core.Test
         public IServiceProvider ServiceProvider { get; private set; }
         public ServiceProviderFixture()
         {
-            string projectPath = AppDomain.CurrentDomain.BaseDirectory.Split(new String[] { @"bin\" }, StringSplitOptions.None)[0];
             IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(projectPath)
-                .AddJsonFile("appsettings.json")
+                .AddInMemoryCollection(new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>("Secret", "DANLIRISTESTENVIRONMENT"),
+                    new KeyValuePair<string, string>("ASPNETCORE_ENVIRONMENT", "Test"),
+                    new KeyValuePair<string, string>("DefaultConnection", "Server=localhost,1401;Database=com.danliris.db.core.service.test;User=sa;password=Standar123.;MultipleActiveResultSets=true;")
+                })
                 .Build();
 
             string connectionString = configuration.GetConnectionString("DefaultConnection") ?? configuration["DefaultConnection"];
