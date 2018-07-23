@@ -48,12 +48,12 @@ namespace Com.Danliris.Service.Core.Test.Helpers
             TModel similarTestModel = new TModel();
             foreach (string arg in this.CreateAttrAssertions)
             {
-                string createAttr = (string)model.GetType().GetProperty(arg).GetValue(model, null);
+                var createAttr = model.GetType().GetProperty(arg).GetValue(model, null);
                 similarTestModel.GetType().GetProperty(arg).SetValue(similarTestModel, createAttr);
             }
             foreach (string arg in this.ExistAttrCriteria)
             {
-                string existAttr = (string)model.GetType().GetProperty(arg).GetValue(model, null);
+                var existAttr = model.GetType().GetProperty(arg).GetValue(model, null);
                 similarTestModel.GetType().GetProperty(arg).SetValue(similarTestModel, existAttr);
             }
             return similarTestModel;
