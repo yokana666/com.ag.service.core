@@ -23,7 +23,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models.Account_and_Roles
 
             if (service.DbContext.Set<Role>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Code.Equals(this.Code)) > 0) /* Unique */
             {
-                yield return new ValidationResult("Code already exists", new List<string> { "code" });
+                yield return new ValidationResult("Code already exists", new List<string> { "Code" });
             }
         }
     }

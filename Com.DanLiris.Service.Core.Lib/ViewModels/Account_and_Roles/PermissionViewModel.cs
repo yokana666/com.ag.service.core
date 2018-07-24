@@ -7,8 +7,8 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels.Account_and_Roles
 {
     public class PermissionViewModel : BasicViewModel
     {
-        public UnitViewModel Unit { get; set; }
-        public int Permission { get; set; }
+        public UnitViewModel unit { get; set; }
+        public int permission { get; set; }
         public int RoleId { get; set; }
     }
 }

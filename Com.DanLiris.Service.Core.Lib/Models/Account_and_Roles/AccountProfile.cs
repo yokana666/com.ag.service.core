@@ -12,6 +12,6 @@ namespace Com.DanLiris.Service.Core.Lib.Models.Account_and_Roles
         public string Gender { get; set; }
 
         public int AccountId { get; set; }
-        public virtual Account Account { get; set; }
+        //public virtual Account Account { get; set; }
     }
 }

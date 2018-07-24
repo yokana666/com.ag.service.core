@@ -24,7 +24,7 @@ namespace Com.DanLiris.Service.Core.WebApi
         {
             Configuration = configuration;
         }
-        
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -37,7 +37,7 @@ namespace Com.DanLiris.Service.Core.WebApi
             services
                 .AddDbContext<CoreDbContext>(options => options.UseSqlServer(connectionString))
                 .AddScoped<AccountBankService>()
-                .AddScoped<AccountService>()
+                //.AddScoped<AccountService>()
                 .AddScoped<DesignMotiveService>()
                 .AddScoped<BudgetService>()
                 .AddScoped<BuyerService>()
@@ -60,9 +60,14 @@ namespace Com.DanLiris.Service.Core.WebApi
                 .AddScoped<YarnMaterialService>()
                 .AddScoped<MaterialConstructionService>()
                 .AddScoped<ProcessTypeService>()
-                .AddScoped<FinishTypeService>();
+                .AddScoped<FinishTypeService>()
+                .AddScoped<StandardTestsService>()
+                .AddScoped<LampStandardService>()
+                .AddScoped<PermissionService>()
+                .AddScoped<ColorTypeService>()
+                .AddScoped<RolesService>();
 
-            services    
+            services
                 .AddApiVersioning(options =>
                 {
                     options.ReportApiVersions = true;

@@ -33,7 +33,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         {
             ProcessTypeViewModel viewModel = new ProcessTypeViewModel();
             PropertyCopier<ProcessType, ProcessTypeViewModel>.Copy(model, viewModel);
-
+            viewModel.OrderType = new OrderTypeViewModel();
             viewModel.OrderType.Id = model.OrderTypeId;
             viewModel.OrderType.Code = model.OrderTypeCode;
             viewModel.OrderType.Name = model.OrderTypeName;
@@ -107,6 +107,19 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             int TotalData = pageable.TotalCount;
 
             return Tuple.Create(Data, TotalData, OrderDictionary, SelectedFields);
+        }
+
+        public override void OnCreating(ProcessType model)
+        {
+            CodeGenerator codeGenerator = new CodeGenerator();
+
+            do
+            {
+                model.Code = codeGenerator.GenerateCode();
+            }
+            while (this.DbSet.Any(d => d.Code.Equals(model.Code)));
+
+            base.OnCreating(model);
         }
     }
 }
