@@ -43,6 +43,10 @@ namespace Com.DanLiris.Service.Core.Test
                 .AddTransient<MaterialConstructionServiceDataUtil>()
                 .AddTransient<IncomeTaxService>(provider => new IncomeTaxService(provider))
                 .AddTransient<IncomeTaxDataUtil>()
+                .AddTransient<LampStandardService>(provider => new LampStandardService(provider))
+                .AddTransient<LampStandardDataUtil>()
+                .AddTransient<StandardTestsService>(provider => new StandardTestsService(provider))
+                .AddTransient<StandardTestDataUtil>()
                 .BuildServiceProvider();
 
             CoreDbContext dbContext = ServiceProvider.GetService<CoreDbContext>();
