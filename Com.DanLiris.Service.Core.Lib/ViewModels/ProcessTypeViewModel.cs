@@ -12,7 +12,7 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
         public string Remark { get; set; }
 
         /*order type*/
-        public OrderTypeViewModel OrderType { get; set; }
+        public virtual OrderTypeViewModel OrderType { get; set; }
 
     }
 }

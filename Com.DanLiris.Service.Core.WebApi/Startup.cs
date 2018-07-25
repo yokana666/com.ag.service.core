@@ -6,8 +6,6 @@ using Com.DanLiris.Service.Core.Lib;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Com.DanLiris.Service.Core.Lib.Services;
-using IdentityModel;
-using IdentityServer4.AccessTokenValidation;
 using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;

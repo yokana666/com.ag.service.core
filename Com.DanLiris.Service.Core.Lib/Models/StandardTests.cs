@@ -26,7 +26,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
             if (validationResult.Count.Equals(0))
             {
                 /* Service Validation */
-                FinishTypeService service = (FinishTypeService)validationContext.GetService(typeof(FinishTypeService));
+                StandardTestsService service = (StandardTestsService)validationContext.GetService(typeof(StandardTestsService));
 
                 if (service.DbContext.Set<FinishType>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Code.Equals(this.Code)) > 0) /* Code Unique */
                     validationResult.Add(new ValidationResult("Code already exists", new List<string> { "Code" }));
