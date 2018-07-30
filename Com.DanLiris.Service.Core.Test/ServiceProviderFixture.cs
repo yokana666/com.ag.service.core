@@ -47,6 +47,7 @@ namespace Com.DanLiris.Service.Core.Test
                 .AddTransient<LampStandardDataUtil>()
                 .AddTransient<StandardTestsService>(provider => new StandardTestsService(provider))
                 .AddTransient<StandardTestDataUtil>()
+                .AddTransient<DivisionService>(provider => new DivisionService(provider))
                 .BuildServiceProvider();
 
             CoreDbContext dbContext = ServiceProvider.GetService<CoreDbContext>();

@@ -262,3 +262,6 @@ __pycache__/
 
 */appsettings.json
 Com.DanLiris.Service.Core.WebApi/Properties/launchSettings.json
+
+### VisualStudioCode ###
+.vscode/*
