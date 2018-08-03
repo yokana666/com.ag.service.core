@@ -10,9 +10,14 @@ namespace Com.DanLiris.Service.Core.Test.Services.MaterialConstruction
     [Collection("ServiceProviderFixture Collection")]
     public class MaterialConstructionBasicTest : BasicServiceTest<CoreDbContext, MaterialConstructionService, Models.MaterialConstruction>
     {
-        private static readonly string[] createAttrAssertions = { "Code", "Name" };
-        private static readonly string[] updateAttrAssertions = { "Code", "Name" };
-        private static readonly string[] existAttrCriteria = { "Code" };
+        //private static readonly string[] createAttrAssertions = { "Code", "Name" };
+        //private static readonly string[] updateAttrAssertions = { "Code", "Name" };
+        //private static readonly string[] existAttrCriteria = { "Code" };
+
+        private static readonly string[] createAttrAssertions = { "Name" };
+        private static readonly string[] updateAttrAssertions = { "Name" };
+        private static readonly string[] existAttrCriteria = { "Name" };
+
         public MaterialConstructionBasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
         {
         }

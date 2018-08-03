@@ -94,5 +94,22 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
             return Tuple.Create(Data, TotalData, OrderDictionary, SelectedFields);
         }
+
+        public override void OnCreating(OrderType model)
+        {
+            CodeGenerator codeGenerator = new CodeGenerator();
+
+            do
+            {
+                model.Code = codeGenerator.GenerateCode();
+            }
+            while (this.DbSet.Any(d => d.Code.Equals(model.Code)));
+
+            base.OnCreating(model);
+            model._CreatedAgent = "core-service";
+            model._CreatedBy = this.Username;
+            model._LastModifiedAgent = "core-service";
+            model._LastModifiedBy = this.Username;
+        }
     }
 }

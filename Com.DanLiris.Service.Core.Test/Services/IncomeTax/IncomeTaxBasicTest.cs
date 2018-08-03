@@ -14,7 +14,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.IncomeTax
     {
         private static readonly string[] createAttrAssertions = { "Rate", "Name" };
         private static readonly string[] updateAttrAssertions = { "Rate", "Name" };
-        private static readonly string[] existAttrCriteria = { "Name" };
+        private static readonly string[] existAttrCriteria = { "Rate", "Name" };
 
         public IncomeTaxBasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
         {
@@ -34,11 +34,12 @@ namespace Com.DanLiris.Service.Core.Test.Services.IncomeTax
 
         public override Models.IncomeTax GenerateTestModel()
         {
+            string guid = Guid.NewGuid().ToString();
 
             return new Models.IncomeTax()
             {
                 Rate = 3,
-                Name = "TEST IncomeTax",
+                Name = string.Format("TEST IncomeTax {0}", guid),
                 Description="test"
             };
         }

@@ -316,5 +316,11 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
             return Tuple.Create(Valid, ErrorList);
         }
+
+        public List<Product> GetByIds(List<string> ids)
+        {
+            return this.DbSet.Where(p => ids.Contains(p.Id.ToString()) && p._IsDeleted==false)
+                .ToList();
+        }
     }
 }
