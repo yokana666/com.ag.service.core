@@ -1,0 +1,10 @@
+FROM microsoft/aspnetcore-build:2.0.2
+WORKDIR /app
+
+COPY Com.DanLiris.Service.Core.Lib/*.csproj ./Com.DanLiris.Service.Core.Lib/
+COPY Com.DanLiris.Service.Core.WebApi/*.csproj ./Com.DanLiris.Service.Core.WebApi/
+RUN dotnet restore ./Com.DanLiris.Service.Core.WebApi/
+
+COPY Com.DanLiris.Service.Core.Lib/. ./Com.DanLiris.Service.Core.Lib/
+COPY Com.DanLiris.Service.Core.WebApi/. ./Com.DanLiris.Service.Core.WebApi/
+RUN dotnet publish ./Com.DanLiris.Service.Core.WebApi/ --output /out/ --configuration Release
