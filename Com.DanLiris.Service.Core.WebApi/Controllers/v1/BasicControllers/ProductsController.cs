@@ -29,6 +29,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
         {
             try
             {
+                
                 service.Username = User.Claims.Single(p => p.Type.Equals("username")).Value;
 
                 List<Product> Data = service.GetByIds(productList);
