@@ -34,7 +34,7 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
             string guid = Guid.NewGuid().ToString();
             Product TestData = new Product
             {
-                Code = guid,
+                Code = "Code",
                 Name = string.Format("TEST {0}", guid),
                 ProductionOrderNo = "ProductionOrderNo",
                 CurrencySymbol = "curr",
