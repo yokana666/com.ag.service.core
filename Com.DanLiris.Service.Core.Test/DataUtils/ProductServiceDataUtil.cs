@@ -23,6 +23,9 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
 
             Data.Name = "";
             Data.Code = "";
+            Data.Description = "desc";
+            Data.Price = 0;
+            Data.Tags = "tags";
             return Data;
         }
 
@@ -31,8 +34,34 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
             string guid = Guid.NewGuid().ToString();
             Product TestData = new Product
             {
-                Name = "TEST",
-                Code = guid
+                Code = guid,
+                Name = string.Format("TEST {0}", guid),
+                ProductionOrderNo = "ProductionOrderNo",
+                CurrencySymbol = "curr",
+                Active = true,
+                BuyerAddress = "buyerAddress",
+                BuyerName = "bname",
+                BuyerId = 1,
+                ColorName = "color",
+                Construction = "cons",
+                CurrencyCode = "currcode",
+                CurrencyId = 1,
+                Description = "desc",
+                DesignCode = "dcode",
+                DesignNumber = "dnum",
+                Grade = "grade",
+                Length = 0,
+                Lot = "lot",
+                OrderTypeCode = "otc",
+                OrderTypeId = 1,
+                OrderTypeName = "otn",
+                Price = 0,
+                ProductionOrderId = 1,
+                Tags = "tags",
+                UomId = 1,
+                UomUnit = "uom",
+                Weight = 0,
+                UId = guid
             };
 
             return TestData;

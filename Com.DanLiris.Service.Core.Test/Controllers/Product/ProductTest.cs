@@ -34,7 +34,13 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Product
             return new ProductViewModel()
             {
                 Name = string.Format("TEST {0}", guid),
-                Code = "test"
+                Code = "test",
+                Active = true,
+                Description = "desc",
+                Price = 0,
+                Tags = "tags",
+                UOM = new ProductUomViewModel { Unit = "unit", Id = 1 },
+                Currency = new ProductCurrencyViewModel { Symbol = "rp", Code = "idr", Id = 1 },
             };
         }
 
