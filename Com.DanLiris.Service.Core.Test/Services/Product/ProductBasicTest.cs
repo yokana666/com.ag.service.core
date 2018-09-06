@@ -14,7 +14,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
     {
         private static readonly string[] createAttrAssertions = { "Name" };
         private static readonly string[] updateAttrAssertions = { "Name" };
-        private static readonly string[] existAttrCriteria = { "Code" };
+        private static readonly string[] existAttrCriteria = { "Name" };
 
         public ProductBasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
         {
