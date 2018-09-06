@@ -12,9 +12,9 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
     [Collection("ServiceProviderFixture Collection")]
     public class ProductBasicTest : BasicServiceTest<CoreDbContext, ProductService, Models.Product>
     {
-        private static readonly string[] createAttrAssertions = { "Code" };
-        private static readonly string[] updateAttrAssertions = { "Code" };
-        private static readonly string[] existAttrCriteria = { "Code" };
+        private static readonly string[] createAttrAssertions = { "code" };
+        private static readonly string[] updateAttrAssertions = { "code" };
+        private static readonly string[] existAttrCriteria = { "code" };
 
         public ProductBasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
         {
@@ -110,7 +110,6 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
                 UomId = 1,
                 UomUnit = "uom",
                 Weight = 1,
-                UId = guid,
             };
         }
     }
