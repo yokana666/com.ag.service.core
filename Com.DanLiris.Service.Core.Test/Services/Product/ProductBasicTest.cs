@@ -14,7 +14,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
     {
         private static readonly string[] createAttrAssertions = { "Name" };
         private static readonly string[] updateAttrAssertions = { "Name" };
-        private static readonly string[] existAttrCriteria = { "Name" };
+        private static readonly string[] existAttrCriteria = { "Code" };
 
         public ProductBasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
         {
@@ -110,7 +110,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
                 UomId = 1,
                 UomUnit = "uom",
                 Weight = 1,
-                UId = guid
+                UId = guid,
             };
         }
     }
