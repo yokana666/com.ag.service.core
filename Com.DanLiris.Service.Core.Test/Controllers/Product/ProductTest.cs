@@ -8,10 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Com.DanLiris.Service.Core.Test.Controllers.Packing
+namespace Com.DanLiris.Service.Core.Test.Controllers.Product
 {
     [Collection("TestFixture Collection")]
-    public class ProductBasicTest
+    public class ProductTest
     {
         private const string URI = "v1/master/products";
 
@@ -22,7 +22,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Packing
             get { return this.TestFixture.Client; }
         }
 
-        public ProductBasicTest(TestServerFixture fixture)
+        public ProductTest(TestServerFixture fixture)
         {
             TestFixture = fixture;
         }
