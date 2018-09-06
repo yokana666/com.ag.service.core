@@ -99,17 +99,17 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
                 DesignCode = "dcode",
                 DesignNumber = "dnum",
                 Grade = "grade",
-                Length = 0,
+                Length = 1,
                 Lot = "lot",
                 OrderTypeCode = "otc",
                 OrderTypeId = 1,
                 OrderTypeName = "otn",
-                Price = 0,
+                Price = 12,
                 ProductionOrderId = 1,
                 Tags = "tags",
                 UomId = 1,
                 UomUnit = "uom",
-                Weight = 0,
+                Weight = 1,
                 UId = guid
             };
         }
