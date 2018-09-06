@@ -74,16 +74,16 @@ namespace Com.DanLiris.Service.Core.Lib.Models
             List<ValidationResult> validationResult = new List<ValidationResult>();
 
             if (string.IsNullOrWhiteSpace(this.Code))
-                validationResult.Add(new ValidationResult("Code is required", new List<string> { "Code" }));
+                validationResult.Add(new ValidationResult("Code is required", new List<string> { "code" }));
 
             if (string.IsNullOrWhiteSpace(this.Name))
-                validationResult.Add(new ValidationResult("Name is required", new List<string> { "Name" }));
+                validationResult.Add(new ValidationResult("Name is required", new List<string> { "name" }));
 
             if(this.CurrencyId.Equals(null))
-                validationResult.Add(new ValidationResult("Currency is required", new List<string> { "Currency" }));
+                validationResult.Add(new ValidationResult("Currency is required", new List<string> { "currency" }));
 
             if (this.UomId.Equals(null))
-                validationResult.Add(new ValidationResult("Uom is required", new List<string> { "Uom" }));
+                validationResult.Add(new ValidationResult("Uom is required", new List<string> { "uom" }));
 
             if (validationResult.Count.Equals(0))
             {
@@ -91,7 +91,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
                 BudgetService service = (BudgetService)validationContext.GetService(typeof(BudgetService));
 
                 if (service.DbContext.Set<Budget>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Code.Equals(this.Code)) > 0) /* Code Unique */
-                    validationResult.Add(new ValidationResult("Code already exists", new List<string> { "Code" }));
+                    validationResult.Add(new ValidationResult("Code already exists", new List<string> { "code" }));
             }
 
             return validationResult;

@@ -4,6 +4,7 @@ using Com.DanLiris.Service.Core.Lib.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Sdk;
 using Models = Com.DanLiris.Service.Core.Lib.Models;
@@ -11,7 +12,6 @@ using Models = Com.DanLiris.Service.Core.Lib.Models;
 namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
 {
     [Collection("ServiceProviderFixture Collection")]
-    [XunitTestCaseDiscoverer("DynamicSkipExample.XunitExtensions.SkippableFactDiscoverer", "DynamicSkipExample")]
     public class ProductBasicTest : BasicServiceTest<CoreDbContext, ProductService, Models.Product>
     {
         private static readonly string[] createAttrAssertions = { "Code" };
@@ -113,6 +113,12 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
                 UomUnit = "uom",
                 Weight = 1,
             };
+        }
+
+        [SkippableFact]
+        public override async Task TestCreateModel_Exist()
+        {
+            Skip.If(true);
         }
     }
 }
