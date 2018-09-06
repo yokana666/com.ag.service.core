@@ -14,7 +14,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
     {
         private static readonly string[] createAttrAssertions = { "Name" };
         private static readonly string[] updateAttrAssertions = { "Name" };
-        private static readonly string[] existAttrCriteria = { "Name" };
+        private static readonly string[] existAttrCriteria = { "Code" };
 
         public ProductBasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
         {
@@ -83,7 +83,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
 
             return new Models.Product()
             {
-                Code = guid,
+                Code = "Code Test",
                 Name = string.Format("TEST {0}", guid),
                 ProductionOrderNo = "ProductionOrderNo",
                 CurrencySymbol = "curr",
