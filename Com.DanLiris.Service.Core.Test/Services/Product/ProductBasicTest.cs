@@ -5,11 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
+using Xunit.Sdk;
 using Models = Com.DanLiris.Service.Core.Lib.Models;
 
 namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
 {
     [Collection("ServiceProviderFixture Collection")]
+    [XunitTestCaseDiscoverer("DynamicSkipExample.XunitExtensions.SkippableFactDiscoverer", "DynamicSkipExample")]
     public class ProductBasicTest : BasicServiceTest<CoreDbContext, ProductService, Models.Product>
     {
         private static readonly string[] createAttrAssertions = { "Code" };
