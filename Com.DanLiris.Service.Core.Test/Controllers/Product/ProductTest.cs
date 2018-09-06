@@ -34,7 +34,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Product
             return new ProductViewModel()
             {
                 Name = string.Format("TEST {0}", guid),
-                Code = guid,
+                Code = "code",
                 Active = true,
                 Description = "desc",
                 Price = 12,
