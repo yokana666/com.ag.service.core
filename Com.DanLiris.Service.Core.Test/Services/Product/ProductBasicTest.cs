@@ -83,7 +83,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
 
             return new Models.Product()
             {
-                Code = "Code Test",
+                Code = guid,
                 Name = string.Format("TEST {0}", guid),
                 ProductionOrderNo = "ProductionOrderNo",
                 CurrencySymbol = "curr",
