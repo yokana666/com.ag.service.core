@@ -28,16 +28,16 @@ namespace Com.DanLiris.Service.Core.Lib.Models
             List<ValidationResult> validationResult = new List<ValidationResult>();
 
             if (string.IsNullOrWhiteSpace(this.Code))
-                validationResult.Add(new ValidationResult("Code is required", new List<string> { "code" }));
+                validationResult.Add(new ValidationResult("Code is required", new List<string> { "Code" }));
 
             if (string.IsNullOrWhiteSpace(this.Name))
-                validationResult.Add(new ValidationResult("Code is required", new List<string> { "name" }));
+                validationResult.Add(new ValidationResult("Name is required", new List<string> { "Name" }));
 
             if (string.IsNullOrWhiteSpace(this.CodeRequirement))
-                validationResult.Add(new ValidationResult("Code is required", new List<string> { "codeReq" }));
+                validationResult.Add(new ValidationResult("CodeRequirement is required", new List<string> { "CodeRequirement" }));
 
             if (this.UomId.Equals(null))
-                validationResult.Add(new ValidationResult("Uom is required", new List<string> { "uom" }));
+                validationResult.Add(new ValidationResult("Uom is required", new List<string> { "UomId" }));
 
             if (validationResult.Count.Equals(0))
             {
@@ -46,7 +46,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 
                 if (service.DbContext.Set<GarmentCategory>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Name.Equals(this.Name) ) > 0) /* Unique */
                 {
-                    validationResult.Add(new ValidationResult("Name already exists", new List<string> { "name" }));
+                    validationResult.Add(new ValidationResult("Name already exists", new List<string> { "Name" }));
                 }
             }
 

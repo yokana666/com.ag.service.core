@@ -25,7 +25,6 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentCategoryTests
             model.Code = string.Empty;
             model.Name = string.Empty;
             model.UomId = null;
-            model.UomUnit = string.Empty;
             model.CodeRequirement = string.Empty;
         }
 
@@ -34,7 +33,6 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentCategoryTests
             model.Code = string.Empty;
             model.Name = string.Empty;
             model.UomId = null;
-            model.UomUnit = string.Empty;
             model.CodeRequirement = string.Empty;
         }
 
