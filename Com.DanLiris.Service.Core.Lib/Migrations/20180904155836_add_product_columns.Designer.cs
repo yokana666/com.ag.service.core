@@ -11,9 +11,10 @@ using System;
 namespace Com.DanLiris.Service.Core.Lib.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    partial class CoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180904155836_add_product_columns")]
+    partial class add_product_columns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -226,16 +227,6 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     b.Property<double>("CurrencyRate");
 
                     b.Property<string>("CurrencySymbol");
-
-                    b.Property<string>("DivisionCode");
-
-                    b.Property<int?>("DivisionId");
-
-                    b.Property<string>("DivisionName");
-
-                    b.Property<string>("Fax");
-
-                    b.Property<string>("Phone");
 
                     b.Property<string>("SwiftCode")
                         .HasMaxLength(100);
