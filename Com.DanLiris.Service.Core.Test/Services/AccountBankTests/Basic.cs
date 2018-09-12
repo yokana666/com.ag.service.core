@@ -43,9 +43,9 @@ namespace Com.DanLiris.Service.Core.Test.Services.AccountBankTests
             return new AccountBank()
             {
                 Code = guid,
-                AccountName = "TEST BANK",
-                BankName = "TEST BANK",
-                AccountNumber = "TEST BANK",
+                AccountName = "TEST BANK" + guid,
+                BankName = "TEST BANK" + guid,
+                AccountNumber = "TEST BANK" + guid,
                 BankAddress = "TEST BANK",
                 CurrencyCode = "TEST BANK",
                 CurrencyDescription = "TEST BANK",
