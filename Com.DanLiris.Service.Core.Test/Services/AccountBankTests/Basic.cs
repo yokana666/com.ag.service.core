@@ -12,9 +12,9 @@ namespace Com.DanLiris.Service.Core.Test.Services.AccountBankTests
     [Collection("ServiceProviderFixture Collection")]
     public class Basic : BasicServiceTest<CoreDbContext, AccountBankService, AccountBank>
     {
-        private static readonly string[] createAttrAssertions = { "Code", "AccountName" };
-        private static readonly string[] updateAttrAssertions = { "Code", "AccountName" };
-        private static readonly string[] existAttrCriteria = { "Code" };
+        private static readonly string[] createAttrAssertions = { "BankName", "AccountName","AccountNumber","CurrencyId" };
+        private static readonly string[] updateAttrAssertions = { "BankName", "AccountName", "AccountNumber", "CurrencyId" };
+        private static readonly string[] existAttrCriteria = { "BankName",  "AccountNumber" };
 
         public Basic(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
         {
@@ -22,14 +22,18 @@ namespace Com.DanLiris.Service.Core.Test.Services.AccountBankTests
 
         public override void EmptyCreateModel(AccountBank model)
         {
-            model.Code = string.Empty;
+            model.BankName = string.Empty;
             model.AccountName = string.Empty;
+            model.AccountNumber = string.Empty;
+            model.CurrencyId = null;
         }
 
         public override void EmptyUpdateModel(AccountBank model)
         {
-            model.Code = string.Empty;
+            model.BankName = string.Empty;
             model.AccountName = string.Empty;
+            model.AccountNumber = string.Empty;
+            model.CurrencyId = null;
         }
 
         public override AccountBank GenerateTestModel()
@@ -52,6 +56,8 @@ namespace Com.DanLiris.Service.Core.Test.Services.AccountBankTests
                 CurrencySymbol = "TEST BANK",
                 CurrencyRate=1,
                 SwiftCode = "TEST BANK",
+                DivisionId=1,
+                CurrencyId=1
             };
         }
     }
