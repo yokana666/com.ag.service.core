@@ -42,6 +42,13 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 
         public string CurrencyDescription { get; set; }
 
+        //Division
+        public string DivisionName { get; set; }
+        public string DivisionCode { get; set; }
+        public int? DivisionId { get; set; }
+        public string Phone { get; set; }
+        public string Fax { get; set; }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             List<ValidationResult> validationResult = new List<ValidationResult>();

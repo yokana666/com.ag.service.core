@@ -58,7 +58,8 @@ namespace Com.DanLiris.Service.Core.Test
                         .AddTransient<IncomeTaxDataUtil>()
                         .AddTransient<LampStandardDataUtil>()
                         .AddTransient<StandardTestDataUtil>()
-                        .AddTransient<ProductServiceDataUtil>();
+                        .AddTransient<ProductServiceDataUtil>()
+                        .AddTransient<AccountBankDataUtil>();
                 })
                 .UseStartup<Startup>();
 

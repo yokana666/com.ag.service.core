@@ -11,9 +11,10 @@ using System;
 namespace Com.DanLiris.Service.Core.Lib.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    partial class CoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180912023305_updateAccountBank")]
+    partial class updateAccountBank
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1174,22 +1175,8 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.Property<bool>("Active");
 
-                    b.Property<string>("BuyerAddress")
-                        .HasMaxLength(250);
-
-                    b.Property<int>("BuyerId");
-
-                    b.Property<string>("BuyerName")
-                        .HasMaxLength(250);
-
                     b.Property<string>("Code")
                         .HasMaxLength(100);
-
-                    b.Property<string>("ColorName")
-                        .HasMaxLength(250);
-
-                    b.Property<string>("Construction")
-                        .HasMaxLength(300);
 
                     b.Property<string>("CurrencyCode");
 
@@ -1199,36 +1186,9 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<string>("DesignCode")
-                        .HasMaxLength(250);
-
-                    b.Property<string>("DesignNumber")
-                        .HasMaxLength(250);
-
-                    b.Property<string>("Grade")
-                        .HasMaxLength(100);
-
-                    b.Property<int>("Length");
-
-                    b.Property<string>("Lot")
-                        .HasMaxLength(250);
-
                     b.Property<string>("Name");
 
-                    b.Property<string>("OrderTypeCode")
-                        .HasMaxLength(25);
-
-                    b.Property<int>("OrderTypeId");
-
-                    b.Property<string>("OrderTypeName")
-                        .HasMaxLength(25);
-
                     b.Property<decimal>("Price");
-
-                    b.Property<int>("ProductionOrderId");
-
-                    b.Property<string>("ProductionOrderNo")
-                        .HasMaxLength(25);
 
                     b.Property<string>("Tags")
                         .HasMaxLength(500);
@@ -1240,8 +1200,6 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.Property<string>("UomUnit")
                         .HasMaxLength(500);
-
-                    b.Property<int>("Weight");
 
                     b.Property<string>("_CreatedAgent")
                         .IsRequired()
