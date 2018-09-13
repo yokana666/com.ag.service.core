@@ -18,5 +18,10 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
         public string SwiftCode { get; set; }
 
         public CurrencyViewModel Currency { get; set; }
+
+        public DivisionViewModel Division { get; set; }
+
+        public string Phone { get; set; }
+        public string Fax { get; set; }
     }
 }

@@ -100,6 +100,12 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 Symbol = accountBank.CurrencySymbol
             };
 
+            accountBankVM.Division = new DivisionViewModel
+            {
+                Id = (int)accountBank.DivisionId,
+                Code = accountBank.DivisionCode,
+                Name= accountBank.DivisionName
+            };
             return accountBankVM;
         }
 
@@ -121,6 +127,19 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 accountBank.CurrencyCode = null;
                 accountBank.CurrencyRate = 0;
                 accountBank.CurrencySymbol = null;
+            }
+
+            if (!Equals(accountBankVM.Division, null))
+            {
+                accountBank.DivisionId = accountBankVM.Division.Id;
+                accountBank.DivisionCode = accountBankVM.Division.Code;
+                accountBank.DivisionName = accountBankVM.Division.Name;
+            }
+            else
+            {
+                accountBank.DivisionId = null;
+                accountBank.DivisionCode = null;
+                accountBank.DivisionName = null;
             }
 
             return accountBank;

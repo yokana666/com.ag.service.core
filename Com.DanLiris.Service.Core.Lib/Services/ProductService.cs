@@ -1,5 +1,4 @@
 ﻿using Com.DanLiris.Service.Core.Lib.Models;
-using Com.Moonlay.NetCore.Lib.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +13,14 @@ using System.Dynamic;
 using Com.DanLiris.Service.Core.Lib.Interfaces;
 using CsvHelper.TypeConversion;
 using Microsoft.Extensions.Primitives;
+using System.Threading.Tasks;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
     public class ProductService : BasicService<CoreDbContext, Product>, IBasicUploadCsvService<ProductViewModel>, IMap<Product, ProductViewModel>
     {
+        private const string UserAgent = "core-product-service";
+
         public ProductService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
         }
@@ -321,6 +323,85 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         {
             return this.DbSet.Where(p => ids.Contains(p.Id.ToString()) && p._IsDeleted==false)
                 .ToList();
+        }
+
+        public async Task<bool> CreateProduct(PackingModel packings)
+        {
+            var productNames = (from packingDetail in packings.PackingDetails
+                                select string.Format("{0}/{1}/{2}/{3}/{4}/{5}", packings.ProductionOrderNo, packings.ColorName, packings.Construction,
+                                packingDetail.Lot, packingDetail.Grade, packingDetail.Length) +
+                                (string.IsNullOrWhiteSpace(packingDetail.Remark) ? "" : string.Format("/{0}", packingDetail.Remark)))
+                                .Except((from product in DbSet where product._IsDeleted == false select product.Name));
+            if (productNames.Count() > 0)
+            {
+                var uomId = (from uom in DbContext.UnitOfMeasurements
+                             where uom.Unit == packings.PackingUom && uom._IsDeleted == false
+                             select uom.Id).FirstOrDefault();
+                if (uomId == 0)
+                {
+                    Uom uom = new Uom
+                    {
+                        Active = true,
+                        Unit = packings.PackingUom,
+                        _IsDeleted = false,
+                        _CreatedBy = this.Username,
+                        _CreatedUtc = DateTimeOffset.Now.DateTime,
+                        _CreatedAgent = UserAgent
+                    };
+                    await DbContext.UnitOfMeasurements.AddAsync(uom);
+                    await DbContext.SaveChangesAsync();
+
+                    uomId = uom.Id;
+                }
+                var tags = string.Format("sales contract #{0}", packings.SalesContractNo);
+                CodeGenerator codeGenerator = new CodeGenerator();
+                IEnumerable<Product> products = from packingDetail in packings.PackingDetails
+                                                where productNames.Contains(string.Format("{0}/{1}/{2}/{3}/{4}/{5}", packings.ProductionOrderNo, packings.ColorName, packings.Construction,
+                                                    packingDetail.Lot, packingDetail.Grade, packingDetail.Length) +
+                                                    (string.IsNullOrWhiteSpace(packingDetail.Remark) ? "" : string.Format("/{0}", packingDetail.Remark)))
+                                                select new Product
+                                                {
+                                                    Active = true,
+                                                    Code = codeGenerator.GenerateCode(),
+                                                    Name = string.Format("{0}/{1}/{2}/{3}/{4}/{5}", packings.ProductionOrderNo, packings.ColorName, packings.Construction,
+                                                        packingDetail.Lot, packingDetail.Grade, packingDetail.Length) +
+                                                        (string.IsNullOrWhiteSpace(packingDetail.Remark) ? "" : string.Format("/{0}", packingDetail.Remark)),
+                                                    UomId = uomId,
+                                                    UomUnit = packings.PackingUom,
+                                                    Tags = tags,
+                                                    ProductionOrderId = packings.ProductionOrderId,
+                                                    ProductionOrderNo = packings.ProductionOrderNo,
+                                                    DesignCode = packings.DesignCode,
+                                                    DesignNumber = packings.DesignNumber,
+                                                    OrderTypeId = packings.OrderTypeId,
+                                                    OrderTypeCode = packings.OrderTypeCode,
+                                                    OrderTypeName = packings.OrderTypeName,
+                                                    BuyerId = packings.BuyerId,
+                                                    BuyerName = packings.BuyerName,
+                                                    BuyerAddress = packings.BuyerAddress,
+                                                    ColorName = packings.ColorName,
+                                                    Construction = packings.Construction,
+                                                    Lot = packingDetail.Lot,
+                                                    Grade = packingDetail.Grade,
+                                                    Weight = packingDetail.Weight,
+                                                    Length = packingDetail.Length,
+                                                    _IsDeleted = false,
+                                                    _CreatedBy = this.Username,
+                                                    _CreatedUtc = DateTimeOffset.Now.DateTime,
+                                                    _CreatedAgent = UserAgent
+                                                };
+                await DbContext.AddRangeAsync(products);
+                var rowAffected = await DbContext.SaveChangesAsync();
+                if(rowAffected > 0)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

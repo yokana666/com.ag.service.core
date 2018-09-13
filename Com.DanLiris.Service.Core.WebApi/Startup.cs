@@ -44,6 +44,8 @@ namespace Com.DanLiris.Service.Core.WebApi
                 .AddScoped<DivisionService>()
                 .AddScoped<DesignMotiveService>()
                 .AddScoped<GarmentCurrencyService>()
+                .AddScoped<GarmentBuyerService>()
+                .AddScoped<GarmentComodityService>()
                 .AddScoped<HolidayService>()
                 .AddScoped<ProductService>()
                 .AddScoped<StorageService>()
@@ -63,6 +65,7 @@ namespace Com.DanLiris.Service.Core.WebApi
                 .AddScoped<LampStandardService>()
                 .AddScoped<PermissionService>()
                 .AddScoped<ColorTypeService>()
+                .AddScoped<GarmentCategoryService>()
                 .AddScoped<RolesService>();
 
             services
