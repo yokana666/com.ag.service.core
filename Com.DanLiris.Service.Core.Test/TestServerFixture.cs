@@ -60,7 +60,8 @@ namespace Com.DanLiris.Service.Core.Test
                         .AddTransient<StandardTestDataUtil>()
                         .AddTransient<GarmentCategoryDataUtil>()
                         .AddTransient<ProductServiceDataUtil>()
-                        .AddTransient<AccountBankDataUtil>();
+                        .AddTransient<AccountBankDataUtil>()
+                        .AddTransient<GarmentBuyerDataUtil>();
                 })
                 .UseStartup<Startup>();
 

@@ -25,6 +25,10 @@ namespace Com.DanLiris.Service.Core.Lib
 
         public DbSet<GarmentCurrency> GarmentCurrencies { get; set; }
 
+        public DbSet<GarmentBuyer> GarmentBuyers { get; set; }
+
+        public DbSet<GarmentComodity> GarmentComodities { get; set; }
+
         public DbSet<Holiday> Holidays { get; set; }
 
         public DbSet<Product> Products { get; set; }
