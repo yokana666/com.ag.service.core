@@ -78,8 +78,8 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.AccountBankControllerTests
         public async Task Post()
         {
 
-            AccountBankViewModel budgetVM = GenerateTestModel();
-            var response = await this.Client.PostAsync(URI, new StringContent(JsonConvert.SerializeObject(budgetVM).ToString(), Encoding.UTF8, "application/json"));
+            AccountBankViewModel bankVM = GenerateTestModel();
+            var response = await this.Client.PostAsync(URI, new StringContent(JsonConvert.SerializeObject(bankVM).ToString(), Encoding.UTF8, "application/json"));
 
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         }
