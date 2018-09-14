@@ -19,9 +19,10 @@ namespace Com.DanLiris.Service.Core.Test
                 .AddInMemoryCollection(new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("Secret", "DANLIRISTESTENVIRONMENT"),
-                    new KeyValuePair<string, string>("ASPNETCORE_ENVIRONMENT", "Test"),
-                    new KeyValuePair<string, string>("DefaultConnection", "Server=localhost,1401;Database=com.danliris.db.core.service.test;User=sa;password=Standar123.;MultipleActiveResultSets=true;")
-                })
+					new KeyValuePair<string, string>("ASPNETCORE_ENVIRONMENT", "Test"),
+					new KeyValuePair<string, string>("DefaultConnection", "Server=localhost,1401;Database=com.danliris.db.core.service.test;User=sa;password=Standar123.;MultipleActiveResultSets=true;")
+
+				})
                 .Build();
 
             string connectionString = configuration.GetConnectionString("DefaultConnection") ?? configuration["DefaultConnection"];
@@ -56,7 +57,9 @@ namespace Com.DanLiris.Service.Core.Test
                 .AddTransient<GarmentCategoryService>(provider => new GarmentCategoryService(provider))
                 .AddTransient<GarmentBuyerService>(provider => new GarmentBuyerService(provider))
                 .AddTransient<GarmentComodityService>(provider => new GarmentComodityService(provider))
-                .BuildServiceProvider();
+				.AddTransient<GarmentSupplierDataUtil>()
+				.AddTransient<GarmentSupplierService>(provider => new GarmentSupplierService(provider))
+				.BuildServiceProvider();
 
             CoreDbContext dbContext = ServiceProvider.GetService<CoreDbContext>();
             dbContext.Database.Migrate();
