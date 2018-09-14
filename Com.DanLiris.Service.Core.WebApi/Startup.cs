@@ -63,7 +63,8 @@ namespace Com.DanLiris.Service.Core.WebApi
                 .AddScoped<LampStandardService>()
                 .AddScoped<PermissionService>()
                 .AddScoped<ColorTypeService>()
-                .AddScoped<RolesService>();
+                .AddScoped<RolesService>()
+                .AddScoped<GarmentProductService>();
 
             services
                 .AddApiVersioning(options =>

@@ -11,9 +11,10 @@ using System;
 namespace Com.DanLiris.Service.Core.Lib.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    partial class CoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180913054040_Add_Table_Garmnet_Product")]
+    partial class Add_Table_Garmnet_Product
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -863,7 +864,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     b.Property<string>("UomUnit")
                         .HasMaxLength(500);
 
-                    b.Property<string>("Width");
+                    b.Property<int>("Width");
 
                     b.Property<string>("Yarn")
                         .HasMaxLength(500);
