@@ -360,6 +360,16 @@ namespace Com.DanLiris.Service.Core.WebApi.Helpers
                     return BadRequest(ModelState);
                 }
 
+                var exists = Service.IsExists(_id);
+
+                if (exists == false)
+                {
+                    Dictionary<string, object> ResultNotFound =
+                        new ResultFormatter(ApiVersion, General.NOT_FOUND_STATUS_CODE, General.NOT_FOUND_MESSAGE)
+                        .Fail();
+                    return NotFound(ResultNotFound);
+                }
+
                 await Service.DeleteModel(_id);
 
                 return NoContent();

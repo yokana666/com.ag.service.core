@@ -54,6 +54,10 @@ namespace Com.DanLiris.Service.Core.Test
                 .AddTransient<AccountBankService>(provider => new AccountBankService(provider))
                 .AddTransient<GarmentProductService>(provider => new GarmentProductService(provider))
                 .AddTransient<GarmentProductServiceDataUtil>()
+                .AddTransient<GarmentCategoryDataUtil>()
+                .AddTransient<GarmentCategoryService>(provider => new GarmentCategoryService(provider))
+                .AddTransient<GarmentBuyerService>(provider => new GarmentBuyerService(provider))
+                .AddTransient<GarmentComodityService>(provider => new GarmentComodityService(provider))
                 .BuildServiceProvider();
 
             CoreDbContext dbContext = ServiceProvider.GetService<CoreDbContext>();

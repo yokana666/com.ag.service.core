@@ -11,9 +11,10 @@ using System;
 namespace Com.DanLiris.Service.Core.Lib.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    partial class CoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180913025242_Add_Table_GarmentBuyer_GarmentComodity")]
+    partial class Add_Table_GarmentBuyer_GarmentComodity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -780,67 +781,6 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     b.ToTable("FinishType");
                 });
 
-            modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.GarmentCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("Active");
-
-                    b.Property<string>("Code")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("CodeRequirement")
-                        .HasMaxLength(255);
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(255);
-
-                    b.Property<string>("UId")
-                        .HasMaxLength(255);
-
-                    b.Property<int?>("UomId");
-
-                    b.Property<string>("UomUnit")
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_CreatedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_CreatedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("_CreatedUtc");
-
-                    b.Property<string>("_DeletedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_DeletedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("_DeletedUtc");
-
-                    b.Property<bool>("_IsDeleted");
-
-                    b.Property<string>("_LastModifiedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_LastModifiedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("_LastModifiedUtc");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("GarmentCategories");
-                });
-
             modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.GarmentBuyer", b =>
                 {
                     b.Property<int>("Id")
@@ -1017,77 +957,6 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("GarmentCurrencies");
-                });
-
-            modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.GarmentProduct", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("Active");
-
-                    b.Property<string>("Code")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Const")
-                        .HasMaxLength(500);
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(500);
-
-                    b.Property<string>("Remark");
-
-                    b.Property<string>("Tags")
-                        .HasMaxLength(500);
-
-                    b.Property<string>("UId")
-                        .HasMaxLength(255);
-
-                    b.Property<int?>("UomId");
-
-                    b.Property<string>("UomUnit")
-                        .HasMaxLength(500);
-
-                    b.Property<string>("Width");
-
-                    b.Property<string>("Yarn")
-                        .HasMaxLength(500);
-
-                    b.Property<string>("_CreatedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_CreatedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("_CreatedUtc");
-
-                    b.Property<string>("_DeletedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_DeletedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("_DeletedUtc");
-
-                    b.Property<bool>("_IsDeleted");
-
-                    b.Property<string>("_LastModifiedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_LastModifiedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("_LastModifiedUtc");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("GarmentProducts");
                 });
 
             modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.Holiday", b =>
