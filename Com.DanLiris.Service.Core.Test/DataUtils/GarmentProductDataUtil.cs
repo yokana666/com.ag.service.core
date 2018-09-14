@@ -37,11 +37,6 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
                 Code = "Code",
                 Name = string.Format("TEST {0}", guid),
                 Active = true,
-                Width = "1",
-                Const = "const",
-                Yarn = "yarn",
-                Remark = "remark",
-                Tags = "tags",
                 UomId = 1,
                 UomUnit = "uom",
                 UId = guid
