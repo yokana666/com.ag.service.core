@@ -159,7 +159,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         /* Upload CSV */
         private readonly List<string> Header = new List<string>()
         {
-            "Kode Barang", "Nama Barang", "Satuan", "Tags"
+            "Kode Barang", "Nama Barang", "Satuan", "Const", "Yarn", "Width", "Tags", "Keterangan"
         };
 
         public List<string> CsvHeader => Header;
@@ -171,9 +171,11 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 Map(p => p.Code).Index(0);
                 Map(p => p.Name).Index(1);
                 Map(p => p.UOM.Unit).Index(2);
-                //Map(p => p.Currency.Code).Index(3);
-                //Map(p => p.Price).Index(4).TypeConverter<StringConverter>();
-                Map(p => p.Tags).Index(3);
+                Map(p => p.Const).Index(3);
+                Map(p => p.Yarn).Index(4);
+                Map(p => p.Width).Index(5);
+                Map(p => p.Tags).Index(6);
+                Map(p => p.Remark).Index(7);
             }
         }
 

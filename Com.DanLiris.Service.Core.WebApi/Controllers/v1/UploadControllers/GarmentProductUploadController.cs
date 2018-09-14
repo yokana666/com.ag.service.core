@@ -9,7 +9,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.UploadControllers
 {
     [Produces("application/json")]
     [ApiVersion("1.0")]
-    [Route("v{version:apiVersion}/master/garment-products")]
+    [Route("v{version:apiVersion}/master/upload-garmentProducts")]
     public class GarmentProductsUploadController : BasicUploadController<GarmentProductService, GarmentProduct, GarmentProductViewModel, GarmentProductService.GarmentProductMap, CoreDbContext>
     {
         private static readonly string ApiVersion = "1.0";
