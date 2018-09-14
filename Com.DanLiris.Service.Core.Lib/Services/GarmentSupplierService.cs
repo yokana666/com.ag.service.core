@@ -57,8 +57,9 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 					Address = s.Address,
 					Import = s.Import,
 					NPWP = s.NPWP,
-					UseVat=s.UseVat
-				});
+					UseVat=s.UseVat,
+					_LastModifiedUtc =s._LastModifiedUtc
+				}).OrderByDescending(b => b._LastModifiedUtc);
 
 			/* Order */
 			if (OrderDictionary.Count.Equals(0))
@@ -75,13 +76,13 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
 				BindingFlags IgnoreCase = BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance;
 
-				Query = OrderType.Equals(General.ASCENDING) ?
+				Query = OrderType.Equals(General.ASCENDING ) ?
 					Query.OrderBy(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b)) :
 					Query.OrderByDescending(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b));
 			}
 
 			/* Pagination */
-			Pageable<GarmentSupplier> pageable = new Pageable<GarmentSupplier>(Query, Page - 1, Size);
+			Pageable<GarmentSupplier> pageable = new Pageable<GarmentSupplier>(Query , Page - 1, Size);
 			List<GarmentSupplier> Data = pageable.Data.ToList<GarmentSupplier>();
 
 			int TotalData = pageable.TotalCount;
