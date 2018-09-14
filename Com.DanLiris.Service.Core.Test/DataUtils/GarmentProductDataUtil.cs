@@ -23,11 +23,9 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
 
             Data.Name = "";
             Data.Code = "";
-            Data.Remark = "desc";
-            Data.Width = "0";
-            Data.Const = "const";
-            Data.Yarn = "yarn";
-            Data.Tags = "tags";
+            Data.UOM.Id = 1;
+            Data.UOM.Unit = "";
+            
             return Data;
         }
 

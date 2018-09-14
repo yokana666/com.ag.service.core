@@ -25,12 +25,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
         {
             model.Code = string.Empty;
             model.Name = string.Empty;
-            model.Const = string.Empty;
-            model.Yarn = string.Empty;
-            model.Width = string.Empty;
-            model.Tags = string.Empty;
             model.UomUnit = string.Empty;
-            model.Remark = string.Empty;
             model.UomId = 0;
         }
 
@@ -38,12 +33,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
         {
             model.Code = string.Empty;
             model.Name = string.Empty;
-            model.Const = string.Empty;
-            model.Yarn = string.Empty;
-            model.Width = string.Empty;
-            model.Tags = string.Empty;
             model.UomUnit = string.Empty;
-            model.Remark = string.Empty;
             model.UomId = 0;
         }
 
@@ -53,14 +43,10 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
 
             return new Models.GarmentProduct()
             {
-                Code = "Code",
+                Code = guid,
                 Name = string.Format("TEST {0}", guid),
                 Active = true,
-                Width = "1",
-                Const = "const",
-                Yarn = "yarn",
-                Remark = "remark",
-                Tags = "tags",
+               
                 UomId = 1,
                 UomUnit = "uom",
             };
