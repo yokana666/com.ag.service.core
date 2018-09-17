@@ -19,6 +19,8 @@ namespace Com.DanLiris.Service.Core.Lib.Models
         public int? UomId { get; set; }
         [StringLength(500)]
         public string UomUnit { get; set; }
+        public string ProductType { get; set; }
+        public string Compotition { get; set; }
         [StringLength(500)]
         public string Const { get; set; }
         [StringLength(500)]
