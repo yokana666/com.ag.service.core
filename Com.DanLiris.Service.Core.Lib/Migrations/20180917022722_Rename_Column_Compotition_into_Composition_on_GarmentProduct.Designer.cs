@@ -11,9 +11,10 @@ using System;
 namespace Com.DanLiris.Service.Core.Lib.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    partial class CoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180917022722_Rename_Column_Compotition_into_Composition_on_GarmentProduct")]
+    partial class Rename_Column_Compotition_into_Composition_on_GarmentProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
