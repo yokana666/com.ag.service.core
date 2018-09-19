@@ -144,17 +144,13 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 ProductType = garmentProductVM.ProductType,
                 Composition = garmentProductVM.Composition
             };
+            garmentProduct.UomId = null;
+            garmentProduct.UomUnit = null;
             if (!Equals(garmentProductVM.UOM, null))
             {
                 garmentProduct.UomId = garmentProductVM.UOM.Id;
                 garmentProduct.UomUnit = garmentProductVM.UOM.Unit;
             }
-            else
-            {
-                garmentProduct.UomId = null;
-                garmentProduct.UomUnit = null;
-            }
-
             
 
             return garmentProduct;
