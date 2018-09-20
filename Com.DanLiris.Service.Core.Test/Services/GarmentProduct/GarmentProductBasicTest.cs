@@ -27,10 +27,6 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
             model.Name = string.Empty;
             model.UomUnit = string.Empty;
             model.ProductType = "FABRIC";
-            model.Composition = "test";
-            model.Const = "test";
-            model.Yarn = "test";
-            model.Width = "test";
             model.UomId = 0;
         }
 
@@ -40,10 +36,6 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
             model.Name = string.Empty;
             model.UomUnit = string.Empty;
             model.ProductType = "FABRIC";
-            model.Composition = "test1";
-            model.Const = "test1";
-            model.Yarn = "test1";
-            model.Width = "test1";
             model.UomId = 0;
         }
 
