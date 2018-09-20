@@ -264,7 +264,10 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     {
                         ErrorMessage = string.Concat(ErrorMessage, "Satuan tidak terdaftar dalam master Satuan, ");
                     }
+                }
 
+                if (string.IsNullOrEmpty(ErrorMessage))
+                {
                     garmentProductVM.UOM.Id = uom.Id;
                 }
                 else
