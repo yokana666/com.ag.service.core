@@ -1,6 +1,8 @@
 ﻿using Com.Danliris.Service.Core.Test.Helpers;
 using Com.DanLiris.Service.Core.Lib;
+using Com.DanLiris.Service.Core.Lib.Models;
 using Com.DanLiris.Service.Core.Lib.Services;
+using Com.DanLiris.Service.Core.Test.DataUtils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,6 +19,16 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
         private static readonly string[] createAttrAssertions = { "Code" };
         private static readonly string[] updateAttrAssertions = { "Code" };
         private static readonly string[] existAttrCriteria = { "Code" };
+
+        private GarmentProductServiceDataUtil DataUtil
+        {
+            get { return (GarmentProductServiceDataUtil)ServiceProvider.GetService(typeof(GarmentProductServiceDataUtil)); }
+        }
+
+        private GarmentProductService Services
+        {
+            get { return (GarmentProductService)ServiceProvider.GetService(typeof(GarmentProductService)); }
+        }
 
         public GarmentProductBasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
         {
@@ -60,6 +72,15 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
                 UomId = 1,
                 UomUnit = "uom",
             };
+        }
+
+        [Fact]
+        public async void Should_Success_Get_Data_By_Id()
+        {
+            GarmentProduct model1 = await DataUtil.GetTestDataAsync();
+            GarmentProduct model2 = await DataUtil.GetTestDataAsync();
+            var Response = Services.GetByIds(new List<int> { model1.Id,model2.Id});
+            Assert.NotNull(Response);
         }
 
         [SkippableFact]

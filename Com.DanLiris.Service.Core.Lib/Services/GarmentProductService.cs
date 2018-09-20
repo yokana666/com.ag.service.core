@@ -287,9 +287,9 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             return Tuple.Create(Valid, ErrorList);
         }
 
-        public List<GarmentProduct> GetByIds(List<string> ids)
+        public List<GarmentProduct> GetByIds(List<int> ids)
         {
-            return this.DbSet.Where(p => ids.Contains(p.Id.ToString()) && p._IsDeleted == false)
+            return this.DbSet.Where(p => ids.Contains(p.Id) && p._IsDeleted == false)
                 .ToList();
         }
     }

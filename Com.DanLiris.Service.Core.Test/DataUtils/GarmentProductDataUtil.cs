@@ -34,12 +34,16 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
             string guid = Guid.NewGuid().ToString();
             GarmentProduct TestData = new GarmentProduct
             {
-                Code = "Code",
+                Code = string.Format("TEST {0}", guid),
                 Name = string.Format("TEST {0}", guid),
                 Active = true,
                 UomId = 1,
                 UomUnit = "uom",
                 ProductType = "FABRIC",
+                Composition = string.Format("TEST {0}", guid),
+                Const = string.Format("TEST {0}", guid),
+                Yarn = string.Format("TEST {0}", guid),
+                Width = string.Format("TEST {0}", guid),
                 UId = guid
             };
 
