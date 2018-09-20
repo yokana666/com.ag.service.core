@@ -26,7 +26,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
             model.Code = string.Empty;
             model.Name = string.Empty;
             model.UomUnit = string.Empty;
-            model.ProductType = "NON FABRIC";
+            model.ProductType = "FABRIC";
             model.Composition = string.Empty;
             model.Const = string.Empty;
             model.Yarn = string.Empty;
@@ -39,7 +39,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
             model.Code = string.Empty;
             model.Name = string.Empty;
             model.UomUnit = string.Empty;
-            model.ProductType = "NON FABRIC";
+            model.ProductType = "FABRIC";
             model.Composition = string.Empty;
             model.Const = string.Empty;
             model.Yarn = string.Empty;
@@ -54,9 +54,9 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
             return new Models.GarmentProduct()
             {
                 Code = guid,
-                Name = string.Format("TEST {0}", guid),
+                Name = "testName",
                 Active = true,
-                ProductType = "FABRIC", 
+                ProductType = "NON FABRIC", 
                 Composition = "composition",
                 Const = "const",
                 Yarn = "yarn",
