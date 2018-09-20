@@ -54,9 +54,9 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
             return new Models.GarmentProduct()
             {
                 Code = guid,
-                Name = "testName",
+                Name = string.Format("TEST {0}", guid),
                 Active = true,
-                ProductType = "NON FABRIC", 
+                ProductType = "FABRIC", 
                 Composition = "composition",
                 Const = "const",
                 Yarn = "yarn",

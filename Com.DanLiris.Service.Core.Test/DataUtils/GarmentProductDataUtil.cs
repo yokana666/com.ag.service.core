@@ -39,7 +39,7 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
                 Active = true,
                 UomId = 1,
                 UomUnit = "uom",
-                ProductType = "NON FABRIC",
+                ProductType = "FABRIC",
                 UId = guid
             };
 
