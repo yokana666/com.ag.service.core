@@ -42,17 +42,17 @@ namespace Com.DanLiris.Service.Core.Lib.Models
             if (string.IsNullOrWhiteSpace(this.UomUnit))
                 validationResult.Add(new ValidationResult("Uom is required", new List<string> { "uom" }));
 
-            if (this.ProductType == "FABRIC")
-            {
-                if (string.IsNullOrWhiteSpace(this.Composition))
-                    validationResult.Add(new ValidationResult("Composition is required", new List<string> { "composition" }));
-                if (string.IsNullOrWhiteSpace(this.Const))
-                    validationResult.Add(new ValidationResult("Const is required", new List<string> { "const" }));
-                if (string.IsNullOrWhiteSpace(this.Yarn))
-                    validationResult.Add(new ValidationResult("Yarn is required", new List<string> { "yarn" }));
-                if (string.IsNullOrWhiteSpace(this.Width))
-                    validationResult.Add(new ValidationResult("Width is required", new List<string> { "width" }));
-            }
+            if (string.IsNullOrWhiteSpace(this.Composition) && this.ProductType == "FABRIC")
+                validationResult.Add(new ValidationResult("Composition is required", new List<string> { "composition" }));
+
+            if (string.IsNullOrWhiteSpace(this.Const) && this.ProductType == "FABRIC")
+                validationResult.Add(new ValidationResult("Const is required", new List<string> { "const" }));
+
+            if (string.IsNullOrWhiteSpace(this.Yarn) && this.ProductType == "FABRIC")
+                validationResult.Add(new ValidationResult("Yarn is required", new List<string> { "yarn" }));
+
+            if (string.IsNullOrWhiteSpace(this.Width) && this.ProductType == "FABRIC")
+                validationResult.Add(new ValidationResult("Width is required", new List<string> { "width" }));
 
             if (validationResult.Count.Equals(0))
             {
