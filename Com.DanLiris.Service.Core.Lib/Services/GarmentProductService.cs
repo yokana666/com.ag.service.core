@@ -66,18 +66,18 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
                 Query = Query.OrderByDescending(b => b._LastModifiedUtc); /* Default Order */
             }
-            else
-            {
-                string Key = OrderDictionary.Keys.First();
-                string OrderType = OrderDictionary[Key];
-                string TransformKey = General.TransformOrderBy(Key);
+            //else
+            //{
+            //    string Key = OrderDictionary.Keys.First();
+            //    string OrderType = OrderDictionary[Key];
+            //    string TransformKey = General.TransformOrderBy(Key);
 
-                BindingFlags IgnoreCase = BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance;
+            //    BindingFlags IgnoreCase = BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance;
 
-                Query = OrderType.Equals(General.ASCENDING) ?
-                    Query.OrderBy(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b)) :
-                    Query.OrderByDescending(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b));
-            }
+            //    Query = OrderType.Equals(General.ASCENDING) ?
+            //        Query.OrderBy(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b)) :
+            //        Query.OrderByDescending(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b));
+            //}
 
             /* Pagination */
             Pageable<GarmentProduct> pageable = new Pageable<GarmentProduct>(Query, Page - 1, Size);
