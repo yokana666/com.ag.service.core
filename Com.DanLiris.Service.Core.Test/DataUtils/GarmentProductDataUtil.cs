@@ -76,8 +76,8 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
             string guid = Guid.NewGuid().ToString();
             GarmentProduct TestData = new GarmentProduct
             {
-                Code = string.Format("TEST {0}", guid),
-                Name = string.Format("TEST {0}", guid),
+                Code = "test",
+                Name = "test",
                 Active = true,
                 UomId = 1,
                 UomUnit = "uom",

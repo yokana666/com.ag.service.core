@@ -96,7 +96,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
         [Fact]
         public async void Should_Error_Create_Data_With_Same_Combination_of_Composition()
         {
-            GarmentProduct model1 = await DataUtil.GetTestDataAsync();
+            GarmentProduct model1 = await DataUtil.GetTestDataAsync2();
             try
             {
                 await DataUtil.GetTestDataAsync2();

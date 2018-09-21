@@ -66,7 +66,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
                     validationResult.Add(new ValidationResult("Name already exists", new List<string> { "name" }));
 
                 if (service.DbContext.Set<GarmentProduct>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && this.ProductType.Equals("FABRIC") && r.Composition.Equals(this.Composition) && r.Const.Equals(this.Const) && r.Yarn.Equals(this.Yarn) && r.Width.Equals(this.Width)) >0)
-                    validationResult.Add(new ValidationResult("Product with same Composition, Const, Yarn, Width already exists", new List<string> { "name" }));
+                    validationResult.Add(new ValidationResult("Product with same Composition, Const, Yarn, Width already exists", new List<string> { "combinationerror" }));
             }
 
             return validationResult;
