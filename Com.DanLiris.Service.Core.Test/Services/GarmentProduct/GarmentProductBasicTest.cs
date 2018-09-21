@@ -3,6 +3,7 @@ using Com.DanLiris.Service.Core.Lib;
 using Com.DanLiris.Service.Core.Lib.Models;
 using Com.DanLiris.Service.Core.Lib.Services;
 using Com.DanLiris.Service.Core.Test.DataUtils;
+using Com.Moonlay.NetCore.Lib.Service;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -83,6 +84,30 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
             Assert.NotNull(Response);
         }
 
+        [Fact]
+        public async void Should_Success_Create_Data()
+        {
+            GarmentProduct model1 = await DataUtil.GetTestDataAsync();
+            GarmentProduct model2 = await DataUtil.GetNewData2();
+            var Response = Services.Create(model2);
+            Assert.NotEqual(Response, 0);
+        }
+
+        [Fact]
+        public async void Should_Error_Create_Data_With_Same_Combination_of_Composition()
+        {
+            GarmentProduct model1 = await DataUtil.GetTestDataAsync();
+            try
+            {
+                await DataUtil.GetTestDataAsync2();
+            }
+            catch (ServiceValidationExeption ex)
+            {
+                Assert.Equal(ex.Message, "Validation Error");
+            }
+        }
+
+        //Assert.NotNull(Response);
         [SkippableFact]
         public override async Task TestCreateModel_Exist()
         {
