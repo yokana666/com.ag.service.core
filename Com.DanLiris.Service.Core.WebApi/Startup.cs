@@ -69,7 +69,8 @@ namespace Com.DanLiris.Service.Core.WebApi
                 .AddScoped<GarmentProductService>()
                 .AddScoped<GarmentCategoryService>()
 				.AddScoped<GarmentSupplierService>()
-                .AddScoped<RolesService>();
+				.AddScoped<GarmentUnitService>()
+				.AddScoped<RolesService>();
             services
                 .AddApiVersioning(options =>
                 {
