@@ -120,7 +120,9 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
         {
             GarmentProductViewModel Vmodel1 = await DataUtil.GetNewData4();
             GarmentProductViewModel Vmodel2 = await DataUtil.GetNewData4();
-            var Response = Services.UploadValidate(new List<GarmentProductViewModel> { Vmodel1, Vmodel2 }, null);
+            GarmentProductViewModel Vmodel3 = await DataUtil.GetNewData5();
+            GarmentProductViewModel Vmodel4 = await DataUtil.GetNewData5();
+            var Response = Services.UploadValidate(new List<GarmentProductViewModel> { Vmodel1, Vmodel2, Vmodel3, Vmodel4 }, null);
             Assert.Equal(Response.Item1, false);
         }
     }

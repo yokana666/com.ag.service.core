@@ -97,7 +97,7 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
             GarmentProductViewModel TestData = new GarmentProductViewModel
             {
                 Code = string.Format("TEST {0}", guid),
-                Name = "FABRIC",
+                Name = "test",
                 Active = true,
                 UOM = new GarmentProductUomViewModel
                 {
@@ -109,6 +109,29 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
                 Const = string.Format("TEST {0}", guid),
                 Yarn = string.Format("TEST {0}", guid),
                 Width = string.Format("TEST {0}", guid),
+                Uid = guid
+            };
+
+            return TestData;
+        }
+        public async Task<GarmentProductViewModel> GetNewData5()
+        {
+            string guid = Guid.NewGuid().ToString();
+            GarmentProductViewModel TestData = new GarmentProductViewModel
+            {
+                Code = string.Format("TEST {0}", guid),
+                Name = "FABRIC",
+                Active = true,
+                UOM = new GarmentProductUomViewModel
+                {
+                    Id = 42,
+                    Unit = "YARD"
+                },
+                ProductType = "FABRIC",
+                Composition = "test",
+                Const = "test",
+                Yarn = "test",
+                Width = "test",
                 Uid = guid
             };
 
