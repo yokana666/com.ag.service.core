@@ -176,6 +176,16 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             bool Valid = true;
             Uom uom = null;
 
+            foreach (GarmentProductViewModel gpVm in Data)
+            {
+                gpVm.Code = gpVm.Code.Trim();
+                gpVm.Name = gpVm.Name.Trim();
+                gpVm.Composition = gpVm.Composition.Trim();
+                gpVm.Const = gpVm.Const.Trim();
+                gpVm.Yarn = gpVm.Yarn.Trim();
+                gpVm.Width = gpVm.Width.Trim();
+            }
+
             foreach (GarmentProductViewModel garmentProductVM in Data)
             {
                 ErrorMessage = "";
@@ -193,7 +203,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh kosong, ");
                 }
-                else if (Data.Any(d => d != garmentProductVM && d.Name.Equals(garmentProductVM.Name) && d.ProductType.Equals("NON FABRIC")))
+                else if (Data.Any(d => d != garmentProductVM && d.Name.Equals(garmentProductVM.Name) && garmentProductVM.ProductType.Equals("NON FABRIC")))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh duplikat, ");
                 }
