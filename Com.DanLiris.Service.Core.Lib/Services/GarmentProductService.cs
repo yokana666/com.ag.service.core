@@ -70,18 +70,6 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
                 Query = Query.OrderByDescending(b => b._LastModifiedUtc); /* Default Order */
             }
-            else
-            {
-                string Key = OrderDictionary.Keys.First();
-                string OrderType = OrderDictionary[Key];
-                string TransformKey = General.TransformOrderBy(Key);
-
-                BindingFlags IgnoreCase = BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance;
-
-                Query = OrderType.Equals(General.ASCENDING) ?
-                    Query.OrderBy(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b)) :
-                    Query.OrderByDescending(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b));
-            }
 
             /* Pagination */
             Pageable<GarmentProduct> pageable = new Pageable<GarmentProduct>(Query, Page - 1, Size);
@@ -148,17 +136,13 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 ProductType = garmentProductVM.ProductType,
                 Composition = garmentProductVM.Composition
             };
+            garmentProduct.UomId = null;
+            garmentProduct.UomUnit = null;
             if (!Equals(garmentProductVM.UOM, null))
             {
                 garmentProduct.UomId = garmentProductVM.UOM.Id;
                 garmentProduct.UomUnit = garmentProductVM.UOM.Unit;
             }
-            else
-            {
-                garmentProduct.UomId = null;
-                garmentProduct.UomUnit = null;
-            }
-
             
 
             return garmentProduct;
@@ -196,6 +180,16 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             bool Valid = true;
             Uom uom = null;
 
+            foreach (GarmentProductViewModel gpVm in Data)
+            {
+                gpVm.Code = gpVm.Code.Trim();
+                gpVm.Name = gpVm.Name.Trim();
+                gpVm.Composition = gpVm.Composition.Trim();
+                gpVm.Const = gpVm.Const.Trim();
+                gpVm.Yarn = gpVm.Yarn.Trim();
+                gpVm.Width = gpVm.Width.Trim();
+            }
+
             foreach (GarmentProductViewModel garmentProductVM in Data)
             {
                 ErrorMessage = "";
@@ -213,7 +207,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh kosong, ");
                 }
-                else if (Data.Any(d => d != garmentProductVM && d.Name.Equals(garmentProductVM.Name)))
+                else if (Data.Any(d => d != garmentProductVM && d.Name.Equals(garmentProductVM.Name) && garmentProductVM.ProductType.Equals("NON FABRIC")))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh duplikat, ");
                 }
@@ -221,6 +215,41 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 if (string.IsNullOrWhiteSpace(garmentProductVM.UOM.Unit))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Satuan tidak boleh kosong, ");
+                }
+
+                if (string.IsNullOrWhiteSpace(garmentProductVM.Composition) && garmentProductVM.ProductType.Equals("FABRIC"))
+                {
+                    ErrorMessage = string.Concat(ErrorMessage, "Komposisi tidak boleh kosong, ");
+                }
+
+                if (string.IsNullOrWhiteSpace(garmentProductVM.Const) && garmentProductVM.ProductType.Equals("FABRIC"))
+                {
+                    ErrorMessage = string.Concat(ErrorMessage, "Const tidak boleh kosong, ");
+                }
+
+                if (string.IsNullOrWhiteSpace(garmentProductVM.Width) && garmentProductVM.ProductType.Equals("FABRIC"))
+                {
+                    ErrorMessage = string.Concat(ErrorMessage, "Width tidak boleh kosong, ");
+                }
+
+                if (string.IsNullOrWhiteSpace(garmentProductVM.Yarn) && garmentProductVM.ProductType.Equals("FABRIC"))
+                {
+                    ErrorMessage = string.Concat(ErrorMessage, "Yarn tidak boleh kosong, ");
+                }
+
+                if (garmentProductVM.ProductType!="FABRIC" && garmentProductVM.ProductType!="NON FABRIC")
+                {
+                    ErrorMessage = string.Concat(ErrorMessage, "Jenis produk harus FABRIC atau NON FABRIC, ");
+                }
+
+                if (garmentProductVM.ProductType == "FABRIC" && garmentProductVM.Name != "FABRIC")
+                {
+                    ErrorMessage = string.Concat(ErrorMessage, "Nama Barang Harus FABRIC jika jenis produk FABRIC, ");
+                }
+
+                if (Data.Any(d => d != garmentProductVM && d.Composition.Equals(garmentProductVM.Composition) && d.Const.Equals(garmentProductVM.Const) && d.Yarn.Equals(garmentProductVM.Yarn) && d.Width.Equals(garmentProductVM.Width) && garmentProductVM.ProductType.Equals("FABRIC")))
+                {
+                    ErrorMessage = string.Concat(ErrorMessage, "Product dengan komposisi, const, yarn, width yang sama tidak boleh duplikat, ");
                 }
 
                 if (string.IsNullOrEmpty(ErrorMessage))
@@ -233,12 +262,12 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                         ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
                     }
 
-                    if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Name.Equals(garmentProductVM.Name) && d.ProductType.Equals("NON FABRIC")))
+                    if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Name.Equals(garmentProductVM.Name) && garmentProductVM.ProductType.Equals("NON FABRIC")))
                     {
                         ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh duplikat, ");
                     }
 
-                    if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.ProductType.Equals("FABRIC") && d.ProductType.Equals("FABRIC") && d.Composition.Equals(garmentProductVM.Composition) && d.Const.Equals(garmentProductVM.Const) && d.Yarn.Equals(garmentProductVM.Yarn) && d.Width.Equals(garmentProductVM.Width)))
+                    if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && garmentProductVM.ProductType.Equals("FABRIC") && d.Composition.Equals(garmentProductVM.Composition) && d.Const.Equals(garmentProductVM.Const) && d.Yarn.Equals(garmentProductVM.Yarn) && d.Width.Equals(garmentProductVM.Width)))
                     {
                         ErrorMessage = string.Concat(ErrorMessage, "Product dengan komposisi, const, yarn, width yang sama tidak boleh duplikat, ");
                     }
@@ -282,9 +311,9 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             return Tuple.Create(Valid, ErrorList);
         }
 
-        public List<GarmentProduct> GetByIds(List<string> ids)
+        public List<GarmentProduct> GetByIds(List<int> ids)
         {
-            return this.DbSet.Where(p => ids.Contains(p.Id.ToString()) && p._IsDeleted == false)
+            return this.DbSet.Where(p => ids.Contains(p.Id) && p._IsDeleted == false)
                 .ToList();
         }
 		public GarmentProduct GetByName( string name)
