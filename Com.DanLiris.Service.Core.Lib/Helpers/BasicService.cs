@@ -66,7 +66,7 @@ namespace Com.DanLiris.Service.Core.Lib.Helpers
         }
 
         public virtual IQueryable<TModel> ConfigureFilter(IQueryable<TModel> Query, Dictionary<string, object> FilterDictionary)
-        {
+       {
             if (FilterDictionary != null && !FilterDictionary.Count.Equals(0))
             {
                 foreach (var f in FilterDictionary)

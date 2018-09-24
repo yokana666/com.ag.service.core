@@ -98,77 +98,77 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
 				return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
 			}
 		}
-		[HttpGet("distinct-product-yarn")]
-		public IActionResult GetDistinctProductYarn(string Keyword = "", string Filter = "{}")
-		{
-			try
-			{
+		//[HttpGet("distinct-product-yarn")]
+		//public IActionResult GetDistinctProductYarn(string Keyword = "", string Filter = "{}")
+		//{
+		//	try
+		//	{
 
-				service.Username = User.Claims.Single(p => p.Type.Equals("username")).Value;
+		//		service.Username = User.Claims.Single(p => p.Type.Equals("username")).Value;
 
-				IQueryable<GarmentProduct> Data = service.GetDistinctProductYarn(Keyword, Filter);
+		//		IQueryable<GarmentProduct> Data = service.GetDistinctProductYarn(Keyword, Filter);
 
-				Dictionary<string, object> Result =
-					new ResultFormatter(ApiVersion, General.OK_STATUS_CODE, General.OK_MESSAGE)
-					.Ok(Data);
+		//		Dictionary<string, object> Result =
+		//			new ResultFormatter(ApiVersion, General.OK_STATUS_CODE, General.OK_MESSAGE)
+		//			.Ok(Data);
 
-				return Ok(Result);
-			}
-			catch (Exception e)
-			{
-				Dictionary<string, object> Result =
-					new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, e.Message)
-					.Fail();
-				return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
-			}
-		}
-		[HttpGet("distinct-product-const")]
-		public IActionResult GetDistinctProductConst(string Keyword = "", string Filter = "{}")
-		{
-			try
-			{
+		//		return Ok(Result);
+		//	}
+		//	catch (Exception e)
+		//	{
+		//		Dictionary<string, object> Result =
+		//			new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, e.Message)
+		//			.Fail();
+		//		return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
+		//	}
+		//}
+		//[HttpGet("distinct-product-const")]
+		//public IActionResult GetDistinctProductConst(string Keyword = "", string Filter = "{}")
+		//{
+		//	try
+		//	{
 
-				service.Username = User.Claims.Single(p => p.Type.Equals("username")).Value;
+		//		service.Username = User.Claims.Single(p => p.Type.Equals("username")).Value;
 
-				IQueryable<GarmentProduct> Data = service.GetDistinctProductConst(Keyword, Filter);
+		//		IQueryable<GarmentProduct> Data = service.GetDistinctProductConst(Keyword, Filter);
 
-				Dictionary<string, object> Result =
-					new ResultFormatter(ApiVersion, General.OK_STATUS_CODE, General.OK_MESSAGE)
-					.Ok(Data);
+		//		Dictionary<string, object> Result =
+		//			new ResultFormatter(ApiVersion, General.OK_STATUS_CODE, General.OK_MESSAGE)
+		//			.Ok(Data);
 
-				return Ok(Result);
-			}
-			catch (Exception e)
-			{
-				Dictionary<string, object> Result =
-					new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, e.Message)
-					.Fail();
-				return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
-			}
-		}
-		[HttpGet("distinct-product-width")]
-		public IActionResult GetDistinctProductWidth(string Keyword = "", string Filter = "{}")
-		{
-			try
-			{
+		//		return Ok(Result);
+		//	}
+		//	catch (Exception e)
+		//	{
+		//		Dictionary<string, object> Result =
+		//			new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, e.Message)
+		//			.Fail();
+		//		return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
+		//	}
+		//}
+		//[HttpGet("distinct-product-width")]
+		//public IActionResult GetDistinctProductWidth(string Keyword = "", string Filter = "{}")
+		//{
+		//	try
+		//	{
 
-				service.Username = User.Claims.Single(p => p.Type.Equals("username")).Value;
+		//		service.Username = User.Claims.Single(p => p.Type.Equals("username")).Value;
 
-				IQueryable<GarmentProduct> Data = service.GetDistinctProductWidth(Keyword, Filter);
+		//		IQueryable<GarmentProduct> Data = service.GetDistinctProductWidth(Keyword, Filter);
 
-				Dictionary<string, object> Result =
-					new ResultFormatter(ApiVersion, General.OK_STATUS_CODE, General.OK_MESSAGE)
-					.Ok(Data);
+		//		Dictionary<string, object> Result =
+		//			new ResultFormatter(ApiVersion, General.OK_STATUS_CODE, General.OK_MESSAGE)
+		//			.Ok(Data);
 
-				return Ok(Result);
-			}
-			catch (Exception e)
-			{
-				Dictionary<string, object> Result =
-					new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, e.Message)
-					.Fail();
-				return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
-			}
-		}
+		//		return Ok(Result);
+		//	}
+		//	catch (Exception e)
+		//	{
+		//		Dictionary<string, object> Result =
+		//			new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, e.Message)
+		//			.Fail();
+		//		return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
+		//	}
+		//}
 	}
 }

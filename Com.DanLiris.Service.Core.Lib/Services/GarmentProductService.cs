@@ -348,61 +348,6 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 			Query = Query
 				.Select(p => new GarmentProduct
 				{
-					
-					Name = p.Name,
-					Composition = p.Composition,
-					
-				});
-
-			/* Order */
-			if (OrderDictionary.Count.Equals(0))
-			{
-				OrderDictionary.Add("_updatedDate", General.DESCENDING);
-
-				Query = Query.OrderByDescending(b => b.Name); /* Default Order */
-			}
-			else
-			{
-				string Key = OrderDictionary.Keys.First();
-				string OrderType = OrderDictionary[Key];
-				string TransformKey = General.TransformOrderBy(Key);
-
-				BindingFlags IgnoreCase = BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance;
-
-				Query = OrderType.Equals(General.ASCENDING) ?
-					Query.OrderBy(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b)) :
-					Query.OrderByDescending(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b));
-			}
-
-			return Query.Distinct();
-		}
-		public IQueryable<GarmentProduct> GetDistinctProductConst(string Keyword, string Filter)
-		{
-			IQueryable<GarmentProduct> Query = this.DbContext.GarmentProducts;
-			Dictionary<string, object> FilterDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(Filter);
-			Query = ConfigureFilter(Query, FilterDictionary);
-			Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>("{}");
-
-			/* Search With Keyword */
-			if (Keyword != null)
-			{
-				List<string> SearchAttributes = new List<string>()
-				{
-					"Const"
-				};
-
-				Query = Query.Where(General.BuildSearch(SearchAttributes), Keyword).Distinct();
-			}
-
-			/* Const Select */
-			List<string> SelectedFields = new List<string>()
-			{
-				  "Const"
-			};
-
-			Query = Query
-				.Select(p => new GarmentProduct
-				{
 
 					Name = p.Name,
 					Composition = p.Composition,
@@ -431,115 +376,170 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
 			return Query.Distinct();
 		}
-		public IQueryable<GarmentProduct> GetDistinctProductYarn(string Keyword, string Filter)
-		{
-			IQueryable<GarmentProduct> Query = this.DbContext.GarmentProducts;
-			Dictionary<string, object> FilterDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(Filter);
-			Query = ConfigureFilter(Query, FilterDictionary);
-			Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>("{}");
+		//public IQueryable<GarmentProduct> GetDistinctProductConst(string Keyword, string Filter)
+		//{
+		//	IQueryable<GarmentProduct> Query = this.DbContext.GarmentProducts;
+		//	Dictionary<string, object> FilterDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(Filter);
+		//	Query = ConfigureFilter(Query, FilterDictionary);
+		//	Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>("{}");
 
-			/* Search With Keyword */
-			if (Keyword != null)
-			{
-				List<string> SearchAttributes = new List<string>()
-				{
-					"Yarn"
-				};
+		//	/* Search With Keyword */
+		//	if (Keyword != null)
+		//	{
+		//		List<string> SearchAttributes = new List<string>()
+		//		{
+		//			"Const"
+		//		};
 
-				Query = Query.Where(General.BuildSearch(SearchAttributes), Keyword).Distinct();
-			}
+		//		Query = Query.Where(General.BuildSearch(SearchAttributes), Keyword).Distinct();
+		//	}
 
-			/* Const Select */
-			List<string> SelectedFields = new List<string>()
-			{
-				  "Yarn"
-			};
+		//	/* Const Select */
+		//	List<string> SelectedFields = new List<string>()
+		//	{
+		//		  "Const"
+		//	};
 
-			Query = Query
-				.Select(p => new GarmentProduct
-				{
+		//	Query = Query
+		//		.Select(p => new GarmentProduct
+		//		{
 
-					Name = p.Name,
-					Composition = p.Composition,
+		//			Name = p.Name,
+		//			Composition = p.Composition,
 
-				});
+		//		});
 
-			/* Order */
-			if (OrderDictionary.Count.Equals(0))
-			{
-				OrderDictionary.Add("_updatedDate", General.DESCENDING);
+		//	/* Order */
+		//	if (OrderDictionary.Count.Equals(0))
+		//	{
+		//		OrderDictionary.Add("_updatedDate", General.DESCENDING);
 
-				Query = Query.OrderByDescending(b => b.Name); /* Default Order */
-			}
-			else
-			{
-				string Key = OrderDictionary.Keys.First();
-				string OrderType = OrderDictionary[Key];
-				string TransformKey = General.TransformOrderBy(Key);
+		//		Query = Query.OrderByDescending(b => b.Name); /* Default Order */
+		//	}
+		//	else
+		//	{
+		//		string Key = OrderDictionary.Keys.First();
+		//		string OrderType = OrderDictionary[Key];
+		//		string TransformKey = General.TransformOrderBy(Key);
 
-				BindingFlags IgnoreCase = BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance;
+		//		BindingFlags IgnoreCase = BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance;
 
-				Query = OrderType.Equals(General.ASCENDING) ?
-					Query.OrderBy(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b)) :
-					Query.OrderByDescending(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b));
-			}
+		//		Query = OrderType.Equals(General.ASCENDING) ?
+		//			Query.OrderBy(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b)) :
+		//			Query.OrderByDescending(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b));
+		//	}
 
-			return Query.Distinct();
-		}
-		public IQueryable<GarmentProduct> GetDistinctProductWidth(string Keyword, string Filter)
-		{
-			IQueryable<GarmentProduct> Query = this.DbContext.GarmentProducts;
-			Dictionary<string, object> FilterDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(Filter);
-			Query = ConfigureFilter(Query, FilterDictionary);
-			Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>("{}");
+		//	return Query.Distinct();
+		//}
+		//public IQueryable<GarmentProduct> GetDistinctProductYarn(string Keyword, string Filter)
+		//{
+		//	IQueryable<GarmentProduct> Query = this.DbContext.GarmentProducts;
+		//	Dictionary<string, object> FilterDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(Filter);
+		//	Query = ConfigureFilter(Query, FilterDictionary);
+		//	Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>("{}");
 
-			/* Search With Keyword */
-			if (Keyword != null)
-			{
-				List<string> SearchAttributes = new List<string>()
-				{
-					"Width"
-				};
+		//	/* Search With Keyword */
+		//	if (Keyword != null)
+		//	{
+		//		List<string> SearchAttributes = new List<string>()
+		//		{
+		//			"Yarn"
+		//		};
 
-				Query = Query.Where(General.BuildSearch(SearchAttributes), Keyword).Distinct();
-			}
+		//		Query = Query.Where(General.BuildSearch(SearchAttributes), Keyword).Distinct();
+		//	}
 
-			/* Const Select */
-			List<string> SelectedFields = new List<string>()
-			{
-				  "Width"
-			};
+		//	/* Const Select */
+		//	List<string> SelectedFields = new List<string>()
+		//	{
+		//		  "Yarn"
+		//	};
 
-			Query = Query
-				.Select(p => new GarmentProduct
-				{
+		//	Query = Query
+		//		.Select(p => new GarmentProduct
+		//		{
 
-					Name = p.Name,
-					Composition = p.Composition,
+		//			Name = p.Name,
+		//			Composition = p.Composition,
 
-				});
+		//		});
 
-			/* Order */
-			if (OrderDictionary.Count.Equals(0))
-			{
-				OrderDictionary.Add("_updatedDate", General.DESCENDING);
+		//	/* Order */
+		//	if (OrderDictionary.Count.Equals(0))
+		//	{
+		//		OrderDictionary.Add("_updatedDate", General.DESCENDING);
 
-				Query = Query.OrderByDescending(b => b.Name); /* Default Order */
-			}
-			else
-			{
-				string Key = OrderDictionary.Keys.First();
-				string OrderType = OrderDictionary[Key];
-				string TransformKey = General.TransformOrderBy(Key);
+		//		Query = Query.OrderByDescending(b => b.Name); /* Default Order */
+		//	}
+		//	else
+		//	{
+		//		string Key = OrderDictionary.Keys.First();
+		//		string OrderType = OrderDictionary[Key];
+		//		string TransformKey = General.TransformOrderBy(Key);
 
-				BindingFlags IgnoreCase = BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance;
+		//		BindingFlags IgnoreCase = BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance;
 
-				Query = OrderType.Equals(General.ASCENDING) ?
-					Query.OrderBy(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b)) :
-					Query.OrderByDescending(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b));
-			}
+		//		Query = OrderType.Equals(General.ASCENDING) ?
+		//			Query.OrderBy(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b)) :
+		//			Query.OrderByDescending(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b));
+		//	}
 
-			return Query.Distinct();
-		}
+		//	return Query.Distinct();
+		//}
+		//public IQueryable<GarmentProduct> GetDistinctProductWidth(string Keyword, string Filter)
+		//{
+		//	IQueryable<GarmentProduct> Query = this.DbContext.GarmentProducts;
+		//	Dictionary<string, object> FilterDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(Filter);
+		//	Query = ConfigureFilter(Query, FilterDictionary);
+		//	Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>("{}");
+
+		//	/* Search With Keyword */
+		//	if (Keyword != null)
+		//	{
+		//		List<string> SearchAttributes = new List<string>()
+		//		{
+		//			"Width"
+		//		};
+
+		//		Query = Query.Where(General.BuildSearch(SearchAttributes), Keyword).Distinct();
+		//	}
+
+		//	/* Const Select */
+		//	List<string> SelectedFields = new List<string>()
+		//	{
+		//		  "Width"
+		//	};
+
+		//	Query = Query
+		//		.Select(p => new GarmentProduct
+		//		{
+
+		//			Name = p.Name,
+		//			Composition = p.Composition,
+
+		//		});
+
+		//	/* Order */
+		//	if (OrderDictionary.Count.Equals(0))
+		//	{
+		//		OrderDictionary.Add("_updatedDate", General.DESCENDING);
+
+		//		Query = Query.OrderByDescending(b => b.Name); /* Default Order */
+		//	}
+		//	else
+		//	{
+		//		string Key = OrderDictionary.Keys.First();
+		//		string OrderType = OrderDictionary[Key];
+		//		string TransformKey = General.TransformOrderBy(Key);
+
+		//		BindingFlags IgnoreCase = BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance;
+
+		//		Query = OrderType.Equals(General.ASCENDING) ?
+		//			Query.OrderBy(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b)) :
+		//			Query.OrderByDescending(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b));
+		//	}
+
+		//	return Query.Distinct();
+		//}
 	}
 }
