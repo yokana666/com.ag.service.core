@@ -46,8 +46,26 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentProduct
                 UOM = new GarmentProductUomViewModel { Unit = "unit", Id = 1 },
             };
         }
+		public GarmentProductViewModel GenerateTestNameModel()
+		{
+		 
+			return new GarmentProductViewModel()
+			{
+				Name = "Name",
+				Code = "Code",
+				Active = true,
+				Remark = "desc",
+				Width = "12",
+				Const = "const",
+				Yarn = "yarn",
+				Tags = "tags",
+				ProductType = "FABRIC",
+				Composition = "Composition",
+				UOM = new GarmentProductUomViewModel { Unit = "unit", Id = 1 },
+			};
+		}
 
-        [Fact]
+		[Fact]
         public async Task Get()
         {
             var response = await this.Client.GetAsync(URI);
@@ -60,8 +78,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentProduct
             var response = await this.Client.GetAsync(string.Concat(URI, "/"));
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
-
-        [Fact]
+		[Fact]
         public async Task Post()
         {
 

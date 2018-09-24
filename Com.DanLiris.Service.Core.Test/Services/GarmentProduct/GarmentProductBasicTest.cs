@@ -125,5 +125,13 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
             var Response = Services.UploadValidate(new List<GarmentProductViewModel> { Vmodel1, Vmodel2, Vmodel3, Vmodel4 }, null);
             Assert.Equal(Response.Item1, false);
         }
-    }
+
+		[Fact]
+		public async void Should_Success_Get_Data_By_Name()
+		{
+			GarmentProduct model = await DataUtil.GetTestDataAsync();
+			var Response = Services.GetByName(model.Name);
+			Assert.NotNull(Response);
+		}
+	}
 }
