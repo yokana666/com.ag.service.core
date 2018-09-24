@@ -14,7 +14,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentUnitControllerTests
 	[Collection("TestFixture Collection")]
 	public class BasicTests
 	{
-		private const string URI = "v1//master/garment-units";
+		private const string URI = "v1/master/garment-units";
 
 		protected TestServerFixture TestFixture { get; set; }
 
@@ -37,7 +37,14 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentUnitControllerTests
 			{
 				Name = String.Concat("TEST G-Unit ", guid),
 				Code = "TEST CODE",
-				Description="DESC"
+				Description="DESC",
+				Division= new DivisionViewModel()
+				{
+					Id=1,
+					Name="DIV",
+					Code="DIV_Name"
+				}
+				
 				 
 			};
 		}
