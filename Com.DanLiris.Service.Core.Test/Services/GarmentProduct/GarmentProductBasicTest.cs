@@ -129,8 +129,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
 		[Fact]
 		public async void Should_Success_Get_Data_By_Name()
 		{
-			GarmentProductViewModel model = await DataUtil.GetNewData5();
-			 
+			GarmentProduct model = await DataUtil.GetTestDataAsync();
 			var Response = Services.GetByName(model.Name);
 			Assert.NotNull(Response);
 		}
