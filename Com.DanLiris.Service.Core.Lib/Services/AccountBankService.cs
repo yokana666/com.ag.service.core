@@ -41,7 +41,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
             {
-                "Id", "Code", "BankName", "BankAddress", "AccountName", "AccountNumber", "SwiftCode", "Currency"
+                "Id", "Code", "BankName", "BankAddress", "AccountName", "AccountNumber", "SwiftCode", "Currency","Division"
             };
 
             Query = Query
@@ -55,7 +55,11 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     AccountNumber = a.AccountNumber,
                     SwiftCode = a.SwiftCode,
                     CurrencyId = a.CurrencyId,
-                    CurrencyCode = a.CurrencyCode
+                    CurrencyCode = a.CurrencyCode,
+                    DivisionCode=a.DivisionCode,
+                    DivisionId=a.DivisionId,
+                    DivisionName=a.DivisionName,
+                    _LastModifiedUtc=a._LastModifiedUtc
                 });
 
             /* Order */
