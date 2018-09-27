@@ -124,9 +124,18 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             garmentBuyer._LastModifiedAgent = garmentBuyerVM._LastModifiedAgent;
             garmentBuyer.Code = garmentBuyerVM.Code;
             garmentBuyer.Name = garmentBuyerVM.Name;
-            garmentBuyer.BuyerId = garmentBuyerVM.Buyers.Id;
-            garmentBuyer.BuyerCode = garmentBuyerVM.Buyers.Code;
-            garmentBuyer.BuyerName = garmentBuyerVM.Buyers.Name;
+            if (garmentBuyerVM.Buyers != null)
+            {
+                garmentBuyer.BuyerId = garmentBuyerVM.Buyers.Id;
+                garmentBuyer.BuyerCode = garmentBuyerVM.Buyers.Code;
+                garmentBuyer.BuyerName = garmentBuyerVM.Buyers.Name;
+            }
+            else
+            {
+                garmentBuyer.BuyerId = 0;
+                garmentBuyer.BuyerCode = "";
+                garmentBuyer.BuyerName = "";
+            }
             return garmentBuyer;
         }
         public sealed class GarmentBuyerBrandMap : ClassMap<GarmentBuyerBrandViewModel>
