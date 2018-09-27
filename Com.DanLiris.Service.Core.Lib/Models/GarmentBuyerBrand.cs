@@ -43,7 +43,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
                 if (service.DbContext.Set<GarmentBuyerBrand>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Code.Equals(this.Code)) > 0) /* Code Unique */
                     validationResult.Add(new ValidationResult("Code already exists", new List<string> { "Code" }));
                 if (service.DbContext.Set<GarmentBuyerBrand>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Name.Equals(this.Name)) > 0) /* Code Unique */
-                    validationResult.Add(new ValidationResult("Name already exists", new List<string> { "Code" }));
+                    validationResult.Add(new ValidationResult("Name already exists", new List<string> { "Name" }));
             }
 
             return validationResult;
