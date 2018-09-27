@@ -40,10 +40,10 @@ namespace Com.DanLiris.Service.Core.Lib.Models
                 /* Service Validation */
                 GarmentBuyerBrandService service = (GarmentBuyerBrandService)validationContext.GetService(typeof(GarmentBuyerBrandService));
 
-                if (service.DbContext.Set<GarmentBuyer>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Code.Equals(this.Code)) > 0) /* Code Unique */
+                if (service.DbContext.Set<GarmentBuyerBrand>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Code.Equals(this.Code)) > 0) /* Code Unique */
                     validationResult.Add(new ValidationResult("Code already exists", new List<string> { "Code" }));
-                if (service.DbContext.Set<GarmentBuyer>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Name.Equals(this.Name)) > 0) /* Code Unique */
-                    validationResult.Add(new ValidationResult("Name already exists", new List<string> { "Code" }));
+                if (service.DbContext.Set<GarmentBuyerBrand>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Name.Equals(this.Name)) > 0) /* Code Unique */
+                    validationResult.Add(new ValidationResult("Name already exists", new List<string> { "Name" }));
             }
 
             return validationResult;
