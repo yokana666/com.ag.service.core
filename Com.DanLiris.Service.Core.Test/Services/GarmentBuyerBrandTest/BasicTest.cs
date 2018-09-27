@@ -20,15 +20,15 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentBuyerBrandTest
         }
         public override void EmptyCreateModel(GarmentBuyerBrand model)
         {
-            model.Code = string.Empty;
-            model.Name = string.Empty;
+           
+            model.BuyerName = string.Empty;
 
         }
 
         public override void EmptyUpdateModel(GarmentBuyerBrand model)
         {
-            model.Code = string.Empty;
-            model.Name = string.Empty;
+           
+            model.BuyerName = string.Empty;
 
         }
         public override GarmentBuyerBrand GenerateTestModel()
