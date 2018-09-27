@@ -12,5 +12,7 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
         public string Name { get; set; }
         
         public GarmentBuyerViewModel Buyers { get; set; }
+
+        public string BuyerName { get; set; }
     }
 }
