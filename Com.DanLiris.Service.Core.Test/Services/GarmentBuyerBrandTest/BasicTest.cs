@@ -12,9 +12,9 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentBuyerBrandTest
     [Collection("ServiceProviderFixture Collection")]
     public class BasicTest : BasicServiceTest<CoreDbContext, GarmentBuyerBrandService, GarmentBuyerBrand>
     {
-        private static readonly string[] createAttrAssertions = { "Name" };
-        private static readonly string[] updateAttrAssertions = { "Name" };
-        private static readonly string[] existAttrCriteria = { "Code" };
+      private static readonly string[] createAttrAssertions = { "Name", "BuyerCode","Code" };
+        private static readonly string[] updateAttrAssertions = { "Name" ,"BuyerCode"};
+        private static readonly string[] existAttrCriteria = { "Name","BuyerCode" ,"Code"};
         public BasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
         {
         }
@@ -39,7 +39,8 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentBuyerBrandTest
             {
                 Code = guid,
                 Name = string.Format("TEST {0}", guid),
-                BuyerCode = "Buyer"
+                BuyerCode = "Buyer",
+                BuyerName="BBY"
             };
         }
     }
