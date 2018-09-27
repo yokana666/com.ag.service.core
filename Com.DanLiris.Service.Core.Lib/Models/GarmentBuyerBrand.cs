@@ -33,7 +33,8 @@ namespace Com.DanLiris.Service.Core.Lib.Models
             if (string.IsNullOrWhiteSpace(this.Name))
                 validationResult.Add(new ValidationResult("Name is required", new List<string> { "Name" }));
 
-
+            if (BuyerCode == null || string.IsNullOrWhiteSpace(BuyerCode))
+                validationResult.Add(new ValidationResult("Buyer Agent is required", new List<string> { "Buyers" }));
             if (validationResult.Count.Equals(0))
             {
                 /* Service Validation */
