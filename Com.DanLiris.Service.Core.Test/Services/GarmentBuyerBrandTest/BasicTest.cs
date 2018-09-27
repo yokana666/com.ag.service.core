@@ -39,6 +39,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentBuyerBrandTest
             {
                 Code = guid,
                 Name = string.Format("TEST {0}", guid),
+                BuyerCode = "Buyer"
             };
         }
     }
