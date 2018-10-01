@@ -46,7 +46,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
             {
-                "Id", "Code", "Name", "UOM", "Currency", "Price", "Tags", "_LastModifiedUtc"
+                "Id", "Code", "Name", "UOM", "ColorName", "Currency", "Design", "Price", "Tags", "_LastModifiedUtc"
             };
 
             Query = Query
@@ -57,6 +57,9 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     Name = p.Name,
                     UomId = p.UomId,
                     UomUnit = p.UomUnit,
+                    ColorName = p.ColorName,
+                    DesignCode = p.DesignCode,
+                    DesignNumber = p.DesignNumber,
                     CurrencyId = p.CurrencyId,
                     CurrencyCode = p.CurrencyCode,
                     CurrencySymbol = p.CurrencySymbol,
@@ -402,6 +405,12 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 return true;
             }
             return false;
+        }
+
+        public List<int> GetIdByProductionOrderNo(string productionOrderNo)
+        {
+            return this.DbSet.Where(p => p.ProductionOrderNo.ToLower() == productionOrderNo.ToLower() && p._IsDeleted == false).Select(x => x.Id)
+                .ToList();
         }
     }
 }
