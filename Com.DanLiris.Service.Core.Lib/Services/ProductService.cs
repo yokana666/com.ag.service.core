@@ -424,11 +424,6 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             }
             return false;
         }
-
-        public List<int> GetIdByProductionOrderNo(string productionOrderNo)
-        {
-            return this.DbSet.Where(p => p.ProductionOrderNo.ToLower() == productionOrderNo.ToLower() && p._IsDeleted == false).Select(x => x.Id)
-                .ToList();
-        }
+        
     }
 }
