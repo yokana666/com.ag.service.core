@@ -18,7 +18,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 {
     public class GarmentBuyerBrandService : BasicService<CoreDbContext, GarmentBuyerBrand>, IBasicUploadCsvService<GarmentBuyerBrandViewModel>, IMap<GarmentBuyerBrand, GarmentBuyerBrandViewModel>
     {
-        public GarmentBuyerBrandService(IServiceProvider serviceProvider) : base(serviceProvider)
+        public GarmentBuyerBrandService(IServiceProvider serviceProvider) :base(serviceProvider)
         {
         }
 
@@ -151,7 +151,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         }
         private readonly List<string> Header = new List<string>()
         {
-            "Kode Brand", "Nama Brand", "Kode Buyer","Nama Buyer"
+            "Kode Brand", "Nama Brand", "Kode Buyer" 
         };
 
         public List<string> CsvHeader => Header;
@@ -182,12 +182,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh duplikat, ");
                 }
-
-                if (string.IsNullOrWhiteSpace(garmentBuyerVM.Buyers.Name))
-                {
-                    ErrorMessage = string.Concat(ErrorMessage, "Nama Buyer tidak boleh kosong, ");
-                
-                }
+ 
 
                 if (string.IsNullOrWhiteSpace(garmentBuyerVM.Buyers.Code))
                 {
@@ -207,8 +202,14 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 if (string.IsNullOrEmpty(ErrorMessage))
                 {
                     GarmentBuyer buyer = DbContext.GarmentBuyers.FirstOrDefault(s=>s.Code == garmentBuyerVM.Buyers.Code);
-                    garmentBuyerVM.Buyers.Id = buyer.Id;
-                   
+                    if (buyer == null)
+                    {
+                        ErrorMessage = string.Concat(ErrorMessage, "Kode buyer tidak ada di master, ");
+                    }
+                    else
+                    {
+                        garmentBuyerVM.Buyers.Id = buyer.Id;
+                    }
                 }
                 else
                 {
@@ -218,7 +219,6 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     Error.Add("Kode Brand", garmentBuyerVM.Code);
                     Error.Add("Nama Brand", garmentBuyerVM.Name);
                     Error.Add("Kode Buyer", garmentBuyerVM.Name);
-                    Error.Add("Nama Buyer", garmentBuyerVM.Name);
                     Error.Add("Error", ErrorMessage);
 
                     ErrorList.Add(Error);
@@ -231,6 +231,62 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             }
 
             return Tuple.Create(Valid, ErrorList);
+        }
+
+        public IQueryable<GarmentBuyerBrand> GetByName(string Keyword, string Filter)
+        {
+            IQueryable<GarmentBuyerBrand> Query = this.DbContext.GarmentBuyerBrands;
+            Dictionary<string, object> FilterDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(Filter);
+            Query = ConfigureFilter(Query, FilterDictionary);
+            Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>("{}");
+
+            /* Search With Keyword */
+            if (Keyword != null)
+            {
+                List<string> SearchAttributes = new List<string>()
+                {
+                    "Name"
+                };
+
+                Query = Query.Where(General.BuildSearch(SearchAttributes), Keyword).Distinct();
+            }
+
+            /* Const Select */
+            List<string> SelectedFields = new List<string>()
+            {
+                  "Name"
+            };
+
+            Query = Query
+                .Select(p => new GarmentBuyerBrand
+                {
+
+                    Name = p.Name,
+                    Code = p.Code,
+
+                });
+
+            /* Order */
+            if (OrderDictionary.Count.Equals(0))
+            {
+                OrderDictionary.Add("_updatedDate", General.DESCENDING);
+
+                Query = Query.OrderByDescending(b => b.Name); /* Default Order */
+            }
+            else
+            {
+                string Key = OrderDictionary.Keys.First();
+                string OrderType = OrderDictionary[Key];
+                string TransformKey = General.TransformOrderBy(Key);
+
+                BindingFlags IgnoreCase = BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance;
+
+                Query = OrderType.Equals(General.ASCENDING) ?
+                    Query.OrderBy(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b)) :
+                    Query.OrderByDescending(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b));
+            }
+
+            return Query.Distinct();
         }
     }
 }

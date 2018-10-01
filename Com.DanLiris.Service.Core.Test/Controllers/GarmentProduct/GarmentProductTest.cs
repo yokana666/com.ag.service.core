@@ -87,5 +87,29 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentProduct
 
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         }
+        [Fact]
+        public async Task GetdistinctComposition()
+        {
+            var response = await this.Client.GetAsync(string.Concat(URI, "/distinct-product-description"));
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+        [Fact]
+        public async Task GetdistinctConst()
+        {
+            var response = await this.Client.GetAsync(string.Concat(URI, "/distinct-product-const"));
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+        [Fact]
+        public async Task GetdistinctYarn()
+        {
+            var response = await this.Client.GetAsync(string.Concat(URI, "/distinct-product-yarn"));
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+        [Fact]
+        public async Task GetdistinctWidth()
+        {
+            var response = await this.Client.GetAsync(string.Concat(URI, "/distinct-product-width"));
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
     }
 }
