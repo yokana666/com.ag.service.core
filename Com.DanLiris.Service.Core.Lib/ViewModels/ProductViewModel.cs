@@ -12,11 +12,15 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
 
         public dynamic Price { get; set; }
 
+        public string ColorName { get; set; }
+
         public ProductCurrencyViewModel Currency { get; set; }
 
         public string Description { get; set; }
 
         public ProductUomViewModel UOM { get; set; }
+
+        public ProductDesignViewModel Design { get; set; }
 
         public string Tags { get; set; }
     }
@@ -35,5 +39,12 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
         public int? Id { get; set; }
 
         public string Unit { get; set; }
+    }
+
+    public class ProductDesignViewModel
+    {
+        public string Code { get; set; }
+
+        public string Number { get; set; }
     }
 }
