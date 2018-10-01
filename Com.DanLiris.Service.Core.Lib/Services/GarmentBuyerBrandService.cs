@@ -34,7 +34,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             {
                 List<string> SearchAttributes = new List<string>()
                 {
-                    "Code", "Name",
+                    "Code", "Name","BuyerName"
                 };
 
                 Query = Query.Where(General.BuildSearch(SearchAttributes), Keyword);
@@ -43,7 +43,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
             {
-                "Id", "Code", "Name", "Buyers"
+                "Id", "Code", "Name", "Buyers","BuyerName"
             };
 
             Query = Query
@@ -80,7 +80,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             Pageable<GarmentBuyerBrand> pageable = new Pageable<GarmentBuyerBrand>(Query, Page - 1, Size);
             List<GarmentBuyerBrand> Data = pageable.Data.ToList<GarmentBuyerBrand>();
 
-            int TotalData = pageable.TotalCount;
+           int TotalData = pageable.TotalCount;
 
             return Tuple.Create(Data, TotalData, OrderDictionary, SelectedFields);
         }
@@ -100,6 +100,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             garmentBuyerVM._LastModifiedAgent = garmentBuyer._LastModifiedAgent;
             garmentBuyerVM.Code = garmentBuyer.Code;
             garmentBuyerVM.Name = garmentBuyer.Name;
+            garmentBuyerVM.BuyerName = garmentBuyer.BuyerName;
             garmentBuyerVM.Buyers = new GarmentBuyerViewModel
             {
                 Id = garmentBuyer.BuyerId,
@@ -124,9 +125,18 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             garmentBuyer._LastModifiedAgent = garmentBuyerVM._LastModifiedAgent;
             garmentBuyer.Code = garmentBuyerVM.Code;
             garmentBuyer.Name = garmentBuyerVM.Name;
-            garmentBuyer.BuyerId = garmentBuyerVM.Buyers.Id;
-            garmentBuyer.BuyerCode = garmentBuyerVM.Buyers.Code;
-            garmentBuyer.BuyerName = garmentBuyerVM.Buyers.Name;
+            if (garmentBuyerVM.Buyers != null)
+            {
+                garmentBuyer.BuyerId = garmentBuyerVM.Buyers.Id;
+                garmentBuyer.BuyerCode = garmentBuyerVM.Buyers.Code;
+                garmentBuyer.BuyerName = garmentBuyerVM.Buyers.Name;
+            }
+            else
+            {
+                garmentBuyer.BuyerId = 0;
+                garmentBuyer.BuyerCode = "";
+                garmentBuyer.BuyerName = "";
+            }
             return garmentBuyer;
         }
         public sealed class GarmentBuyerBrandMap : ClassMap<GarmentBuyerBrandViewModel>
@@ -168,6 +178,10 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh kosong, ");
                 }
+                else if (Data.Any(d => d != garmentBuyerVM && d.Name.Equals(garmentBuyerVM.Name)))
+                {
+                    ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh duplikat, ");
+                }
 
                 if (string.IsNullOrWhiteSpace(garmentBuyerVM.Buyers.Name))
                 {
@@ -177,7 +191,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
                 if (string.IsNullOrWhiteSpace(garmentBuyerVM.Buyers.Code))
                 {
-                    ErrorMessage = string.Concat(ErrorMessage, "Kode Buyer boleh kosong, ");
+                    ErrorMessage = string.Concat(ErrorMessage, "Kode Buyer tidak boleh kosong, ");
                 }
               
 
@@ -192,8 +206,8 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
                 if (string.IsNullOrEmpty(ErrorMessage))
                 {
-                    GarmentBuyerBrand buyer = DbContext.GarmentBuyerBrands.FirstOrDefault(s=>s.Code == garmentBuyerVM.Buyers.Code);
-                    garmentBuyerVM.Id = buyer.Id;
+                    GarmentBuyer buyer = DbContext.GarmentBuyers.FirstOrDefault(s=>s.Code == garmentBuyerVM.Buyers.Code);
+                    garmentBuyerVM.Buyers.Id = buyer.Id;
                    
                 }
                 else
