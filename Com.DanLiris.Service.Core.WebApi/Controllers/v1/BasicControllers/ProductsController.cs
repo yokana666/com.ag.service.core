@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Com.DanLiris.Service.Core.Lib.Services;
+﻿using Com.DanLiris.Service.Core.Lib;
 using Com.DanLiris.Service.Core.Lib.Models;
-using Com.DanLiris.Service.Core.WebApi.Helpers;
+using Com.DanLiris.Service.Core.Lib.Services;
 using Com.DanLiris.Service.Core.Lib.ViewModels;
-using Com.DanLiris.Service.Core.Lib;
+using Com.DanLiris.Service.Core.WebApi.Helpers;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 using System.Threading.Tasks;
 
 namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
@@ -23,13 +23,13 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
         {
             this.service = service;
         }
-
+        
         [HttpGet("byId")]
         public IActionResult GetByIds([Bind(Prefix = "productList[]")]List<string> productList)
         {
             try
             {
-                
+
                 service.Username = User.Claims.Single(p => p.Type.Equals("username")).Value;
 
                 List<Product> Data = service.GetByIds(productList);
