@@ -46,7 +46,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
             {
-                "Id", "Code", "Name", "UOM", "Currency", "Price", "Tags", "_LastModifiedUtc"
+                "Id", "Code", "Name", "UOM", "ColorName", "Currency", "Design", "Price", "Tags", "_LastModifiedUtc"
             };
 
             Query = Query
@@ -57,6 +57,9 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     Name = p.Name,
                     UomId = p.UomId,
                     UomUnit = p.UomUnit,
+                    ColorName = p.ColorName,
+                    DesignCode = p.DesignCode,
+                    DesignNumber = p.DesignNumber,
                     CurrencyId = p.CurrencyId,
                     CurrencyCode = p.CurrencyCode,
                     CurrencySymbol = p.CurrencySymbol,
@@ -110,6 +113,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 Code = product.Code,
                 Name = product.Name,
                 Price = product.Price,
+                ColorName = product.ColorName,
                 Currency = new ProductCurrencyViewModel
                 {
                     Id = product.CurrencyId,
@@ -117,6 +121,11 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     Symbol = product.CurrencySymbol
                 },
                 Description = product.Description,
+                Design = new ProductDesignViewModel
+                {
+                    Number = product.DesignNumber,
+                    Code = product.DesignCode
+                },
                 UOM = new ProductUomViewModel
                 {
                     Id = product.UomId,
@@ -143,6 +152,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 _LastModifiedAgent = productVM._LastModifiedAgent,
                 Code = productVM.Code,
                 Name = productVM.Name,
+                ColorName = productVM.ColorName,
                 Price = !Equals(productVM.Price, null) ? Convert.ToDecimal(productVM.Price) : 0 /* Check Null */
             };
 
@@ -172,6 +182,17 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             }
 
             product.Tags = productVM.Tags;
+
+            if (!Equals(productVM.Design, null))
+            {
+                product.DesignCode = productVM.Design.Code;
+                product.DesignNumber = productVM.Design.Number;
+            }
+            else
+            {
+                product.DesignCode = null;
+                product.DesignNumber = null;
+            }
 
             return product;
         }
@@ -403,5 +424,6 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             }
             return false;
         }
+        
     }
 }
