@@ -146,7 +146,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 Map(b => b.Code).Index(0);
                 Map(b => b.Name).Index(1);
                 Map(b => b.Buyers.Code).Index(2);
-                Map(b => b.Buyers.Name).Index(3);
+              
             }
         }
         private readonly List<string> Header = new List<string>()
@@ -187,21 +187,9 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 if (string.IsNullOrWhiteSpace(garmentBuyerVM.Buyers.Code))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Kode Buyer tidak boleh kosong, ");
-                }
-              
-
-                if (string.IsNullOrEmpty(ErrorMessage))
+                }else
                 {
-                    /* Service Validation */
-                    if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(garmentBuyerVM.Code)))
-                    {
-                        ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
-                    }
-                }
-
-                if (string.IsNullOrEmpty(ErrorMessage))
-                {
-                    GarmentBuyer buyer = DbContext.GarmentBuyers.FirstOrDefault(s=>s.Code == garmentBuyerVM.Buyers.Code);
+                    GarmentBuyer buyer = DbContext.GarmentBuyers.FirstOrDefault(s => s.Code == garmentBuyerVM.Buyers.Code);
                     if (buyer == null)
                     {
                         ErrorMessage = string.Concat(ErrorMessage, "Kode buyer tidak ada di master, ");
@@ -211,6 +199,20 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                         garmentBuyerVM.Buyers.Id = buyer.Id;
                     }
                 }
+
+                if (string.IsNullOrEmpty(ErrorMessage))
+                {
+                    /* Service Validation */
+                    if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(garmentBuyerVM.Code)))
+                    {
+                        ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
+                    }
+                }
+               
+                if (string.IsNullOrEmpty(ErrorMessage))
+                {
+                  
+                }
                 else
                 {
                     ErrorMessage = ErrorMessage.Remove(ErrorMessage.Length - 2);
@@ -218,7 +220,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
                     Error.Add("Kode Brand", garmentBuyerVM.Code);
                     Error.Add("Nama Brand", garmentBuyerVM.Name);
-                    Error.Add("Kode Buyer", garmentBuyerVM.Name);
+                    Error.Add("Kode Buyer", garmentBuyerVM.Buyers.Code);
                     Error.Add("Error", ErrorMessage);
 
                     ErrorList.Add(Error);
