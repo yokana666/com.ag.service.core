@@ -13,7 +13,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentBuyerBrandTest
     [Collection("ServiceProviderFixture Collection")]
     public class BasicTest : BasicServiceTest<CoreDbContext, GarmentBuyerBrandService, GarmentBuyerBrand>
     {
-      private static readonly string[] createAttrAssertions = { "Name", "BuyerCode","Code" };
+      private static readonly string[] createAttrAssertions = { "Name", "BuyerCode","Code","BuyerName" };
         private static readonly string[] updateAttrAssertions = { "Name" ,"BuyerCode"};
         private static readonly string[] existAttrCriteria = { "Code" ,"Name"};
         public BasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
