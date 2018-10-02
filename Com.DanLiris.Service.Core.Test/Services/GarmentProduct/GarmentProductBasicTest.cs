@@ -5,6 +5,7 @@ using Com.DanLiris.Service.Core.Lib.Services;
 using Com.DanLiris.Service.Core.Lib.ViewModels;
 using Com.DanLiris.Service.Core.Test.DataUtils;
 using Com.Moonlay.NetCore.Lib.Service;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -140,5 +141,34 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
 			var Response = Services.GetByName(model.Name);
 			Assert.NotNull(Response);
 		}
-	}
+        [Fact]
+        public async void GetDistinctProductConst()
+        {
+            GarmentProduct model = await DataUtil.GetTestDataAsync();
+            var Response = Services.GetDistinctProductConst(model.Const, "{\"Const\":\"test\"}");
+            Assert.NotNull(Response);
+        }
+        [Fact]
+        public async void GetDistinctProductComposition()
+        {
+            GarmentProduct model = await DataUtil.GetTestDataAsync();
+            var Response = Services.GetDistinctProductComposition(model.Composition, "{\"Composition\":\"test\"}");
+            Assert.NotNull(Response);
+        }
+        [Fact]
+        public async void GetDistinctProductYarn()
+        {
+            GarmentProduct model = await DataUtil.GetTestDataAsync();
+            var Response = Services.GetDistinctProductYarn(model.Yarn , "{\"Yarn\":\"test\"}");
+            Assert.NotNull(Response);
+        }
+        [Fact]
+        public async void GetDistinctProductwidth()
+        {
+            GarmentProduct model = await DataUtil.GetTestDataAsync();
+            var Response = Services.GetDistinctProductWidth(model.Width, "{\"Width\":\"test\"}");
+            Assert.NotNull(Response);
+        }
+      
+    }
 }
