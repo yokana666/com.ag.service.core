@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 using Com.DanLiris.Service.Core.Test.DataUtils;
+using Com.DanLiris.Service.Core.Lib.ViewModels;
 
 namespace Com.DanLiris.Service.Core.Test.Services.GarmentBuyerBrandTest
 {
@@ -24,6 +25,10 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentBuyerBrandTest
            
             model.BuyerName = string.Empty;
 
+        }
+        private GarmentBuyerBrandDataUtil DataUtil
+        {
+            get { return (GarmentBuyerBrandDataUtil)ServiceProvider.GetService(typeof(GarmentBuyerBrandDataUtil)); }
         }
         private GarmentBuyerBrandService Services
         {
@@ -54,10 +59,17 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentBuyerBrandTest
             var Response = Services.GetByName(model.Name, "{\"Name\":\"Name\"}");
             Assert.NotNull(Response);
         }
-        private GarmentBuyerBrandDataUtil DataUtil
+        [Fact]
+        public async void Upload()
         {
-            get { return (GarmentBuyerBrandDataUtil)ServiceProvider.GetService(typeof(GarmentBuyerBrandDataUtil)); }
+            
+            GarmentBuyerBrandViewModel model =  DataUtil.GetUploadData();
+            List<GarmentBuyerBrandViewModel> viewModel = new List<GarmentBuyerBrandViewModel>();
+            viewModel.Add(model); 
+            var Response = Services.UploadValidate(viewModel,null);
+            Assert.Equal(Response.Item1, false);
         }
+      
 
     }
 }

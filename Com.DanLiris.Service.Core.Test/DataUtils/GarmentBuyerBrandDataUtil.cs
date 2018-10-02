@@ -46,5 +46,20 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
             await this.Service.CreateModel(model);
             return model;
         }
+        public GarmentBuyerBrandViewModel GetUploadData()
+        {
+            GarmentBuyerBrandViewModel viewModel = new GarmentBuyerBrandViewModel();
+            viewModel.Code = "brandCode";
+            viewModel.Name = "brandName";
+            viewModel.Buyers = new GarmentBuyerViewModel
+            {
+                Id = 0,
+                Code = "codeBYR",
+                Name = ""
+            };
+
+            return viewModel;
+
+        }
     }
 }
