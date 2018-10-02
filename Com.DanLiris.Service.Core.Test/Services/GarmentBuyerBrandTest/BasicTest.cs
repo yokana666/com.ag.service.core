@@ -48,7 +48,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentBuyerBrandTest
             };
         }
         [Fact]
-        public async void GetDistinctProductwidth()
+        public async void GetByName()
         {
             GarmentBuyerBrand model = await DataUtil.GetTestDataAsync();
             var Response = Services.GetByName(model.Name, "{\"Name\":\"Name\"}");
