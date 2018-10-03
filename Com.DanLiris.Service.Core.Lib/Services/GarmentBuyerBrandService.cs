@@ -265,6 +265,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
                     Name = p.Name,
                     Code = p.Code,
+                    Id=p.Id
 
                 });
 
