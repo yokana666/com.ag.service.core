@@ -62,14 +62,11 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentBuyerBrandTest
         [Fact]
         public async void Upload()
         {
-            
             GarmentBuyerBrandViewModel model =  DataUtil.GetUploadData();
             List<GarmentBuyerBrandViewModel> viewModel = new List<GarmentBuyerBrandViewModel>();
             viewModel.Add(model); 
             var Response = Services.UploadValidate(viewModel,null);
             Assert.Equal(Response.Item1, false);
         }
-      
-
     }
 }
