@@ -39,10 +39,8 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Product
                 Description = "desc",
                 Price = 12,
                 Tags = "tags",
-                ColorName = "red",
-                UOM = new ProductUomViewModel { Unit = "unit", Id = 1 },
-                Currency = new ProductCurrencyViewModel { Symbol = "rp", Code = "idr", Id = 1 },
-                Design = new ProductDesignViewModel { Code = "ENXB6MAP", Number = "123"}
+                SPPProperties = new ProductSPPPropertyViewModel() {  ColorName = "red", DesignCode = "ENXB6MAP" , DesignNumber = "123" },
+                UOM = new ProductUomViewModel { Unit = "unit", Id = 1 }
             };
         }
 

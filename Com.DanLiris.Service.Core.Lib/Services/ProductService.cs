@@ -57,14 +57,17 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     Name = p.Name,
                     UomId = p.UomId,
                     UomUnit = p.UomUnit,
-                    ColorName = p.ColorName,
-                    DesignCode = p.DesignCode,
-                    DesignNumber = p.DesignNumber,
                     CurrencyId = p.CurrencyId,
                     CurrencyCode = p.CurrencyCode,
                     CurrencySymbol = p.CurrencySymbol,
                     Price = p.Price,
                     Tags = p.Tags,
+                    SPPProperties = new ProductSPPProperty()
+                    {
+                        ColorName = p.SPPProperties.ColorName,
+                        DesignCode = p.SPPProperties.DesignCode,
+                        DesignNumber = p.SPPProperties.DesignNumber
+                    },
                     _LastModifiedUtc = p._LastModifiedUtc
                 });
 
@@ -113,7 +116,6 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 Code = product.Code,
                 Name = product.Name,
                 Price = product.Price,
-                ColorName = product.ColorName,
                 Currency = new ProductCurrencyViewModel
                 {
                     Id = product.CurrencyId,
@@ -121,17 +123,34 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     Symbol = product.CurrencySymbol
                 },
                 Description = product.Description,
-                Design = new ProductDesignViewModel
-                {
-                    Number = product.DesignNumber,
-                    Code = product.DesignCode
-                },
                 UOM = new ProductUomViewModel
                 {
                     Id = product.UomId,
                     Unit = product.UomUnit
                 },
-                Tags = product.Tags
+                Tags = product.Tags,
+                SPPProperties = product.SPPProperties == null ? null : new ProductSPPPropertyViewModel()
+                {
+                    BuyerAddress = product.SPPProperties.BuyerAddress,
+                    BuyerId = product.SPPProperties.BuyerId,
+                    BuyerName = product.SPPProperties.BuyerName,
+                    ColorName = product.SPPProperties.ColorName,
+                    Construction = product.SPPProperties.Construction,
+                    DesignCode = product.SPPProperties.DesignCode,
+                    DesignNumber = product.SPPProperties.DesignNumber,
+                    Grade = product.SPPProperties.Grade,
+                    Length = product.SPPProperties.Length,
+                    Lot = product.SPPProperties.Lot,
+                    ProductionOrderId = product.SPPProperties.ProductionOrderId,
+                    ProductionOrderNo = product.SPPProperties.ProductionOrderNo,
+                    Weight = product.SPPProperties.Weight,
+                    OrderType = new OrderTypeViewModel()
+                    {
+                        Id = product.SPPProperties.OrderTypeId,
+                        Code = product.SPPProperties.OrderTypeCode,
+                        Name = product.SPPProperties.OrderTypeName
+                    }
+                }
             };
 
             return productVM;
@@ -152,8 +171,28 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 _LastModifiedAgent = productVM._LastModifiedAgent,
                 Code = productVM.Code,
                 Name = productVM.Name,
-                ColorName = productVM.ColorName,
-                Price = !Equals(productVM.Price, null) ? Convert.ToDecimal(productVM.Price) : 0 /* Check Null */
+                Price = !Equals(productVM.Price, null) ? Convert.ToDecimal(productVM.Price) : 0, /* Check Null */
+                SPPProperties = productVM.SPPProperties == null ? null : new ProductSPPProperty()
+                {
+                    Id = productVM.Id,
+                    BuyerAddress = productVM.SPPProperties.BuyerAddress,
+                    BuyerId = productVM.SPPProperties.BuyerId,
+                    BuyerName = productVM.SPPProperties.BuyerName,
+                    ColorName = productVM.SPPProperties.ColorName,
+                    Construction = productVM.SPPProperties.Construction,
+                    DesignCode = productVM.SPPProperties.DesignCode,
+                    DesignNumber = productVM.SPPProperties.DesignNumber,
+                    Grade = productVM.SPPProperties.Grade,
+                    Length = productVM.SPPProperties.Length,
+                    Lot = productVM.SPPProperties.Lot,
+                    OrderTypeCode = productVM.SPPProperties.OrderType == null ? null : productVM.SPPProperties.OrderType.Code,
+                    OrderTypeId = productVM.SPPProperties.OrderType == null ? 0 : productVM.SPPProperties.OrderType.Id,
+                    OrderTypeName = productVM.SPPProperties.OrderType == null ? null : productVM.SPPProperties.OrderType.Name,
+                    ProductionOrderId = productVM.SPPProperties.ProductionOrderId,
+                    ProductionOrderNo = productVM.SPPProperties.ProductionOrderNo,
+                    Weight = productVM.SPPProperties.Weight
+
+                }
             };
 
             if (!Equals(productVM.Currency, null))
@@ -182,18 +221,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             }
 
             product.Tags = productVM.Tags;
-
-            if (!Equals(productVM.Design, null))
-            {
-                product.DesignCode = productVM.Design.Code;
-                product.DesignNumber = productVM.Design.Number;
-            }
-            else
-            {
-                product.DesignCode = null;
-                product.DesignNumber = null;
-            }
-
+            
             return product;
         }
 
@@ -390,22 +418,25 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                                                     UomId = uomId,
                                                     UomUnit = packings.PackingUom,
                                                     Tags = tags,
-                                                    ProductionOrderId = packings.ProductionOrderId,
-                                                    ProductionOrderNo = packings.ProductionOrderNo,
-                                                    DesignCode = packings.DesignCode,
-                                                    DesignNumber = packings.DesignNumber,
-                                                    OrderTypeId = packings.OrderTypeId,
-                                                    OrderTypeCode = packings.OrderTypeCode,
-                                                    OrderTypeName = packings.OrderTypeName,
-                                                    BuyerId = packings.BuyerId,
-                                                    BuyerName = packings.BuyerName,
-                                                    BuyerAddress = packings.BuyerAddress,
-                                                    ColorName = packings.ColorName,
-                                                    Construction = packings.Construction,
-                                                    Lot = packingDetail.Lot,
-                                                    Grade = packingDetail.Grade,
-                                                    Weight = packingDetail.Weight,
-                                                    Length = packingDetail.Length,
+                                                    SPPProperties = new ProductSPPProperty()
+                                                    {
+                                                        ProductionOrderId = packings.ProductionOrderId,
+                                                        ProductionOrderNo = packings.ProductionOrderNo,
+                                                        DesignCode = packings.DesignCode,
+                                                        DesignNumber = packings.DesignNumber,
+                                                        OrderTypeId = packings.OrderTypeId,
+                                                        OrderTypeCode = packings.OrderTypeCode,
+                                                        OrderTypeName = packings.OrderTypeName,
+                                                        BuyerId = packings.BuyerId,
+                                                        BuyerName = packings.BuyerName,
+                                                        BuyerAddress = packings.BuyerAddress,
+                                                        ColorName = packings.ColorName,
+                                                        Construction = packings.Construction,
+                                                        Lot = packingDetail.Lot,
+                                                        Grade = packingDetail.Grade,
+                                                        Weight = packingDetail.Weight,
+                                                        Length = packingDetail.Length
+                                                    },
                                                     _IsDeleted = false,
                                                     _CreatedBy = this.Username,
                                                     _CreatedUtc = DateTimeOffset.Now.DateTime,
