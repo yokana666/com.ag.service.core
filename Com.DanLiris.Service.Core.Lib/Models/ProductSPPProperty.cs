@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Com.DanLiris.Service.Core.Lib.Models
 {
-    public class ProductSPPProperty : StandardEntity
+    public class ProductSPPProperty : StandardEntity, IValidatableObject
     {
         public Product Product { get; set; }
 
@@ -46,6 +46,10 @@ namespace Com.DanLiris.Service.Core.Lib.Models
         public string Grade { get; set; }
         public int Weight { get; set; }
         public int Length { get; set; }
-        
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

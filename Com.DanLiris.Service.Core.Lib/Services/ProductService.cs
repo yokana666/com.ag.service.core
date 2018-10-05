@@ -14,6 +14,7 @@ using Com.DanLiris.Service.Core.Lib.Interfaces;
 using CsvHelper.TypeConversion;
 using Microsoft.Extensions.Primitives;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
@@ -27,7 +28,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
         public override Tuple<List<Product>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null,string Filter="{}")
         {
-            IQueryable<Product> Query = this.DbContext.Products;
+            IQueryable<Product> Query = this.DbContext.Products.Include(x => x.SPPProperties);
             Dictionary<string, object> FilterDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(Filter);
             Query = ConfigureFilter(Query, FilterDictionary);
             Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(Order);
@@ -46,7 +47,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
             {
-                "Id", "Code", "Name", "UOM", "ColorName", "Currency", "Design", "Price", "Tags", "_LastModifiedUtc"
+                "Id", "Code", "Name", "UOM", "Currency",  "Price", "Tags", "_LastModifiedUtc"
             };
 
             Query = Query
@@ -62,7 +63,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     CurrencySymbol = p.CurrencySymbol,
                     Price = p.Price,
                     Tags = p.Tags,
-                    SPPProperties = new ProductSPPProperty()
+                    SPPProperties = p.SPPProperties == null ? null : new ProductSPPProperty()
                     {
                         ColorName = p.SPPProperties.ColorName,
                         DesignCode = p.SPPProperties.DesignCode,
@@ -370,10 +371,16 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
         public List<Product> GetByIds(List<string> ids)
         {
-            return this.DbSet.Where(p => ids.Contains(p.Id.ToString()) && p._IsDeleted==false)
+            return this.DbSet.Include(x => x.SPPProperties).Where(p => ids.Contains(p.Id.ToString()) && p._IsDeleted==false)
                 .ToList();
         }
 
+        public override Task<Product> ReadModelById(int Id)
+        {
+            base.DbContext.Set<ProductSPPProperty>().Load();
+            return base.ReadModelById(Id);
+        }
+        
         public async Task<bool> CreateProduct(PackingModel packings)
         {
             var productNames = (from packingDetail in packings.PackingDetails

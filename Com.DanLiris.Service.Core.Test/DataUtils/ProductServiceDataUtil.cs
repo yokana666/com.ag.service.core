@@ -34,26 +34,6 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
             string guid = Guid.NewGuid().ToString();
             Product TestData = new Product
             {
-                SPPProperties = new ProductSPPProperty()
-                {
-                    ProductionOrderNo = "ProductionOrderNo",
-                    BuyerAddress = "buyerAddress",
-                    BuyerName = "bname",
-                    BuyerId = 1,
-                    ColorName = "color",
-                    Construction = "cons",
-                    DesignCode = "dcode",
-                    DesignNumber = "dnum",
-                    Grade = "grade",
-                    Length = 0,
-                    Lot = "lot",
-                    OrderTypeCode = "otc",
-                    OrderTypeId = 1,
-                    OrderTypeName = "otn",
-                    ProductionOrderId = 1,
-                    Weight = 0
-                    
-                },
                 Code = "Code",
                 Name = string.Format("TEST {0}", guid),
                 CurrencySymbol = "curr",
