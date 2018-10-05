@@ -39,7 +39,8 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Product
                 Description = "desc",
                 Price = 12,
                 Tags = "tags",
-                UOM = new ProductUomViewModel { Unit = "unit", Id = 1 }
+                UOM = new ProductUomViewModel { Unit = "unit", Id = 1 },
+                Currency = new ProductCurrencyViewModel { Symbol = "rp", Code = "idr", Id = 1 },
             };
         }
 
