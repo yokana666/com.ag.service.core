@@ -1,5 +1,6 @@
 ﻿using Com.DanLiris.Service.Core.Lib.Helpers;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Com.DanLiris.Service.Core.Lib.ViewModels
 {
@@ -11,18 +12,57 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
         public string Name { get; set; }
 
         public dynamic Price { get; set; }
-
-        public string ColorName { get; set; }
-
+        
         public ProductCurrencyViewModel Currency { get; set; }
+
+        public ProductSPPPropertyViewModel SPPProperties { get; set; }
 
         public string Description { get; set; }
 
         public ProductUomViewModel UOM { get; set; }
-
-        public ProductDesignViewModel Design { get; set; }
-
+        
         public string Tags { get; set; }
+    }
+
+    public class ProductSPPPropertyViewModel
+    {
+        public int BuyerId { get; set; }
+
+        [MaxLength(250)]
+        public string BuyerName { get; set; }
+
+        [MaxLength(250)]
+        public string BuyerAddress { get; set; }
+
+        [MaxLength(250)]
+        public string ColorName { get; set; }
+
+        [MaxLength(300)]
+        public string Construction { get; set; }
+
+        [MaxLength(250)]
+        public string DesignCode { get; set; }
+
+        [MaxLength(250)]
+        public string DesignNumber { get; set; }
+
+        [MaxLength(100)]
+        public string Grade { get; set; }
+
+        public int Length { get; set; }
+
+        [MaxLength(250)]
+        public string Lot { get; set; }
+
+        public OrderTypeViewModel OrderType { get; set; } 
+
+        public int ProductionOrderId { get; set; }
+
+        [MaxLength(25)]
+        public string ProductionOrderNo { get; set; }
+        
+        public int Weight { get; set; }
+       
     }
 
     public class ProductCurrencyViewModel
