@@ -23,7 +23,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
         {
             this.service = service;
         }
-        
+
         [HttpGet("byId")]
         public IActionResult GetByIds([Bind(Prefix = "productList[]")]List<string> productList)
         {
@@ -72,6 +72,31 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
                     .Fail();
                     return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
                 }
+            }
+            catch (Exception e)
+            {
+                Dictionary<string, object> Result =
+                    new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, e.Message)
+                    .Fail();
+                return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
+            }
+        }
+
+        [HttpGet("byProductionOrderNo")]
+        public async Task<IActionResult> GetByProductionOrederNo([FromQuery] string productionOrderNo)
+        {
+            try
+            {
+
+                service.Username = User.Claims.Single(p => p.Type.Equals("username")).Value;
+
+                List<ProductViewModel> Data = await service.GetProductByProductionOrderNo(productionOrderNo);
+
+                Dictionary<string, object> Result =
+                    new ResultFormatter(ApiVersion, General.OK_STATUS_CODE, General.OK_MESSAGE)
+                    .Ok(Data);
+
+                return Ok(Result);
             }
             catch (Exception e)
             {
