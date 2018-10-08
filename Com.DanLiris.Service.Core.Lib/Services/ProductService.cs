@@ -1,20 +1,20 @@
-﻿using Com.DanLiris.Service.Core.Lib.Models;
+﻿using Com.DanLiris.Service.Core.Lib.Helpers;
+using Com.DanLiris.Service.Core.Lib.Interfaces;
+using Com.DanLiris.Service.Core.Lib.Models;
+using Com.DanLiris.Service.Core.Lib.ViewModels;
+using Com.Moonlay.NetCore.Lib;
+using CsvHelper.Configuration;
+using CsvHelper.TypeConversion;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Primitives;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using Com.DanLiris.Service.Core.Lib.Helpers;
-using Newtonsoft.Json;
 using System.Reflection;
-using Com.Moonlay.NetCore.Lib;
-using Com.DanLiris.Service.Core.Lib.ViewModels;
-using CsvHelper.Configuration;
-using System.Dynamic;
-using Com.DanLiris.Service.Core.Lib.Interfaces;
-using CsvHelper.TypeConversion;
-using Microsoft.Extensions.Primitives;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
@@ -26,7 +26,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         {
         }
 
-        public override Tuple<List<Product>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null,string Filter="{}")
+        public override Tuple<List<Product>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null, string Filter = "{}")
         {
             IQueryable<Product> Query = this.DbContext.Products.Include(x => x.SPPProperties);
             Dictionary<string, object> FilterDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(Filter);
@@ -47,7 +47,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
             {
-                "Id", "Code", "Name", "UOM", "Currency",  "Price", "Tags", "_LastModifiedUtc"
+                "Id", "Code", "Name", "UOM", "Currency",  "Price", "Tags", "_LastModifiedUtc", "SPPProperties"
             };
 
             Query = Query
@@ -63,11 +63,24 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     CurrencySymbol = p.CurrencySymbol,
                     Price = p.Price,
                     Tags = p.Tags,
-                    SPPProperties = p.SPPProperties == null ? null : new ProductSPPProperty()
+                    SPPProperties = p.SPPProperties == null ? new ProductSPPProperty() : new ProductSPPProperty()
                     {
                         ColorName = p.SPPProperties.ColorName,
                         DesignCode = p.SPPProperties.DesignCode,
-                        DesignNumber = p.SPPProperties.DesignNumber
+                        DesignNumber = p.SPPProperties.DesignNumber,
+                        ProductionOrderId = p.SPPProperties.ProductionOrderId,
+                        ProductionOrderNo = p.SPPProperties.ProductionOrderNo,
+                        BuyerAddress = p.SPPProperties.BuyerAddress,
+                        BuyerId = p.SPPProperties.BuyerId,
+                        BuyerName = p.SPPProperties.BuyerName,
+                        Weight = p.SPPProperties.Weight,
+                        Construction = p.SPPProperties.Construction,
+                        Grade = p.SPPProperties.Grade,
+                        Length = p.SPPProperties.Length,
+                        Lot = p.SPPProperties.Lot,
+                        OrderTypeCode = p.SPPProperties.OrderTypeCode,
+                        OrderTypeId = p.SPPProperties.OrderTypeId,
+                        OrderTypeName = p.SPPProperties.OrderTypeName
                     },
                     _LastModifiedUtc = p._LastModifiedUtc
                 });
@@ -222,7 +235,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             }
 
             product.Tags = productVM.Tags;
-            
+
             return product;
         }
 
@@ -371,7 +384,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
         public List<Product> GetByIds(List<string> ids)
         {
-            return this.DbSet.Include(x => x.SPPProperties).Where(p => ids.Contains(p.Id.ToString()) && p._IsDeleted==false)
+            return this.DbSet.Include(x => x.SPPProperties).Where(p => ids.Contains(p.Id.ToString()) && p._IsDeleted == false)
                 .ToList();
         }
 
@@ -380,7 +393,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             base.DbContext.Set<ProductSPPProperty>().Load();
             return base.ReadModelById(Id);
         }
-        
+
         public async Task<bool> CreateProduct(PackingModel packings)
         {
             var productNames = (from packingDetail in packings.PackingDetails
@@ -451,7 +464,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                                                 };
                 await DbContext.AddRangeAsync(products);
                 var rowAffected = await DbContext.SaveChangesAsync();
-                if(rowAffected > 0)
+                if (rowAffected > 0)
                 {
                     return true;
                 }
@@ -462,6 +475,56 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             }
             return false;
         }
-        
+
+        public Task<List<ProductViewModel>> GetProductByProductionOrderNo(string productionOrderNo)
+        {
+            var product = DbContext.ProductSPPProperties.Include(x => x.Product).Where(x => x.ProductionOrderNo == productionOrderNo);
+
+            return product.Select(x => new ProductViewModel()
+            {
+                Active = x.Product.Active,
+                Code = x.Product.Code,
+                Currency = new ProductCurrencyViewModel()
+                {
+                    Code = x.Product.CurrencyCode,
+                    Id = x.Product.CurrencyId,
+                    Symbol = x.Product.CurrencySymbol
+                },
+                Description = x.Product.Description,
+                Id = x.Product.Id,
+                Name = x.Product.Name,
+                Price = x.Product.Price,
+                Tags = x.Product.Tags,
+                Uid = x.Product.UId,
+                UOM = new ProductUomViewModel()
+                {
+                    Id = x.Product.UomId,
+                    Unit = x.Product.UomUnit
+                },
+                _LastModifiedUtc = x.Product._LastModifiedUtc,
+                SPPProperties = new ProductSPPPropertyViewModel()
+                {
+                    BuyerAddress = x.BuyerAddress,
+                    BuyerId = x.BuyerId,
+                    BuyerName = x.BuyerName,
+                    ColorName = x.ColorName,
+                    Construction = x.Construction,
+                    DesignCode = x.DesignCode,
+                    DesignNumber = x.DesignNumber,
+                    Grade = x.Grade,
+                    Length = x.Length,
+                    Lot = x.Lot,
+                    OrderType = new OrderTypeViewModel()
+                    {
+                        Code = x.OrderTypeCode,
+                        Id = x.OrderTypeId,
+                        Name = x.OrderTypeName
+                    },
+                    ProductionOrderId = x.ProductionOrderId,
+                    ProductionOrderNo = x.ProductionOrderNo,
+                    Weight = x.Weight
+                }
+            }).ToListAsync();
+        }
     }
 }
