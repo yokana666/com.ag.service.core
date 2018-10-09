@@ -16,9 +16,6 @@ namespace Com.DanLiris.Service.Core.Lib.Models
         [StringLength(100)]
         public string Code { get; set; }
 
-	//	[StringLength(100)]
-//		public string Symbol { get; set; }
-
 		public DateTime Date { get; set; }
 
         public double? Rate { get; set; }
@@ -28,23 +25,23 @@ namespace Com.DanLiris.Service.Core.Lib.Models
             List<ValidationResult> validationResult = new List<ValidationResult>();
 
             if (string.IsNullOrWhiteSpace(this.Code))
-                validationResult.Add(new ValidationResult("Code is required", new List<string> { "code" }));
+                validationResult.Add(new ValidationResult("Code is required", new List<string> { "Code" }));
 
             if (this.Date > DateTime.Now)
-                validationResult.Add(new ValidationResult("Date must be less than or equal today's date", new List<string> { "date" }));
+                validationResult.Add(new ValidationResult("Date must be less than or equal today's date", new List<string> { "Date" }));
 
             if (this.Rate.Equals(null) || this.Rate < 0)
-                validationResult.Add(new ValidationResult("Rate must be greater than zero", new List<string> { "rate" }));
+                validationResult.Add(new ValidationResult("Rate must be greater than zero", new List<string> { "Rate" }));
 
             if (validationResult.Count.Equals(0))
             {
                 /* Service Validation */
                 GarmentCurrencyService service = (GarmentCurrencyService)validationContext.GetService(typeof(GarmentCurrencyService));
-                
+				var coba = service.DbContext.Set<GarmentCurrency>().Where(r => r.Code == this.Code);
                 if (service.DbContext.Set<GarmentCurrency>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Code.Equals(this.Code) && r.Date.Equals(this.Date)) > 0) /* Unique */
                 {
-                    validationResult.Add(new ValidationResult("Code and Date already exists", new List<string> { "code" }));
-                    validationResult.Add(new ValidationResult("Code and Date already exists", new List<string> { "date" }));
+                    validationResult.Add(new ValidationResult("Code and Date already exists", new List<string> { "Code" }));
+                    validationResult.Add(new ValidationResult("Code and Date already exists", new List<string> { "Date" }));
                 }
             }
 
