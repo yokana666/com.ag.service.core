@@ -197,6 +197,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     else
                     {
                         garmentBuyerVM.Buyers.Id = buyer.Id;
+                        garmentBuyerVM.Buyers.Name = buyer.Name;
                     }
                 }
 
