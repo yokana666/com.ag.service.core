@@ -30,6 +30,10 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentBuyerBrandTest
         {
             get { return (GarmentBuyerBrandDataUtil)ServiceProvider.GetService(typeof(GarmentBuyerBrandDataUtil)); }
         }
+        private GarmentBuyerDataUtil BuyerDataUtil
+        {
+            get { return (GarmentBuyerDataUtil)ServiceProvider.GetService(typeof(GarmentBuyerDataUtil)); }
+        }
         private GarmentBuyerBrandService Services
         {
             get { return (GarmentBuyerBrandService)ServiceProvider.GetService(typeof(GarmentBuyerBrandService)); }
@@ -66,6 +70,19 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentBuyerBrandTest
             List<GarmentBuyerBrandViewModel> viewModel = new List<GarmentBuyerBrandViewModel>();
             viewModel.Add(model); 
             var Response = Services.UploadValidate(viewModel,null);
+            Assert.Equal(Response.Item1, false);
+        }
+        [Fact]
+        public async void UploadDouble()
+        {
+            Com.DanLiris.Service.Core.Lib.Models.GarmentBuyer garmentBuyer = await BuyerDataUtil.GetTestDataAsync();
+            GarmentBuyerBrand models = await DataUtil.GetTestDataAsync();
+            GarmentBuyerBrandViewModel model = DataUtil.GetUploadData();
+            model.Code = models.Code;
+            model.Buyers.Code = garmentBuyer.Code;
+            List<GarmentBuyerBrandViewModel> viewModel = new List<GarmentBuyerBrandViewModel>();
+            viewModel.Add(model); 
+            var Response = Services.UploadValidate(viewModel, null);
             Assert.Equal(Response.Item1, false);
         }
     }
