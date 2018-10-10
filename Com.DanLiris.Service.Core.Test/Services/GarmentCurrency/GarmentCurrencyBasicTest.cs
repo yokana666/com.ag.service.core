@@ -13,8 +13,8 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentCurrency
 	[Collection("ServiceProviderFixture Collection")]
 	public class GarmentCurrencyBasicTest : BasicServiceTest<CoreDbContext, GarmentCurrencyService, Models.GarmentCurrency>
 	{
-		private static readonly string[] createAttrAssertions = { "Code","Date","Rate" };
-		private static readonly string[] updateAttrAssertions = { "Code","Date","Rate" };
+		private static readonly string[] createAttrAssertions = { "Code","Date","Rate","Remark" };
+		private static readonly string[] updateAttrAssertions = { "Code","Date","Rate","Remark" };
 		private static readonly string[] existAttrCriteria = { "Code","Date" };
 
 		private GarmentCurrencyDataUtil DataUtil
@@ -30,6 +30,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentCurrency
 		public GarmentCurrencyBasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
 		{
 		}
+
 		public override void EmptyCreateModel(Models.GarmentCurrency model)
 		{
 			model.Code = string.Empty;

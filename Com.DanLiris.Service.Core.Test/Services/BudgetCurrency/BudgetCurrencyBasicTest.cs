@@ -4,7 +4,6 @@ using Com.DanLiris.Service.Core.Lib.Services;
 using Com.DanLiris.Service.Core.Test.DataUtils;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Xunit;
 using Models = Com.DanLiris.Service.Core.Lib.Models;
 
@@ -16,11 +15,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.BudgetCurrency
 		private static readonly string[] createAttrAssertions = { "Code", "Date", "Rate" };
 		private static readonly string[] updateAttrAssertions = { "Code", "Date", "Rate" };
 		private static readonly string[] existAttrCriteria = { "Code", "Date" };
-
-		public BudgetCurrencyBasicTest(ServiceProviderFixture fixture, string[] createAttrAssertions, string[] updateAttrAssertions, string[] existAttrCriteria) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
-		{
-		}
-
+		
 		private BudgetCurrencyDataUtil DataUtil
 		{
 			get { return (BudgetCurrencyDataUtil)ServiceProvider.GetService(typeof(BudgetCurrencyDataUtil)); }
@@ -29,6 +24,10 @@ namespace Com.DanLiris.Service.Core.Test.Services.BudgetCurrency
 		private BudgetCurrencyService Services
 		{
 			get { return (BudgetCurrencyService)ServiceProvider.GetService(typeof(BudgetCurrencyService)); }
+		}
+
+		public BudgetCurrencyBasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
+		{
 		}
 
 		public override void EmptyCreateModel(Models.BudgetCurrency model)
@@ -54,6 +53,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.BudgetCurrency
 				Code = guid,
 				Date = DateTime.Today,
 				Rate = 0,
+				Remark = guid
 			};
 		}
 
@@ -65,5 +65,6 @@ namespace Com.DanLiris.Service.Core.Test.Services.BudgetCurrency
 			var Response = Services.GetByIds(new List<int> { model1.Id, model2.Id });
 			Assert.NotNull(Response);
 		}
+
 	}
 }

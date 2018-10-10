@@ -5,8 +5,6 @@ using Com.DanLiris.Service.Core.Lib.ViewModels;
 using Com.DanLiris.Service.Core.Test.Helpers;
 using Com.DanLiris.Service.Core.Test.Interface;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Com.DanLiris.Service.Core.Test.DataUtils
@@ -37,6 +35,7 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
 			model.Code = guid;
 			model.Date = DateTime.Now;
 			model.Rate = 1;
+			model.Remark = guid;
 
 			return model;
 		}
