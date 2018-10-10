@@ -39,10 +39,8 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Product
                 Description = "desc",
                 Price = 12,
                 Tags = "tags",
-                ColorName = "red",
                 UOM = new ProductUomViewModel { Unit = "unit", Id = 1 },
                 Currency = new ProductCurrencyViewModel { Symbol = "rp", Code = "idr", Id = 1 },
-                Design = new ProductDesignViewModel { Code = "ENXB6MAP", Number = "123"}
             };
         }
 
@@ -83,6 +81,13 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Product
             var response = await this.Client.PostAsync(URI + "/packing/create", new StringContent(content, Encoding.UTF8, "application/json"));
 
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task GetByProductionOrderNo()
+        {
+            var response = await this.Client.GetAsync(string.Concat(URI, "/byProductionOrderNo"));
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
     }
