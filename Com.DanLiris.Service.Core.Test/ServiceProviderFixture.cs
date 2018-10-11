@@ -21,6 +21,7 @@ namespace Com.DanLiris.Service.Core.Test
                     new KeyValuePair<string, string>("Secret", "DANLIRISTESTENVIRONMENT"),
 					new KeyValuePair<string, string>("ASPNETCORE_ENVIRONMENT", "Test"),
 					new KeyValuePair<string, string>("DefaultConnection",  "Server=localhost,1401; Database = com.danliris.db.core.service.test; User = sa; password = Standar123.; MultipleActiveResultSets = true; ")
+
 				})
                 .Build();
 
@@ -67,6 +68,9 @@ namespace Com.DanLiris.Service.Core.Test
                 .AddTransient<UnitService>(provider => new UnitService(provider))
 				.AddTransient<GarmentCurrencyService>(provider => new GarmentCurrencyService(provider))
 				.AddTransient<GarmentCurrencyDataUtil>()
+				.AddTransient<BudgetCurrencyService>(provider => new BudgetCurrencyService(provider))
+				.AddTransient<BudgetCurrencyDataUtil>()
+
 				.BuildServiceProvider();
 
             CoreDbContext dbContext = ServiceProvider.GetService<CoreDbContext>();

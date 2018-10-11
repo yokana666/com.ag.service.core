@@ -4,7 +4,6 @@ using Com.DanLiris.Service.Core.Lib.Services;
 using Com.DanLiris.Service.Core.Test.DataUtils;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Xunit;
 using Models = Com.DanLiris.Service.Core.Lib.Models;
 
@@ -30,6 +29,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentCurrency
 		public GarmentCurrencyBasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
 		{
 		}
+
 		public override void EmptyCreateModel(Models.GarmentCurrency model)
 		{
 			model.Code = string.Empty;

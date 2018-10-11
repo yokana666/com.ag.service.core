@@ -41,7 +41,7 @@ namespace Com.DanLiris.Service.Core.Test
                     new KeyValuePair<string, string>("Secret", "DANLIRISTESTENVIRONMENT"),
                     new KeyValuePair<string, string>("ASPNETCORE_ENVIRONMENT", "Test"),
                     new KeyValuePair<string, string>("DefaultConnection", "Server=localhost,1401;Database=com.danliris.db.core.controller.test;User=sa;password=Standar123.;MultipleActiveResultSets=true;")
-                })
+				})
                 .Build();
 
 
@@ -65,7 +65,8 @@ namespace Com.DanLiris.Service.Core.Test
                         .AddTransient<GarmentBuyerDataUtil>()
                         .AddTransient<GarmentBuyerBrandDataUtil>()
                         .AddTransient<GarmentSupplierDataUtil>()
-						.AddTransient<GarmentCurrencyDataUtil>();
+						.AddTransient<GarmentCurrencyDataUtil>()
+						.AddTransient<BudgetCurrencyDataUtil>();
                 })
                 .UseStartup<Startup>();
 

@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Com.DanLiris.Service.Core.Lib.Helpers;
+using System;
 
 namespace Com.DanLiris.Service.Core.Lib.ViewModels
 {
-    public class GarmentCurrencyViewModel
+    public class GarmentCurrencyViewModel :BasicViewModel
     {
         public int _id { get; set; }
 
