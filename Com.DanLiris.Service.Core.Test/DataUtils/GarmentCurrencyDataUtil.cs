@@ -20,11 +20,7 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
 		public GarmentCurrencyViewModel GetEmptyData()
 		{
 			GarmentCurrencyViewModel Data = new GarmentCurrencyViewModel();
-
-			Data._id = 0;
-			Data.code = "";
-			Data.date = DateTime.MinValue;
-			Data.rate = null;
+			
 			return Data;
 		}
 

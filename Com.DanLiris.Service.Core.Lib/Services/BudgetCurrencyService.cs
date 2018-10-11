@@ -42,7 +42,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 			/* Const Select */
 			List<string> SelectedFields = new List<string>()
 			{
-				"_id", "code", "rate", "date", "remark"
+				"Id", "code", "rate", "date", "remark"
 			};
 
 			Query = Query
@@ -96,17 +96,17 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
 		public BudgetCurrency MapToModel(BudgetCurrencyViewModel budgetCurrencyVM)
 		{
-			BudgetCurrency budgetCurrency = new BudgetCurrency();
+			Models.BudgetCurrency budgetCurrency = new Models.BudgetCurrency();
 
-			budgetCurrency.Id = budgetCurrencyVM._id;
-			budgetCurrency._IsDeleted = budgetCurrencyVM._deleted;
-			budgetCurrency.Active = budgetCurrencyVM._active;
-			budgetCurrency._CreatedUtc = budgetCurrencyVM._createdDate;
-			budgetCurrency._CreatedBy = budgetCurrencyVM._createdBy;
-			budgetCurrency._CreatedAgent = budgetCurrencyVM._createAgent;
-			budgetCurrency._LastModifiedUtc = budgetCurrencyVM._updatedDate;
-			budgetCurrency._LastModifiedBy = budgetCurrencyVM._updatedBy;
-			budgetCurrency._LastModifiedAgent = budgetCurrencyVM._updateAgent;
+			budgetCurrency.Id = budgetCurrencyVM.Id;
+			budgetCurrency._IsDeleted = budgetCurrencyVM._IsDeleted;
+			budgetCurrency.Active = budgetCurrencyVM.Active;
+			budgetCurrency._CreatedUtc = budgetCurrencyVM._CreatedUtc;
+			budgetCurrency._CreatedBy = budgetCurrencyVM._CreatedBy;
+			budgetCurrency._CreatedAgent = budgetCurrencyVM._CreatedAgent;
+			budgetCurrency._LastModifiedUtc = budgetCurrencyVM._LastModifiedUtc;
+			budgetCurrency._LastModifiedBy = budgetCurrencyVM._LastModifiedBy;
+			budgetCurrency._LastModifiedAgent = budgetCurrencyVM._LastModifiedAgent;
 			budgetCurrency.Code = budgetCurrencyVM.code;
 			budgetCurrency.Date = budgetCurrencyVM.date;
 			budgetCurrency.Rate = !Equals(budgetCurrencyVM.rate, null) ? Convert.ToDouble(budgetCurrencyVM.rate) : null; /* Check Null */
@@ -119,15 +119,15 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 		{
 			BudgetCurrencyViewModel budgetCurrencyVM = new BudgetCurrencyViewModel();
 
-			budgetCurrencyVM._id = budgetCurrency.Id;
-			budgetCurrencyVM._deleted = budgetCurrency._IsDeleted;
-			budgetCurrencyVM._active = budgetCurrency.Active;
-			budgetCurrencyVM._createdDate = budgetCurrency._CreatedUtc;
-			budgetCurrencyVM._createdBy = budgetCurrency._CreatedBy;
-			budgetCurrencyVM._createAgent = budgetCurrency._CreatedAgent;
-			budgetCurrencyVM._updatedDate = budgetCurrency._LastModifiedUtc;
-			budgetCurrencyVM._updatedBy = budgetCurrency._LastModifiedBy;
-			budgetCurrencyVM._updateAgent = budgetCurrency._LastModifiedAgent;
+			budgetCurrencyVM.Id = budgetCurrency.Id;
+			budgetCurrencyVM._IsDeleted = budgetCurrency._IsDeleted;
+			budgetCurrencyVM.Active = budgetCurrency.Active;
+			budgetCurrencyVM._CreatedUtc = budgetCurrency._CreatedUtc;
+			budgetCurrencyVM._CreatedBy = budgetCurrency._CreatedBy;
+			budgetCurrencyVM._CreatedAgent = budgetCurrency._CreatedAgent;
+			budgetCurrencyVM._LastModifiedUtc = budgetCurrency._LastModifiedUtc;
+			budgetCurrencyVM._LastModifiedBy = budgetCurrency._LastModifiedBy;
+			budgetCurrencyVM._LastModifiedAgent = budgetCurrency._LastModifiedAgent;
 			budgetCurrencyVM.code = budgetCurrency.Code;
 			budgetCurrencyVM.date = budgetCurrency.Date.ToLocalTime();
 			budgetCurrencyVM.rate = budgetCurrency.Rate;

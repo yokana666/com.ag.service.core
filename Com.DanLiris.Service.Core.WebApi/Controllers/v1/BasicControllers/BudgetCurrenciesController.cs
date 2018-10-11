@@ -20,7 +20,6 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
 
 		public BudgetCurrenciesController(BudgetCurrencyService service) : base(service, ApiVersion)
 		{
-			this.service = service;
 		}
 
 		[HttpGet("byId")]

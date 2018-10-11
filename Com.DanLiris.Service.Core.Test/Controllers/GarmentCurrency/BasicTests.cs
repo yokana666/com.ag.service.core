@@ -2,15 +2,21 @@
 using System;
 using Newtonsoft.Json;
 using System.Net;
+using Models = Com.DanLiris.Service.Core.Lib.Models;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
+using Com.DanLiris.Service.Core.Test.Helpers;
+using Com.DanLiris.Service.Core.Lib;
+using Com.DanLiris.Service.Core.Lib.Services;
+using Com.DanLiris.Service.Core.Test.DataUtils;
+using System.Collections.Generic;
 
 namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCurrency
 {
 	[Collection("TestFixture Collection")]
 	public class BasicTests 
-    {
+	{
 		private const string URI = "v1/master/garment-currencies";
 		protected TestServerFixture TestFixture { get; set; }
 
@@ -42,6 +48,8 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCurrency
 			var response = await this.Client.GetAsync(string.Concat(URI, "/"));
 			Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 		}
-		
+
+
+
 	}
 }

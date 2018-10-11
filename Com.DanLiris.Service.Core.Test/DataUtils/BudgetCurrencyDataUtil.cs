@@ -18,11 +18,7 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
 		public BudgetCurrencyViewModel GetEmptyData()
 		{
 			BudgetCurrencyViewModel Data = new BudgetCurrencyViewModel();
-
-			Data._id = 0;
-			Data.code = "";
-			Data.date = DateTime.MinValue;
-			Data.rate = null;
+			
 			return Data;
 		}
 
