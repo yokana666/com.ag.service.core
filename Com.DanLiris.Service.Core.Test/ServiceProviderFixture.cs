@@ -18,9 +18,10 @@ namespace Com.DanLiris.Service.Core.Test
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .AddInMemoryCollection(new List<KeyValuePair<string, string>>
                 {
-                    new KeyValuePair<string, string>("Secret", "DANLIRISDEVELOPMENT"),
+                    new KeyValuePair<string, string>("Secret", "DANLIRISTESTENVIRONMENT"),
 					new KeyValuePair<string, string>("ASPNETCORE_ENVIRONMENT", "Test"),
-					new KeyValuePair<string, string>("DefaultConnection",  "Server=(localdb)\\mssqllocaldb;Database=com.danliris.db.dev;Trusted_Connection=True;")
+					new KeyValuePair<string, string>("DefaultConnection",  "Server=localhost,1401; Database = com.danliris.db.core.service.test; User = sa; password = Standar123.; MultipleActiveResultSets = true; ")
+
 				})
                 .Build();
 
