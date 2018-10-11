@@ -17,7 +17,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCurrency
 	[Collection("TestFixture Collection")]
 	public class BasicTests : BasicControllerTest<CoreDbContext, GarmentCurrencyService, Models.GarmentCurrency, GarmentCurrencyViewModel, GarmentCurrencyDataUtil>
 	{
-		private const string URI = "v1/master/budget-currencies";
+		private const string URI = "v1/master/garment-currencies";
 		private static List<string> CreateValidationAttributes = new List<string> { };
 		private static List<string> UpdateValidationAttributes = new List<string> { };
 

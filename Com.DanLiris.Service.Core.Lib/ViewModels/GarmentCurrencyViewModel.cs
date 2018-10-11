@@ -3,7 +3,7 @@ using System;
 
 namespace Com.DanLiris.Service.Core.Lib.ViewModels
 {
-    public class GarmentCurrencyViewModel :BasicViewModel
+    public class GarmentCurrencyViewModel : BasicViewModel
     {
 
         public string code { get; set; }
