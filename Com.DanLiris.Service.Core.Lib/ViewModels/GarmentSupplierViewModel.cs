@@ -41,5 +41,9 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
 		public string NPWP { get; set; }
 
 		public string serialNumber { get; set; }
+
+		public dynamic usetax { get; set; }
+
+		public IncomeTaxViewModel IncomeTaxes { get; set; }
 	}
 }

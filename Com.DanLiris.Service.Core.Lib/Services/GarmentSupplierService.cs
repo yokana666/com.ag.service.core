@@ -22,6 +22,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
 		private readonly string[] ImportAllowed = { "True", "False" };
 		private readonly string[] UseVatAllowed = { "True", "False" };
+		private readonly string[] UseTaxAllowed = { "True", "False" };
 		public GarmentSupplierService(IServiceProvider serviceProvider) : base(serviceProvider)
 		{
 		}
@@ -45,7 +46,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 			/* Const Select */
 			List<string> SelectedFields = new List<string>()
 			{
-				"_id", "code", "name", "address", "import", "NPWP","usevat"
+				"_id", "code", "name", "address", "import", "NPWP", "usevat", "usetax", "IncomeTaxes"
 			};
 
 			Query = Query
@@ -57,7 +58,11 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 					Address = s.Address,
 					Import = s.Import,
 					NPWP = s.NPWP,
-					UseVat=s.UseVat,
+					UseVat = s.UseVat,
+					UseTax = s.UseTax,
+					IncomeTaxesId = s.IncomeTaxesId,
+					IncomeTaxesName = s.IncomeTaxesName,
+					IncomeTaxesRate = s.IncomeTaxesRate,
 					_LastModifiedUtc =s._LastModifiedUtc
 				}).OrderByDescending(b => b._LastModifiedUtc);
 
@@ -111,6 +116,14 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 			GarmentSupplierVM.usevat = GarmentSupplier.UseVat;
 			GarmentSupplierVM.NPWP = GarmentSupplier.NPWP;
 			GarmentSupplierVM.serialNumber = GarmentSupplier.SerialNumber;
+			GarmentSupplierVM.usetax = GarmentSupplier.UseTax;
+
+			GarmentSupplierVM.IncomeTaxes = new IncomeTaxViewModel
+			{
+				_id = (int)GarmentSupplier.IncomeTaxesId,
+				name = GarmentSupplier.IncomeTaxesName,
+				rate = GarmentSupplier.IncomeTaxesRate
+			};
 
 			return GarmentSupplierVM;
 		}
@@ -133,9 +146,22 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 			GarmentSupplier.Contact = GarmentSupplierVM.contact;
 			GarmentSupplier.PIC = GarmentSupplierVM.PIC;
 			GarmentSupplier.Import = !Equals(GarmentSupplierVM.import, null) ? Convert.ToBoolean(GarmentSupplierVM.import) : null;
-			GarmentSupplier.UseVat = !Equals(GarmentSupplierVM.usevat, null) ? Convert.ToBoolean(GarmentSupplierVM.usevat) : null; /* Check Null */
+			GarmentSupplier.UseVat = !Equals(GarmentSupplierVM.usevat, null) ? Convert.ToBoolean(GarmentSupplierVM.usevat) : null;
+			GarmentSupplier.UseTax = !Equals(GarmentSupplierVM.usetax, null) ? Convert.ToBoolean(GarmentSupplierVM.usetax) : null; /* Check Null */
 			GarmentSupplier.NPWP = GarmentSupplierVM.NPWP;
 			GarmentSupplier.SerialNumber = GarmentSupplierVM.serialNumber;
+			if (GarmentSupplierVM.IncomeTaxes != null)
+			{
+				GarmentSupplier.IncomeTaxesId = GarmentSupplierVM.IncomeTaxes._id;
+				GarmentSupplier.IncomeTaxesName = GarmentSupplierVM.IncomeTaxes.name;
+				GarmentSupplier.IncomeTaxesRate = GarmentSupplierVM.IncomeTaxes.rate;
+			}
+			else
+			{
+				GarmentSupplier.IncomeTaxesId = 0;
+				GarmentSupplier.IncomeTaxesName = "";
+				GarmentSupplier.IncomeTaxesRate = 0;
+			}
 
 			return GarmentSupplier;
 		}
@@ -143,7 +169,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 		/* Upload CSV */
 		private readonly List<string> Header = new List<string>()
 		{
-			"Kode", "Nama Supplier", "Alamat", "Kontak", "PIC", "Import","Kena PPN", "NPWP", "Serial Number"
+			"Kode", "Nama Supplier", "Alamat", "Kontak", "PIC", "Import","Kena PPN", "NPWP", "Serial Number", 
 		};
 		public List<string> CsvHeader => Header;
 
@@ -161,6 +187,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 				Map(s => s.usevat ).Index(6).TypeConverter<StringConverter>();
 				Map(s => s.NPWP).Index(7);
 				Map(s => s.serialNumber).Index(8);
+				Map(s => s.IncomeTaxes.name).Index(9);
 			}
 		}
 
@@ -169,6 +196,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 			List<object> ErrorList = new List<object>();
 			string ErrorMessage;
 			bool Valid = true;
+			IncomeTax incomeTax = null;
 
 			foreach (GarmentSupplierViewModel GarmentSupplierVM in Data)
 			{
@@ -204,12 +232,35 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 				{
 					ErrorMessage = string.Concat(ErrorMessage, "Kena PPN harus diisi dengan True atau False, ");
 				}
+				if (string.IsNullOrWhiteSpace(GarmentSupplierVM.IncomeTaxes.name))
+				{
+					ErrorMessage = string.Concat(ErrorMessage, "Kode PPH tidak boleh kosong, ");
+				}
+				else
+				{
+					IncomeTax supplier = DbContext.IncomeTaxes.FirstOrDefault(s => s.Name == GarmentSupplierVM.IncomeTaxes.name);
+					if (supplier == null)
+					{
+						ErrorMessage = string.Concat(ErrorMessage, "Kode PPH tidak ada di master, ");
+					}
+					else
+					{
+						GarmentSupplierVM.IncomeTaxes._id = supplier.Id;
+						GarmentSupplierVM.IncomeTaxes.name = supplier.Name;
+					}
+				}
+			
 				if (string.IsNullOrEmpty(ErrorMessage))
 				{
 					/* Service Validation */
+					incomeTax = this.DbContext.Set<IncomeTax>().FirstOrDefault(d => d._IsDeleted.Equals(false) && d.Id.Equals(GarmentSupplierVM.IncomeTaxes._id));
 					if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(GarmentSupplierVM.code)))
 					{
 						ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
+					}
+					if (incomeTax==null)
+					{
+						ErrorMessage = string.Concat(ErrorMessage, "PPH tidak terdaftar dalam master Income Tax");
 					}
 				}
 
@@ -229,6 +280,8 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 					Error.Add("PIC", GarmentSupplierVM.PIC);
 					Error.Add("Import", GarmentSupplierVM.import);
 					Error.Add("Kena PPN", GarmentSupplierVM.usevat);
+					Error.Add("Kena PPH", GarmentSupplierVM.usetax);
+					Error.Add("PPH", GarmentSupplierVM.IncomeTaxes.name);
 					Error.Add("NPWP", GarmentSupplierVM.NPWP);
 					Error.Add("Serial Number", GarmentSupplierVM.serialNumber);
 					Error.Add("Error", ErrorMessage);
