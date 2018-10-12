@@ -52,7 +52,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 			if (string.IsNullOrWhiteSpace(this.Name))
 				validationResult.Add(new ValidationResult("Name is required", new List<string> { "name" }));
 
-			if (IncomeTaxesName == null || string.IsNullOrWhiteSpace(IncomeTaxesName))
+			if (UseTax==true && string.IsNullOrWhiteSpace(IncomeTaxesName))
 				validationResult.Add(new ValidationResult("PPH is required", new List<string> { "incometax" }));
 
 			if (this.Import.Equals(null))

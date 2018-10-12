@@ -187,7 +187,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 				Map(s => s.usevat ).Index(6).TypeConverter<StringConverter>();
 				Map(s => s.NPWP).Index(7);
 				Map(s => s.serialNumber).Index(8);
-				Map(s => s.IncomeTaxes.name).Index(9);
+				Map(s => s.IncomeTaxes.rate).Index(9);
 			}
 		}
 
