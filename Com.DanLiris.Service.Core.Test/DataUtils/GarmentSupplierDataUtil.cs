@@ -25,6 +25,7 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
 			Data.import = null;
 			Data.code = "";
 			Data.usevat = null;
+			Data.usetax = null;
 			return Data;
 		}
 
@@ -36,7 +37,8 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
 				Name = "TEST NAME",
 				Code = "TEST CODE",
 				UseVat=true,
-				Import=false
+				Import=false,
+				UseTax = false
 			};
 
 			return TestData;

@@ -39,7 +39,9 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentSupplierControllerTe
 				address = string.Empty,
 				import = true,
 				NPWP = "NPWP-TEST",
-				usevat = true
+				usevat = true,
+				usetax = true,
+				IncomeTaxes = null
 			};
 		}
 

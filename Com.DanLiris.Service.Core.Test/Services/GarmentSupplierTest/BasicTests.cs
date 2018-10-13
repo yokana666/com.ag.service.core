@@ -22,14 +22,15 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentSupplierTest
 		{
 			model.Code = string.Empty;
 			model.Name = string.Empty;
-			
+			model.IncomeTaxesName = string.Empty;
 		}
 
 		public override void EmptyUpdateModel(GarmentSupplier model)
 		{
 			model.Code = string.Empty;
 			model.Name = string.Empty;
-		 
+			model.IncomeTaxesName = string.Empty;
+
 		}
 		public override GarmentSupplier GenerateTestModel()
 		{
@@ -39,6 +40,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentSupplierTest
 			{
 				Code = guid,
 				Name = string.Format("TEST {0}", guid),
+				IncomeTaxesName = string.Format("TEST {0}", guid),
 			};
 		}
 	}
