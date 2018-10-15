@@ -38,7 +38,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 		public bool? UseTax { get; set; }
 
 		/* IncomeTaxes*/
-		public int? IncomeTaxesId { get; set; }
+		public int IncomeTaxesId { get; set; }
 		public string IncomeTaxesName { get; set; }
 		public double? IncomeTaxesRate { get; set; }
 
