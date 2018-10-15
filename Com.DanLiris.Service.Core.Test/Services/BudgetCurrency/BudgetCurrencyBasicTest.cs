@@ -46,5 +46,23 @@ namespace Com.DanLiris.Service.Core.Test.Services.BudgetCurrency
 				Remark = guid
 			};
 		}
-	}
+
+        private BudgetCurrencyDataUtil DataUtil
+        {
+            get { return (BudgetCurrencyDataUtil)ServiceProvider.GetService(typeof(BudgetCurrencyDataUtil)); }
+        }
+
+        private BudgetCurrencyService Services
+        {
+            get { return (BudgetCurrencyService)ServiceProvider.GetService(typeof(BudgetCurrencyService)); }
+        }
+
+        [Fact]
+        public async void GetByTags()
+        {
+            Models.BudgetCurrency model = await DataUtil.GetTestDataAsync();
+            var Response = Services.GetByCode(model.Code, model.Date );
+            Assert.NotNull(Response);
+        }
+    }
 }

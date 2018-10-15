@@ -244,5 +244,53 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 				.ToList();
 		}
 
-	}
+        public IQueryable<BudgetCurrency> GetByCode(string code, DateTime date)
+        {
+            IQueryable<BudgetCurrency> Query = this.DbContext.BudgetCurrencies;
+            
+
+            Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>("{}");
+
+            
+            /* Const Select */
+            List<string> SelectedFields = new List<string>()
+            {
+                  "Code", "Date"
+            };
+
+            Query = Query.Where(a=>a.Code.Equals(code) && a.Date <= date)
+                .Select(p => new BudgetCurrency
+                {
+                    Code = p.Code,
+                    Rate=p.Rate,
+                    Id = p.Id,
+                    _LastModifiedUtc=p._LastModifiedUtc,
+                    Date=p.Date
+                    
+                });
+
+            /* Order */
+            if (OrderDictionary.Count.Equals(0))
+            {
+                OrderDictionary.Add("_updatedDate", General.DESCENDING);
+
+                Query = Query.OrderByDescending(b => b.Date); /* Default Order */
+            }
+            else
+            {
+                string Key = OrderDictionary.Keys.First();
+                string OrderType = OrderDictionary[Key];
+                string TransformKey = General.TransformOrderBy(Key);
+
+                BindingFlags IgnoreCase = BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance;
+
+                Query = OrderType.Equals(General.ASCENDING) ?
+                    Query.OrderBy(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b)) :
+                    Query.OrderByDescending(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b));
+            }
+
+            return Query.Distinct();
+        }
+
+    }
 }
