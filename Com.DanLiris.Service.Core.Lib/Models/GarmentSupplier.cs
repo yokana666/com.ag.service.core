@@ -35,6 +35,13 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 		[StringLength(500)]
 		public string SerialNumber { get; set; }
 
+		public bool? UseTax { get; set; }
+
+		/* IncomeTaxes*/
+		public int? IncomeTaxesId { get; set; }
+		public string IncomeTaxesName { get; set; }
+		public double? IncomeTaxesRate { get; set; }
+
 		public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
 		{
 			List<ValidationResult> validationResult = new List<ValidationResult>();
@@ -44,6 +51,9 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 
 			if (string.IsNullOrWhiteSpace(this.Name))
 				validationResult.Add(new ValidationResult("Name is required", new List<string> { "name" }));
+
+			if (UseTax==true && string.IsNullOrWhiteSpace(IncomeTaxesName))
+				validationResult.Add(new ValidationResult("PPH is required", new List<string> { "incometax" }));
 
 			if (this.Import.Equals(null))
 				this.Import = false;

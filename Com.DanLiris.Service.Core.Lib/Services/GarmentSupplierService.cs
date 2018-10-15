@@ -22,6 +22,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
 		private readonly string[] ImportAllowed = { "True", "False" };
 		private readonly string[] UseVatAllowed = { "True", "False" };
+		private readonly string[] UseTaxAllowed = { "True", "False" };
 		public GarmentSupplierService(IServiceProvider serviceProvider) : base(serviceProvider)
 		{
 		}
@@ -45,7 +46,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 			/* Const Select */
 			List<string> SelectedFields = new List<string>()
 			{
-				"_id", "code", "name", "address", "import", "NPWP","usevat"
+				"Id", "code", "name", "address", "import", "NPWP", "usevat", "usetax", "IncomeTaxes"
 			};
 
 			Query = Query
@@ -57,7 +58,11 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 					Address = s.Address,
 					Import = s.Import,
 					NPWP = s.NPWP,
-					UseVat=s.UseVat,
+					UseVat = s.UseVat,
+					UseTax = s.UseTax,
+					IncomeTaxesId = s.IncomeTaxesId,
+					IncomeTaxesName = s.IncomeTaxesName,
+					IncomeTaxesRate = s.IncomeTaxesRate,
 					_LastModifiedUtc =s._LastModifiedUtc
 				}).OrderByDescending(b => b._LastModifiedUtc);
 
@@ -93,15 +98,15 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 		{
 			GarmentSupplierViewModel GarmentSupplierVM = new GarmentSupplierViewModel();
 
-			GarmentSupplierVM._id = GarmentSupplier.Id;
-			GarmentSupplierVM._deleted = GarmentSupplier._IsDeleted;
-			GarmentSupplierVM._active = GarmentSupplier.Active;
-			GarmentSupplierVM._createdDate = GarmentSupplier._CreatedUtc;
-			GarmentSupplierVM._createdBy = GarmentSupplier._CreatedBy;
-			GarmentSupplierVM._createAgent = GarmentSupplier._CreatedAgent;
-			GarmentSupplierVM._updatedDate = GarmentSupplier._LastModifiedUtc;
-			GarmentSupplierVM._updatedBy = GarmentSupplier._LastModifiedBy;
-			GarmentSupplierVM._updateAgent = GarmentSupplier._LastModifiedAgent;
+			GarmentSupplierVM.Id = GarmentSupplier.Id;
+			GarmentSupplierVM._IsDeleted = GarmentSupplier._IsDeleted;
+			GarmentSupplierVM.Active = GarmentSupplier.Active;
+			GarmentSupplierVM._CreatedUtc = GarmentSupplier._CreatedUtc;
+			GarmentSupplierVM._CreatedBy = GarmentSupplier._CreatedBy;
+			GarmentSupplierVM._CreatedAgent = GarmentSupplier._CreatedAgent;
+			GarmentSupplierVM._LastModifiedUtc = GarmentSupplier._LastModifiedUtc;
+			GarmentSupplierVM._LastModifiedBy = GarmentSupplier._LastModifiedBy;
+			GarmentSupplierVM._LastModifiedAgent = GarmentSupplier._LastModifiedAgent;
 			GarmentSupplierVM.code = GarmentSupplier.Code;
 			GarmentSupplierVM.name = GarmentSupplier.Name;
 			GarmentSupplierVM.address = GarmentSupplier.Address;
@@ -109,8 +114,16 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 			GarmentSupplierVM.PIC = GarmentSupplier.PIC;
 			GarmentSupplierVM.import = GarmentSupplier.Import;
 			GarmentSupplierVM.usevat = GarmentSupplier.UseVat;
+			GarmentSupplierVM.usetax = GarmentSupplier.UseTax;
+			GarmentSupplierVM.IncomeTaxes = new IncomeTaxViewModel
+			{
+				_id = (int)GarmentSupplier.IncomeTaxesId,
+				name = GarmentSupplier.IncomeTaxesName,
+				rate = GarmentSupplier.IncomeTaxesRate
+			};
 			GarmentSupplierVM.NPWP = GarmentSupplier.NPWP;
 			GarmentSupplierVM.serialNumber = GarmentSupplier.SerialNumber;
+			
 
 			return GarmentSupplierVM;
 		}
@@ -118,24 +131,38 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 		{
 			GarmentSupplier GarmentSupplier = new GarmentSupplier();
 
-			GarmentSupplier.Id = GarmentSupplierVM._id;
-			GarmentSupplier._IsDeleted = GarmentSupplierVM._deleted;
-			GarmentSupplier.Active = GarmentSupplierVM._active;
-			GarmentSupplier._CreatedUtc = GarmentSupplierVM._createdDate;
-			GarmentSupplier._CreatedBy = GarmentSupplierVM._createdBy;
-			GarmentSupplier._CreatedAgent = GarmentSupplierVM._createAgent;
-			GarmentSupplier._LastModifiedUtc = GarmentSupplierVM._updatedDate;
-			GarmentSupplier._LastModifiedBy = GarmentSupplierVM._updatedBy;
-			GarmentSupplier._LastModifiedAgent = GarmentSupplierVM._updateAgent;
+			GarmentSupplier.Id = GarmentSupplierVM.Id;
+			GarmentSupplier._IsDeleted = GarmentSupplierVM._IsDeleted;
+			GarmentSupplier.Active = GarmentSupplierVM.Active;
+			GarmentSupplier._CreatedUtc = GarmentSupplierVM._CreatedUtc;
+			GarmentSupplier._CreatedBy = GarmentSupplierVM._CreatedBy;
+			GarmentSupplier._CreatedAgent = GarmentSupplierVM._CreatedAgent;
+			GarmentSupplier._LastModifiedUtc = GarmentSupplierVM._LastModifiedUtc;
+			GarmentSupplier._LastModifiedBy = GarmentSupplierVM._LastModifiedBy;
+			GarmentSupplier._LastModifiedAgent = GarmentSupplierVM._LastModifiedAgent;
 			GarmentSupplier.Code = GarmentSupplierVM.code;
 			GarmentSupplier.Name = GarmentSupplierVM.name;
 			GarmentSupplier.Address = GarmentSupplierVM.address;
 			GarmentSupplier.Contact = GarmentSupplierVM.contact;
 			GarmentSupplier.PIC = GarmentSupplierVM.PIC;
 			GarmentSupplier.Import = !Equals(GarmentSupplierVM.import, null) ? Convert.ToBoolean(GarmentSupplierVM.import) : null;
-			GarmentSupplier.UseVat = !Equals(GarmentSupplierVM.usevat, null) ? Convert.ToBoolean(GarmentSupplierVM.usevat) : null; /* Check Null */
+			GarmentSupplier.UseVat = !Equals(GarmentSupplierVM.usevat, null) ? Convert.ToBoolean(GarmentSupplierVM.usevat) : null;
+			GarmentSupplier.UseTax = !Equals(GarmentSupplierVM.usetax, null) ? Convert.ToBoolean(GarmentSupplierVM.usetax) : null; /* Check Null */
+			if (GarmentSupplierVM.IncomeTaxes != null)
+			{
+				GarmentSupplier.IncomeTaxesId = GarmentSupplierVM.IncomeTaxes._id;
+				GarmentSupplier.IncomeTaxesName = GarmentSupplierVM.IncomeTaxes.name;
+				GarmentSupplier.IncomeTaxesRate = !Equals(GarmentSupplierVM.IncomeTaxes.rate, null) ? Convert.ToDouble(GarmentSupplierVM.IncomeTaxes.rate) : null;
+			}
+			else
+			{
+				GarmentSupplier.IncomeTaxesId = 0;
+				GarmentSupplier.IncomeTaxesName = "";
+				GarmentSupplier.IncomeTaxesRate = 0;
+			}
 			GarmentSupplier.NPWP = GarmentSupplierVM.NPWP;
 			GarmentSupplier.SerialNumber = GarmentSupplierVM.serialNumber;
+			
 
 			return GarmentSupplier;
 		}
@@ -143,7 +170,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 		/* Upload CSV */
 		private readonly List<string> Header = new List<string>()
 		{
-			"Kode", "Nama Supplier", "Alamat", "Kontak", "PIC", "Import","Kena PPN", "NPWP", "Serial Number"
+			"Kode", "Nama Supplier", "Alamat", "Kontak", "PIC", "Import","Kena PPN","Kena PPH", "Jenis PPH", "Rate PPH", "NPWP", "Serial Number"
 		};
 		public List<string> CsvHeader => Header;
 
@@ -159,8 +186,11 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 				Map(s => s.PIC).Index(4);
 				Map(s => s.import).Index(5).TypeConverter<StringConverter>();
 				Map(s => s.usevat ).Index(6).TypeConverter<StringConverter>();
-				Map(s => s.NPWP).Index(7);
-				Map(s => s.serialNumber).Index(8);
+				Map(s => s.usetax).Index(7).TypeConverter<StringConverter>();
+				Map(s => s.IncomeTaxes.name).Index(8);
+				Map(s => s.IncomeTaxes.rate).Index(9).TypeConverter<StringConverter>();
+				Map(s => s.NPWP).Index(10);
+				Map(s => s.serialNumber).Index(11);
 			}
 		}
 
@@ -169,6 +199,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 			List<object> ErrorList = new List<object>();
 			string ErrorMessage;
 			bool Valid = true;
+			IncomeTax incomeTax = null;
 
 			foreach (GarmentSupplierViewModel GarmentSupplierVM in Data)
 			{
@@ -200,16 +231,73 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 				{
 					ErrorMessage = string.Concat(ErrorMessage, "Kena PPN tidak boleh kosong, ");
 				}
-				else if (!UseVatAllowed.Any(i => i.Equals(GarmentSupplierVM.import, StringComparison.CurrentCultureIgnoreCase)))
+				else if (!UseVatAllowed.Any(i => i.Equals(GarmentSupplierVM.usevat, StringComparison.CurrentCultureIgnoreCase)))
 				{
 					ErrorMessage = string.Concat(ErrorMessage, "Kena PPN harus diisi dengan True atau False, ");
 				}
+				if (string.IsNullOrWhiteSpace(GarmentSupplierVM.usetax))
+				{
+					ErrorMessage = string.Concat(ErrorMessage, "Kena PPH tidak boleh kosong, ");
+				}
+				else if (!UseTaxAllowed.Any(i => i.Equals(GarmentSupplierVM.usetax, StringComparison.CurrentCultureIgnoreCase)))
+				{
+					ErrorMessage = string.Concat(ErrorMessage, "Kena PPH harus diisi dengan True atau False, ");
+				}
+				if (string.IsNullOrWhiteSpace(GarmentSupplierVM.IncomeTaxes.name))
+				{
+					ErrorMessage = string.Concat(ErrorMessage, "Jenis PPH tidak boleh kosong, ");
+				}
+				else
+				{
+					IncomeTax supplier = DbContext.IncomeTaxes.FirstOrDefault(s => s.Name == GarmentSupplierVM.IncomeTaxes.name);
+					if (supplier == null)
+					{
+						ErrorMessage = string.Concat(ErrorMessage, "Kode PPH tidak ada di master, ");
+					}
+					else
+					{
+						GarmentSupplierVM.IncomeTaxes._id = supplier.Id;
+						GarmentSupplierVM.IncomeTaxes.name = supplier.Name;
+					}
+				}
+
+				double Rate = 0;
+				if (string.IsNullOrWhiteSpace(GarmentSupplierVM.IncomeTaxes.rate))
+				{
+					ErrorMessage = string.Concat(ErrorMessage, "Rate tidak boleh kosong, ");
+				}
+				else if (!double.TryParse(GarmentSupplierVM.IncomeTaxes.rate, out Rate))
+				{
+					ErrorMessage = string.Concat(ErrorMessage, "Rate harus numerik, ");
+				}
+				else if (incomeTax.Rate != Convert.ToDouble(GarmentSupplierVM.IncomeTaxes.rate) )
+				{
+					ErrorMessage = string.Concat(ErrorMessage, "Tidak ada Rate di Master PPH, ");
+				}
+				else if (Rate < 0)
+				{
+					ErrorMessage = string.Concat(ErrorMessage, "Rate harus lebih besar dari 0, ");
+				}
+				else
+				{
+					string[] RateSplit = GarmentSupplierVM.IncomeTaxes.rate.Split('.');
+					if (RateSplit.Count().Equals(2) && RateSplit[1].Length > 2)
+					{
+						ErrorMessage = string.Concat(ErrorMessage, "Rate maksimal memiliki 2 digit dibelakang koma, ");
+					}
+				}
+
 				if (string.IsNullOrEmpty(ErrorMessage))
 				{
 					/* Service Validation */
+					incomeTax = this.DbContext.Set<IncomeTax>().FirstOrDefault(d => d._IsDeleted.Equals(false) );
 					if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(GarmentSupplierVM.code)))
 					{
 						ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
+					}
+					if (incomeTax==null)
+					{
+						ErrorMessage = string.Concat(ErrorMessage, "PPH tidak terdaftar dalam master Income Tax");
 					}
 				}
 
@@ -229,6 +317,9 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 					Error.Add("PIC", GarmentSupplierVM.PIC);
 					Error.Add("Import", GarmentSupplierVM.import);
 					Error.Add("Kena PPN", GarmentSupplierVM.usevat);
+					Error.Add("Kena PPH", GarmentSupplierVM.usetax);
+					Error.Add("Jenis PPH", GarmentSupplierVM.IncomeTaxes.name);
+					Error.Add("Rate PPH", GarmentSupplierVM.IncomeTaxes.rate);
 					Error.Add("NPWP", GarmentSupplierVM.NPWP);
 					Error.Add("Serial Number", GarmentSupplierVM.serialNumber);
 					Error.Add("Error", ErrorMessage);

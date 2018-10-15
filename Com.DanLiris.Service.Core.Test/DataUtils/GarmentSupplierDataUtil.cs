@@ -20,11 +20,7 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
 		public GarmentSupplierViewModel GetEmptyData()
 		{
 			GarmentSupplierViewModel Data = new GarmentSupplierViewModel();
-
-			Data.name = "";
-			Data.import = null;
-			Data.code = "";
-			Data.usevat = null;
+			
 			return Data;
 		}
 
@@ -33,10 +29,14 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
 			string guid = Guid.NewGuid().ToString();
 			GarmentSupplier TestData = new GarmentSupplier
 			{
-				Name = "TEST NAME",
-				Code = "TEST CODE",
-				UseVat=true,
-				Import=false
+				Name = guid,
+				Code = guid,
+				UseVat = true,
+				Import = true,
+				UseTax = true,
+				IncomeTaxesId = 1,
+				IncomeTaxesName = guid,
+				IncomeTaxesRate = 1.5,
 			};
 
 			return TestData;
