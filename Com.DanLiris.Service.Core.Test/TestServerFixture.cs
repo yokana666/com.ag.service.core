@@ -38,9 +38,9 @@ namespace Com.DanLiris.Service.Core.Test
                     new KeyValuePair<string, string>("Authority", "http://localhost:5000"),
                     new KeyValuePair<string, string>("ClientId", "dl-test"),
                     */
-                    new KeyValuePair<string, string>("Secret", "DANLIRISTESTENVIRONMENT"),
+                    new KeyValuePair<string, string>("Secret", "DANLIRISDEVELOPMENT"),
                     new KeyValuePair<string, string>("ASPNETCORE_ENVIRONMENT", "Test"),
-                    new KeyValuePair<string, string>("DefaultConnection", "Server=localhost,1401;Database=com.danliris.db.core.controller.test;User=sa;password=Standar123.;MultipleActiveResultSets=true;")
+                    new KeyValuePair<string, string>("DefaultConnection", "Server=(localdb)\\mssqllocaldb;Database=com.danliris.db.dev;Trusted_Connection=True;")
 				})
                 .Build();
 
@@ -82,7 +82,7 @@ namespace Com.DanLiris.Service.Core.Test
 
             HttpClient httpClient = new HttpClient();
 
-            var response = httpClient.PostAsync("http://localhost:5000/v1/authenticate", new StringContent(JsonConvert.SerializeObject(User).ToString(), Encoding.UTF8, "application/json")).Result;
+            var response = httpClient.PostAsync("https://dl-auth-api-dev.azurewebsites.net/v1/authenticate", new StringContent(JsonConvert.SerializeObject(User).ToString(), Encoding.UTF8, "application/json")).Result;
             response.EnsureSuccessStatusCode();
 
             var data = response.Content.ReadAsStringAsync();

@@ -4,14 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Text;
+using System;
 using System.Threading.Tasks;
-using Xunit;
+using System.Net;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentSupplierControllerTests
 {
     [Collection("TestFixture Collection")]
-    public class BasicTests
+    public class BasicTests 
 	{
 		private const string URI = "v1/master/garment-suppliers";
 
@@ -35,13 +37,18 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentSupplierControllerTe
 			return new GarmentSupplierViewModel()
 			{
 				name = String.Concat("TEST G-Supplier ", guid),
-				code = "TEST CODE",
+				code = guid,
 				address = string.Empty,
 				import = true,
 				NPWP = "NPWP-TEST",
 				usevat = true,
 				usetax = true,
-				IncomeTaxes = null
+				IncomeTaxes = new IncomeTaxViewModel
+				{
+					_id = 1,
+					name = "TEST NAME",
+					rate = 1.5,
+				},
 			};
 		}
 
@@ -56,3 +63,4 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentSupplierControllerTe
 
 	}
 }
+
