@@ -29,12 +29,14 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
 			string guid = Guid.NewGuid().ToString();
 			GarmentSupplier TestData = new GarmentSupplier
 			{
-				Name = "TEST NAME",
-				Code = "TEST CODE1",
-				UseVat=true,
-				Import=false,
+				Name = guid,
+				Code = guid,
+				UseVat = true,
+				Import = true,
 				UseTax = true,
-				IncomeTaxesName = "TEST INCOME TAX",
+				IncomeTaxesId = 1,
+				IncomeTaxesName = guid,
+				IncomeTaxesRate = 1.5,
 			};
 
 			return TestData;

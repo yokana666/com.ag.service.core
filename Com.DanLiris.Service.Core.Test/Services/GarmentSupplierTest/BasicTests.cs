@@ -22,6 +22,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentSupplierTest
 		{
 			model.Code = string.Empty;
 			model.Name = string.Empty;
+			model.UseTax = true;
 			model.IncomeTaxesName = string.Empty;
 		}
 
@@ -29,6 +30,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentSupplierTest
 		{
 			model.Code = string.Empty;
 			model.Name = string.Empty;
+			model.UseTax = true;
 			model.IncomeTaxesName = string.Empty;
 
 		}
@@ -39,8 +41,13 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentSupplierTest
 			return new GarmentSupplier()
 			{
 				Code = guid,
-				Name = string.Format("TEST {0}", guid),
+				Name = guid,
+				UseTax = true,
+				UseVat = true,
+				Import = true,
+				IncomeTaxesId = 1,
 				IncomeTaxesName = string.Format("TEST {0}", guid),
+				IncomeTaxesRate = 1
 			};
 		}
 	}
