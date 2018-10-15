@@ -1,8 +1,11 @@
-﻿using Com.DanLiris.Service.Core.Lib.ViewModels;
-using Newtonsoft.Json;
-using System;
+﻿using Com.DanLiris.Service.Core.Lib;
+using Com.DanLiris.Service.Core.Lib.Services;
+using Com.DanLiris.Service.Core.Lib.ViewModels;
+using Com.DanLiris.Service.Core.Test.Helpers;
+using Models = Com.DanLiris.Service.Core.Lib.Models;
+using Xunit;
+using Com.DanLiris.Service.Core.Test.DataUtils;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
 using System;
 using System.Threading.Tasks;
