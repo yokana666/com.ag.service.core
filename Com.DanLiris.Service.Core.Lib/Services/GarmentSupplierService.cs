@@ -264,7 +264,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 				double Rate = 0;
 				if (string.IsNullOrWhiteSpace(GarmentSupplierVM.IncomeTaxes.rate))
 				{
-					ErrorMessage = string.Concat(ErrorMessage, "Rate tidak boleh kosong, ");
+					ErrorMessage = string.Concat(ErrorMessage, "Rate PPH tidak boleh kosong, ");
 				}
 				else if (!double.TryParse(GarmentSupplierVM.IncomeTaxes.rate, out Rate))
 				{

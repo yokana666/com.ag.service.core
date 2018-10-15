@@ -11,9 +11,10 @@ using System;
 namespace Com.DanLiris.Service.Core.Lib.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    partial class CoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181015071002_Fix_GarmentSupplier_PPH")]
+    partial class Fix_GarmentSupplier_PPH
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1231,7 +1232,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.Property<string>("IncomeTaxesName");
 
-                    b.Property<double?>("IncomeTaxesRate");
+                    b.Property<double>("IncomeTaxesRate");
 
                     b.Property<string>("NPWP")
                         .HasMaxLength(100);
