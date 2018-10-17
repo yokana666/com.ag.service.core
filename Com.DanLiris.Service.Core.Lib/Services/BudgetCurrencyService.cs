@@ -224,6 +224,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
 					Error.Add("Mata Uang", budgetCurrencyVM.code);
 					Error.Add("Kurs", budgetCurrencyVM.rate);
+                    Error.Add("Keterangan", budgetCurrencyVM.remark);
 					Error.Add("Error", ErrorMessage);
 
 					ErrorList.Add(Error);
