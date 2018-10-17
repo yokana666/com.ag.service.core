@@ -152,7 +152,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 			{
 				GarmentSupplier.IncomeTaxesId = GarmentSupplierVM.IncomeTaxes._id;
 				GarmentSupplier.IncomeTaxesName = GarmentSupplierVM.IncomeTaxes.name;
-				GarmentSupplier.IncomeTaxesRate = !Equals(GarmentSupplierVM.IncomeTaxes.rate, null) ? Convert.ToDouble(GarmentSupplierVM.IncomeTaxes.rate) : null;
+				GarmentSupplier.IncomeTaxesRate = GarmentSupplierVM.IncomeTaxes.rate;
 			}
 			else
 			{
@@ -188,7 +188,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 				Map(s => s.usevat ).Index(6).TypeConverter<StringConverter>();
 				Map(s => s.usetax).Index(7).TypeConverter<StringConverter>();
 				Map(s => s.IncomeTaxes.name).Index(8);
-				Map(s => s.IncomeTaxes.rate).Index(9).TypeConverter<StringConverter>();
+				Map(s => s.IncomeTaxes.rate).Index(9);
 				Map(s => s.NPWP).Index(10);
 				Map(s => s.serialNumber).Index(11);
 			}
@@ -260,32 +260,45 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 						GarmentSupplierVM.IncomeTaxes.name = supplier.Name;
 					}
 				}
-				double Rate = 0;
-				if (string.IsNullOrWhiteSpace(GarmentSupplierVM.IncomeTaxes.rate))
+
+				if (GarmentSupplierVM.IncomeTaxes.rate ==0)
 				{
-					ErrorMessage = string.Concat(ErrorMessage, "Rate PPH tidak boleh kosong, ");
+					ErrorMessage = string.Concat(ErrorMessage, "Jenis PPH tidak boleh kosong, ");
 				}
-				else if (!double.TryParse(GarmentSupplierVM.IncomeTaxes.rate, out Rate))
+				else
+				{
+					IncomeTax suppliers = DbContext.IncomeTaxes.FirstOrDefault(s => s.Rate == GarmentSupplierVM.IncomeTaxes.rate );
+					if (suppliers == null)
+					{
+						ErrorMessage = string.Concat(ErrorMessage, "Rate PPH tidak ada di master, ");
+					}
+					else
+					{
+						GarmentSupplierVM.IncomeTaxes._id = suppliers.Id;
+						GarmentSupplierVM.IncomeTaxes.rate = suppliers.Rate;
+					}
+				}
+				bool isdouble = double.TryParse(GarmentSupplierVM.IncomeTaxes.rate.ToString(), out double Rate);
+				if (GarmentSupplierVM.IncomeTaxes.rate == 0)
+				{
+					ErrorMessage = string.Concat(ErrorMessage, "Rate tidak boleh kosong, ");
+				}
+				else if (isdouble)
 				{
 					ErrorMessage = string.Concat(ErrorMessage, "Rate harus numerik, ");
 				}
-				else if (incomeTax.Rate != Convert.ToDouble(GarmentSupplierVM.IncomeTaxes.rate) )
-				{
-					ErrorMessage = string.Concat(ErrorMessage, "Tidak ada Rate di Master PPH, ");
-				}
-				else if (Rate < 0)
+				else if (GarmentSupplierVM.IncomeTaxes.rate < 0)
 				{
 					ErrorMessage = string.Concat(ErrorMessage, "Rate harus lebih besar dari 0, ");
 				}
 				else
 				{
-					string[] RateSplit = GarmentSupplierVM.IncomeTaxes.rate.Split('.');
+					string[] RateSplit = GarmentSupplierVM.IncomeTaxes.rate.ToString().Split('.');
 					if (RateSplit.Count().Equals(2) && RateSplit[1].Length > 2)
 					{
 						ErrorMessage = string.Concat(ErrorMessage, "Rate maksimal memiliki 2 digit dibelakang koma, ");
 					}
 				}
-
 				if (string.IsNullOrEmpty(ErrorMessage))
 				{
 					/* Service Validation */
