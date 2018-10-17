@@ -117,7 +117,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 			GarmentSupplierVM.usetax = GarmentSupplier.UseTax;
 			GarmentSupplierVM.IncomeTaxes = new IncomeTaxViewModel
 			{
-				_id = GarmentSupplier.IncomeTaxesId,
+				Id = GarmentSupplier.IncomeTaxesId,
 				name = GarmentSupplier.IncomeTaxesName,
 				rate = GarmentSupplier.IncomeTaxesRate
 			};
@@ -150,7 +150,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 			GarmentSupplier.UseTax = !Equals(GarmentSupplierVM.usetax, null) ? Convert.ToBoolean(GarmentSupplierVM.usetax) : null; /* Check Null */
 			if (GarmentSupplierVM.IncomeTaxes != null)
 			{
-				GarmentSupplier.IncomeTaxesId = GarmentSupplierVM.IncomeTaxes._id;
+				GarmentSupplier.IncomeTaxesId = GarmentSupplierVM.IncomeTaxes.Id;
 				GarmentSupplier.IncomeTaxesName = GarmentSupplierVM.IncomeTaxes.name;
 				GarmentSupplier.IncomeTaxesRate = GarmentSupplierVM.IncomeTaxes.rate;
 			}
@@ -256,7 +256,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 					}
 					else
 					{
-						GarmentSupplierVM.IncomeTaxes._id = supplier.Id;
+						GarmentSupplierVM.IncomeTaxes.Id = supplier.Id;
 						GarmentSupplierVM.IncomeTaxes.name = supplier.Name;
 					}
 				}
@@ -274,7 +274,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 					}
 					else
 					{
-						GarmentSupplierVM.IncomeTaxes._id = suppliers.Id;
+						GarmentSupplierVM.IncomeTaxes.Id = suppliers.Id;
 						GarmentSupplierVM.IncomeTaxes.rate = suppliers.Rate;
 					}
 				}

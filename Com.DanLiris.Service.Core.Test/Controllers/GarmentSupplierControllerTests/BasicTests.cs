@@ -6,12 +6,6 @@ using Models = Com.DanLiris.Service.Core.Lib.Models;
 using Xunit;
 using Com.DanLiris.Service.Core.Test.DataUtils;
 using System.Collections.Generic;
-using System.Net.Http;
-using System;
-using System.Threading.Tasks;
-using System.Net;
-using Newtonsoft.Json;
-using System.Text;
 
 namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentSupplierControllerTests
 {

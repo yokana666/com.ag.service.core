@@ -44,7 +44,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
             {
-                "_id", "name", "rate"
+                "Id", "name", "rate"
             };
 
             Query = Query
@@ -88,15 +88,15 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         {
             IncomeTaxViewModel incomeTaxVM = new IncomeTaxViewModel();
 
-            incomeTaxVM._id = incomeTax.Id;
-            incomeTaxVM._deleted = incomeTax._IsDeleted;
-            incomeTaxVM._active = incomeTax.Active;
-            incomeTaxVM._createdDate = incomeTax._CreatedUtc;
-            incomeTaxVM._createdBy = incomeTax._CreatedBy;
-            incomeTaxVM._createAgent = incomeTax._CreatedAgent;
-            incomeTaxVM._updatedDate = incomeTax._LastModifiedUtc;
-            incomeTaxVM._updatedBy = incomeTax._LastModifiedBy;
-            incomeTaxVM._updateAgent = incomeTax._LastModifiedAgent;
+            incomeTaxVM.Id = incomeTax.Id;
+            incomeTaxVM._IsDeleted = incomeTax._IsDeleted;
+            incomeTaxVM.Active = incomeTax.Active;
+            incomeTaxVM._CreatedUtc = incomeTax._CreatedUtc;
+            incomeTaxVM._CreatedBy = incomeTax._CreatedBy;
+            incomeTaxVM._CreatedAgent = incomeTax._CreatedAgent;
+            incomeTaxVM._LastModifiedUtc = incomeTax._LastModifiedUtc;
+            incomeTaxVM._LastModifiedBy = incomeTax._LastModifiedBy;
+            incomeTaxVM._LastModifiedAgent = incomeTax._LastModifiedAgent;
             incomeTaxVM.name = incomeTax.Name;
             incomeTaxVM.rate = incomeTax.Rate;
             incomeTaxVM.description = incomeTax.Description;
@@ -108,15 +108,15 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         {
             IncomeTax incomeTax = new IncomeTax();
 
-            incomeTax.Id = incomeTaxVM._id;
-            incomeTax._IsDeleted = incomeTaxVM._deleted;
-            incomeTax.Active = incomeTaxVM._active;
-            incomeTax._CreatedUtc = incomeTaxVM._createdDate;
-            incomeTax._CreatedBy = incomeTaxVM._createdBy;
-            incomeTax._CreatedAgent = incomeTaxVM._createAgent;
-            incomeTax._LastModifiedUtc = incomeTaxVM._updatedDate;
-            incomeTax._LastModifiedBy = incomeTaxVM._updatedBy;
-            incomeTax._LastModifiedAgent = incomeTaxVM._updateAgent;
+            incomeTax.Id = incomeTaxVM.Id;
+            incomeTax._IsDeleted = incomeTaxVM._IsDeleted;
+            incomeTax.Active = incomeTaxVM.Active;
+            incomeTax._CreatedUtc = incomeTaxVM._CreatedUtc;
+            incomeTax._CreatedBy = incomeTaxVM._CreatedBy;
+            incomeTax._CreatedAgent = incomeTaxVM._CreatedAgent;
+            incomeTax._LastModifiedUtc = incomeTaxVM._LastModifiedUtc;
+            incomeTax._LastModifiedBy = incomeTaxVM._LastModifiedBy;
+            incomeTax._LastModifiedAgent = incomeTaxVM._LastModifiedAgent;
             incomeTax.Name = incomeTaxVM.name;
             incomeTax.Rate = incomeTaxVM.rate; 
             incomeTax.Description = incomeTaxVM.description;

@@ -34,8 +34,8 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
             string guid = Guid.NewGuid().ToString();
             IncomeTax TestData = new IncomeTax
             {
-                Name = "TEST",
-                Rate = 1.5,
+                Name = guid,
+                Rate = 1,
                 Description="test",
                 
             };
