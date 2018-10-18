@@ -44,7 +44,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
             {
-                "Id", "name", "rate"
+                "Id", "name", "rate","description"
             };
 
             Query = Query
@@ -52,7 +52,8 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 {
                     Id = v.Id,
                     Name = v.Name,
-                    Rate = v.Rate
+                    Rate = v.Rate,
+                    Description = v.Description
                 });
 
             /* Order */
@@ -137,7 +138,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             public IncomeTaxMap()
             {
                 Map(v => v.name).Index(0);
-                Map(v => v.rate).Index(1);
+                Map(v => v.rate).Index(1).TypeConverter<DoubleConverter>();
                 Map(v => v.description).Index(2);
             }
         }
@@ -156,17 +157,18 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh kosong, ");
                 }
-
-				bool isdouble = double.TryParse(incomeTaxVM.rate.ToString(), out double Rate);
-				if (incomeTaxVM.rate == 0)
+                double? Rate = incomeTaxVM.rate;
+                double temp = 0;
+                if (string.IsNullOrWhiteSpace(incomeTaxVM.rate.ToString()))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Rate tidak boleh kosong, ");
                 }
-                else if(isdouble)
+                else if(!double.TryParse(Convert.ToString(incomeTaxVM.rate), out temp))
                 {
+                    Rate = temp;
                     ErrorMessage = string.Concat(ErrorMessage, "Rate harus numerik, ");
                 }
-                else if(incomeTaxVM.rate < 0)
+                else if(Rate < 0 || Rate == 0 )
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Rate harus lebih besar dari 0, ");
                 }
@@ -178,10 +180,10 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 						ErrorMessage = string.Concat(ErrorMessage, "Rate maksimal memiliki 2 digit dibelakang koma, ");
 					}
 				}
-
                 if (string.IsNullOrEmpty(ErrorMessage))
                 {
                     /* Service Validation */
+                    
                     if (Data.Any(d => d != incomeTaxVM && d.name.Equals(incomeTaxVM.name) && d.rate.Equals(incomeTaxVM.rate)) || this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Name.Equals(incomeTaxVM.name) && d.Rate.Equals(Rate)))
                     {
                         ErrorMessage = string.Concat(ErrorMessage, "Kombinasi Nama dan Rate tidak boleh sama, ");
