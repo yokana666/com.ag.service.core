@@ -23,7 +23,9 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentSupplierTest
 			model.Code = string.Empty;
 			model.Name = string.Empty;
 			model.UseTax = true;
+            model.IncomeTaxesId = 1;
 			model.IncomeTaxesName = string.Empty;
+            model.IncomeTaxesRate = 0;
 		}
 
 		public override void EmptyUpdateModel(GarmentSupplier model)
@@ -31,8 +33,9 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentSupplierTest
 			model.Code = string.Empty;
 			model.Name = string.Empty;
 			model.UseTax = true;
+            model.IncomeTaxesId = 1;
 			model.IncomeTaxesName = string.Empty;
-
+            model.IncomeTaxesRate = 0;
 		}
 		public override GarmentSupplier GenerateTestModel()
 		{
