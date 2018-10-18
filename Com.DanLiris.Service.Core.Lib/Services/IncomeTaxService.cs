@@ -138,7 +138,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             public IncomeTaxMap()
             {
                 Map(v => v.name).Index(0);
-                Map(v => v.rate).Index(1).TypeConverter<DoubleConverter>();
+                Map(v => v.rate).Index(1);
                 Map(v => v.description).Index(2);
             }
         }

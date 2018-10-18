@@ -12,24 +12,20 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentSupplierTest
 	[Collection("ServiceProviderFixture Collection")]
 	public class BasicTests : BasicServiceTest<CoreDbContext, GarmentSupplierService, GarmentSupplier>
 	{
-		private static readonly string[] createAttrAssertions = { "Name","IncomeTaxesRate" };
-		private static readonly string[] updateAttrAssertions = { "Name","IncomeTaxesRate" };
+		private static readonly string[] createAttrAssertions = { "Code", "Name", "IncomeTaxesId", "IncomeTaxesRate" };
+		private static readonly string[] updateAttrAssertions = { "Code", "Name", "IncomeTaxesId", "IncomeTaxesRate" };
 		private static readonly string[] existAttrCriteria = { "Code" };
 		public BasicTests(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
 		{
 		}
 		public override void EmptyCreateModel(GarmentSupplier model)
 		{
-			//model.Code = string.Empty;
-			//model.Name = string.Empty;
-			model.UseTax = true;
+			
 		}
 
 		public override void EmptyUpdateModel(GarmentSupplier model)
 		{
-			//model.Code = string.Empty;
-			//model.Name = string.Empty;
-			model.UseTax = true;
+			
 		}
 		public override GarmentSupplier GenerateTestModel()
 		{
