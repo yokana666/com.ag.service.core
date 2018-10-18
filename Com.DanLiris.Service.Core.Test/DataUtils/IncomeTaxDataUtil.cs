@@ -21,11 +21,7 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
         public IncomeTaxViewModel GetEmptyData()
         {
             IncomeTaxViewModel Data = new IncomeTaxViewModel();
-
-            Data.name = "";
-            Data.rate = null;
-            Data.code = "";
-            Data.description = "";
+            
             return Data;
         }
 

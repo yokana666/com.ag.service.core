@@ -50,7 +50,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentSupplierTest
 				Import = true,
 				IncomeTaxesId = 1,
 				IncomeTaxesName = string.Format("TEST {0}", guid),
-				IncomeTaxesRate = 1
+				IncomeTaxesRate = 1,
 			};
 		}
 	}
