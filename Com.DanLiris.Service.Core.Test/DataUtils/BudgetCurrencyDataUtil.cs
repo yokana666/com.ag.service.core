@@ -18,7 +18,7 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
 		public BudgetCurrencyViewModel GetEmptyData()
 		{
 			BudgetCurrencyViewModel Data = new BudgetCurrencyViewModel();
-			
+            
 			return Data;
 		}
 

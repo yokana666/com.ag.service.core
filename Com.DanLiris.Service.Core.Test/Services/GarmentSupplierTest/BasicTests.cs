@@ -2,6 +2,7 @@
 using Com.DanLiris.Service.Core.Lib;
 using Com.DanLiris.Service.Core.Lib.Models;
 using Com.DanLiris.Service.Core.Lib.Services;
+using Com.DanLiris.Service.Core.Test.DataUtils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,11 +21,13 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentSupplierTest
 		}
 		public override void EmptyCreateModel(GarmentSupplier model)
 		{
-			model.Code = string.Empty;
-			model.Name = string.Empty;
+            string guid = Guid.NewGuid().ToString();
+
+            model.Code = guid;
+			model.Name = "TEST";
 			model.UseTax = true;
-            model.IncomeTaxesId = 0;
-			model.IncomeTaxesName = string.Empty;
+            model.IncomeTaxesId = 1;
+			model.IncomeTaxesName = "TEST";
             model.IncomeTaxesRate = null;
             model.IncomeTaxesRate = -1;
             model.IncomeTaxesRate = 0;
@@ -32,11 +35,12 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentSupplierTest
 
 		public override void EmptyUpdateModel(GarmentSupplier model)
 		{
-			model.Code = string.Empty;
-			model.Name = string.Empty;
+            string guid = Guid.NewGuid().ToString();
+            model.Code = guid;
+			model.Name = "TEST";
 			model.UseTax = true;
-            model.IncomeTaxesId = 0;
-			model.IncomeTaxesName = string.Empty;
+            model.IncomeTaxesId = 1;
+			model.IncomeTaxesName = "TEST";
             model.IncomeTaxesRate = null;
             model.IncomeTaxesRate = -1;
             model.IncomeTaxesRate = 0;
@@ -53,9 +57,19 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentSupplierTest
 				UseVat = true,
 				Import = true,
 				IncomeTaxesId = 1,
-				IncomeTaxesName = string.Format("TEST {0}", guid),
+				IncomeTaxesName = guid,
 				IncomeTaxesRate = 1,
 			};
 		}
-	}
+
+        private GarmentSupplierDataUtil DataUtil
+        {
+            get { return (GarmentSupplierDataUtil)ServiceProvider.GetService(typeof(GarmentSupplierDataUtil)); }
+        }
+
+        private GarmentSupplierService Services
+        {
+            get { return (GarmentSupplierService)ServiceProvider.GetService(typeof(GarmentSupplierService)); }
+        }
+    }
 }
