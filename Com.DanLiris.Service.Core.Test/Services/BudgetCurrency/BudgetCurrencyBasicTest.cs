@@ -25,6 +25,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.BudgetCurrency
 			model.Code = string.Empty;
 			model.Date = DateTime.MaxValue;
 			model.Rate = -1;
+            model.Rate = 0;
 		}
 
 		public override void EmptyUpdateModel(Models.BudgetCurrency model)
@@ -32,6 +33,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.BudgetCurrency
 			model.Code = string.Empty;
 			model.Date = DateTime.MaxValue;
 			model.Rate = -1;
+            model.Rate = 0;
 		}
 
 		public override Models.BudgetCurrency GenerateTestModel()
