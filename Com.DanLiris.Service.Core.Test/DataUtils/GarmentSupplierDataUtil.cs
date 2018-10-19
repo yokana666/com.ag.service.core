@@ -20,6 +20,12 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
 		public GarmentSupplierViewModel GetEmptyData()
 		{
 			GarmentSupplierViewModel Data = new GarmentSupplierViewModel();
+            Data.name = string.Empty;
+            Data.code = string.Empty;
+            Data.usevat = true;
+            Data.import = true;
+            Data.usetax = true;
+            Data.IncomeTaxes = null;
 			
 			return Data;
 		}
@@ -34,9 +40,14 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
 				UseVat = true,
 				Import = true,
 				UseTax = true,
-				IncomeTaxesId = 1,
-				IncomeTaxesName = guid,
-				IncomeTaxesRate = 1.5,
+                NPWP = guid,
+                SerialNumber = guid,
+                PIC = guid,
+                Address = guid,
+                Contact = guid,
+                IncomeTaxesId = 1,
+                IncomeTaxesName = guid,
+                IncomeTaxesRate = 2
 			};
 
 			return TestData;

@@ -21,29 +21,18 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentSupplierTest
 		}
 		public override void EmptyCreateModel(GarmentSupplier model)
 		{
-            string guid = Guid.NewGuid().ToString();
-
-            model.Code = guid;
-			model.Name = "TEST";
+            model.Code = string.Empty;
+			model.Name = string.Empty;
 			model.UseTax = true;
-            model.IncomeTaxesId = 1;
-			model.IncomeTaxesName = "TEST";
-            model.IncomeTaxesRate = null;
-            model.IncomeTaxesRate = -1;
-            model.IncomeTaxesRate = 0;
+            model.IncomeTaxesId = 0;
 		}
 
 		public override void EmptyUpdateModel(GarmentSupplier model)
 		{
-            string guid = Guid.NewGuid().ToString();
-            model.Code = guid;
-			model.Name = "TEST";
+            model.Code = string.Empty;
+			model.Name = string.Empty;
 			model.UseTax = true;
-            model.IncomeTaxesId = 1;
-			model.IncomeTaxesName = "TEST";
-            model.IncomeTaxesRate = null;
-            model.IncomeTaxesRate = -1;
-            model.IncomeTaxesRate = 0;
+            model.IncomeTaxesId = 0;
         }
 		public override GarmentSupplier GenerateTestModel()
 		{
@@ -57,8 +46,8 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentSupplierTest
 				UseVat = true,
 				Import = true,
 				IncomeTaxesId = 1,
-				IncomeTaxesName = guid,
-				IncomeTaxesRate = 1,
+                IncomeTaxesName = guid,
+                IncomeTaxesRate = 1
 			};
 		}
 
