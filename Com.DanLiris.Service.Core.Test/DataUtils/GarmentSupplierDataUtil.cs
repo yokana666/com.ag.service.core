@@ -20,6 +20,12 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
 		public GarmentSupplierViewModel GetEmptyData()
 		{
 			GarmentSupplierViewModel Data = new GarmentSupplierViewModel();
+            Data.name = string.Empty;
+            Data.code = string.Empty;
+            Data.usevat = true;
+            Data.import = true;
+            Data.usetax = true;
+            Data.IncomeTaxes = null;
 			
 			return Data;
 		}
@@ -34,15 +40,94 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
 				UseVat = true,
 				Import = true,
 				UseTax = true,
-				IncomeTaxesId = 1,
-				IncomeTaxesName = guid,
-				IncomeTaxesRate = 1.5,
+                NPWP = guid,
+                SerialNumber = guid,
+                PIC = guid,
+                Address = guid,
+                Contact = guid,
+                IncomeTaxesId = 1,
+                IncomeTaxesName = guid,
+                IncomeTaxesRate = 1
 			};
 
 			return TestData;
 		}
+        public async Task<GarmentSupplierViewModel> GetNewData1()
+        {
+            string guid = Guid.NewGuid().ToString();
+            GarmentSupplierViewModel TestData = new GarmentSupplierViewModel
+            {
+                name = guid,
+                code = guid,
+                usevat = true,
+                import = "",
+                usetax = true,
+                NPWP = guid,
+                serialNumber = guid,
+                PIC = guid,
+                address = guid,
+                contact = guid,
+                IncomeTaxes = new IncomeTaxViewModel
+                {
+                    Id = 1,
+                    name = guid,
+                    rate = ""
+                },
+            };
 
-		public override async Task<GarmentSupplier> GetTestDataAsync()
+            return TestData;
+        }
+        public async Task<GarmentSupplierViewModel> GetNewData2()
+        {
+            string guid = Guid.NewGuid().ToString();
+            GarmentSupplierViewModel TestData = new GarmentSupplierViewModel
+            {
+                name = guid,
+                code = guid,
+                usevat = true,
+                import = false,
+                usetax = true,
+                NPWP = guid,
+                serialNumber = guid,
+                PIC = guid,
+                address = guid,
+                contact = guid,
+                IncomeTaxes = new IncomeTaxViewModel
+                {
+                    Id = 2,
+                    name = guid,
+                    rate = 0
+                },
+            };
+
+            return TestData;
+        }
+        public async Task<GarmentSupplierViewModel> GetNewData3()
+        {
+            string guid = Guid.NewGuid().ToString();
+            GarmentSupplierViewModel TestData = new GarmentSupplierViewModel
+            {
+                name = guid,
+                code = guid,
+                usevat = true,
+                import = false,
+                usetax = true,
+                NPWP = guid,
+                serialNumber = guid,
+                PIC = guid,
+                address = guid,
+                contact = guid,
+                IncomeTaxes = new IncomeTaxViewModel
+                {
+                    Id = 3,
+                    name = guid,
+                    rate = -1
+                },
+            };
+
+            return TestData;
+        }
+        public override async Task<GarmentSupplier> GetTestDataAsync()
 		{
 			GarmentSupplier Data = GetNewData();
 			await this.Service.CreateModel(Data);

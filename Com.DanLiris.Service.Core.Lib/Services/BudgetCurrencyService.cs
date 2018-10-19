@@ -175,8 +175,8 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 				else if (!double.TryParse(budgetCurrencyVM.rate, out Rate))
 				{
 					ErrorMessage = string.Concat(ErrorMessage, "Kurs harus numerik, ");
-				}
-				else if (Rate < 0)
+                }
+				else if (Rate < 0 || Rate == 0)
 				{
 					ErrorMessage = string.Concat(ErrorMessage, "Kurs harus lebih besar dari 0, ");
 				}
@@ -224,6 +224,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
 					Error.Add("Mata Uang", budgetCurrencyVM.code);
 					Error.Add("Kurs", budgetCurrencyVM.rate);
+                    Error.Add("Keterangan", budgetCurrencyVM.remark);
 					Error.Add("Error", ErrorMessage);
 
 					ErrorList.Add(Error);

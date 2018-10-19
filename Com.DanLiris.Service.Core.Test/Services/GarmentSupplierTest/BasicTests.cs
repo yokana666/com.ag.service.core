@@ -2,6 +2,8 @@
 using Com.DanLiris.Service.Core.Lib;
 using Com.DanLiris.Service.Core.Lib.Models;
 using Com.DanLiris.Service.Core.Lib.Services;
+using Com.DanLiris.Service.Core.Lib.ViewModels;
+using Com.DanLiris.Service.Core.Test.DataUtils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,20 +22,19 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentSupplierTest
 		}
 		public override void EmptyCreateModel(GarmentSupplier model)
 		{
-			model.Code = string.Empty;
+            model.Code = string.Empty;
 			model.Name = string.Empty;
 			model.UseTax = true;
-			model.IncomeTaxesName = string.Empty;
+            model.IncomeTaxesId = 0;
 		}
 
 		public override void EmptyUpdateModel(GarmentSupplier model)
 		{
-			model.Code = string.Empty;
+            model.Code = string.Empty;
 			model.Name = string.Empty;
 			model.UseTax = true;
-			model.IncomeTaxesName = string.Empty;
-
-		}
+            model.IncomeTaxesId = 0;
+        }
 		public override GarmentSupplier GenerateTestModel()
 		{
 			string guid = Guid.NewGuid().ToString();
@@ -46,9 +47,28 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentSupplierTest
 				UseVat = true,
 				Import = true,
 				IncomeTaxesId = 1,
-				IncomeTaxesName = string.Format("TEST {0}", guid),
-				IncomeTaxesRate = 1
+                IncomeTaxesName = guid,
+                IncomeTaxesRate = 1
 			};
 		}
-	}
+
+        private GarmentSupplierDataUtil DataUtil
+        {
+            get { return (GarmentSupplierDataUtil)ServiceProvider.GetService(typeof(GarmentSupplierDataUtil)); }
+        }
+
+        private GarmentSupplierService Services
+        {
+            get { return (GarmentSupplierService)ServiceProvider.GetService(typeof(GarmentSupplierService)); }
+        }
+        [Fact]
+        public async void Should_Error_Upload_CSV_Data_with_false_IncomeTax()
+        {
+            GarmentSupplierViewModel Vmodel1 = await DataUtil.GetNewData1();
+            GarmentSupplierViewModel Vmodel2 = await DataUtil.GetNewData2();
+            GarmentSupplierViewModel Vmodel3 = await DataUtil.GetNewData3();
+            var Response = Services.UploadValidate(new List<GarmentSupplierViewModel> { Vmodel1, Vmodel2, Vmodel3}, null);
+            Assert.Equal(Response.Item1, false);
+        }
+    }
 }

@@ -22,16 +22,18 @@ namespace Com.DanLiris.Service.Core.Test.Services.BudgetCurrency
 
 		public override void EmptyCreateModel(Models.BudgetCurrency model)
 		{
-			model.Code = string.Empty;
-			model.Date = DateTime.MaxValue;
+			model.Code = "Test";
+			model.Date = DateTime.Now;
 			model.Rate = -1;
+            model.Rate = 0;
 		}
 
 		public override void EmptyUpdateModel(Models.BudgetCurrency model)
 		{
-			model.Code = string.Empty;
-			model.Date = DateTime.MaxValue;
+			model.Code = "Test";
+			model.Date = DateTime.Now;
 			model.Rate = -1;
+            model.Rate = 0;
 		}
 
 		public override Models.BudgetCurrency GenerateTestModel()
@@ -41,7 +43,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.BudgetCurrency
 			return new Models.BudgetCurrency()
 			{
 				Code = guid,
-				Date = DateTime.Today,
+				Date = DateTime.Now,
 				Rate = 0,
 				Remark = guid
 			};
