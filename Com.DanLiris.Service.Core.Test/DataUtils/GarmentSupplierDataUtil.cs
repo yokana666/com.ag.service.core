@@ -47,13 +47,87 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
                 Contact = guid,
                 IncomeTaxesId = 1,
                 IncomeTaxesName = guid,
-                IncomeTaxesRate = 2
+                IncomeTaxesRate = 1
 			};
 
 			return TestData;
 		}
+        public async Task<GarmentSupplierViewModel> GetNewData1()
+        {
+            string guid = Guid.NewGuid().ToString();
+            GarmentSupplierViewModel TestData = new GarmentSupplierViewModel
+            {
+                name = guid,
+                code = guid,
+                usevat = true,
+                import = "",
+                usetax = true,
+                NPWP = guid,
+                serialNumber = guid,
+                PIC = guid,
+                address = guid,
+                contact = guid,
+                IncomeTaxes = new IncomeTaxViewModel
+                {
+                    Id = 1,
+                    name = guid,
+                    rate = ""
+                },
+            };
 
-		public override async Task<GarmentSupplier> GetTestDataAsync()
+            return TestData;
+        }
+        public async Task<GarmentSupplierViewModel> GetNewData2()
+        {
+            string guid = Guid.NewGuid().ToString();
+            GarmentSupplierViewModel TestData = new GarmentSupplierViewModel
+            {
+                name = guid,
+                code = guid,
+                usevat = true,
+                import = false,
+                usetax = true,
+                NPWP = guid,
+                serialNumber = guid,
+                PIC = guid,
+                address = guid,
+                contact = guid,
+                IncomeTaxes = new IncomeTaxViewModel
+                {
+                    Id = 2,
+                    name = guid,
+                    rate = 0
+                },
+            };
+
+            return TestData;
+        }
+        public async Task<GarmentSupplierViewModel> GetNewData3()
+        {
+            string guid = Guid.NewGuid().ToString();
+            GarmentSupplierViewModel TestData = new GarmentSupplierViewModel
+            {
+                name = guid,
+                code = guid,
+                usevat = true,
+                import = false,
+                usetax = true,
+                NPWP = guid,
+                serialNumber = guid,
+                PIC = guid,
+                address = guid,
+                contact = guid,
+                IncomeTaxes = new IncomeTaxViewModel
+                {
+                    Id = 3,
+                    name = guid,
+                    rate = -1
+                },
+            };
+
+            return TestData;
+        }
+        public override async Task<GarmentSupplier> GetTestDataAsync()
 		{
 			GarmentSupplier Data = GetNewData();
 			await this.Service.CreateModel(Data);

@@ -10,7 +10,7 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
         public string name { get; set; }
 
         /* Double */
-        public double? rate { get; set; }
+        public dynamic rate { get; set; }
 
         public string description { get; set; }
     }

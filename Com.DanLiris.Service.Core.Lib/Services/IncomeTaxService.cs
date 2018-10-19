@@ -119,7 +119,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             incomeTax._LastModifiedBy = incomeTaxVM._LastModifiedBy;
             incomeTax._LastModifiedAgent = incomeTaxVM._LastModifiedAgent;
             incomeTax.Name = incomeTaxVM.name;
-            incomeTax.Rate = incomeTaxVM.rate; 
+            incomeTax.Rate = !Equals(incomeTaxVM.rate, null) ? Convert.ToDouble(incomeTaxVM.rate) : null;
             incomeTax.Description = incomeTaxVM.description;
 
             return incomeTax;
@@ -138,7 +138,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             public IncomeTaxMap()
             {
                 Map(v => v.name).Index(0);
-                Map(v => v.rate).Index(1);
+                Map(v => v.rate).Index(1).TypeConverter<StringConverter>();
                 Map(v => v.description).Index(2);
             }
         }
@@ -157,29 +157,27 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh kosong, ");
                 }
-                double? Rate = incomeTaxVM.rate;
-                double temp = 0;
-                if (string.IsNullOrWhiteSpace(incomeTaxVM.rate.ToString()))
+                double Rate = 0;
+                if (string.IsNullOrWhiteSpace(incomeTaxVM.rate))
                 {
-                    ErrorMessage = string.Concat(ErrorMessage, "Rate tidak boleh kosong, ");
+                    ErrorMessage = string.Concat(ErrorMessage, "Kurs tidak boleh kosong, ");
                 }
-                else if(!double.TryParse(Convert.ToString(incomeTaxVM.rate), out temp))
+                else if (!double.TryParse(incomeTaxVM.rate, out Rate))
                 {
-                    Rate = temp;
-                    ErrorMessage = string.Concat(ErrorMessage, "Rate harus numerik, ");
+                    ErrorMessage = string.Concat(ErrorMessage, "Kurs harus numerik, ");
                 }
-                else if(Rate < 0 || Rate == 0 )
+                else if (Rate < 0 || Rate == 0)
                 {
-                    ErrorMessage = string.Concat(ErrorMessage, "Rate harus lebih besar dari 0, ");
+                    ErrorMessage = string.Concat(ErrorMessage, "Kurs harus lebih besar dari 0, ");
                 }
                 else
                 {
-					string[] RateSplit = incomeTaxVM.rate.ToString().Split('.');
-					if (RateSplit.Count().Equals(2) && RateSplit[1].Length > 2)
-					{
-						ErrorMessage = string.Concat(ErrorMessage, "Rate maksimal memiliki 2 digit dibelakang koma, ");
-					}
-				}
+                    string[] RateSplit = incomeTaxVM.rate.Split('.');
+                    if (RateSplit.Count().Equals(2) && RateSplit[1].Length > 2)
+                    {
+                        ErrorMessage = string.Concat(ErrorMessage, "Kurs maksimal memiliki 2 digit dibelakang koma, ");
+                    }
+                }
                 if (string.IsNullOrEmpty(ErrorMessage))
                 {
                     /* Service Validation */
