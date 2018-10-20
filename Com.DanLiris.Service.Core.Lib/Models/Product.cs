@@ -34,40 +34,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
         [StringLength(500)]
         public string Tags { get; set; }
 
-        #region Property
-        public int ProductionOrderId { get; set; }
-        [MaxLength(25)]
-        public string ProductionOrderNo { get; set; }
-        [MaxLength(250)]
-        public string DesignCode { get; set; }
-        [MaxLength(250)]
-        public string DesignNumber { get; set; }
-
-        public int OrderTypeId { get; set; }
-        [MaxLength(25)]
-        public string OrderTypeCode { get; set; }
-        [MaxLength(25)]
-        public string OrderTypeName { get; set; }
-
-        public int BuyerId { get; set; }
-        [MaxLength(250)]
-        public string BuyerName { get; set; }
-        [MaxLength(250)]
-        public string BuyerAddress { get; set; }
-
-        [MaxLength(250)]
-        public string ColorName { get; set; }
-
-        [MaxLength(300)]
-        public string Construction { get; set; }
-
-        [MaxLength(250)]
-        public string Lot { get; set; }
-        [MaxLength(100)]
-        public string Grade { get; set; }
-        public int Weight { get; set; }
-        public int Length { get; set; }
-        #endregion
+        public ProductSPPProperty SPPProperties { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

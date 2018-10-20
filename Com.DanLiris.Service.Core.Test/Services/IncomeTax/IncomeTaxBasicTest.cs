@@ -38,7 +38,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.IncomeTax
 
             return new Models.IncomeTax()
             {
-                Rate = 3,
+                Rate = 0,
                 Name = string.Format("TEST IncomeTax {0}", guid),
                 Description="test"
             };
