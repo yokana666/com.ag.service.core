@@ -249,8 +249,8 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 					ErrorMessage = string.Concat(ErrorMessage, "Jenis PPH tidak boleh kosong, ");
 				}
                 string[] RateSplit = Convert.ToString(GarmentSupplierVM.IncomeTaxes.rate).Split('.');
-                double test = 0;
-                var isIncometaxRateNumber = double.TryParse(Convert.ToString(GarmentSupplierVM.IncomeTaxes.rate), out test);
+                double Rate = 0;
+                var isIncometaxRateNumber = double.TryParse(Convert.ToString(GarmentSupplierVM.IncomeTaxes.rate), out Rate);
                 if (string.IsNullOrWhiteSpace(Convert.ToString(GarmentSupplierVM.IncomeTaxes.rate)))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Rate PPH tidak boleh kosong, ");
@@ -263,7 +263,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Rate PPH harus numerik, ");
                 }
-                else if (Convert.ToDouble(GarmentSupplierVM.IncomeTaxes.rate) < 0 || Convert.ToDouble(GarmentSupplierVM.IncomeTaxes.rate) == 0)
+                else if (Rate < 0 || Rate == 0)
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Rate PPH harus lebih besar dari 0, ");
                 }
@@ -271,7 +271,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Kurs maksimal memiliki 2 digit dibelakang koma, ");
                 }
-                IncomeTax suppliers = DbContext.IncomeTaxes.FirstOrDefault(s =>  s.Name == GarmentSupplierVM.IncomeTaxes.name && s.Rate == test);
+                IncomeTax suppliers = DbContext.IncomeTaxes.FirstOrDefault(s =>  s.Name == GarmentSupplierVM.IncomeTaxes.name && s.Rate == Rate);
                 if (suppliers == null)
                 {
                     IncomeTax incometaxesname = DbContext.IncomeTaxes.FirstOrDefault(s => s.Name == GarmentSupplierVM.IncomeTaxes.name);
@@ -279,7 +279,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     {
                         ErrorMessage = string.Concat(ErrorMessage, "Jenis PPH Tidak Ada di Master PPH, ");
                     }
-                    IncomeTax incometaxesrate = DbContext.IncomeTaxes.FirstOrDefault(s => s.Rate == test);
+                    IncomeTax incometaxesrate = DbContext.IncomeTaxes.FirstOrDefault(s => s.Rate == Rate);
                     if (incometaxesrate == null)
                     {
                         ErrorMessage = string.Concat(ErrorMessage, "Rate PPH Tidak Ada di Master PPH, ");
