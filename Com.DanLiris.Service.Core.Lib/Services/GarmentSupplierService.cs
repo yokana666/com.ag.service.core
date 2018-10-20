@@ -248,7 +248,6 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 				{
 					ErrorMessage = string.Concat(ErrorMessage, "Jenis PPH tidak boleh kosong, ");
 				}
-                double Rate = 0;
                 string[] RateSplit = Convert.ToString(GarmentSupplierVM.IncomeTaxes.rate).Split('.');
                 double test = 0;
                 var isIncometaxRateNumber = double.TryParse(Convert.ToString(GarmentSupplierVM.IncomeTaxes.rate), out test);
@@ -264,7 +263,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Rate PPH harus numerik, ");
                 }
-                else if (Rate < 0 || Rate == 0)
+                else if (Convert.ToDouble(GarmentSupplierVM.IncomeTaxes.rate) < 0 || Convert.ToDouble(GarmentSupplierVM.IncomeTaxes.rate) == 0)
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Rate PPH harus lebih besar dari 0, ");
                 }
