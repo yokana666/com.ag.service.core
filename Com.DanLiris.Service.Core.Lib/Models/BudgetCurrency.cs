@@ -32,7 +32,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 			if (this.Date > DateTime.Now)
 				validationResult.Add(new ValidationResult("Date must be less than or equal today's date", new List<string> { "Date" }));
 
-			if (this.Rate.Equals(null) || this.Rate < 0)
+			if (this.Rate.Equals(null) || this.Rate < 0 || this.Rate == 0)
 				validationResult.Add(new ValidationResult("Rate must be greater than zero", new List<string> { "Rate" }));
 
 			if (validationResult.Count.Equals(0))
