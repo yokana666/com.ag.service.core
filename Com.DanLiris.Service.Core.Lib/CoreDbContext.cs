@@ -15,7 +15,9 @@ namespace Com.DanLiris.Service.Core.Lib
 
         public DbSet<Budget> Budgets { get; set; }
 
-        public DbSet<Buyer> Buyers { get; set; }
+		public DbSet<BudgetCurrency> BudgetCurrencies { get; set; }
+
+		public DbSet<Buyer> Buyers { get; set; }
 
         public DbSet<Category> Categories { get; set; }
 
@@ -24,6 +26,10 @@ namespace Com.DanLiris.Service.Core.Lib
         public DbSet<Division> Divisions { get; set; }
 
         public DbSet<GarmentCurrency> GarmentCurrencies { get; set; }
+
+        public DbSet<GarmentBuyer> GarmentBuyers { get; set; }
+
+        public DbSet<GarmentComodity> GarmentComodities { get; set; }
 
         public DbSet<Holiday> Holidays { get; set; }
 
@@ -56,12 +62,18 @@ namespace Com.DanLiris.Service.Core.Lib
         public DbSet<Role> Roles { get; set; }
         public DbSet<LampStandard> LampStandard { get; set; }
         public DbSet<ColorTypes> ColorTypes { get; set; }
+        public DbSet<GarmentProduct> GarmentProducts { get; set; }
+        public DbSet<GarmentCategory> GarmentCategories { get; set; }
+		public DbSet<GarmentSupplier> GarmentSuppliers { get; set; }
+        public DbSet<GarmentBuyerBrand> GarmentBuyerBrands { get; set; }
+        public DbSet<ProductSPPProperty> ProductSPPProperties { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Buyer>()
                 .HasIndex(b => b.Code);
+            
         }
     }
 }

@@ -39,9 +39,10 @@ namespace Com.DanLiris.Service.Core.Test
                     new KeyValuePair<string, string>("ClientId", "dl-test"),
                     */
                     new KeyValuePair<string, string>("Secret", "DANLIRISTESTENVIRONMENT"),
-                    new KeyValuePair<string, string>("ASPNETCORE_ENVIRONMENT", "Test"),
-                    new KeyValuePair<string, string>("DefaultConnection", "Server=localhost,1401;Database=com.danliris.db.core.controller.test;User=sa;password=Standar123.;MultipleActiveResultSets=true;")
-                })
+					new KeyValuePair<string, string>("ASPNETCORE_ENVIRONMENT", "Test"),
+					new KeyValuePair<string, string>("DefaultConnection", "Server=localhost,1401;Database=com.danliris.db.core.controller.test;User=sa;password=Standar123.;MultipleActiveResultSets=true;")
+
+				})
                 .Build();
 
 
@@ -57,7 +58,16 @@ namespace Com.DanLiris.Service.Core.Test
                         .AddTransient<ComodityServiceDataUtil>()
                         .AddTransient<IncomeTaxDataUtil>()
                         .AddTransient<LampStandardDataUtil>()
-                        .AddTransient<StandardTestDataUtil>();
+                        .AddTransient<StandardTestDataUtil>()
+                        .AddTransient<GarmentCategoryDataUtil>()
+                        .AddTransient<ProductServiceDataUtil>()
+                        .AddTransient<AccountBankDataUtil>()
+                        .AddTransient<GarmentProductServiceDataUtil>()
+                        .AddTransient<GarmentBuyerDataUtil>()
+                        .AddTransient<GarmentBuyerBrandDataUtil>()
+                        .AddTransient<GarmentSupplierDataUtil>()
+						.AddTransient<GarmentCurrencyDataUtil>()
+						.AddTransient<BudgetCurrencyDataUtil>();
                 })
                 .UseStartup<Startup>();
 
@@ -73,8 +83,9 @@ namespace Com.DanLiris.Service.Core.Test
 
             HttpClient httpClient = new HttpClient();
 
-            var response = httpClient.PostAsync("http://localhost:5000/v1/authenticate", new StringContent(JsonConvert.SerializeObject(User).ToString(), Encoding.UTF8, "application/json")).Result;
-            response.EnsureSuccessStatusCode();
+			var response = httpClient.PostAsync("http://localhost:5000/v1/authenticate", new StringContent(JsonConvert.SerializeObject(User).ToString(), Encoding.UTF8, "application/json")).Result;
+
+			response.EnsureSuccessStatusCode();
 
             var data = response.Content.ReadAsStringAsync();
             Dictionary<string, object> result = JsonConvert.DeserializeObject<Dictionary<string, object>>(data.Result.ToString());

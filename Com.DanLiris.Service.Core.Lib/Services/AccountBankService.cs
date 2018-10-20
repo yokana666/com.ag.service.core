@@ -41,7 +41,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
             {
-                "Id", "Code", "BankName", "BankAddress", "AccountName", "AccountNumber", "SwiftCode", "Currency"
+                "Id", "Code", "BankName", "BankAddress", "AccountName", "AccountNumber", "SwiftCode", "Currency","Division"
             };
 
             Query = Query
@@ -55,7 +55,11 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     AccountNumber = a.AccountNumber,
                     SwiftCode = a.SwiftCode,
                     CurrencyId = a.CurrencyId,
-                    CurrencyCode = a.CurrencyCode
+                    CurrencyCode = a.CurrencyCode,
+                    DivisionCode=a.DivisionCode,
+                    DivisionId=a.DivisionId,
+                    DivisionName=a.DivisionName,
+                    _LastModifiedUtc=a._LastModifiedUtc
                 });
 
             /* Order */
@@ -100,6 +104,12 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 Symbol = accountBank.CurrencySymbol
             };
 
+            accountBankVM.Division = new DivisionViewModel
+            {
+                Id = (int)accountBank.DivisionId,
+                Code = accountBank.DivisionCode,
+                Name= accountBank.DivisionName
+            };
             return accountBankVM;
         }
 
@@ -121,6 +131,19 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 accountBank.CurrencyCode = null;
                 accountBank.CurrencyRate = 0;
                 accountBank.CurrencySymbol = null;
+            }
+
+            if (!Equals(accountBankVM.Division, null))
+            {
+                accountBank.DivisionId = accountBankVM.Division.Id;
+                accountBank.DivisionCode = accountBankVM.Division.Code;
+                accountBank.DivisionName = accountBankVM.Division.Name;
+            }
+            else
+            {
+                accountBank.DivisionId = null;
+                accountBank.DivisionCode = null;
+                accountBank.DivisionName = null;
             }
 
             return accountBank;

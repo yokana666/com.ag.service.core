@@ -34,6 +34,8 @@ namespace Com.DanLiris.Service.Core.Lib.Models
         [StringLength(500)]
         public string Tags { get; set; }
 
+        public ProductSPPProperty SPPProperties { get; set; }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             List<ValidationResult> validationResult = new List<ValidationResult>();

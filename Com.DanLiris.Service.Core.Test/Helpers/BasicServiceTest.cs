@@ -95,7 +95,7 @@ namespace Com.Danliris.Service.Core.Test.Helpers
             TModel testModel = this.GenerateTestModel();
 
             int createdCount = await service.CreateModel(testModel);
-            Assert.True(createdCount == 1);
+            Assert.True(createdCount > 0);
 
             return testModel;
         }
@@ -179,7 +179,7 @@ namespace Com.Danliris.Service.Core.Test.Helpers
             Assert.NotNull(data);
 
             int updatedCount = await service.UpdateModel(data.Id, data);
-            Assert.True(updatedCount == 1);
+            Assert.True(updatedCount > 0);
         }
 
         [Fact]
@@ -213,7 +213,7 @@ namespace Com.Danliris.Service.Core.Test.Helpers
             Assert.NotNull(data);
 
             int affectedResult = await service.DeleteModel(data.Id);
-            Assert.True(affectedResult == 1);
+            Assert.True(affectedResult > 0);
 
             data = await service.GetAsync(createdData.Id);
             Assert.Null(data);

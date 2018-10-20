@@ -19,9 +19,11 @@ namespace Com.DanLiris.Service.Core.Test
                 .AddInMemoryCollection(new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("Secret", "DANLIRISTESTENVIRONMENT"),
-                    new KeyValuePair<string, string>("ASPNETCORE_ENVIRONMENT", "Test"),
-                    new KeyValuePair<string, string>("DefaultConnection", "Server=localhost,1401;Database=com.danliris.db.core.service.test;User=sa;password=Standar123.;MultipleActiveResultSets=true;")
-                })
+					new KeyValuePair<string, string>("ASPNETCORE_ENVIRONMENT", "Test"),
+					new KeyValuePair<string, string>("DefaultConnection",  "Server=localhost,1401; Database = com.danliris.db.core.service.test; User = sa; password = Standar123.; MultipleActiveResultSets = true; ")
+
+
+				})
                 .Build();
 
             string connectionString = configuration.GetConnectionString("DefaultConnection") ?? configuration["DefaultConnection"];
@@ -48,7 +50,29 @@ namespace Com.DanLiris.Service.Core.Test
                 .AddTransient<StandardTestsService>(provider => new StandardTestsService(provider))
                 .AddTransient<StandardTestDataUtil>()
                 .AddTransient<DivisionService>(provider => new DivisionService(provider))
-                .BuildServiceProvider();
+                .AddTransient<ProductService>(provider => new ProductService(provider))
+                .AddTransient<ProductServiceDataUtil>()
+                .AddTransient<AccountBankDataUtil>()
+                .AddTransient<AccountBankService>(provider => new AccountBankService(provider))
+                .AddTransient<GarmentProductService>(provider => new GarmentProductService(provider))
+                .AddTransient<GarmentProductServiceDataUtil>()
+                .AddTransient<GarmentCategoryDataUtil>()
+                .AddTransient<GarmentCategoryService>(provider => new GarmentCategoryService(provider))
+                .AddTransient<GarmentBuyerService>(provider => new GarmentBuyerService(provider))
+                .AddTransient<GarmentComodityService>(provider => new GarmentComodityService(provider))
+				.AddTransient<GarmentSupplierDataUtil>()
+                .AddTransient<GarmentBuyerBrandDataUtil>()
+                .AddTransient<GarmentBuyerDataUtil>()
+                .AddTransient<GarmentSupplierService>(provider => new GarmentSupplierService(provider))
+				.AddTransient<GarmentUnitService>(provider => new GarmentUnitService(provider))
+                .AddTransient<GarmentBuyerBrandService>(provider => new GarmentBuyerBrandService(provider))
+                .AddTransient<UnitService>(provider => new UnitService(provider))
+				.AddTransient<GarmentCurrencyService>(provider => new GarmentCurrencyService(provider))
+				.AddTransient<GarmentCurrencyDataUtil>()
+				.AddTransient<BudgetCurrencyService>(provider => new BudgetCurrencyService(provider))
+				.AddTransient<BudgetCurrencyDataUtil>()
+
+				.BuildServiceProvider();
 
             CoreDbContext dbContext = ServiceProvider.GetService<CoreDbContext>();
             dbContext.Database.Migrate();
