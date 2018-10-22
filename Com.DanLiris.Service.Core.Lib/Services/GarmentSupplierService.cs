@@ -242,8 +242,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 				else if (!UseTaxAllowed.Any(i => i.Equals(Convert.ToString(GarmentSupplierVM.usetax), StringComparison.CurrentCultureIgnoreCase)))
 				{
 					ErrorMessage = string.Concat(ErrorMessage, "Kena PPH harus diisi dengan True atau False, ");
-				}
-                
+                }
                 if (string.IsNullOrWhiteSpace(GarmentSupplierVM.IncomeTaxes.name))
 				{
 					ErrorMessage = string.Concat(ErrorMessage, "Jenis PPH tidak boleh kosong, ");
@@ -251,11 +250,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 string[] RateSplit = Convert.ToString(GarmentSupplierVM.IncomeTaxes.rate).Split('.');
                 double Rate = 0;
                 var isIncometaxRateNumber = double.TryParse(Convert.ToString(GarmentSupplierVM.IncomeTaxes.rate), out Rate);
-                if (string.IsNullOrWhiteSpace(Convert.ToString(GarmentSupplierVM.IncomeTaxes.rate)))
-                {
-                    ErrorMessage = string.Concat(ErrorMessage, "Rate PPH tidak boleh kosong, ");
-                }
-                else if (string.IsNullOrWhiteSpace(Convert.ToString(GarmentSupplierVM.IncomeTaxes.rate)))
+                if (string.IsNullOrWhiteSpace(Convert.ToString(GarmentSupplierVM.IncomeTaxes.rate)) )
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Rate PPH tidak boleh kosong, ");
                 }
