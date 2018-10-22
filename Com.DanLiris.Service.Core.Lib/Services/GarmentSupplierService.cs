@@ -243,54 +243,64 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 				{
 					ErrorMessage = string.Concat(ErrorMessage, "Kena PPH harus diisi dengan True atau False, ");
                 }
-                if (string.IsNullOrWhiteSpace(GarmentSupplierVM.IncomeTaxes.name))
-				{
-					ErrorMessage = string.Concat(ErrorMessage, "Jenis PPH tidak boleh kosong, ");
-				}
-                string[] RateSplit = Convert.ToString(GarmentSupplierVM.IncomeTaxes.rate).Split('.');
-                double Rate = 0;
-                var isIncometaxRateNumber = double.TryParse(Convert.ToString(GarmentSupplierVM.IncomeTaxes.rate), out Rate);
-                if (string.IsNullOrWhiteSpace(Convert.ToString(GarmentSupplierVM.IncomeTaxes.rate)) )
+                if (Convert.ToBoolean(GarmentSupplierVM.usetax) == true)
                 {
-                    ErrorMessage = string.Concat(ErrorMessage, "Rate PPH tidak boleh kosong, ");
-                }
-                else if (!isIncometaxRateNumber)
-                {
-                    ErrorMessage = string.Concat(ErrorMessage, "Rate PPH harus numerik, ");
-                }
-                else if (Rate < 0 || Rate == 0)
-                {
-                    ErrorMessage = string.Concat(ErrorMessage, "Rate PPH harus lebih besar dari 0, ");
-                }
-                else if (RateSplit.Count().Equals(2) && RateSplit[1].Length > 2)
-                {
-                    ErrorMessage = string.Concat(ErrorMessage, "Kurs maksimal memiliki 2 digit dibelakang koma, ");
-                }
-                IncomeTax suppliers = DbContext.IncomeTaxes.FirstOrDefault(s =>  s.Name == GarmentSupplierVM.IncomeTaxes.name && s.Rate == Rate);
-                if (suppliers == null)
-                {
-                    IncomeTax incometaxesname = DbContext.IncomeTaxes.FirstOrDefault(s => s.Name == GarmentSupplierVM.IncomeTaxes.name);
-                    if (incometaxesname == null)
+                    if (string.IsNullOrWhiteSpace(GarmentSupplierVM.IncomeTaxes.name))
                     {
-                        ErrorMessage = string.Concat(ErrorMessage, "Jenis PPH Tidak Ada di Master PPH, ");
+                        ErrorMessage = string.Concat(ErrorMessage, "Jenis PPH tidak boleh kosong, ");
                     }
-                    IncomeTax incometaxesrate = DbContext.IncomeTaxes.FirstOrDefault(s => s.Rate == Rate);
-                    if (incometaxesrate == null)
+                    string[] RateSplit = Convert.ToString(GarmentSupplierVM.IncomeTaxes.rate).Split('.');
+                    double Rate = 0;
+                    var isIncometaxRateNumber = double.TryParse(Convert.ToString(GarmentSupplierVM.IncomeTaxes.rate), out Rate);
+                    if (string.IsNullOrWhiteSpace(Convert.ToString(GarmentSupplierVM.IncomeTaxes.rate)))
                     {
-                        ErrorMessage = string.Concat(ErrorMessage, "Rate PPH Tidak Ada di Master PPH, ");
+                        ErrorMessage = string.Concat(ErrorMessage, "Rate PPH tidak boleh kosong, ");
                     }
-                    if(incometaxesrate != null && incometaxesname != null)
+                    else if (!isIncometaxRateNumber)
                     {
-                        ErrorMessage = string.Concat(ErrorMessage, "Jenis PPH dan Rate PPH Berbeda Id, ");
+                        ErrorMessage = string.Concat(ErrorMessage, "Rate PPH harus numerik, ");
                     }
-                    
+                    else if (Rate < 0 || Rate == 0)
+                    {
+                        ErrorMessage = string.Concat(ErrorMessage, "Rate PPH harus lebih besar dari 0, ");
+                    }
+                    else if (RateSplit.Count().Equals(2) && RateSplit[1].Length > 2)
+                    {
+                        ErrorMessage = string.Concat(ErrorMessage, "Kurs maksimal memiliki 2 digit dibelakang koma, ");
+                    }
+                    IncomeTax suppliers = DbContext.IncomeTaxes.FirstOrDefault(s => s.Name == GarmentSupplierVM.IncomeTaxes.name && s.Rate == Rate);
+                    if (suppliers == null)
+                    {
+                        IncomeTax incometaxesname = DbContext.IncomeTaxes.FirstOrDefault(s => s.Name == GarmentSupplierVM.IncomeTaxes.name);
+                        if (incometaxesname == null)
+                        {
+                            ErrorMessage = string.Concat(ErrorMessage, "Jenis PPH Tidak Ada di Master PPH, ");
+                        }
+                        IncomeTax incometaxesrate = DbContext.IncomeTaxes.FirstOrDefault(s => s.Rate == Rate);
+                        if (incometaxesrate == null)
+                        {
+                            ErrorMessage = string.Concat(ErrorMessage, "Rate PPH Tidak Ada di Master PPH, ");
+                        }
+                        if (incometaxesrate != null && incometaxesname != null)
+                        {
+                            ErrorMessage = string.Concat(ErrorMessage, "Jenis PPH dan Rate PPH Berbeda Id, ");
+                        }
+
+                    }
+                    else
+                    {
+                        GarmentSupplierVM.IncomeTaxes.Id = suppliers.Id;
+                        GarmentSupplierVM.IncomeTaxes.name = suppliers.Name;
+                        GarmentSupplierVM.IncomeTaxes.rate = suppliers.Rate;
+                    }
                 }
-                else
+                else if (Convert.ToBoolean(GarmentSupplierVM.usetax) == false)
                 {
-                    GarmentSupplierVM.IncomeTaxes.Id = suppliers.Id;
-                    GarmentSupplierVM.IncomeTaxes.name = suppliers.Name;
-                    GarmentSupplierVM.IncomeTaxes.rate = suppliers.Rate;
+                    GarmentSupplierVM.IncomeTaxes.Id = 1;
+                    GarmentSupplierVM.IncomeTaxes.name = "";
+                    GarmentSupplierVM.IncomeTaxes.rate = 0;
                 }
+                
                 if (string.IsNullOrEmpty(ErrorMessage))
 				{
 					/* Service Validation */
