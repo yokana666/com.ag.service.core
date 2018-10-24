@@ -243,7 +243,9 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 				{
 					ErrorMessage = string.Concat(ErrorMessage, "Kena PPH harus diisi dengan True atau False, ");
                 }
-                if (Convert.ToBoolean(GarmentSupplierVM.usetax) == true)
+                bool tax;
+                bool.TryParse(Convert.ToString(GarmentSupplierVM.usetax), out tax);
+                if (tax == true)
                 {
                     if (string.IsNullOrWhiteSpace(GarmentSupplierVM.IncomeTaxes.name))
                     {
@@ -272,18 +274,18 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     if (suppliers == null)
                     {
                         IncomeTax incometaxesname = DbContext.IncomeTaxes.FirstOrDefault(s => s.Name == GarmentSupplierVM.IncomeTaxes.name);
-                        if (incometaxesname == null)
+                        if (incometaxesname == null && GarmentSupplierVM.IncomeTaxes.name != "")
                         {
                             ErrorMessage = string.Concat(ErrorMessage, "Jenis PPH Tidak Ada di Master PPH, ");
                         }
                         IncomeTax incometaxesrate = DbContext.IncomeTaxes.FirstOrDefault(s => s.Rate == Rate);
-                        if (incometaxesrate == null)
+                        if (incometaxesrate == null && Rate != 0)
                         {
                             ErrorMessage = string.Concat(ErrorMessage, "Rate PPH Tidak Ada di Master PPH, ");
                         }
                         if (incometaxesrate != null && incometaxesname != null)
                         {
-                            ErrorMessage = string.Concat(ErrorMessage, "Jenis PPH dan Rate PPH Berbeda Id, ");
+                            ErrorMessage = string.Concat(ErrorMessage, " Jenis PPH dan Rate PPH tidak ada di Master PPH, ");
                         }
 
                     }
@@ -294,12 +296,21 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                         GarmentSupplierVM.IncomeTaxes.rate = suppliers.Rate;
                     }
                 }
-                else if (Convert.ToBoolean(GarmentSupplierVM.usetax) == false)
+                else if (tax == false)
                 {
-                    GarmentSupplierVM.IncomeTaxes.Id = 1;
-                    GarmentSupplierVM.IncomeTaxes.name = "";
-                    GarmentSupplierVM.IncomeTaxes.rate = 0;
+                    if (GarmentSupplierVM.IncomeTaxes.name!= "" && GarmentSupplierVM.IncomeTaxes.rate != "")
+                    {
+                        ErrorMessage = string.Concat(ErrorMessage, " Jenis PPH / Rate PPH harus kosong, ");
+                    }
+                    else
+                    {
+                        GarmentSupplierVM.IncomeTaxes.Id = 1;
+                        GarmentSupplierVM.IncomeTaxes.name = "";
+                        GarmentSupplierVM.IncomeTaxes.rate = 0;
+                    }
+                    
                 }
+
                 
                 if (string.IsNullOrEmpty(ErrorMessage))
 				{
