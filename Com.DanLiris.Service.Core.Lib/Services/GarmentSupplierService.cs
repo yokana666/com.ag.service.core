@@ -244,7 +244,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 					ErrorMessage = string.Concat(ErrorMessage, "Kena PPH harus diisi dengan True atau False, ");
                 }
                 bool tax;
-                bool.TryParse(GarmentSupplierVM.usetax, out tax);
+                bool.TryParse(Convert.ToString(GarmentSupplierVM.usetax), out tax);
                 if (tax == true)
                 {
                     if (string.IsNullOrWhiteSpace(GarmentSupplierVM.IncomeTaxes.name))
