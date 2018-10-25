@@ -83,7 +83,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentSupplierTest
             GarmentSupplierViewModel Vmodel5 = await DataUtil.GetNewData5();
             GarmentSupplierViewModel Vmodel6 = await DataUtil.GetNewData6();
             GarmentSupplierViewModel Vmodel7 = await DataUtil.GetNewData7();
-            var Response = Services.UploadValidate(new List<GarmentSupplierViewModel> { Vmodel5 }, null);
+            var Response = Services.UploadValidate(new List<GarmentSupplierViewModel> { Vmodel5 , Vmodel6, Vmodel7 }, null);
             Assert.Equal(Response.Item1, false);
         }
     }
