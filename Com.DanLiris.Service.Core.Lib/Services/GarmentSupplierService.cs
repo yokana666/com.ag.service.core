@@ -298,9 +298,17 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 }
                 else if (tax == false)
                 {
-                    if (GarmentSupplierVM.IncomeTaxes.name!= "" && GarmentSupplierVM.IncomeTaxes.rate != "")
+                    if (GarmentSupplierVM.IncomeTaxes.name!= "" && GarmentSupplierVM.IncomeTaxes.rate != 0)
                     {
                         ErrorMessage = string.Concat(ErrorMessage, " Jenis PPH / Rate PPH harus kosong, ");
+                    }
+                    else if(GarmentSupplierVM.IncomeTaxes.name!="")
+                    {
+                        ErrorMessage = string.Concat(ErrorMessage, " Jenis PPH harus kosong, ");
+                    }
+                    else if (GarmentSupplierVM.IncomeTaxes.rate != 0)
+                    {
+                        ErrorMessage = string.Concat(ErrorMessage, " Jenis PPH harus kosong, ");
                     }
                     else
                     {
