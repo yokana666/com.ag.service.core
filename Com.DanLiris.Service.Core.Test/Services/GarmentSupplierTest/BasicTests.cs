@@ -77,5 +77,14 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentSupplierTest
             var Response = Services.UploadValidate(new List<GarmentSupplierViewModel> { Vmodel4 }, null);
             Assert.Equal(Response.Item1, true);
         }
+        [Fact]
+        public async void Should_Error_Upload_CSV_Data_when_UseTax_False()
+        {
+            GarmentSupplierViewModel Vmodel5 = await DataUtil.GetNewData5();
+            GarmentSupplierViewModel Vmodel6 = await DataUtil.GetNewData6();
+            GarmentSupplierViewModel Vmodel7 = await DataUtil.GetNewData7();
+            var Response = Services.UploadValidate(new List<GarmentSupplierViewModel> { Vmodel5 , Vmodel6, Vmodel7 }, null);
+            Assert.Equal(Response.Item1, false);
+        }
     }
 }

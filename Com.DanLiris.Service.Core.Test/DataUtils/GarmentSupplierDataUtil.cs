@@ -152,6 +152,81 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
 
             return TestData;
         }
+        public async Task<GarmentSupplierViewModel> GetNewData5()
+        {
+            string guid = Guid.NewGuid().ToString();
+            GarmentSupplierViewModel TestData = new GarmentSupplierViewModel
+            {
+                name = guid,
+                code = guid,
+                usevat = true,
+                import = false,
+                usetax = false,
+                NPWP = guid,
+                serialNumber = guid,
+                PIC = guid,
+                address = guid,
+                contact = guid,
+                IncomeTaxes = new IncomeTaxViewModel
+                {
+                    Id = 1,
+                    name = guid,
+                    rate = 1
+                },
+            };
+
+            return TestData;
+        }
+        public async Task<GarmentSupplierViewModel> GetNewData6()
+        {
+            string guid = Guid.NewGuid().ToString();
+            GarmentSupplierViewModel TestData = new GarmentSupplierViewModel
+            {
+                name = guid,
+                code = guid,
+                usevat = true,
+                import = false,
+                usetax = false,
+                NPWP = guid,
+                serialNumber = guid,
+                PIC = guid,
+                address = guid,
+                contact = guid,
+                IncomeTaxes = new IncomeTaxViewModel
+                {
+                    Id = 1,
+                    name = guid,
+                    rate = 0
+                },
+            };
+
+            return TestData;
+        }
+        public async Task<GarmentSupplierViewModel> GetNewData7()
+        {
+            string guid = Guid.NewGuid().ToString();
+            GarmentSupplierViewModel TestData = new GarmentSupplierViewModel
+            {
+                name = guid,
+                code = guid,
+                usevat = true,
+                import = false,
+                usetax = false,
+                NPWP = guid,
+                serialNumber = guid,
+                PIC = guid,
+                address = guid,
+                contact = guid,
+                IncomeTaxes = new IncomeTaxViewModel
+                {
+                    Id = 1,
+                    name = "",
+                    rate = 1
+                },
+            };
+
+            return TestData;
+        }
         public override async Task<GarmentSupplier> GetTestDataAsync()
 		{
 			GarmentSupplier Data = GetNewData();
