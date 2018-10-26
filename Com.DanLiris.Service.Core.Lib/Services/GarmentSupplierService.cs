@@ -245,6 +245,8 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 }
                 bool tax;
                 bool.TryParse(Convert.ToString(GarmentSupplierVM.usetax), out tax);
+                double Rate = 0;
+                var isIncometaxRateNumber = double.TryParse(Convert.ToString(GarmentSupplierVM.IncomeTaxes.rate), out Rate);
                 if (tax == true)
                 {
                     if (string.IsNullOrWhiteSpace(GarmentSupplierVM.IncomeTaxes.name))
@@ -252,8 +254,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                         ErrorMessage = string.Concat(ErrorMessage, "Jenis PPH tidak boleh kosong, ");
                     }
                     string[] RateSplit = Convert.ToString(GarmentSupplierVM.IncomeTaxes.rate).Split('.');
-                    double Rate = 0;
-                    var isIncometaxRateNumber = double.TryParse(Convert.ToString(GarmentSupplierVM.IncomeTaxes.rate), out Rate);
+                    
                     if (string.IsNullOrWhiteSpace(Convert.ToString(GarmentSupplierVM.IncomeTaxes.rate)))
                     {
                         ErrorMessage = string.Concat(ErrorMessage, "Rate PPH tidak boleh kosong, ");
@@ -298,15 +299,15 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 }
                 else if (tax == false)
                 {
-                    if (GarmentSupplierVM.IncomeTaxes.name!= "" && GarmentSupplierVM.IncomeTaxes.rate != 0)
+                    if (GarmentSupplierVM.IncomeTaxes.name != "" && Rate != 0)
                     {
                         ErrorMessage = string.Concat(ErrorMessage, " Jenis PPH / Rate PPH harus kosong, ");
                     }
-                    else if(GarmentSupplierVM.IncomeTaxes.name!="")
+                    else if(GarmentSupplierVM.IncomeTaxes.name != "")
                     {
                         ErrorMessage = string.Concat(ErrorMessage, " Jenis PPH harus kosong, ");
                     }
-                    else if (GarmentSupplierVM.IncomeTaxes.rate != 0)
+                    else if (Rate != 0)
                     {
                         ErrorMessage = string.Concat(ErrorMessage, " Jenis PPH harus kosong, ");
                     }
