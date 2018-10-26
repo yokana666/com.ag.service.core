@@ -309,7 +309,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     }
                     else if (Rate != 0)
                     {
-                        ErrorMessage = string.Concat(ErrorMessage, " Jenis PPH harus kosong, ");
+                        ErrorMessage = string.Concat(ErrorMessage, " Rate PPH harus kosong, ");
                     }
                     else
                     {
