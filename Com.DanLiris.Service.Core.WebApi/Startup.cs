@@ -1,16 +1,20 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
+﻿using AutoMapper;
 using Com.DanLiris.Service.Core.Lib;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
+using Com.DanLiris.Service.Core.Lib.Helpers.IdentityService;
+using Com.DanLiris.Service.Core.Lib.Helpers.ValidateService;
 using Com.DanLiris.Service.Core.Lib.Services;
-using Newtonsoft.Json.Serialization;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Com.DanLiris.Service.Core.Lib.Services.Account_and_Roles;
+using Com.DanLiris.Service.Core.Lib.Services.MachineSpinning;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Serialization;
+using System.Text;
 
 namespace Com.DanLiris.Service.Core.WebApi
 {
@@ -21,6 +25,13 @@ namespace Com.DanLiris.Service.Core.WebApi
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+        }
+
+        private void RegisterServices(IServiceCollection services)
+        {
+            services
+                .AddScoped<IIdentityService, IdentityService>()
+                .AddScoped<IValidateService, ValidateService>();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -44,8 +55,8 @@ namespace Com.DanLiris.Service.Core.WebApi
                 .AddScoped<DivisionService>()
                 .AddScoped<DesignMotiveService>()
                 .AddScoped<GarmentCurrencyService>()
-				.AddScoped<BudgetCurrencyService>()
-				.AddScoped<GarmentBuyerService>()
+                .AddScoped<BudgetCurrencyService>()
+                .AddScoped<GarmentBuyerService>()
                 .AddScoped<GarmentComodityService>()
                 .AddScoped<HolidayService>()
                 .AddScoped<ProductService>()
@@ -69,10 +80,14 @@ namespace Com.DanLiris.Service.Core.WebApi
                 .AddScoped<RolesService>()
                 .AddScoped<GarmentProductService>()
                 .AddScoped<GarmentCategoryService>()
-				.AddScoped<GarmentSupplierService>()
-				.AddScoped<GarmentUnitService>()
+                .AddScoped<GarmentSupplierService>()
+                .AddScoped<GarmentUnitService>()
                 .AddScoped<GarmentBuyerBrandService>()
+                .AddTransient<IMachineSpinningService, MachineSpinningService>()
                 .AddScoped<RolesService>();
+
+            RegisterServices(services);
+
             services
                 .AddApiVersioning(options =>
                 {
@@ -80,6 +95,8 @@ namespace Com.DanLiris.Service.Core.WebApi
                     options.AssumeDefaultVersionWhenUnspecified = true;
                     options.DefaultApiVersion = new ApiVersion(1, 1);
                 });
+
+            services.AddAutoMapper();
 
             //services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
             //    .AddIdentityServerAuthentication(options =>
