@@ -37,6 +37,9 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
             while (_DbSet.Any(d => d.Code.Equals(model.Code)));
 
             model.FlagForCreate(_IdentityService.Username, _UserAgent);
+            model._LastModifiedAgent = _UserAgent;
+            model._LastModifiedBy = _IdentityService.Username;
+            model._LastModifiedUtc = DateTime.Now;
             _DbSet.Add(model);
             return await _DbContext.SaveChangesAsync();
         }
@@ -64,6 +67,8 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                     CapacityPerHour = s.CapacityPerHour,
                     Condition = s.Condition,
                     Delivery = s.Delivery,
+                    CounterCondition=s.CounterCondition,
+                    Brand=s.Brand,
                     Name = s.Name,
                     Type = s.Type,
                     Year = s.Year
@@ -71,7 +76,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
 
             List<string> searchAttributes = new List<string>()
             {
-                "Code", "Name", "Type","Condition"
+                "Brand", "Name"
             };
 
             Query = QueryHelper<MachineSpinningModel>.Search(Query, searchAttributes, keyword);
@@ -97,6 +102,8 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                    CapacityPerHour = s.CapacityPerHour,
                    Condition = s.Condition,
                    Delivery = s.Delivery,
+                   CounterCondition = s.CounterCondition,
+                   Brand = s.Brand,
                    Name = s.Name,
                    Type = s.Type,
                    Year = s.Year

@@ -24,7 +24,11 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
                 Condition = "Condition",
                 Type = "Type",
                 Delivery = 2,
-                CapacityPerHour = 1808.123
+                CapacityPerHour = 1808.123,
+                CounterCondition="test",
+                Brand="test",
+                UomId="1",
+                UomUnit="uomtest"
             };
 
             return TestData;
@@ -40,7 +44,12 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
                 Condition = "Condition",
                 Type = "Type",
                 Delivery = 2,
-                CapacityPerHour = 1808.123
+                CapacityPerHour = 1808.123,
+                CounterCondition = "test",
+                Brand = "test",
+                UomId = "1",
+                UomUnit = "uomtest",
+                
             };
 
             return TestData;
