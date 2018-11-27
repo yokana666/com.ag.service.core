@@ -65,7 +65,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.MachineSpinning
         {
             var service = new MachineSpinningService(GetServiceProvider().Object, _dbContext(GetCurrentMethod()));
             var data = await _dataUtil(service).GetTestData();
-            var Response = service.Read(1, 25, "{}", null, data.Code, "{}");
+            var Response = service.Read(1, 25, "{}", null, data.Name, "{}");
             Assert.NotEmpty(Response.Data);
         }
 
