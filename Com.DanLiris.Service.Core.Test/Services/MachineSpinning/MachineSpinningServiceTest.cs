@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -94,6 +95,22 @@ namespace Com.DanLiris.Service.Core.Test.Services.MachineSpinning
             var vm = _dataUtil(service).GetDataToValidate();
 
             Assert.True(vm.Validate(null).Count() == 0);
+        }
+
+        [Fact]
+        public async void Should_No_Error_Validate_Data_Duplicate_Name()
+        {
+            var service = new MachineSpinningService(GetServiceProvider().Object, _dbContext(GetCurrentMethod()));
+            var model = _dataUtil(service).GetNewData();
+            var Response = await service.CreateAsync(model);
+            var vm = _dataUtil(service).GetDataToValidate();
+            vm.Name = model.Name;
+            Mock<IServiceProvider> serviceProvider = new Mock<IServiceProvider>();
+            serviceProvider.
+                Setup(x => x.GetService(typeof(CoreDbContext)))
+                .Returns(_dbContext(GetCurrentMethod()));
+            ValidationContext validationDuplicateContext = new ValidationContext(vm, serviceProvider.Object, null);
+            Assert.True(vm.Validate(validationDuplicateContext).Count() > 0);
         }
 
         [Fact]
