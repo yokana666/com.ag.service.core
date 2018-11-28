@@ -93,8 +93,12 @@ namespace Com.DanLiris.Service.Core.Test.Services.MachineSpinning
         {
             var service = new MachineSpinningService(GetServiceProvider().Object, _dbContext(GetCurrentMethod()));
             var vm = _dataUtil(service).GetDataToValidate();
-
-            Assert.True(vm.Validate(null).Count() == 0);
+            Mock<IServiceProvider> serviceProvider = new Mock<IServiceProvider>();
+            serviceProvider.
+                Setup(x => x.GetService(typeof(CoreDbContext)))
+                .Returns(_dbContext(GetCurrentMethod()));
+            ValidationContext validationDuplicateContext = new ValidationContext(vm, serviceProvider.Object, null);
+            Assert.True(vm.Validate(validationDuplicateContext).Count() == 0);
         }
 
         [Fact]
