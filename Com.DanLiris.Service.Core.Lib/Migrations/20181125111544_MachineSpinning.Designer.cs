@@ -11,9 +11,10 @@ using System;
 namespace Com.DanLiris.Service.Core.Lib.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    partial class CoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181125111544_MachineSpinning")]
+    partial class MachineSpinning
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1462,25 +1463,17 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.Property<bool>("Active");
 
-                    b.Property<string>("Brand");
-
                     b.Property<double>("CapacityPerHour");
 
                     b.Property<string>("Code");
 
                     b.Property<string>("Condition");
 
-                    b.Property<string>("CounterCondition");
-
                     b.Property<int>("Delivery");
 
                     b.Property<string>("Name");
 
                     b.Property<string>("Type");
-
-                    b.Property<string>("UomId");
-
-                    b.Property<string>("UomUnit");
 
                     b.Property<int>("Year");
 

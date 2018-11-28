@@ -24,16 +24,14 @@ namespace Com.DanLiris.Service.Core.Test.Services.BudgetCurrency
 		{
 			model.Code = "Test";
 			model.Date = DateTime.Now;
-			model.Rate = -1;
-            model.Rate = 0;
+			model.Rate = 1;
 		}
 
 		public override void EmptyUpdateModel(Models.BudgetCurrency model)
 		{
 			model.Code = "Test";
 			model.Date = DateTime.Now;
-			model.Rate = -1;
-            model.Rate = 0;
+			model.Rate = 1;
 		}
 
 		public override Models.BudgetCurrency GenerateTestModel()
@@ -44,7 +42,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.BudgetCurrency
 			{
 				Code = guid,
 				Date = DateTime.Now,
-				Rate = 0,
+				Rate = 1,
 				Remark = guid
 			};
 		}
