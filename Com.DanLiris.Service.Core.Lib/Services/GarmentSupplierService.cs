@@ -145,9 +145,9 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 			GarmentSupplier.Address = GarmentSupplierVM.address;
 			GarmentSupplier.Contact = GarmentSupplierVM.contact;
 			GarmentSupplier.PIC = GarmentSupplierVM.PIC;
-			GarmentSupplier.Import = !Equals(GarmentSupplierVM.import, null) ? Convert.ToBoolean(GarmentSupplierVM.import) : null;
-			GarmentSupplier.UseVat = !Equals(GarmentSupplierVM.usevat, null) ? Convert.ToBoolean(GarmentSupplierVM.usevat) : null;
-			GarmentSupplier.UseTax = !Equals(GarmentSupplierVM.usetax, null) ? Convert.ToBoolean(GarmentSupplierVM.usetax) : null; /* Check Null */
+			GarmentSupplier.Import = !Equals(GarmentSupplierVM.import, null) ? Convert.ToBoolean(GarmentSupplierVM.import) : false;
+			GarmentSupplier.UseVat = !Equals(GarmentSupplierVM.usevat, null) ? Convert.ToBoolean(GarmentSupplierVM.usevat) : false;
+			GarmentSupplier.UseTax = !Equals(GarmentSupplierVM.usetax, null) ? Convert.ToBoolean(GarmentSupplierVM.usetax) : false; /* Check Null */
 			if (GarmentSupplierVM.IncomeTaxes != null)
 			{
 				GarmentSupplier.IncomeTaxesId = GarmentSupplierVM.IncomeTaxes.Id;
