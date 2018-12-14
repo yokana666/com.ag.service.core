@@ -2,6 +2,7 @@
 using Com.DanLiris.Service.Core.Lib;
 using Com.DanLiris.Service.Core.Lib.Models;
 using Com.DanLiris.Service.Core.Lib.Services;
+using Com.DanLiris.Service.Core.Test.DataUtils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,6 +19,16 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentCategoryTests
 
         public BasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
         {
+        }
+
+        private GarmentCategoryDataUtil DataUtil
+        {
+            get { return (GarmentCategoryDataUtil)ServiceProvider.GetService(typeof(GarmentCategoryDataUtil)); }
+        }
+
+        private GarmentCurrencyService Services
+        {
+            get { return (GarmentCurrencyService)ServiceProvider.GetService(typeof(GarmentCurrencyService)); }
         }
 
         public override void EmptyCreateModel(GarmentCategory model)
@@ -48,6 +59,14 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentCategoryTests
                 UomUnit= String.Concat("TEST G-Category ", guid),
                 UomId=1
             };
+        }
+
+        [Fact]
+        public async void Should_Success_Get_Data_By_Code()
+        {
+            GarmentCategory model = await DataUtil.GetTestDataAsync();
+            var Response = Services.GetByCode(model.Code);
+            Assert.NotNull(Response);
         }
     }
 }
