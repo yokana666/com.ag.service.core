@@ -83,9 +83,8 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCategoryControllerTe
         {
             string byCodeUri = "v1/master/garment-categories/byCode";
             GarmentCategory Model = await DataUtil.GetTestDataAsync();
-            GarmentCategoryViewModel ViewModel = Service.MapToViewModel(Model);
 
-            var response = await this.Client.GetAsync(string.Concat(byCodeUri, "/", ViewModel.code));
+            var response = await this.Client.GetAsync(string.Concat(byCodeUri, "/", Model.Code));
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
             var json = response.Content.ReadAsStringAsync().Result;
