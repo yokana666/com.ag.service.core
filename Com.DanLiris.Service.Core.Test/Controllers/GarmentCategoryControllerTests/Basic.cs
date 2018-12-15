@@ -16,16 +16,22 @@ using Xunit;
 namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCategoryControllerTests
 {
     [Collection("TestFixture Collection")]
-    public class Basic : BasicControllerTest<CoreDbContext, GarmentCategoryService, GarmentCategory, GarmentCategoryViewModel, GarmentCategoryDataUtil>
+    public class Basic 
     {
         private const string URI = "v1/master/garment-categories";
-        private static List<string> CreateValidationAttributes = new List<string> { };
-        private static List<string> UpdateValidationAttributes = new List<string> { };
 
-        public Basic(TestServerFixture fixture) : base(fixture, URI, CreateValidationAttributes, UpdateValidationAttributes)
+        protected TestServerFixture TestFixture { get; set; }
+
+        protected HttpClient Client
         {
+            get { return this.TestFixture.Client; }
         }
 
+        public Basic(TestServerFixture fixture)
+        {
+            TestFixture = fixture;
+
+        }
         protected GarmentCategoryDataUtil DataUtil
         {
             get { return (GarmentCategoryDataUtil)this.TestFixture.Service.GetService(typeof(GarmentCategoryDataUtil)); }
@@ -48,19 +54,19 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCategoryControllerTe
             };
         }
 
-        //[Fact]
-        //public async Task Get()
-        //{
-        //    var response = await this.Client.GetAsync(URI);
-        //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        //}
+        [Fact]
+        public async Task Get()
+        {
+            var response = await this.Client.GetAsync(URI);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
 
-        //[Fact]
-        //public async Task GetById()
-        //{
-        //    var response = await this.Client.GetAsync(string.Concat(URI, "/"));
-        //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        //}
+        [Fact]
+        public async Task GetById()
+        {
+            var response = await this.Client.GetAsync(string.Concat(URI, "/"));
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
 
         [Fact]
         public async Task Post()
