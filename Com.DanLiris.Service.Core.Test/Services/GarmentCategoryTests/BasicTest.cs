@@ -26,9 +26,9 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentCategoryTests
             get { return (GarmentCategoryDataUtil)ServiceProvider.GetService(typeof(GarmentCategoryDataUtil)); }
         }
 
-        private GarmentCurrencyService Services
+        private GarmentCategoryService Services
         {
-            get { return (GarmentCurrencyService)ServiceProvider.GetService(typeof(GarmentCurrencyService)); }
+            get { return (GarmentCategoryService)ServiceProvider.GetService(typeof(GarmentCategoryService)); }
         }
 
         public override void EmptyCreateModel(GarmentCategory model)

@@ -27,7 +27,6 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
         {
             try
             {
-                service.Username = User.Claims.Single(p => p.Type.Equals("username")).Value;
                 List<GarmentCategory> Data = service.GetByCode(codeRequirement);
 
                 Dictionary<string, object> Result =
