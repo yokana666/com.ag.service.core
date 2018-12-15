@@ -22,7 +22,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
         {
         }
 
-        [HttpGet("byCode/{codeRequirement}")]
+        [HttpGet("byCodeReq/{codeRequirement}")]
         public IActionResult GetByCode([FromRoute] string codeRequirement)
         {
             try

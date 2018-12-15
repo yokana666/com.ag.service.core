@@ -97,7 +97,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCategoryControllerTe
         [Fact]
         public async Task Should_Success_Get_Data_By_Code()
         {
-            string byCodeUri = "v1/master/garment-categories/byCode";
+            string byCodeUri = "v1/master/garment-categories/byCodeReq";
             GarmentCategory model = await DataUtil.GetTestDataAsync();
             var response = await this.Client.GetAsync($"{byCodeUri}/{model.CodeRequirement}");
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
