@@ -16,9 +16,11 @@ using Xunit;
 namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCategoryControllerTests
 {
     [Collection("TestFixture Collection")]
-    public class Basic 
+    public class Basic : BasicControllerTest<CoreDbContext, GarmentCategoryService, GarmentCategory, GarmentCategoryViewModel, GarmentCategoryDataUtil>
     {
         private const string URI = "v1/master/garment-categories";
+        private static List<string> CreateValidationAttributes = new List<string> { };
+        private static List<string> UpdateValidationAttributes = new List<string> { };
 
         protected TestServerFixture TestFixture { get; set; }
 
@@ -27,11 +29,10 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCategoryControllerTe
             get { return this.TestFixture.Client; }
         }
 
-        public Basic(TestServerFixture fixture)
+        public Basic(TestServerFixture fixture) : base(fixture, URI, CreateValidationAttributes, UpdateValidationAttributes)
         {
-            TestFixture = fixture;
-
         }
+
         protected GarmentCategoryDataUtil DataUtil
         {
             get { return (GarmentCategoryDataUtil)this.TestFixture.Service.GetService(typeof(GarmentCategoryDataUtil)); }
@@ -83,8 +84,9 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCategoryControllerTe
         {
             string byCodeUri = "v1/master/garment-categories/byCode";
             GarmentCategory Model = await DataUtil.GetTestDataAsync();
+            GarmentCategoryViewModel ViewModel = Service.MapToViewModel(Model);
 
-            var response = await this.Client.GetAsync(string.Concat(byCodeUri, "/", Model.Code));
+            var response = await this.Client.GetAsync(string.Concat(byCodeUri, "/", ViewModel.code));
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
             var json = response.Content.ReadAsStringAsync().Result;
