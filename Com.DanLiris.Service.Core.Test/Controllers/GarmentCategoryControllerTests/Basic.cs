@@ -1,6 +1,9 @@
-﻿using Com.DanLiris.Service.Core.Lib.Models;
+﻿using Com.DanLiris.Service.Core.Lib;
+using Com.DanLiris.Service.Core.Lib.Models;
+using Com.DanLiris.Service.Core.Lib.Services;
 using Com.DanLiris.Service.Core.Lib.ViewModels;
 using Com.DanLiris.Service.Core.Test.DataUtils;
+using Com.DanLiris.Service.Core.Test.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,9 +16,11 @@ using Xunit;
 namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCategoryControllerTests
 {
     [Collection("TestFixture Collection")]
-    public class Basic
+    public class Basic : BasicControllerTest<CoreDbContext, GarmentCategoryService, GarmentCategory, GarmentCategoryViewModel, GarmentCategoryDataUtil>
     {
         private const string URI = "v1/master/garment-categories";
+        private static List<string> CreateValidationAttributes = new List<string> { };
+        private static List<string> UpdateValidationAttributes = new List<string> { };
 
         protected TestServerFixture TestFixture { get; set; }
 
@@ -24,10 +29,8 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCategoryControllerTe
             get { return this.TestFixture.Client; }
         }
 
-        public Basic(TestServerFixture fixture)
+        public Basic(TestServerFixture fixture) : base(fixture, URI, CreateValidationAttributes, UpdateValidationAttributes)
         {
-            TestFixture = fixture;
-
         }
 
         protected GarmentCategoryDataUtil DataUtil
