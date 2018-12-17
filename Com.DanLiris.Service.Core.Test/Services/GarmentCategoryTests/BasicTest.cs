@@ -60,5 +60,13 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentCategoryTests
                 UomId=1
             };
         }
+
+        [Fact]
+        public async void Should_Success_Get_Data_By_Code()
+        {
+            GarmentCategory model = await DataUtil.GetTestDataAsync();
+            var Response = Services.GetByCode(model.Code);
+            Assert.NotNull(Response);
+        }
     }
 }

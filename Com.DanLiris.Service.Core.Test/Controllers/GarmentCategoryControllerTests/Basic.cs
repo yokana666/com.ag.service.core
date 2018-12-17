@@ -99,7 +99,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCategoryControllerTe
         {
             string byCodeUri = "v1/master/garment-categories/byCodeReq";
             GarmentCategory model = await DataUtil.GetTestDataAsync();
-            var response = await this.Client.GetAsync($"{byCodeUri}/{model.CodeRequirement}");
+            var response = await this.Client.GetAsync($"{byCodeUri}/{model.Code}");
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
     }
