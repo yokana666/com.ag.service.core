@@ -2,6 +2,7 @@
 using Com.DanLiris.Service.Core.Lib;
 using Com.DanLiris.Service.Core.Lib.Models;
 using Com.DanLiris.Service.Core.Lib.Services;
+using Com.DanLiris.Service.Core.Test.DataUtils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,6 +19,16 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentCategoryTests
 
         public BasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
         {
+        }
+
+        private GarmentCategoryDataUtil DataUtil
+        {
+            get { return (GarmentCategoryDataUtil)ServiceProvider.GetService(typeof(GarmentCategoryDataUtil)); }
+        }
+
+        private GarmentCategoryService Services
+        {
+            get { return (GarmentCategoryService)ServiceProvider.GetService(typeof(GarmentCategoryService)); }
         }
 
         public override void EmptyCreateModel(GarmentCategory model)

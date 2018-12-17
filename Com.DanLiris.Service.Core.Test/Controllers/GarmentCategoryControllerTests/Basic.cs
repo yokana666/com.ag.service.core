@@ -1,4 +1,6 @@
-﻿using Com.DanLiris.Service.Core.Lib.ViewModels;
+﻿using Com.DanLiris.Service.Core.Lib.Models;
+using Com.DanLiris.Service.Core.Lib.ViewModels;
+using Com.DanLiris.Service.Core.Test.DataUtils;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -26,6 +28,11 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCategoryControllerTe
         {
             TestFixture = fixture;
 
+        }
+
+        protected GarmentCategoryDataUtil DataUtil
+        {
+            get { return (GarmentCategoryDataUtil)this.TestFixture.Service.GetService(typeof(GarmentCategoryDataUtil)); }
         }
 
         public GarmentCategoryViewModel GenerateTestModel()
@@ -67,6 +74,33 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCategoryControllerTe
             var response = await this.Client.PostAsync(URI, new StringContent(JsonConvert.SerializeObject(categoryViewModel).ToString(), Encoding.UTF8, "application/json"));
 
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+        }
+
+        //[Fact]
+        //public async Task Should_Success_Get_Data_By_Code()
+        //{
+        //    string byCodeUri = "v1/master/garment-categories/byCode";
+        //    GarmentCategory Model = await DataUtil.GetTestDataAsync();
+
+        //    var response = await this.Client.GetAsync(string.Concat(byCodeUri, "/", Model.CodeRequirement));
+        //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        //    var json = response.Content.ReadAsStringAsync().Result;
+        //    Dictionary<string, object> result = JsonConvert.DeserializeObject<Dictionary<string, object>>(json.ToString());
+
+        //    Assert.True(result.ContainsKey("apiVersion"));
+        //    Assert.True(result.ContainsKey("message"));
+        //    Assert.True(result.ContainsKey("data"));
+        //    Assert.True(result["data"].GetType().Name.Equals("JObject"));
+        //}
+
+        [Fact]
+        public async Task Should_Success_Get_Data_By_Code()
+        {
+            string byCodeUri = "v1/master/garment-categories/byCodeReq";
+            GarmentCategory model = await DataUtil.GetTestDataAsync();
+            var response = await this.Client.GetAsync($"{byCodeUri}/{model.CodeRequirement}");
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
     }
 }
