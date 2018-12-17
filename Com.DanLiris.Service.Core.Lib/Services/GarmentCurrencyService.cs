@@ -237,5 +237,11 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 			return this.DbSet.Where(p => ids.Contains(p.Id) && p._IsDeleted == false)
 				.ToList();
 		}
+
+        public List<GarmentCurrency> GetByCode(string code)
+        {
+            return this.DbSet.Where(p => code.Contains(p.Code) && p._IsDeleted == false)
+                .ToList();
+        }
 	}
 }
