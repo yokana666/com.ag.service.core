@@ -138,12 +138,5 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
         //    base.OnCreating(model);
         //}
-
-        public List<GarmentCategory> GetByCode(string codeRequirement)
-        {
-            return this.DbSet.Where(p => codeRequirement.Contains(p.CodeRequirement) && p._IsDeleted == false)
-                .ToList();
-        }
-
     }
 }
