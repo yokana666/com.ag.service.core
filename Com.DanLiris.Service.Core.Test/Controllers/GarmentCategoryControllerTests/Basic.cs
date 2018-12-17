@@ -94,13 +94,13 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCategoryControllerTe
         //    Assert.True(result["data"].GetType().Name.Equals("JObject"));
         //}
 
-        [Fact]
-        public async Task Should_Success_Get_Data_By_Code()
-        {
-            string byCodeUri = "v1/master/garment-categories/byCodeReq";
-            GarmentCategory model = await DataUtil.GetTestDataAsync();
-            var response = await this.Client.GetAsync($"{byCodeUri}/{model.Code}");
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        }
+        //[Fact]
+        //public async Task Should_Success_Get_Data_By_Code()
+        //{
+        //    string byCodeUri = "v1/master/garment-categories/byCodeReq";
+        //    GarmentCategory model = await DataUtil.GetTestDataAsync();
+        //    var response = await this.Client.GetAsync($"{byCodeUri}/{model.Code}");
+        //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        //}
     }
 }
