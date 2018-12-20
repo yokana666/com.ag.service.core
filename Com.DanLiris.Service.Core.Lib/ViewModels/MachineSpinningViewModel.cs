@@ -21,6 +21,10 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
         public double? CapacityPerHour { get; set; }
         public string UomId { get; set; }
         public string UomUnit { get; set; }
+        public string Line { get; set; }
+        public string UnitId { get; set; }
+        public string UnitCode { get; set; }
+        public string UnitName { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
@@ -69,7 +73,7 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
                 yield return new ValidationResult("Delivery harus diisi", new List<string> { "Delivery" });
             }
 
-            if (string.IsNullOrWhiteSpace(UomId))
+            if (string.IsNullOrWhiteSpace(UomUnit))
             {
                 yield return new ValidationResult("Satuan harus diisi", new List<string> { "Uom" });
             }
@@ -79,7 +83,12 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
                 yield return new ValidationResult("Kapasitas per Jam harus diisi", new List<string> { "CapacityPerHour" });
             }
 
-            
+            if(string.IsNullOrEmpty(Line))
+                yield return new ValidationResult("Line harus diisi", new List<string> { "Line" });
+
+            if (string.IsNullOrEmpty(UnitName))
+                yield return new ValidationResult("Unit harus diisi", new List<string> { "Unit" });
         }
     }
+    
 }

@@ -49,7 +49,10 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
                 Brand = "test",
                 UomId = "1",
                 UomUnit = "uomtest",
-                
+                Line = "Line",
+                UnitCode = "UnitC",
+                UnitId = "1",
+                UnitName = "UnitName"
             };
 
             return TestData;
