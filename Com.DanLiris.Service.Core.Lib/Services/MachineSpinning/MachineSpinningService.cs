@@ -269,7 +269,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
             return Tuple.Create(Valid, ErrorList);
         }
 
-        public Task UploadData(List<MachineSpinningModel> data)
+        public Task<int> UploadData(List<MachineSpinningModel> data)
         {
             return Task.Factory.StartNew(async () =>
             {

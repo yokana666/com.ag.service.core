@@ -28,7 +28,11 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
                 CounterCondition="test",
                 Brand="test",
                 UomId="1",
-                UomUnit="uomtest"
+                UomUnit="uomtest",
+                Line = "Line",
+                UnitCode = "UnitC",
+                UnitId = "1",
+                UnitName = "UnitName"
             };
 
             return TestData;
