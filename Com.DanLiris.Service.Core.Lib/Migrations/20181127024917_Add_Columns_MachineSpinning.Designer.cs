@@ -11,9 +11,10 @@ using System;
 namespace Com.DanLiris.Service.Core.Lib.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    partial class CoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181127024917_Add_Columns_MachineSpinning")]
+    partial class Add_Columns_MachineSpinning
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1474,17 +1475,9 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.Property<int>("Delivery");
 
-                    b.Property<string>("Line");
-
                     b.Property<string>("Name");
 
                     b.Property<string>("Type");
-
-                    b.Property<string>("UnitCode");
-
-                    b.Property<string>("UnitId");
-
-                    b.Property<string>("UnitName");
 
                     b.Property<string>("UomId");
 
