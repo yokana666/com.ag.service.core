@@ -93,8 +93,8 @@ namespace Com.DanLiris.Service.Core.WebApi
             services.Configure<MongoDbSettings>(
                 options =>
                 {
-                    options.ConnectionString = Configuration.GetSection("MongoDb:ConnectionString").Value;
-                    options.Database = Configuration.GetSection("MongoDb:Database").Value;
+                    options.ConnectionString = Configuration.GetConnectionString("MongoConnection") ?? Configuration["MongoConnection"];
+                    options.Database = Configuration.GetConnectionString("MongoDatabase") ?? Configuration["MongoDatabase"];
                 });
 
             services.AddSingleton<IMongoClient, MongoClient>(
