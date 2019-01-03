@@ -2,15 +2,15 @@ FROM microsoft/aspnetcore-build:2.0.2
 WORKDIR /app
 
 COPY Com.DanLiris.Service.Core.Lib/*.csproj ./Com.DanLiris.Service.Core.Lib/
-COPY Com.DanLiris.Service.Core.Mongo/*.csproj ./Com.DanLiris.Service.Core.Mongo/
-COPY Com.DanLiris.Service.Core.Mongo.Model.Lib/*.csproj ./Com.DanLiris.Service.Core.Mongo.Model.Lib/
-COPY Com.DanLiris.Service.Core.Data.Migration/*.csproj ./Com.DanLiris.Service.Core.Data.Migration/
+COPY Com.Danliris.Migration.Mongo.Model.Lib/*.csproj ./Com.Danliris.Migration.Mongo.Model.Lib/
+COPY Com.Danliris.Service.Core.Mongo/*.csproj ./Com.Danliris.Service.Core.Mongo/
+COPY Com.Danliris.Service.Core.Data.Migration/*.csproj ./Com.Danliris.Service.Core.Data.Migration/
 COPY Com.DanLiris.Service.Core.WebApi/*.csproj ./Com.DanLiris.Service.Core.WebApi/
 RUN dotnet restore ./Com.DanLiris.Service.Core.WebApi/
 
 COPY Com.DanLiris.Service.Core.Lib/. ./Com.DanLiris.Service.Core.Lib/
-COPY Com.DanLiris.Service.Core.Mongo/. ./Com.DanLiris.Service.Core.Mongo/
-COPY Com.DanLiris.Service.Core.Mongo.Model.Lib/. ./Com.DanLiris.Service.Core.Mongo.Model.Lib/
-COPY Com.DanLiris.Service.Core.Data.Migration/. ./Com.DanLiris.Service.Core.Data.Migration/
+COPY Com.Danliris.Service.Core.Mongo/. ./Com.Danliris.Service.Core.Mongo/
+COPY Com.Danliris.Migration.Mongo.Model.Lib/. ./Com.Danliris.Migration.Mongo.Model.Lib/
+COPY Com.Danliris.Service.Core.Data.Migration/. ./Com.Danliris.Service.Core.Data.Migration/
 COPY Com.DanLiris.Service.Core.WebApi/. ./Com.DanLiris.Service.Core.WebApi/
 RUN dotnet publish ./Com.DanLiris.Service.Core.WebApi/ --output /out/ --configuration Release
