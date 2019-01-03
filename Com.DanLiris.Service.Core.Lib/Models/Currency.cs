@@ -1,3 +1,4 @@
+using Com.Danliris.Service.Core.Mongo.MongoModels;
 using Com.DanLiris.Service.Core.Lib.Helpers;
 using Com.DanLiris.Service.Core.Lib.Services;
 using Com.Moonlay.Models;
@@ -11,6 +12,30 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 {
     public class Currency : StandardEntity, IValidatableObject
     {
+        public Currency()
+        {
+        }
+
+        public Currency(CurrencyMongo currencyMongo)
+        {
+            Active = currencyMongo._active;
+            Code = currencyMongo.code;
+            Description = currencyMongo.description;
+            Rate = currencyMongo.rate;
+            Symbol = currencyMongo.symbol;
+            UId = currencyMongo._id.ToString();
+            _CreatedAgent = currencyMongo._createAgent;
+            _CreatedBy = currencyMongo._createdBy;
+            _CreatedUtc = currencyMongo._createdDate;
+            _DeletedAgent = currencyMongo._updateAgent;
+            _DeletedBy = currencyMongo._updatedBy;
+            _DeletedUtc = currencyMongo._updatedDate;
+            _IsDeleted = currencyMongo._deleted;
+            _LastModifiedAgent = currencyMongo._updateAgent;
+            _LastModifiedBy = currencyMongo._updatedBy;
+            _LastModifiedUtc = currencyMongo._updatedDate;
+        }
+
         [MaxLength(255)]
         public string UId { get; set; }
 

@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Com.Danliris.Service.Core.Data.Migration\Com.Danliris.Service.Core.Data.Migration.csproj" />
     <ProjectReference Include="..\Com.DanLiris.Service.Core.Lib\Com.DanLiris.Service.Core.Lib.csproj" />
   </ItemGroup>
 

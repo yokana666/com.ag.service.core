@@ -1,4 +1,4 @@
-﻿using Com.DanLiris.Service.Core.Lib.Helpers;
+﻿using Com.Danliris.Service.Core.Mongo.MongoModels;
 using Com.DanLiris.Service.Core.Lib.Services;
 using Com.Moonlay.Models;
 using System.Collections.Generic;
@@ -9,6 +9,39 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 {
     public class Product : StandardEntity, IValidatableObject
     {
+        public Product()
+        {
+        }
+
+        public Product(ProductMongo mongoProduct, Uom uom, Currency currency)
+        {
+            Active = mongoProduct._active;
+            Code = mongoProduct.code;
+            CurrencyCode = mongoProduct.currency.code;
+            Description = mongoProduct.description;
+            Name = mongoProduct.name;
+            Price = mongoProduct.price;
+            Tags = mongoProduct.tags;
+            UId = mongoProduct._id.ToString();
+            _CreatedAgent = mongoProduct._createAgent;
+            _CreatedBy = mongoProduct._createdBy;
+            _CreatedUtc = mongoProduct._createdDate;
+            UomId = uom != null ? uom.Id : 0;
+            UomUnit = uom != null ? uom.Unit : "";
+            CurrencyId = currency != null ? currency.Id : 0;
+            CurrencyCode = currency != null ? currency.Code : "";
+            CurrencySymbol = currency != null ? currency.Symbol : "";
+            _DeletedAgent = mongoProduct._updateAgent;
+            _DeletedBy = mongoProduct._updatedBy;
+            _DeletedUtc = mongoProduct._updatedDate;
+            _IsDeleted = mongoProduct._deleted;
+            _LastModifiedAgent = mongoProduct._updateAgent;
+            _LastModifiedBy = mongoProduct._updatedBy;
+            _LastModifiedUtc = mongoProduct._updatedDate;
+            CurrencySymbol = mongoProduct.currency.symbol;
+            SPPProperties = new ProductSPPProperty(mongoProduct);
+        }
+
         [MaxLength(255)]
         public string UId { get; set; }
 
@@ -46,7 +79,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
             if (string.IsNullOrWhiteSpace(this.Name))
                 validationResult.Add(new ValidationResult("Name is required", new List<string> { "name" }));
 
-            if(this.CurrencyId.Equals(null))
+            if (this.CurrencyId.Equals(null))
                 validationResult.Add(new ValidationResult("Currency is required", new List<string> { "currency" }));
 
             if (this.UomId.Equals(null))
