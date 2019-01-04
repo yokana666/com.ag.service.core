@@ -38,8 +38,6 @@ namespace Com.DanLiris.Service.Core.Lib.Models
             _LastModifiedAgent = mongoProduct._updateAgent;
             _LastModifiedBy = mongoProduct._updatedBy;
             _LastModifiedUtc = mongoProduct._updatedDate;
-            CurrencySymbol = mongoProduct.currency.symbol;
-            SPPProperties = new ProductSPPProperty(mongoProduct);
         }
 
         [MaxLength(255)]
