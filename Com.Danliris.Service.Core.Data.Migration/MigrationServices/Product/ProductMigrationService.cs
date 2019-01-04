@@ -54,7 +54,7 @@ namespace Com.Danliris.Service.Core.Data.Migration.MigrationServices
             return extractedData.Select(mongoProduct =>
             {
                 var uom = _sqlUomDbSet.FirstOrDefault(f => f.UId.Equals(mongoProduct.uom._id.ToString()));
-                var currency = _sqlCurrencyDbSet.FirstOrDefault(f => f.UId.Equals(mongoProduct.currencyId.ToString()));
+                var currency = _sqlCurrencyDbSet.FirstOrDefault(f => f.UId.Equals(mongoProduct.currency._id.ToString()));
                 return new Product(mongoProduct, uom, currency);
             }).ToList();
         }
@@ -62,13 +62,9 @@ namespace Com.Danliris.Service.Core.Data.Migration.MigrationServices
         private int Load(List<Product> transformedData)
         {
             var existingUids = _sqlProductDbSet.Select(entity => entity.UId).ToList();
-            var productSPPProperties = transformedData.Select(entity => entity.SPPProperties);
             transformedData = transformedData.Where(entity => !existingUids.Contains(entity.UId)).ToList();
             if (transformedData.Count > 0)
-            {
                 _sqlProductDbSet.AddRange(transformedData);
-                _sqlProductSPPPropertiesDbSet.AddRange(productSPPProperties);
-            }
             return _dbContext.SaveChanges();
         }
     }
