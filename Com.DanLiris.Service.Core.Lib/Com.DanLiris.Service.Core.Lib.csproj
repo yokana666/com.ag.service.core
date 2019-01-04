@@ -28,4 +28,8 @@
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.0.7.12" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Com.Danliris.Service.Core.Mongo\Com.Danliris.Service.Core.Mongo.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,5 +1,6 @@
 ﻿using Com.DanLiris.Service.Core.Lib;
 using Com.DanLiris.Service.Core.Lib.Helpers.IdentityService;
+using Com.DanLiris.Service.Core.Lib.Models;
 using Com.DanLiris.Service.Core.Lib.Services.MachineSpinning;
 using Com.DanLiris.Service.Core.Lib.ViewModels;
 using Com.DanLiris.Service.Core.Test.DataUtils;
@@ -144,6 +145,83 @@ namespace Com.DanLiris.Service.Core.Test.Services.MachineSpinning
 
             var Response = await service.DeleteAsync(model.Id);
             Assert.NotEqual(0, Response);
+        }
+
+        [Fact]
+        public void Should_Success_Get_CSV()
+        {
+            var service = new MachineSpinningService(GetServiceProvider().Object, _dbContext(GetCurrentMethod()));
+            var reportResponse = service.DownloadTemplate();
+            Assert.NotNull(reportResponse);
+        }
+
+        [Fact]
+        public void Should_Success_Get_MachineTypes()
+        {
+            var service = new MachineSpinningService(GetServiceProvider().Object, _dbContext(GetCurrentMethod()));
+            var reportResponse = service.GetMachineTypes();
+            Assert.NotNull(reportResponse);
+        }
+
+        [Fact]
+        public async void Should_Success_Upload_Data()
+        {
+            var service = new MachineSpinningService(GetServiceProvider().Object, _dbContext(GetCurrentMethod()));
+            var model = _dataUtil(service).GetNewData();
+
+            List<MachineSpinningModel> machineSpinnings = new List<MachineSpinningModel>() { model };
+
+            var result = await service.UploadData(machineSpinnings);
+            Assert.NotEqual(0, result);
+        }
+
+        [Fact]
+        public void Should_Success_Upload_Validate_Data()
+        {
+            var service = new MachineSpinningService(GetServiceProvider().Object, _dbContext(GetCurrentMethod()));
+            var viewModel = _dataUtil(service).GetDataToValidate();
+
+            List<MachineSpinningViewModel> machineSpinnings = new List<MachineSpinningViewModel>() { viewModel };
+            var Response = service.UploadValidate(machineSpinnings, null);
+            Assert.True(Response.Item1);
+        }
+
+        [Fact]
+        public void Should_Fail_Upload_Validate_Empty_Data()
+        {
+            var service = new MachineSpinningService(GetServiceProvider().Object, _dbContext(GetCurrentMethod()));
+            
+            List<MachineSpinningViewModel> machineSpinnings = new List<MachineSpinningViewModel>() { new MachineSpinningViewModel() };
+            var Response = service.UploadValidate(machineSpinnings, null);
+            Assert.False(Response.Item1);
+        }
+
+        [Fact]
+        public void Should_Fail_Upload_Validate_Double_Uploaded_Data()
+        {
+            var service = new MachineSpinningService(GetServiceProvider().Object, _dbContext(GetCurrentMethod()));
+
+            var viewModel = _dataUtil(service).GetDataToValidate();
+            var viewModel2 = _dataUtil(service).GetDataToValidate();
+
+            List<MachineSpinningViewModel> machineSpinnings = new List<MachineSpinningViewModel>() { viewModel, viewModel2 };
+            var Response = service.UploadValidate(machineSpinnings, null);
+            Assert.False(Response.Item1);
+        }
+
+        [Fact]
+        public async void Should_Fail_Upload_Validate_Existed_Data()
+        {
+            var service = new MachineSpinningService(GetServiceProvider().Object, _dbContext(GetCurrentMethod()));
+            var viewModel = _dataUtil(service).GetDataToValidate();
+
+            List<MachineSpinningViewModel> machineSpinningsVM = new List<MachineSpinningViewModel>() { viewModel };
+
+            var model = _dataUtil(service).GetNewData();
+            List<MachineSpinningModel> machineSpinningsModel = new List<MachineSpinningModel>() { model };
+            await service.UploadData(machineSpinningsModel);
+            var Response2 = service.UploadValidate(machineSpinningsVM, null);
+            Assert.False(Response2.Item1);
         }
     }
 }

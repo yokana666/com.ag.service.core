@@ -16,5 +16,9 @@ namespace Com.DanLiris.Service.Core.Lib.Models
         public double CapacityPerHour { get; set; }
         public string UomId { get; set; }
         public string UomUnit { get; set; }
+        public string Line { get; set; }
+        public string UnitId { get; set; }
+        public string UnitCode { get; set; }
+        public string UnitName { get; set; }
     }
 }

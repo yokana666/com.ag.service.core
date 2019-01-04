@@ -64,5 +64,13 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentCurrency
 			var Response = Services.GetByIds(new List<int> { model1.Id, model2.Id });
 			Assert.NotNull(Response);
 		}
-	}
+
+        [Fact]
+        public async void Should_Success_Get_Data_By_Code()
+        {
+            Models.GarmentCurrency model = await DataUtil.GetTestDataAsync();
+            var Response = Services.GetByCode(model.Code);
+            Assert.NotNull(Response);
+        }
+    }
 }
