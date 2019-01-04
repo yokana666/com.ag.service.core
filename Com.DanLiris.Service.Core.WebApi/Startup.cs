@@ -98,7 +98,7 @@ namespace Com.DanLiris.Service.Core.WebApi
                 });
 
             services.AddSingleton<IMongoClient, MongoClient>(
-                _ => new MongoClient(Configuration.GetSection("MongoDb:ConnectionString").Value));
+                _ => new MongoClient(Configuration.GetConnectionString("MongoConnection") ?? Configuration["MongoConnection"]));
 
             services.AddTransient<IMongoDbContext, MongoDbContext>();
             services.AddTransient<IUnitOfMeasurementMongoRepository, UnitOfMeasurementMongoRepository>();
