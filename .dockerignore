@@ -1,5 +1,9 @@
 Com.DanLiris.Service.Core.Lib/bin
 Com.DanLiris.Service.Core.Lib/obj
+Com.Danliris.Service.Core.Mongo/bin
+Com.Danliris.Service.Core.Mongo/obj
+Com.Danliris.Service.Core.Data.Migration/bin
+Com.Danliris.Service.Core.Data.Migration/obj
 Com.DanLiris.Service.Core.WebApi/bin
 Com.DanLiris.Service.Core.WebApi/obj
 Com.DanLiris.Service.Core.WebApi/appsettings.json
