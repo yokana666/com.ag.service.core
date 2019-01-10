@@ -197,7 +197,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Merk tidak boleh kosong, ");
                 }
-
+                
                 if (machineSpinningVM.Year == null || machineSpinningVM.Year <= 0)
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Tahun tidak boleh kosong, ");
@@ -217,6 +217,13 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Tipe tidak boleh kosong, ");
                 }
+                else
+                {
+                    if (!GetMachineTypes().Contains(machineSpinningVM.Type))
+                    {
+                        ErrorMessage = string.Concat(ErrorMessage, "Tipe tidak termasuk kategori yang ditentukan, ");
+                    }
+                }
 
                 if (machineSpinningVM.Delivery == null || machineSpinningVM.Delivery <= 0)
                 {
@@ -230,7 +237,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
 
                 if (machineSpinningVM.CapacityPerHour == null || machineSpinningVM.CapacityPerHour <= 0)
                 {
-                    ErrorMessage = string.Concat(ErrorMessage, "Satuan tidak boleh kosong, ");
+                    ErrorMessage = string.Concat(ErrorMessage, "Capacity per Hour tidak boleh kosong, ");
                 }
 
                 if (string.IsNullOrEmpty(machineSpinningVM.Line))
