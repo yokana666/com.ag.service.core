@@ -223,5 +223,17 @@ namespace Com.DanLiris.Service.Core.Test.Services.MachineSpinning
             var Response2 = service.UploadValidate(machineSpinningsVM, null);
             Assert.False(Response2.Item1);
         }
+
+        [Fact]
+        public async void Should_Fail_Upload_Validate_NotExist_Type()
+        {
+            var service = new MachineSpinningService(GetServiceProvider().Object, _dbContext(GetCurrentMethod()));
+
+            var viewModel = _dataUtil(service).GetDataToValidate();
+            viewModel.Type = "aaaaa";
+            List<MachineSpinningViewModel> machineSpinnings = new List<MachineSpinningViewModel>() { viewModel };
+            var Response = service.UploadValidate(machineSpinnings, null);
+            Assert.False(Response.Item1);
+        }
     }
 }
