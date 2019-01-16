@@ -388,6 +388,19 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 .ToList();
         }
 
+        public List<Product> GetSimple()
+        {
+            return this.DbSet.Select(x => new Product()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Code = x.Code,
+                Price = x.Price,
+                Tags = x.Tags,
+                Description = x.Description
+            }).ToList();
+        }
+
         public override Task<Product> ReadModelById(int Id)
         {
             base.DbContext.Set<ProductSPPProperty>().Load();

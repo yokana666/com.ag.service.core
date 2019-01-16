@@ -96,5 +96,13 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
         {
             Skip.If(true);
         }
+
+        [Fact]
+        public void TestSimple()
+        {
+            
+           var data = Service.GetSimple();
+            Assert.NotNull(data);
+        }
     }
 }

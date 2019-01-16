@@ -4,6 +4,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 {
     public class MachineSpinningModel : StandardEntity
     {
+        public string No { get; set; }
         public string Code { get; set; }
 
         public string Brand { get; set; }

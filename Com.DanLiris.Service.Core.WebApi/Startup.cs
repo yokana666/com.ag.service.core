@@ -1,7 +1,4 @@
 ﻿using AutoMapper;
-using Com.Danliris.Service.Core.Data.Migration.MigrationServices;
-using Com.Danliris.Service.Core.Mongo;
-using Com.Danliris.Service.Core.Mongo.MongoRepositories;
 using Com.DanLiris.Service.Core.Lib;
 using Com.DanLiris.Service.Core.Lib.Helpers.IdentityService;
 using Com.DanLiris.Service.Core.Lib.Helpers.ValidateService;
@@ -16,7 +13,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using MongoDB.Driver;
 using Newtonsoft.Json.Serialization;
 using System.Text;
 
@@ -90,23 +86,6 @@ namespace Com.DanLiris.Service.Core.WebApi
                 .AddTransient<IMachineSpinningService, MachineSpinningService>()
                 .AddScoped<RolesService>();
 
-            services.Configure<MongoDbSettings>(
-                options =>
-                {
-                    options.ConnectionString = Configuration.GetConnectionString("MongoConnection") ?? Configuration["MongoConnection"];
-                    options.Database = Configuration.GetConnectionString("MongoDatabase") ?? Configuration["MongoDatabase"];
-                });
-
-            services.AddSingleton<IMongoClient, MongoClient>(
-                _ => new MongoClient(Configuration.GetConnectionString("MongoConnection") ?? Configuration["MongoConnection"]));
-
-            services.AddTransient<IMongoDbContext, MongoDbContext>();
-            services.AddTransient<IUnitOfMeasurementMongoRepository, UnitOfMeasurementMongoRepository>();
-            services.AddTransient<IUnitOfMeasurementMigrationService, UnitOfMeasurementMigrationService>();
-            services.AddTransient<ICurrencyMongoRepository, CurrencyMongoRepository>();
-            services.AddTransient<ICurrencyMigrationService, CurrencyMigrationService>();
-            services.AddTransient<IProductMongoRepository, ProductMongoRepository>();
-            services.AddTransient<IProductMigrationService, ProductMigrationService>();
 
             RegisterServices(services);
 
