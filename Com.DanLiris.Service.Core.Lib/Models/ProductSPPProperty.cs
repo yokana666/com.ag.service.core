@@ -1,5 +1,4 @@
-﻿using Com.Danliris.Service.Core.Mongo.MongoModels;
-using Com.Moonlay.Models;
+﻿using Com.Moonlay.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,25 +8,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 {
     public class ProductSPPProperty : StandardEntity, IValidatableObject
     {
-        public ProductSPPProperty()
-        {
-        }
-
-        public ProductSPPProperty(ProductMongo mongoProduct)
-        {
-            Active = mongoProduct._active;
-            _CreatedAgent = mongoProduct._createAgent;
-            _CreatedBy = mongoProduct._createdBy;
-            _CreatedUtc = mongoProduct._createdDate;
-            _DeletedAgent = mongoProduct._updateAgent;
-            _DeletedBy = mongoProduct._updatedBy;
-            _DeletedUtc = mongoProduct._updatedDate;
-            _IsDeleted = mongoProduct._deleted;
-            _LastModifiedAgent = mongoProduct._updateAgent;
-            _LastModifiedBy = mongoProduct._updatedBy;
-            _LastModifiedUtc = mongoProduct._updatedDate;
-        }
-
+       
         public Product Product { get; set; }
 
         [ForeignKey("Product"), Key]

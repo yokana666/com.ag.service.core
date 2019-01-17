@@ -90,5 +90,12 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Product
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
+        [Fact]
+        public async Task GetSimple()
+        {
+            var response = await this.Client.GetAsync(string.Concat(URI, "/simple"));
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
     }
 }

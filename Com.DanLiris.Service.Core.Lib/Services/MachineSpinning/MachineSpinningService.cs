@@ -28,7 +28,8 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
 
         private readonly List<string> Header = new List<string>()
         {
-            "Merk Mesin", "Nama", "Jenis Mesin", "Tahun Mesin", "Kondisi Mesin", "Kondisi Counter", "Jumlah Delivery", "Kapasitas/Hari", "Satuan", "Line", "Unit"
+            "No Mesin", "Unit", "Line", "Merk Mesin", "Type Mesin", "Jenis Proses", "Tahun", "Kondisi Mesin", "Kondisi Counter",
+            "Jumlah Delivery", "Kapasitas/Hari", "Satuan"
         };
 
         private readonly Dictionary<string, string> MachineTypes = new Dictionary<string, string>()
@@ -56,17 +57,18 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
         {
             public MachineSpinningMap()
             {
-                Map(b => b.Brand).Index(0);
-                Map(b => b.Name).Index(1);
-                Map(b => b.Type).Index(2);
-                Map(b => b.Year).Index(3);
-                Map(b => b.Condition).Index(4);
-                Map(b => b.CounterCondition).Index(5);
-                Map(b => b.Delivery).Index(6);
-                Map(b => b.CapacityPerHour).Index(7);
-                Map(b => b.UomUnit).Index(8);
-                Map(b => b.Line).Index(9);
-                Map(b => b.UnitName).Index(10);
+                Map(b => b.No).Index(0);
+                Map(b => b.UnitName).Index(1);
+                Map(b => b.Line).Index(2);
+                Map(b => b.Name).Index(3);
+                Map(b => b.Brand).Index(4);
+                Map(b => b.Type).Index(5);
+                Map(b => b.Year).Index(6);
+                Map(b => b.Condition).Index(7);
+                Map(b => b.CounterCondition).Index(8);
+                Map(b => b.Delivery).Index(9);
+                Map(b => b.CapacityPerHour).Index(10);
+                Map(b => b.UomUnit).Index(11);
             }
         }
 
@@ -106,6 +108,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                     Delivery = s.Delivery,
                     CounterCondition = s.CounterCondition,
                     Brand = s.Brand,
+                    No = s.No,
                     Name = s.Name,
                     Type = s.Type,
                     Year = s.Year
@@ -113,7 +116,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
 
             List<string> searchAttributes = new List<string>()
             {
-                "Brand", "Name"
+                "Brand", "Name", "No"
             };
 
             Query = QueryHelper<MachineSpinningModel>.Search(Query, searchAttributes, keyword);
@@ -142,6 +145,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                    CounterCondition = s.CounterCondition,
                    Brand = s.Brand,
                    Name = s.Name,
+                   No = s.No,
                    Type = s.Type,
                    Year = s.Year
                }).ToList()
@@ -193,6 +197,11 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                     }
                 }
 
+                if (string.IsNullOrWhiteSpace(machineSpinningVM.No))
+                {
+                    ErrorMessage = string.Concat(ErrorMessage, "No Sudah ada di database, ");
+                }
+
                 if (string.IsNullOrWhiteSpace(machineSpinningVM.Brand))
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Merk tidak boleh kosong, ");
@@ -234,6 +243,13 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Satuan tidak boleh kosong, ");
                 }
+                else
+                {
+                    if (!_DbContext.UnitOfMeasurements.Any(x => x.Unit == machineSpinningVM.UomUnit))
+                    {
+                        ErrorMessage = string.Concat(ErrorMessage, "Nama Satuan tidak terdaftar, ");
+                    }
+                }
 
                 if (machineSpinningVM.CapacityPerHour == null || machineSpinningVM.CapacityPerHour <= 0)
                 {
@@ -244,24 +260,33 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                     ErrorMessage = string.Concat(ErrorMessage, "Line tidak boleh kosong, ");
 
                 if (string.IsNullOrEmpty(machineSpinningVM.UnitName))
+                {
                     ErrorMessage = string.Concat(ErrorMessage, "Unit tidak boleh kosong, ");
-
+                }
+                else
+                {
+                    if(!_DbContext.Units.Any(x => x.Name == machineSpinningVM.UnitName))
+                    {
+                        ErrorMessage = string.Concat(ErrorMessage, "Nama Unit tidak terdaftar, ");
+                    }
+                }
                 if (!string.IsNullOrEmpty(ErrorMessage))
                 {
                     ErrorMessage = ErrorMessage.Remove(ErrorMessage.Length - 2);
                     var Error = new ExpandoObject() as IDictionary<string, object>;
 
-                    Error.Add("Merk Mesin", machineSpinningVM.Brand);
-                    Error.Add("Nama", machineSpinningVM.Name);
-                    Error.Add("Jenis Mesin", machineSpinningVM.Type);
+                    Error.Add("No Mesin", machineSpinningVM.No);
+                    Error.Add("Unit", machineSpinningVM.UnitName);
+                    Error.Add("Line", machineSpinningVM.Line);
+                    Error.Add("Merk Mesin", machineSpinningVM.Name);
+                    Error.Add("Type Mesin", machineSpinningVM.Brand);
+                    Error.Add("Jenis Proses", machineSpinningVM.Type);
                     Error.Add("Tahun Mesin", machineSpinningVM.Year);
                     Error.Add("Kondisi Mesin", machineSpinningVM.Condition);
                     Error.Add("Kondisi Counter", machineSpinningVM.CounterCondition);
                     Error.Add("Jumlah Delivery", machineSpinningVM.Delivery);
                     Error.Add("Kapasitas/Hari", machineSpinningVM.CapacityPerHour);
                     Error.Add("Satuan", machineSpinningVM.UomUnit);
-                    Error.Add("Line", machineSpinningVM.Line);
-                    Error.Add("Unit", machineSpinningVM.UnitName);
                     Error.Add("Error", ErrorMessage);
 
                     ErrorList.Add(Error);
