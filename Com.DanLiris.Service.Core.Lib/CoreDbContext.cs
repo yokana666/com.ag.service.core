@@ -68,6 +68,7 @@ namespace Com.DanLiris.Service.Core.Lib
         public DbSet<GarmentBuyerBrand> GarmentBuyerBrands { get; set; }
         public DbSet<ProductSPPProperty> ProductSPPProperties { get; set; }
         public DbSet<MachineSpinningModel> MachineSpinnings { get; set; }
+        public DbSet<GarmentSection> GarmentSections { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
