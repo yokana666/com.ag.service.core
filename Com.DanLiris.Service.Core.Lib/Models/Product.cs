@@ -1,5 +1,4 @@
-﻿using Com.DanLiris.Service.Core.Lib.Helpers;
-using Com.DanLiris.Service.Core.Lib.Services;
+﻿using Com.DanLiris.Service.Core.Lib.Services;
 using Com.Moonlay.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,6 +8,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 {
     public class Product : StandardEntity, IValidatableObject
     {
+        
         [MaxLength(255)]
         public string UId { get; set; }
 
@@ -46,7 +46,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
             if (string.IsNullOrWhiteSpace(this.Name))
                 validationResult.Add(new ValidationResult("Name is required", new List<string> { "name" }));
 
-            if(this.CurrencyId.Equals(null))
+            if (this.CurrencyId.Equals(null))
                 validationResult.Add(new ValidationResult("Currency is required", new List<string> { "currency" }));
 
             if (this.UomId.Equals(null))

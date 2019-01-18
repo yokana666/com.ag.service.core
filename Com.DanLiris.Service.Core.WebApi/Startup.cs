@@ -87,6 +87,7 @@ namespace Com.DanLiris.Service.Core.WebApi
                 .AddTransient<IMachineSpinningService, MachineSpinningService>()
                 .AddScoped<RolesService>();
 
+
             RegisterServices(services);
 
             services

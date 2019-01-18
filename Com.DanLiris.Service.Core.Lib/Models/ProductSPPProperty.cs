@@ -3,12 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace Com.DanLiris.Service.Core.Lib.Models
 {
     public class ProductSPPProperty : StandardEntity, IValidatableObject
     {
+       
         public Product Product { get; set; }
 
         [ForeignKey("Product"), Key]

@@ -10,6 +10,7 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
 {
     public class MachineSpinningViewModel : BasicViewModel, IValidatableObject
     {
+        public string No { get; set; }
         public string Code { get; set; }
         public string Brand { get; set; }
         public string Name { get; set; }
@@ -21,12 +22,21 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
         public double? CapacityPerHour { get; set; }
         public string UomId { get; set; }
         public string UomUnit { get; set; }
+        public string Line { get; set; }
+        public string UnitId { get; set; }
+        public string UnitCode { get; set; }
+        public string UnitName { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
+            if (string.IsNullOrWhiteSpace(No))
+            {
+                yield return new ValidationResult("No Mesin harus diisi", new List<string>() { "No" });
+            }
+
             if (string.IsNullOrWhiteSpace(Name))
             {
-                yield return new ValidationResult("Nama harus diisi", new List<string> { "Name" });
+                yield return new ValidationResult("Merk Mesin harus diisi", new List<string> { "Name" });
             }
             else
             {
@@ -35,13 +45,13 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
 
                 if (duplicate > 0) /* Name Unique */
                 {
-                    yield return new ValidationResult("Nama Mesin sudah ada", new List<string> { "Name" });
+                    yield return new ValidationResult("Merk Mesin sudah ada", new List<string> { "Name" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(Brand))
             {
-                yield return new ValidationResult("Merk harus diisi", new List<string> { "Brand" });
+                yield return new ValidationResult("Type Mesin harus diisi", new List<string> { "Brand" });
             }
 
             if (Year == null || Year <= 0)
@@ -61,7 +71,7 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
 
             if (string.IsNullOrWhiteSpace(Type))
             {
-                yield return new ValidationResult("Tipe harus diisi", new List<string> { "Type" });
+                yield return new ValidationResult("Jenis Proses harus diisi", new List<string> { "Type" });
             }
 
             if (Delivery == null || Delivery <= 0)
@@ -69,7 +79,7 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
                 yield return new ValidationResult("Delivery harus diisi", new List<string> { "Delivery" });
             }
 
-            if (string.IsNullOrWhiteSpace(UomId))
+            if (string.IsNullOrWhiteSpace(UomUnit))
             {
                 yield return new ValidationResult("Satuan harus diisi", new List<string> { "Uom" });
             }
@@ -79,7 +89,12 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
                 yield return new ValidationResult("Kapasitas per Jam harus diisi", new List<string> { "CapacityPerHour" });
             }
 
-            
+            if(string.IsNullOrEmpty(Line))
+                yield return new ValidationResult("Line harus diisi", new List<string> { "Line" });
+
+            if (string.IsNullOrEmpty(UnitName))
+                yield return new ValidationResult("Unit harus diisi", new List<string> { "Unit" });
         }
     }
+    
 }
