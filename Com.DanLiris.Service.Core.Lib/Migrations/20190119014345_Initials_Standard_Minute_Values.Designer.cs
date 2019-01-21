@@ -11,9 +11,10 @@ using System;
 namespace Com.DanLiris.Service.Core.Lib.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    partial class CoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190119014345_Initials_Standard_Minute_Values")]
+    partial class Initials_Standard_Minute_Values
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1969,23 +1970,21 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.Property<string>("BuyerCode");
 
-                    b.Property<int>("BuyerId");
+                    b.Property<long>("BuyerId");
 
                     b.Property<string>("BuyerName");
 
                     b.Property<string>("ComodityCode");
 
-                    b.Property<int>("ComodityId");
+                    b.Property<long>("ComodityId");
 
                     b.Property<string>("ComodityName");
 
-                    b.Property<decimal>("MinuteCutting");
+                    b.Property<decimal>("Cutting");
 
-                    b.Property<decimal>("MinuteFinishing");
+                    b.Property<decimal>("Finishing");
 
-                    b.Property<decimal>("MinuteSewing");
-
-                    b.Property<DateTimeOffset>("SMVDate");
+                    b.Property<decimal>("Sewing");
 
                     b.Property<string>("_CreatedAgent")
                         .IsRequired()
