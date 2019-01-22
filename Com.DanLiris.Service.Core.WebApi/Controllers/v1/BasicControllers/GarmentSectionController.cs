@@ -4,21 +4,16 @@ using Com.DanLiris.Service.Core.Lib.Services;
 using Com.DanLiris.Service.Core.Lib.ViewModels;
 using Com.DanLiris.Service.Core.WebApi.Helpers;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
 {
     [Produces("application/json")]
     [ApiVersion("1.0")]
-    [Route("v{version:apiVersion}/master/garment-categories")]
-    public class GarmentCategoryController : BasicController<GarmentCategoryService, GarmentCategory, GarmentCategoryViewModel, CoreDbContext>
+    [Route("v{version:apiVersion}/master/garment-sections")]
+    public class GarmentSectionController : BasicController<GarmentSectionService, GarmentSection, GarmentSectionViewModel, CoreDbContext>
     {
         private static readonly string ApiVersion = "1.0";
-        GarmentCategoryService service;
-        public GarmentCategoryController(GarmentCategoryService service) : base(service, ApiVersion)
+        public GarmentSectionController(GarmentSectionService Service) : base(Service, ApiVersion)
         {
         }
     }

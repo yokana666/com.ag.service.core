@@ -11,9 +11,10 @@ using System;
 namespace Com.DanLiris.Service.Core.Lib.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    partial class CoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190118025051_Initials GarmentSection")]
+    partial class InitialsGarmentSection
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1527,19 +1528,9 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.Property<int>("Delivery");
 
-                    b.Property<string>("Line");
-
                     b.Property<string>("Name");
 
-                    b.Property<string>("No");
-
                     b.Property<string>("Type");
-
-                    b.Property<string>("UnitCode");
-
-                    b.Property<string>("UnitId");
-
-                    b.Property<string>("UnitName");
 
                     b.Property<string>("UomId");
 
@@ -1958,70 +1949,6 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Qualities");
-                });
-
-            modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.StandardMinuteValue", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("Active");
-
-                    b.Property<string>("BuyerCode");
-
-                    b.Property<int>("BuyerId");
-
-                    b.Property<string>("BuyerName");
-
-                    b.Property<string>("ComodityCode");
-
-                    b.Property<int>("ComodityId");
-
-                    b.Property<string>("ComodityName");
-
-                    b.Property<decimal>("MinuteCutting");
-
-                    b.Property<decimal>("MinuteFinishing");
-
-                    b.Property<decimal>("MinuteSewing");
-
-                    b.Property<DateTimeOffset>("SMVDate");
-
-                    b.Property<string>("_CreatedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_CreatedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("_CreatedUtc");
-
-                    b.Property<string>("_DeletedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_DeletedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("_DeletedUtc");
-
-                    b.Property<bool>("_IsDeleted");
-
-                    b.Property<string>("_LastModifiedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_LastModifiedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("_LastModifiedUtc");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StandardMinuteValues");
                 });
 
             modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.StandardTests", b =>

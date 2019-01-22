@@ -9,32 +9,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Reflection;
-using System.Text;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
-    public class GarmentComodityService : BasicService<CoreDbContext, GarmentComodity>, IMap<GarmentComodity, GarmentComodityViewModel>
+    public class GarmentSectionService : BasicService<CoreDbContext, GarmentSection>, IMap<GarmentSection, GarmentSectionViewModel>
     {
-        public GarmentComodityService(IServiceProvider serviceProvider) : base(serviceProvider)
+        public GarmentSectionService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
-        }
-        public GarmentComodity MapToModel(GarmentComodityViewModel viewModel)
-        {
-            GarmentComodity model = new GarmentComodity();
-            PropertyCopier<GarmentComodityViewModel, GarmentComodity>.Copy(viewModel, model);
-            return model;
         }
 
-        public GarmentComodityViewModel MapToViewModel(GarmentComodity model)
+        public GarmentSection MapToModel(GarmentSectionViewModel viewModel)
         {
-            GarmentComodityViewModel viewModel = new GarmentComodityViewModel();
-            PropertyCopier<GarmentComodity, GarmentComodityViewModel>.Copy(model, viewModel);
+            GarmentSection model = new GarmentSection();
+            PropertyCopier<GarmentSectionViewModel, GarmentSection>.Copy(viewModel, model);
+            return model;
+        }
+        
+        public GarmentSectionViewModel MapToViewModel(GarmentSection model)
+        {
+            GarmentSectionViewModel viewModel = new GarmentSectionViewModel();
+            PropertyCopier<GarmentSection, GarmentSectionViewModel>.Copy(model, viewModel);
             return viewModel;
         }
 
-        public override Tuple<List<GarmentComodity>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null,string Filter="{}")
+        public override Tuple<List<GarmentSection>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null, string Filter = "{}")
         {
-            IQueryable<GarmentComodity> Query = this.DbContext.GarmentComodities;
+            IQueryable<GarmentSection> Query = this.DbContext.GarmentSections;
             Dictionary<string, object> FilterDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(Filter);
             Query = ConfigureFilter(Query, FilterDictionary);
             Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(Order);
@@ -53,15 +53,16 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
             {
-                "Id", "Code", "Name", "_LastModifiedUtc"
+                "Id", "Code", "Name", "Remark", "_LastModifiedUtc"
             };
 
             Query = Query
-                .Select(b => new GarmentComodity
+                .Select(b => new GarmentSection
                 {
                     Id = b.Id,
                     Code = b.Code,
                     Name = b.Name,
+                    Remark = b.Remark,
                     _LastModifiedUtc = b._LastModifiedUtc
                 });
 
@@ -86,25 +87,12 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             }
 
             /* Pagination */
-            Pageable<GarmentComodity> pageable = new Pageable<GarmentComodity>(Query, Page - 1, Size);
-            List<GarmentComodity> Data = pageable.Data.ToList<GarmentComodity>();
+            Pageable<GarmentSection> pageable = new Pageable<GarmentSection>(Query, Page - 1, Size);
+            List<GarmentSection> Data = pageable.Data.ToList<GarmentSection>();
 
             int TotalData = pageable.TotalCount;
 
             return Tuple.Create(Data, TotalData, OrderDictionary, SelectedFields);
         }
-
-        //public override void OnCreating(GarmentComodity model)
-        //{
-        //    CodeGenerator codeGenerator = new CodeGenerator();
-
-        //    do
-        //    {
-        //        model.Code = codeGenerator.GenerateCode();
-        //    }
-        //    while (this.DbSet.Any(d => d.Code.Equals(model.Code)));
-
-        //    base.OnCreating(model);
-        //}
     }
 }

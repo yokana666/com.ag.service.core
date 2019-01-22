@@ -1,40 +1,40 @@
-﻿using Com.DanLiris.Service.Core.Lib.Helpers;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Dynamic.Core;
+using System.Reflection;
+using Com.DanLiris.Service.Core.Lib.Helpers;
 using Com.DanLiris.Service.Core.Lib.Interfaces;
 using Com.DanLiris.Service.Core.Lib.Models;
 using Com.DanLiris.Service.Core.Lib.ViewModels;
 using Com.Moonlay.NetCore.Lib;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Dynamic.Core;
-using System.Reflection;
-using System.Text;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
-    public class GarmentComodityService : BasicService<CoreDbContext, GarmentComodity>, IMap<GarmentComodity, GarmentComodityViewModel>
+    public class StandardMinuteValueService : BasicService<CoreDbContext, StandardMinuteValue>, IMap<StandardMinuteValue, StandardMinuteValueViewModel>
     {
-        public GarmentComodityService(IServiceProvider serviceProvider) : base(serviceProvider)
+        public StandardMinuteValueService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
         }
-        public GarmentComodity MapToModel(GarmentComodityViewModel viewModel)
+
+        public StandardMinuteValue MapToModel(StandardMinuteValueViewModel viewModel)
         {
-            GarmentComodity model = new GarmentComodity();
-            PropertyCopier<GarmentComodityViewModel, GarmentComodity>.Copy(viewModel, model);
+            StandardMinuteValue model = new StandardMinuteValue();
+            PropertyCopier<StandardMinuteValueViewModel, StandardMinuteValue>.Copy(viewModel, model);
             return model;
         }
 
-        public GarmentComodityViewModel MapToViewModel(GarmentComodity model)
+        public StandardMinuteValueViewModel MapToViewModel(StandardMinuteValue model)
         {
-            GarmentComodityViewModel viewModel = new GarmentComodityViewModel();
-            PropertyCopier<GarmentComodity, GarmentComodityViewModel>.Copy(model, viewModel);
+            StandardMinuteValueViewModel viewModel = new StandardMinuteValueViewModel();
+            PropertyCopier<StandardMinuteValue, StandardMinuteValueViewModel>.Copy(model, viewModel);
             return viewModel;
         }
 
-        public override Tuple<List<GarmentComodity>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null,string Filter="{}")
+        public override Tuple<List<StandardMinuteValue>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null, string Filter = "{}")
         {
-            IQueryable<GarmentComodity> Query = this.DbContext.GarmentComodities;
+            IQueryable<StandardMinuteValue> Query = this.DbContext.StandardMinuteValues;
             Dictionary<string, object> FilterDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(Filter);
             Query = ConfigureFilter(Query, FilterDictionary);
             Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(Order);
@@ -44,7 +44,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             {
                 List<string> SearchAttributes = new List<string>()
                 {
-                    "Code", "Name"
+                    "BuyerName", "ComodityName"
                 };
 
                 Query = Query.Where(General.BuildSearch(SearchAttributes), Keyword);
@@ -53,15 +53,23 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
             {
-                "Id", "Code", "Name", "_LastModifiedUtc"
+                "Id", "BuyerName", "ComodityName", "MinuteCutting", "MinuteSewing", "MinuteFinishing", "_LastModifiedUtc"
             };
 
             Query = Query
-                .Select(b => new GarmentComodity
+                .Select(b => new StandardMinuteValue
                 {
                     Id = b.Id,
-                    Code = b.Code,
-                    Name = b.Name,
+                    BuyerId = b.BuyerId,
+                    BuyerCode = b.BuyerCode,
+                    BuyerName = b.BuyerName,
+                    ComodityId = b.ComodityId,
+                    ComodityName = b.ComodityName,
+                    ComodityCode = b.ComodityCode,
+                    SMVDate = b.SMVDate,
+                    MinuteCutting = b.MinuteCutting,
+                    MinuteFinishing = b.MinuteFinishing,
+                    MinuteSewing = b.MinuteSewing,
                     _LastModifiedUtc = b._LastModifiedUtc
                 });
 
@@ -86,25 +94,12 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             }
 
             /* Pagination */
-            Pageable<GarmentComodity> pageable = new Pageable<GarmentComodity>(Query, Page - 1, Size);
-            List<GarmentComodity> Data = pageable.Data.ToList<GarmentComodity>();
+            Pageable<StandardMinuteValue> pageable = new Pageable<StandardMinuteValue>(Query, Page - 1, Size);
+            List<StandardMinuteValue> Data = pageable.Data.ToList<StandardMinuteValue>();
 
             int TotalData = pageable.TotalCount;
 
             return Tuple.Create(Data, TotalData, OrderDictionary, SelectedFields);
         }
-
-        //public override void OnCreating(GarmentComodity model)
-        //{
-        //    CodeGenerator codeGenerator = new CodeGenerator();
-
-        //    do
-        //    {
-        //        model.Code = codeGenerator.GenerateCode();
-        //    }
-        //    while (this.DbSet.Any(d => d.Code.Equals(model.Code)));
-
-        //    base.OnCreating(model);
-        //}
     }
 }

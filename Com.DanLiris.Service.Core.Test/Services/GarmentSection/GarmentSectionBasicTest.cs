@@ -5,38 +5,41 @@ using System;
 using Xunit;
 using Models = Com.DanLiris.Service.Core.Lib.Models;
 
-namespace Com.DanLiris.Service.Core.Test.Services.GarmentComodity
+namespace Com.DanLiris.Service.Core.Test.Services.GarmentSection
 {
     [Collection("ServiceProviderFixture Collection")]
-    public class GarmentComodityBasicTest : BasicServiceTest<CoreDbContext, GarmentComodityService, Models.GarmentComodity>
+    public class GarmentSectionBasicTest : BasicServiceTest<CoreDbContext, GarmentSectionService, Models.GarmentSection>
     {
         private static readonly string[] createAttrAssertions = { "Code", "Name" };
         private static readonly string[] updateAttrAssertions = { "Code", "Name" };
         private static readonly string[] existAttrCriteria = { "Code", "Name" };
-        public GarmentComodityBasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
+        public GarmentSectionBasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
         {
         }
-        public override void EmptyCreateModel(Models.GarmentComodity model)
+
+        public override void EmptyCreateModel(Models.GarmentSection model)
         {
             model.Code = string.Empty;
             model.Name = string.Empty;
         }
 
-        public override void EmptyUpdateModel(Models.GarmentComodity model)
+        public override void EmptyUpdateModel(Models.GarmentSection model)
         {
             model.Code = string.Empty;
             model.Name = string.Empty;
         }
 
-        public override Models.GarmentComodity GenerateTestModel()
+        public override Models.GarmentSection GenerateTestModel()
         {
             string guid = Guid.NewGuid().ToString();
 
-            return new Models.GarmentComodity()
+            return new Models.GarmentSection()
             {
                 Code = guid,
                 Name = string.Format("TEST {0}", guid),
             };
         }
+
+        
     }
 }
