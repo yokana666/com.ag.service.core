@@ -1209,6 +1209,59 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     b.ToTable("GarmentProducts");
                 });
 
+            modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.GarmentSection", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Active");
+
+                    b.Property<string>("Code");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Remark");
+
+                    b.Property<string>("UId")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_CreatedAgent")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("_CreatedUtc");
+
+                    b.Property<string>("_DeletedAgent")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_DeletedBy")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("_DeletedUtc");
+
+                    b.Property<bool>("_IsDeleted");
+
+                    b.Property<string>("_LastModifiedAgent")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_LastModifiedBy")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("_LastModifiedUtc");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GarmentSections");
+                });
+
             modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.GarmentSupplier", b =>
                 {
                     b.Property<int>("Id")
@@ -1474,9 +1527,19 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.Property<int>("Delivery");
 
+                    b.Property<string>("Line");
+
                     b.Property<string>("Name");
 
+                    b.Property<string>("No");
+
                     b.Property<string>("Type");
+
+                    b.Property<string>("UnitCode");
+
+                    b.Property<string>("UnitId");
+
+                    b.Property<string>("UnitName");
 
                     b.Property<string>("UomId");
 
@@ -1895,6 +1958,70 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Qualities");
+                });
+
+            modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.StandardMinuteValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Active");
+
+                    b.Property<string>("BuyerCode");
+
+                    b.Property<int>("BuyerId");
+
+                    b.Property<string>("BuyerName");
+
+                    b.Property<string>("ComodityCode");
+
+                    b.Property<int>("ComodityId");
+
+                    b.Property<string>("ComodityName");
+
+                    b.Property<decimal>("MinuteCutting");
+
+                    b.Property<decimal>("MinuteFinishing");
+
+                    b.Property<decimal>("MinuteSewing");
+
+                    b.Property<DateTimeOffset>("SMVDate");
+
+                    b.Property<string>("_CreatedAgent")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("_CreatedUtc");
+
+                    b.Property<string>("_DeletedAgent")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_DeletedBy")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("_DeletedUtc");
+
+                    b.Property<bool>("_IsDeleted");
+
+                    b.Property<string>("_LastModifiedAgent")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_LastModifiedBy")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("_LastModifiedUtc");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StandardMinuteValues");
                 });
 
             modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.StandardTests", b =>

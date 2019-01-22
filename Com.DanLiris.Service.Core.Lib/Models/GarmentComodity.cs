@@ -20,16 +20,24 @@ namespace Com.DanLiris.Service.Core.Lib.Models
         {
             GarmentComodityService service = validationContext.GetService<GarmentComodityService>();
 
+            if (string.IsNullOrWhiteSpace(this.Code))
+            {
+                yield return new ValidationResult("Kode harus diisi", new List<string> { "Code" });
+            }
             if (string.IsNullOrWhiteSpace(this.Name))
             {
                 yield return new ValidationResult("Nama harus diisi", new List<string> { "Name" });
-            }              
-            else
-            {
-                if (service.DbSet.Count(r => r.Id != this.Id && r.Name.Equals(this.Name) && r._IsDeleted.Equals(false)) > 0)
-                    yield return new ValidationResult("Nama komoditi sudah ada", new List<string> { "Name" });
             }
-            
+            //else
+            //{
+            //    if (service.DbSet.Count(r => r.Id != this.Id && r.Code.Equals(this.Code) && r.Name.Equals(this.Name) && r._IsDeleted.Equals(false)) > 0)
+            //        yield return new ValidationResult("Nama komoditi sudah ada", new List<string> { "Name" });
+            //}
+            if (service.DbSet.Count(r => r.Id != this.Id && r.Code.Equals(this.Code) && r.Name.Equals(this.Name) && r._IsDeleted.Equals(false)) > 0)
+            {
+                yield return new ValidationResult("Komoditi sudah ada", new List<string> { "Code" });
+                yield return new ValidationResult("Komoditi sudah ada", new List<string> { "Name" });
+            }
         }
     }
 }

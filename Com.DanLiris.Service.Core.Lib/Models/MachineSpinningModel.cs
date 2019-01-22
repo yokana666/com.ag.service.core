@@ -4,6 +4,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 {
     public class MachineSpinningModel : StandardEntity
     {
+        public string No { get; set; }
         public string Code { get; set; }
 
         public string Brand { get; set; }
@@ -16,5 +17,9 @@ namespace Com.DanLiris.Service.Core.Lib.Models
         public double CapacityPerHour { get; set; }
         public string UomId { get; set; }
         public string UomUnit { get; set; }
+        public string Line { get; set; }
+        public string UnitId { get; set; }
+        public string UnitCode { get; set; }
+        public string UnitName { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentBuyer
     {
         private static readonly string[] createAttrAssertions = { "Name" };
         private static readonly string[] updateAttrAssertions = { "Name" };
-        private static readonly string[] existAttrCriteria = { "Name" };
+        private static readonly string[] existAttrCriteria = { "Code" };
         public GarmentBuyerBasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
         {
         }

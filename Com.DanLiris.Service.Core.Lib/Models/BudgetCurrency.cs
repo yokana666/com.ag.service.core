@@ -39,7 +39,6 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 			{
 				/* Service Validation */
 				BudgetCurrencyService service = (BudgetCurrencyService)validationContext.GetService(typeof(BudgetCurrencyService));
-				var coba = service.DbContext.Set<BudgetCurrency>().Where(r => r.Code == this.Code);
 				if (service.DbContext.Set<BudgetCurrency>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Code.Equals(this.Code) && r.Date.Equals(this.Date)) > 0) /* Unique */
 				{
 					validationResult.Add(new ValidationResult("Code and Date already exists", new List<string> { "Code" }));

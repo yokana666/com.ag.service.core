@@ -1,16 +1,14 @@
-using Com.DanLiris.Service.Core.Lib.Helpers;
 using Com.DanLiris.Service.Core.Lib.Services;
 using Com.Moonlay.Models;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
 
 namespace Com.DanLiris.Service.Core.Lib.Models
 {
     public class Uom : StandardEntity, IValidatableObject
     {
+        
         [MaxLength(255)]
         public string UId { get; set; }
 
