@@ -38,20 +38,27 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
             {
                 yield return new ValidationResult("Merk Mesin harus diisi", new List<string> { "Name" });
             }
-            else
-            {
-                CoreDbContext dbContext= validationContext == null ? null : (CoreDbContext)validationContext.GetService(typeof(CoreDbContext));
-                var duplicate = dbContext.MachineSpinnings.Where(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Name.Equals(this.Name)).Count();
-
-                if (duplicate > 0) /* Name Unique */
-                {
-                    yield return new ValidationResult("Merk Mesin sudah ada", new List<string> { "Name" });
-                }
-            }
 
             if (string.IsNullOrWhiteSpace(Brand))
             {
                 yield return new ValidationResult("Type Mesin harus diisi", new List<string> { "Brand" });
+
+            }
+
+            if (string.IsNullOrEmpty(UnitName))
+                yield return new ValidationResult("Unit harus diisi", new List<string> { "Unit" });
+
+            if (!string.IsNullOrEmpty(No) && !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(UnitName))
+            {
+                CoreDbContext dbContext = validationContext == null ? null : (CoreDbContext)validationContext.GetService(typeof(CoreDbContext));
+                var duplicate = dbContext.MachineSpinnings.Where(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Name.Equals(this.Name) && r.No == No && r.UnitName == UnitName).Count();
+
+                if (duplicate > 0) /* Name Unique */
+                {
+                    yield return new ValidationResult("Mesin sudah ada", new List<string> { "Name" });
+                    yield return new ValidationResult("Mesin sudah ada", new List<string> {  "No" });
+                    yield return new ValidationResult("Mesin sudah ada", new List<string> { "Unit" });
+                }
             }
 
             if (Year == null || Year <= 0)
@@ -92,8 +99,7 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
             if(string.IsNullOrEmpty(Line))
                 yield return new ValidationResult("Line harus diisi", new List<string> { "Line" });
 
-            if (string.IsNullOrEmpty(UnitName))
-                yield return new ValidationResult("Unit harus diisi", new List<string> { "Unit" });
+           
         }
     }
     

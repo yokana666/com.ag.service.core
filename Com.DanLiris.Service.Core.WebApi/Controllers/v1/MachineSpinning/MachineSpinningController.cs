@@ -7,12 +7,14 @@ using Com.DanLiris.Service.Core.Lib.ViewModels;
 using Com.DanLiris.Service.Core.WebApi.Helpers;
 using Com.DanLiris.Service.Core.WebApi.Utils;
 using CsvHelper;
+using CsvHelper.TypeConversion;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.MachineSpinning
@@ -103,6 +105,14 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.MachineSpinning
                             .Fail();
                     return BadRequest(Result);
                 }
+            }
+            catch(TypeConverterException ex)
+            {
+                Dictionary<string, object> Result =
+                  new Utils.ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, "Tahun, Delivery atau Kapasitas diisi huruf")
+                  .Fail();
+
+                return StatusCode((int)HttpStatusCode.InternalServerError, Result);
             }
             catch (Exception e)
             {
