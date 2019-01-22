@@ -9,14 +9,14 @@ using Xunit;
 using Xunit.Sdk;
 using Models = Com.DanLiris.Service.Core.Lib.Models;
 
-namespace Com.DanLiris.Service.Core.Test.Services.Uom
+namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
 {
     [Collection("ServiceProviderFixture Collection")]
     public class UomBasicTest : BasicServiceTest<CoreDbContext, UomService, Models.Uom>
     {
-        private static readonly string[] createAttrAssertions = { "Code" };
-        private static readonly string[] updateAttrAssertions = { "Code" };
-        private static readonly string[] existAttrCriteria = { "Code" };
+        private static readonly string[] createAttrAssertions = { "Unit" };
+        private static readonly string[] updateAttrAssertions = { "Unit" };
+        private static readonly string[] existAttrCriteria = { "Unit" };
 
         public UomBasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
         {
@@ -35,8 +35,14 @@ namespace Com.DanLiris.Service.Core.Test.Services.Uom
 
             return new Models.Uom()
             {
-                Unit = "uom",
+                Unit = string.Format("TEST {0}", guid),
             };
+        }
+
+        [SkippableFact]
+        public override async Task TestCreateModel_Exist()
+        {
+            Skip.If(true);
         }
 
         [Fact]

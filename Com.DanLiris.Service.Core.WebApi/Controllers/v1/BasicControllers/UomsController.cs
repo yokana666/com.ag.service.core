@@ -20,6 +20,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
 
         public UomsController(UomService service) : base(service, ApiVersion)
         {
+            this.service = service;
         }
 
         [HttpGet("simple")]
@@ -27,7 +28,6 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
         {
             try
             {
-
                 List<Uom> Data = service.GetSimple();
                 var result = Data.Select(x => service.MapToViewModel(x));
                 Dictionary<string, object> Result =

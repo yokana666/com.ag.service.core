@@ -30,7 +30,7 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
             Uom TestData = new Uom
             {
                 Active = true,
-                Unit = "uom",
+                Unit = string.Format("TEST {0}", guid),
                 UId = guid
             };
 
