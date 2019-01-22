@@ -17,6 +17,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
     public class GarmentCategoryController : BasicController<GarmentCategoryService, GarmentCategory, GarmentCategoryViewModel, CoreDbContext>
     {
         private static readonly string ApiVersion = "1.0";
+        GarmentCategoryService service;
         public GarmentCategoryController(GarmentCategoryService service) : base(service, ApiVersion)
         {
         }

@@ -73,8 +73,10 @@ namespace Com.DanLiris.Service.Core.Test
 				.AddTransient<GarmentCurrencyDataUtil>()
 				.AddTransient<BudgetCurrencyService>(provider => new BudgetCurrencyService(provider))
 				.AddTransient<BudgetCurrencyDataUtil>()
+                .AddTransient<UomService>(provider => new UomService(provider))
+                .AddTransient<UomServiceDataUtil>()
 
-				.BuildServiceProvider();
+                .BuildServiceProvider();
 
             CoreDbContext dbContext = ServiceProvider.GetService<CoreDbContext>();
             dbContext.Database.Migrate();
