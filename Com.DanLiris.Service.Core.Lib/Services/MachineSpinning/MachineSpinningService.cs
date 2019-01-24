@@ -260,14 +260,16 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                 if(!string.IsNullOrEmpty(machineSpinningVM.Name) && !string.IsNullOrEmpty(machineSpinningVM.UnitName) && !string.IsNullOrEmpty(machineSpinningVM.No))
                 {
 
-                    if (dbData.Any(r => r._IsDeleted.Equals(false) && r.Id != machineSpinningVM.Id && r.Name.Equals(machineSpinningVM.Name) && r.No == machineSpinningVM.No && r.UnitName == machineSpinningVM.UnitName))/* Name Unique */
+                    if (dbData.Any(r => r._IsDeleted.Equals(false) && r.Id != machineSpinningVM.Id && r.Name.Equals(machineSpinningVM.Name)  && r.No == machineSpinningVM.No 
+                                && r.UnitName == machineSpinningVM.UnitName && r.Line == machineSpinningVM.Line && r.Brand == machineSpinningVM.Brand && r.Type == machineSpinningVM.Type))/* Name Unique */
                     {
-                        ErrorMessage = string.Concat(ErrorMessage, "Nomor, Unit dan Merk Mesin sudah ada di database, ");
+                        ErrorMessage = string.Concat(ErrorMessage, "Nomor, Unit, Line, Merk, Type dan Jenis Proses Mesin sudah ada di database, ");
                     }
 
-                    if (Data.Any(d => d != machineSpinningVM && d.Name.Equals(machineSpinningVM.Name) && d.UnitName.Equals(machineSpinningVM.UnitName) && d.No.Equals(machineSpinningVM.No)))
+                    if (Data.Any(d => d != machineSpinningVM && d.Name.Equals(machineSpinningVM.Name) && d.UnitName.Equals(machineSpinningVM.UnitName) && d.No.Equals(machineSpinningVM.No)
+                            && d.Line == machineSpinningVM.Line && d.Brand == machineSpinningVM.Brand && d.Type == machineSpinningVM.Type))
                     {
-                        ErrorMessage = string.Concat(ErrorMessage, "Nomor, Unit dan Merk Mesin tidak boleh duplikat, ");
+                        ErrorMessage = string.Concat(ErrorMessage, "Nomor, Unit, Line, Merk, Type dan Jenis Proses Mesin tidak boleh duplikat, ");
                     }
                 }
                 
