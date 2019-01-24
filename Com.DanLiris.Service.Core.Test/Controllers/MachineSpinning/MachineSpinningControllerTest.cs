@@ -14,13 +14,23 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Com.DanLiris.Service.Core.Test.Controllers.MachineSpinning
 {
+    [Collection("TestFixture Collection")]
     public class MachineSpinningControllerTest : BaseControllerTest<MachineSpinningController, MachineSpinningModel, MachineSpinningViewModel, IMachineSpinningService>
     {
+        private const string URI = "v1/master/machine-spinnings";
+        protected TestServerFixture TestFixture { get; set; }
+        protected HttpClient Client
+        {
+            get { return this.TestFixture.Client; }
+        }
+
         [Fact]
         public void UploadFile_WithoutException_ReturnOK()
         {
@@ -175,6 +185,16 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.MachineSpinning
             var response = GetController(mocks).GetMachineTypes();
 
             Assert.Equal((int)HttpStatusCode.OK, GetStatusCode(response));
+        }
+
+        [Fact]
+        public async Task GetSimple()
+        {
+            var mocks = GetMocks();
+            mocks.Service.Setup(f => f.GetSimple()).Throws(new Exception());
+
+            var response = GetController(mocks).GetSimple();
+            Assert.Equal((int)HttpStatusCode.InternalServerError, GetStatusCode(response));
         }
     }
 }

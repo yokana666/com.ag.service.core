@@ -239,5 +239,13 @@ namespace Com.DanLiris.Service.Core.Test.Services.MachineSpinning
             var Response = service.UploadValidate(machineSpinnings, null);
             Assert.False(Response.Item1);
         }
+
+        [Fact]
+        public void TestSimple()
+        {
+            var service = new MachineSpinningService(GetServiceProvider().Object, _dbContext(GetCurrentMethod()));
+            var Response = service.GetSimple();
+            Assert.NotNull(Response);
+        }
     }
 }
