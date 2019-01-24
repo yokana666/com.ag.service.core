@@ -154,5 +154,27 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.MachineSpinning
             var result = Service.GetMachineTypes();
             return Ok(result);
         }
+
+        [HttpGet("simple")]
+        public IActionResult GetSimple()
+        {
+            try
+            {
+                List<MachineSpinningModel> result = Service.GetSimple();
+                //var result = Data.Select(x => Service.MachineSpinningMap(x));
+                Dictionary<string, object> Result =
+                    new Helpers.ResultFormatter(ApiVersion, General.OK_STATUS_CODE, General.OK_MESSAGE)
+                    .Ok(result);
+
+                return Ok(Result);
+            }
+            catch (Exception e)
+            {
+                Dictionary<string, object> Result =
+                    new Helpers.ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, e.Message)
+                    .Fail();
+                return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
+            }
+        }
     }
 }

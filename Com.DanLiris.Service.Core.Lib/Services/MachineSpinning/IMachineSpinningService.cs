@@ -12,5 +12,6 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
         Task<int> UploadData(List<MachineSpinningModel> data);
         MemoryStream DownloadTemplate();
         List<string> GetMachineTypes();
+        List<MachineSpinningModel> GetSimple();
     }
 }
