@@ -53,6 +53,10 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
             _IdentityService = serviceProvider.GetService<IIdentityService>();
         }
 
+        public MachineSpinningService(IServiceProvider provider)
+        {
+        }
+
         public sealed class MachineSpinningMap : ClassMap<MachineSpinningViewModel>
         {
             public MachineSpinningMap()
@@ -376,6 +380,30 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                 return value + dataCountString + model.Line;
             }
             return "";
+        }
+
+        public List<MachineSpinningModel> GetSimple()
+        {
+            return this._DbSet.Select(x => new MachineSpinningModel()
+            {
+                Id = x.Id,
+                No = x.No,
+                Code = x.Code,
+                Brand = x.Brand,
+                Name = x.Name,
+                Type = x.Type,
+                Year = x.Year,
+                Condition = x.Condition,
+                CounterCondition = x.CounterCondition,
+                Delivery = x.Delivery,
+                CapacityPerHour = x.CapacityPerHour,
+                UomId = x.UomId,
+                UomUnit = x.UomUnit,
+                Line = x.Line,
+                UnitCode = x.UnitCode,
+                UnitId = x.UnitId,
+                UnitName = x.UnitName
+            }).ToList();
         }
     }
 
