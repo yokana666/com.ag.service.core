@@ -115,7 +115,13 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                     No = s.No,
                     Name = s.Name,
                     Type = s.Type,
-                    Year = s.Year
+                    Year = s.Year,
+                    Line = s.Line,
+                    UomId = s.UomId,
+                    UnitCode = s.UnitCode,
+                    UnitId = s.UnitId,
+                    UnitName = s.UnitName,
+                    UomUnit = s.UomUnit
                 });
 
             List<string> searchAttributes = new List<string>()
