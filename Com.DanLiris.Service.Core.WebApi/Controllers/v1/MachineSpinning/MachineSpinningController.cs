@@ -161,7 +161,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.MachineSpinning
             try
             {
                 List<MachineSpinningModel> result = Service.GetSimple();
-                //var result = Data.Select(x => Service.MachineSpinningMap(x));
+                List<MachineSpinningViewModel> dataVM = Mapper.Map<List<MachineSpinningViewModel>>(result);
                 Dictionary<string, object> Result =
                     new Helpers.ResultFormatter(ApiVersion, General.OK_STATUS_CODE, General.OK_MESSAGE)
                     .Ok(result);
