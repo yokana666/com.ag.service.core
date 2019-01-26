@@ -26,14 +26,14 @@ namespace Com.DanLiris.Service.Core.Test.Services.BudgetCurrency
 
 		public override void EmptyCreateModel(Models.BudgetCurrency model)
         {
-            model.Code = string.Empty;
+            model.Code = "Test";
             model.Date = DateTime.Now;
 			model.Rate = 1;
 		}
 
 		public override void EmptyUpdateModel(Models.BudgetCurrency model)
         {
-            model.Code = string.Empty;
+            model.Code = "Test";
             model.Date = DateTime.Now;
 			model.Rate = 1;
 		}
