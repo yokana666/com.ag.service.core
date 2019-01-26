@@ -1,5 +1,6 @@
 ﻿using Com.DanLiris.Service.Core.Lib;
 using Com.DanLiris.Service.Core.Lib.Services;
+using Com.DanLiris.Service.Core.Lib.Services.MachineSpinning;
 using Com.DanLiris.Service.Core.Test.DataUtils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -73,8 +74,12 @@ namespace Com.DanLiris.Service.Core.Test
 				.AddTransient<GarmentCurrencyDataUtil>()
 				.AddTransient<BudgetCurrencyService>(provider => new BudgetCurrencyService(provider))
 				.AddTransient<BudgetCurrencyDataUtil>()
+                .AddTransient<UomService>(provider => new UomService(provider))
+                .AddTransient<UomServiceDataUtil>()
+                .AddTransient<MachineSpinningService>(provider => new MachineSpinningService(provider))
+                .AddTransient<MachineSpinningDataUtil>()
 
-				.BuildServiceProvider();
+                .BuildServiceProvider();
 
             CoreDbContext dbContext = ServiceProvider.GetService<CoreDbContext>();
             dbContext.Database.Migrate();

@@ -255,7 +255,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 				.ToList();
 		}
 
-        public IQueryable<BudgetCurrency> GetByCode(string code, DateTime date)
+        public IQueryable<BudgetCurrency> GetByCode(string code)
         {
             IQueryable<BudgetCurrency> Query = this.DbContext.BudgetCurrencies;
             
@@ -269,7 +269,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                   "Code", "Date"
             };
 
-            Query = Query.Where(a=>a.Code.Equals(code) && a.Date <= date)
+            Query = Query.Where(a=>a.Code.Equals(code))
                 .Select(p => new BudgetCurrency
                 {
                     Code = p.Code,

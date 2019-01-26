@@ -65,7 +65,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.BudgetCurrency
         public async void GetByTags()
         {
             Models.BudgetCurrency model = await DataUtil.GetTestDataAsync();
-            var Response = Services.GetByCode(model.Code, model.Date );
+            var Response = Services.GetByCode(model.Code );
             Assert.NotNull(Response);
         }
 

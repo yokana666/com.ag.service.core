@@ -53,6 +53,10 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
             _IdentityService = serviceProvider.GetService<IIdentityService>();
         }
 
+        public MachineSpinningService(IServiceProvider provider)
+        {
+        }
+
         public sealed class MachineSpinningMap : ClassMap<MachineSpinningViewModel>
         {
             public MachineSpinningMap()
@@ -111,7 +115,13 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                     No = s.No,
                     Name = s.Name,
                     Type = s.Type,
-                    Year = s.Year
+                    Year = s.Year,
+                    Line = s.Line,
+                    UomId = s.UomId,
+                    UnitCode = s.UnitCode,
+                    UnitId = s.UnitId,
+                    UnitName = s.UnitName,
+                    UomUnit = s.UomUnit
                 });
 
             List<string> searchAttributes = new List<string>()
@@ -147,7 +157,13 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                    Name = s.Name,
                    No = s.No,
                    Type = s.Type,
-                   Year = s.Year
+                   Year = s.Year,
+                   Line = s.Line,
+                   UnitCode = s.UnitCode,
+                   UnitId = s.UnitId,
+                   UnitName = s.UnitName,
+                   UomId = s.UomId,
+                   UomUnit = s.UomUnit
                }).ToList()
             );
 
@@ -180,33 +196,19 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
 
                 if (string.IsNullOrWhiteSpace(machineSpinningVM.Name))
                 {
-                    ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh kosong, ");
-                }
-                else
-                {
-                    if (Data.Any(d => d != machineSpinningVM && d.Name.Equals(machineSpinningVM.Name)))
-                    {
-                        ErrorMessage = string.Concat(ErrorMessage, "Nama tidak boleh duplikat, ");
-                    }
-                    else
-                    {
-                        if (dbData.Any(r => r._IsDeleted.Equals(false) && r.Id != machineSpinningVM.Id && r.Name.Equals(machineSpinningVM.Name)))/* Name Unique */
-                        {
-                            ErrorMessage = string.Concat(ErrorMessage, "Nama sudah ada di database, ");
-                        }
-                    }
+                    ErrorMessage = string.Concat(ErrorMessage, "Merk Mesin tidak boleh kosong, ");
                 }
 
                 if (string.IsNullOrWhiteSpace(machineSpinningVM.No))
                 {
-                    ErrorMessage = string.Concat(ErrorMessage, "No Sudah ada di database, ");
+                    ErrorMessage = string.Concat(ErrorMessage, "No tidak boleh kosong, ");
                 }
 
                 if (string.IsNullOrWhiteSpace(machineSpinningVM.Brand))
                 {
-                    ErrorMessage = string.Concat(ErrorMessage, "Merk tidak boleh kosong, ");
+                    ErrorMessage = string.Concat(ErrorMessage, "Type Mesin tidak boleh kosong, ");
                 }
-                
+
                 if (machineSpinningVM.Year == null || machineSpinningVM.Year <= 0)
                 {
                     ErrorMessage = string.Concat(ErrorMessage, "Tahun tidak boleh kosong, ");
@@ -224,13 +226,13 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
 
                 if (string.IsNullOrWhiteSpace(machineSpinningVM.Type))
                 {
-                    ErrorMessage = string.Concat(ErrorMessage, "Tipe tidak boleh kosong, ");
+                    ErrorMessage = string.Concat(ErrorMessage, "Jenis Proses tidak boleh kosong, ");
                 }
                 else
                 {
                     if (!GetMachineTypes().Contains(machineSpinningVM.Type))
                     {
-                        ErrorMessage = string.Concat(ErrorMessage, "Tipe tidak termasuk kategori yang ditentukan, ");
+                        ErrorMessage = string.Concat(ErrorMessage, "Jenis Proses tidak termasuk kategori yang ditentukan, ");
                     }
                 }
 
@@ -265,11 +267,28 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                 }
                 else
                 {
-                    if(!_DbContext.Units.Any(x => x.Name == machineSpinningVM.UnitName))
+                    if (!_DbContext.Units.Any(x => x.Name == machineSpinningVM.UnitName))
                     {
                         ErrorMessage = string.Concat(ErrorMessage, "Nama Unit tidak terdaftar, ");
                     }
                 }
+
+                if (!string.IsNullOrEmpty(machineSpinningVM.Name) && !string.IsNullOrEmpty(machineSpinningVM.UnitName) && !string.IsNullOrEmpty(machineSpinningVM.No))
+                {
+
+                    if (dbData.Any(r => r._IsDeleted.Equals(false) && r.Id != machineSpinningVM.Id && r.Name.Equals(machineSpinningVM.Name) && r.No == machineSpinningVM.No
+                                && r.UnitName == machineSpinningVM.UnitName && r.Line == machineSpinningVM.Line && r.Brand == machineSpinningVM.Brand && r.Type == machineSpinningVM.Type))/* Name Unique */
+                    {
+                        ErrorMessage = string.Concat(ErrorMessage, "Nomor, Unit, Line, Merk, Type dan Jenis Proses Mesin sudah ada di database, ");
+                    }
+
+                    if (Data.Any(d => d != machineSpinningVM && d.Name.Equals(machineSpinningVM.Name) && d.UnitName.Equals(machineSpinningVM.UnitName) && d.No.Equals(machineSpinningVM.No)
+                            && d.Line == machineSpinningVM.Line && d.Brand == machineSpinningVM.Brand && d.Type == machineSpinningVM.Type))
+                    {
+                        ErrorMessage = string.Concat(ErrorMessage, "Nomor, Unit, Line, Merk, Type dan Jenis Proses Mesin tidak boleh duplikat, ");
+                    }
+                }
+
                 if (!string.IsNullOrEmpty(ErrorMessage))
                 {
                     ErrorMessage = ErrorMessage.Remove(ErrorMessage.Length - 2);
@@ -375,6 +394,30 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                 return value + dataCountString + model.Line;
             }
             return "";
+        }
+
+        public List<MachineSpinningModel> GetSimple()
+        {
+            return this._DbSet.Select(x => new MachineSpinningModel()
+            {
+                Id = x.Id,
+                No = x.No,
+                Code = x.Code,
+                Brand = x.Brand,
+                Name = x.Name,
+                Type = x.Type,
+                Year = x.Year,
+                Condition = x.Condition,
+                CounterCondition = x.CounterCondition,
+                Delivery = x.Delivery,
+                CapacityPerHour = x.CapacityPerHour,
+                UomId = x.UomId,
+                UomUnit = x.UomUnit,
+                Line = x.Line,
+                UnitCode = x.UnitCode,
+                UnitId = x.UnitId,
+                UnitName = x.UnitName
+            }).ToList();
         }
     }
 

@@ -110,6 +110,8 @@ namespace Com.DanLiris.Service.Core.Test.Services.MachineSpinning
             var Response = await service.CreateAsync(model);
             var vm = _dataUtil(service).GetDataToValidate(_dbContext(GetCurrentMethod()));
             vm.Name = model.Name;
+            vm.No = model.No;
+            vm.UnitName = model.UnitName;
             Mock<IServiceProvider> serviceProvider = new Mock<IServiceProvider>();
             serviceProvider.
                 Setup(x => x.GetService(typeof(CoreDbContext)))
@@ -219,6 +221,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.MachineSpinning
             List<MachineSpinningViewModel> machineSpinningsVM = new List<MachineSpinningViewModel>() { viewModel };
 
             var model = _dataUtil(service).GetNewData(_dbContext(GetCurrentMethod()));
+            model.No = viewModel.No;
             List<MachineSpinningModel> machineSpinningsModel = new List<MachineSpinningModel>() { model };
             await service.UploadData(machineSpinningsModel);
             var Response2 = service.UploadValidate(machineSpinningsVM, null);
@@ -235,6 +238,14 @@ namespace Com.DanLiris.Service.Core.Test.Services.MachineSpinning
             List<MachineSpinningViewModel> machineSpinnings = new List<MachineSpinningViewModel>() { viewModel };
             var Response = service.UploadValidate(machineSpinnings, null);
             Assert.False(Response.Item1);
+        }
+
+        [Fact]
+        public void TestSimple()
+        {
+            var service = new MachineSpinningService(GetServiceProvider().Object, _dbContext(GetCurrentMethod()));
+            var Response = service.GetSimple();
+            Assert.NotNull(Response);
         }
     }
 }

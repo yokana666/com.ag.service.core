@@ -48,14 +48,14 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
 		}
 
         [HttpGet("by-code")]
-        public IActionResult GetByName(string code, DateTime date)
+        public IActionResult GetByName(string code)
         {
             try
             {
 
                 service.Username = User.Claims.Single(p => p.Type.Equals("username")).Value;
 
-                IQueryable<BudgetCurrency> Data = service.GetByCode(code, date);
+                IQueryable<BudgetCurrency> Data = service.GetByCode(code);
 
                 Dictionary<string, object> Result =
                     new ResultFormatter(ApiVersion, General.OK_STATUS_CODE, General.OK_MESSAGE)
