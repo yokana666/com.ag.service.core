@@ -166,6 +166,10 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 				{
 					ErrorMessage = string.Concat(ErrorMessage, "Mata Uang tidak boleh kosong, ");
 				}
+                else if (Data.Any(d => d != budgetCurrencyVM && d.code.Equals(budgetCurrencyVM.code)))
+                {
+                    ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
+                }
 
 				double Rate = 0;
 				if (string.IsNullOrWhiteSpace(budgetCurrencyVM.rate))
@@ -210,6 +214,12 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 					{
 						ErrorMessage = string.Concat(ErrorMessage, "Mata Uang dan Tanggal tidak boleh duplikat, ");
 					}
+                    
+                    /* Service Validation */
+                    if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(budgetCurrencyVM.code)))
+                    {
+                        ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
+                    }
 				}
 
 				if (string.IsNullOrEmpty(ErrorMessage))
