@@ -37,7 +37,56 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
 			return model;
 		}
 
-		public override async Task<BudgetCurrency> GetTestDataAsync()
+        public async Task<BudgetCurrencyViewModel> GetNewData2()
+        {
+
+            string guid = Guid.NewGuid().ToString();
+
+            BudgetCurrencyViewModel TestData = new BudgetCurrencyViewModel
+            {
+                code = "test",
+                rate = "",
+                date = DateTime.Now
+            };
+
+
+            return TestData;
+        }
+
+        public async Task<BudgetCurrencyViewModel> GetNewData3()
+        {
+
+            string guid = Guid.NewGuid().ToString();
+
+            BudgetCurrencyViewModel TestData = new BudgetCurrencyViewModel
+            {
+                code = "test",
+                rate = "",
+                date = DateTime.Now
+            };
+
+
+            return TestData;
+        }
+
+
+        public async Task<BudgetCurrencyViewModel> GetNewData4()
+        {
+
+            string guid = Guid.NewGuid().ToString();
+
+            BudgetCurrencyViewModel TestData = new BudgetCurrencyViewModel
+            {
+                code = "test",
+                rate = "144",
+                date = DateTime.Now,
+                
+            };
+
+
+            return TestData;
+        }
+        public override async Task<BudgetCurrency> GetTestDataAsync()
 		{
 			BudgetCurrency model = GetNewData();
 			await this.Service.CreateModel(model);
