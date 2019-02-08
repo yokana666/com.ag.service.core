@@ -55,9 +55,9 @@ namespace Com.DanLiris.Service.Core.Lib.Models
             if (validationResult.Count.Equals(0))
             {
                 /* Service Validation */
-                BudgetService service = (BudgetService)validationContext.GetService(typeof(BudgetService));
+                ProductService service = (ProductService)validationContext.GetService(typeof(ProductService));
 
-                if (service.DbContext.Set<Budget>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Code.Equals(this.Code)) > 0) /* Code Unique */
+                if (service.DbContext.Set<Product>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Code.Equals(this.Code)) > 0) /* Code Unique */
                     validationResult.Add(new ValidationResult("Code already exists", new List<string> { "code" }));
             }
 
