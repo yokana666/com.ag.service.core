@@ -37,11 +37,14 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
             { "Blowing","BK" },
             { "Carding","CK" },
             { "Pre-Drawing","PD" },
+            { "Lap Former", "LF" },
             { "Combing","CM" },
+            { "Mix Drawing","MD" },
+            { "Drawing Breaker","DB" },
             { "Finish Drawing","FD" },
-            { "Flying","FL" },
+            { "Flyer","FL" },
             { "Ring Spinning","RF" },
-            { "Winding","WD" }
+            { "Winder","WD" }
 
         };
         public List<string> CsvHeader => Header;
