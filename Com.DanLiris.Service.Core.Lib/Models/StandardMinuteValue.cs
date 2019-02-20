@@ -8,6 +8,8 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 {
     public class StandardMinuteValue : StandardEntity, IValidatableObject
     {
+        [MaxLength(255)]
+        public string UId { get; set; }
         public int BuyerId { get; set; }
         public string BuyerCode { get; set; }
         public string BuyerName { get; set; }
