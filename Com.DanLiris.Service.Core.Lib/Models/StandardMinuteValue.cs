@@ -32,15 +32,15 @@ namespace Com.DanLiris.Service.Core.Lib.Models
             }
             if (this.SMVCutting <= 0)
             {
-                yield return new ValidationResult("Cutting Harus Lebih dari 0", new List<string> { "MinuteCutting" });
+                yield return new ValidationResult("Cutting Harus Lebih dari 0", new List<string> { "SMVCutting" });
             }
             if (this.SMVSewing <= 0)
             {
-                yield return new ValidationResult("Sewing Harus Lebih dari 0", new List<string> { "MinuteSewing" });
+                yield return new ValidationResult("Sewing Harus Lebih dari 0", new List<string> { "SMVSewing" });
             }
             if (this.SMVFinishing <= 0)
             {
-                yield return new ValidationResult("Finishing Harus Lebih dari 0", new List<string> { "MinuteFinishing" });
+                yield return new ValidationResult("Finishing Harus Lebih dari 0", new List<string> { "SMVFinishing" });
             }
         }
     }
