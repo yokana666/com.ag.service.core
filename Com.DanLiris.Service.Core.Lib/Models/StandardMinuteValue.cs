@@ -17,9 +17,9 @@ namespace Com.DanLiris.Service.Core.Lib.Models
         public string ComodityCode { get; set; }
         public string ComodityName { get; set; }
         public DateTimeOffset SMVDate { get; set; }
-        public decimal MinuteCutting { get; set; }
-        public decimal MinuteSewing { get; set; }
-        public decimal MinuteFinishing { get; set; }
+        public decimal SMVCutting { get; set; }
+        public decimal SMVSewing { get; set; }
+        public decimal SMVFinishing { get; set; }
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (string.IsNullOrWhiteSpace(this.BuyerName))
@@ -30,17 +30,17 @@ namespace Com.DanLiris.Service.Core.Lib.Models
             {
                 yield return new ValidationResult("Komoditi harus diisi", new List<string> { "ComodityName" });
             }
-            if (this.MinuteCutting <= 0)
+            if (this.SMVCutting <= 0)
             {
-                yield return new ValidationResult("Cutting Harus Lebih dari 0", new List<string> { "MinuteCutting" });
+                yield return new ValidationResult("Cutting Harus Lebih dari 0", new List<string> { "SMVCutting" });
             }
-            if (this.MinuteSewing <= 0)
+            if (this.SMVSewing <= 0)
             {
-                yield return new ValidationResult("Sewing Harus Lebih dari 0", new List<string> { "MinuteSewing" });
+                yield return new ValidationResult("Sewing Harus Lebih dari 0", new List<string> { "SMVSewing" });
             }
-            if (this.MinuteFinishing <= 0)
+            if (this.SMVFinishing <= 0)
             {
-                yield return new ValidationResult("Finishing Harus Lebih dari 0", new List<string> { "MinuteFinishing" });
+                yield return new ValidationResult("Finishing Harus Lebih dari 0", new List<string> { "SMVFinishing" });
             }
         }
     }
