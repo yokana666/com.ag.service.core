@@ -10,8 +10,8 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardMinuteValueServiceTest
     [Collection("ServiceProviderFixture Collection")]
     public class StandardMinuteValueBasicTest : BasicServiceTest<CoreDbContext, StandardMinuteValueService, Models.StandardMinuteValue>
     {
-        private static readonly string[] createAttrAssertions = { "BuyerName", "ComodityName", "MinuteCutting", "MinuteSewing", "MinuteFinishing" };
-        private static readonly string[] updateAttrAssertions = { "BuyerName", "ComodityName", "MinuteCutting", "MinuteSewing", "MinuteFinishing" };
+        private static readonly string[] createAttrAssertions = { "BuyerName", "ComodityName", "SMVCutting", "SMVSewing", "SMVFinishing" };
+        private static readonly string[] updateAttrAssertions = { "BuyerName", "ComodityName", "SMVCutting", "SMVSewing", "SMVFinishing" };
         private static readonly string[] existAttrCriteria = { };
 
         public StandardMinuteValueBasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
