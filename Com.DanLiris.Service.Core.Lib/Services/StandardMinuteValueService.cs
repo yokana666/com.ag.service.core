@@ -67,9 +67,9 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     ComodityName = b.ComodityName,
                     ComodityCode = b.ComodityCode,
                     SMVDate = b.SMVDate,
-                    MinuteCutting = b.MinuteCutting,
-                    MinuteFinishing = b.MinuteFinishing,
-                    MinuteSewing = b.MinuteSewing,
+                    SMVCutting = b.SMVCutting,
+                    SMVFinishing = b.SMVFinishing,
+                    SMVSewing = b.SMVSewing,
                     _LastModifiedUtc = b._LastModifiedUtc
                 });
 

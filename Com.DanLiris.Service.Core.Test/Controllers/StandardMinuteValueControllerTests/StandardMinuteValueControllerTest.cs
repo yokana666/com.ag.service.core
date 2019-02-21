@@ -42,9 +42,9 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.StandardMinuteValueControll
                     ComodityId = 1,
                     ComodityCode = string.Format("TEST {0}", guid),
                     ComodityName = string.Format("TEST {0}", guid),
-                    MinuteCutting = 1,
-                    MinuteFinishing = 1,
-                    MinuteSewing = 2,
+                    SMVCutting = 1,
+                    SMVFinishing = 1,
+                    SMVSewing = 2,
                 };
             }
 

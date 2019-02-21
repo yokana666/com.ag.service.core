@@ -14,8 +14,8 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
         public string ComodityCode { get; set; }
         public string ComodityName { get; set; }
         public DateTimeOffset SMVDate { get; set; }
-        public decimal MinuteCutting { get; set; }
-        public decimal MinuteSewing { get; set; }
-        public decimal MinuteFinishing { get; set; }
+        public decimal SMVCutting { get; set; }
+        public decimal SMVSewing { get; set; }
+        public decimal SMVFinishing { get; set; }
     }
 }
