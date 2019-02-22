@@ -24,6 +24,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
         public string CurrencyCode { get; set; }
         public string CurrencySymbol { get; set; }
 
+        [StringLength(1000)]
         public string Description { get; set; }
 
         public int? UomId { get; set; }
