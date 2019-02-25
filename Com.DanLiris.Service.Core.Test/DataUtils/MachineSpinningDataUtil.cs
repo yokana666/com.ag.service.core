@@ -3,6 +3,7 @@ using Com.DanLiris.Service.Core.Lib.Models;
 using Com.DanLiris.Service.Core.Lib.Services;
 using Com.DanLiris.Service.Core.Lib.Services.MachineSpinning;
 using Com.DanLiris.Service.Core.Lib.ViewModels;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,16 +29,28 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
                 Name = "Name",
                 Year = 2018,
                 Condition = "Condition",
-                Type = header.First(),
+                //Type = header.First(),
                 Delivery = 2,
                 CapacityPerHour = 1808.123,
-                CounterCondition="test",
-                Brand="test",
-                UomId="1",
-                UomUnit= dbContext.UnitOfMeasurements.FirstOrDefault().Unit,
+                CounterCondition = "test",
+                Brand = "test",
+                UomId = "1",
+                UomUnit = dbContext.UnitOfMeasurements.FirstOrDefault().Unit,
                 Line = "Line",
                 UnitCode = "UnitC",
+                MachineCode = "Code",
                 UnitId = "1",
+                Types = new List<MachineSpinningProcessType>()
+                {
+                  new MachineSpinningProcessType()
+                  {
+                      Type = header.First()
+                  },
+                  new MachineSpinningProcessType()
+                  {
+                      Type = header.ElementAt(header.Count - 1)
+                  }
+                },
                 UnitName = dbContext.Units.FirstOrDefault().Name
             };
 
@@ -55,7 +68,7 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
                 Name = "Name",
                 Year = 2018,
                 Condition = "Condition",
-                Type = header.First(),
+                //Type = header.First(),
                 Delivery = 2,
                 CapacityPerHour = 1808.123,
                 CounterCondition = "test",
@@ -65,6 +78,18 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
                 Line = "Line",
                 UnitCode = "UnitC",
                 UnitId = "1",
+                MachineCode = "Code",
+                Types = new List<MachineSpinningProcessTypeViewModel>()
+                {
+                    new MachineSpinningProcessTypeViewModel()
+                    {
+                        Type = header.First()
+                    },
+                    new MachineSpinningProcessTypeViewModel()
+                    {
+                        Type = header.ElementAt(header.Count - 1)
+                    }
+                },
                 UnitName = dbContext.Units.FirstOrDefault().Name
             };
 

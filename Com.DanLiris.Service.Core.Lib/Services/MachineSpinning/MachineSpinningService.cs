@@ -29,7 +29,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
         private readonly List<string> Header = new List<string>()
         {
             "No Mesin", "Unit", "Line", "Merk Mesin", "Type Mesin", "Jenis Proses", "Tahun", "Kondisi Mesin", "Kondisi Counter",
-            "Jumlah Delivery", "Kapasitas/Hari", "Satuan"
+            "Jumlah Delivery", "Kapasitas/Hari (Bale)", "Satuan Input", "Kode Mesin"
         };
 
         private readonly Dictionary<string, string> MachineTypes = new Dictionary<string, string>()
@@ -60,7 +60,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
         {
         }
 
-        public sealed class MachineSpinningMap : ClassMap<MachineSpinningViewModel>
+        public sealed class MachineSpinningMap : ClassMap<MachineSpinningCsvViewModel>
         {
             public MachineSpinningMap()
             {
@@ -76,12 +76,21 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                 Map(b => b.Delivery).Index(9);
                 Map(b => b.CapacityPerHour).Index(10);
                 Map(b => b.UomUnit).Index(11);
+                Map(b => b.MachineCode).Index(12);
             }
         }
 
         public async Task<int> CreateAsync(MachineSpinningModel model)
         {
             model.Code = GenerateCode(model);
+            foreach(var item in model.Types)
+            {
+                item.FlagForCreate(_IdentityService.Username, _UserAgent);
+                item._LastModifiedAgent = _UserAgent;
+                item._LastModifiedBy = _IdentityService.Username;
+                item._LastModifiedUtc = DateTime.Now;
+
+            }
             model.FlagForCreate(_IdentityService.Username, _UserAgent);
             model._LastModifiedAgent = _UserAgent;
             model._LastModifiedBy = _IdentityService.Username;
@@ -92,15 +101,19 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
 
         public async Task<int> DeleteAsync(int id)
         {
-            var model = _DbSet.Where(w => w.Id.Equals(id)).FirstOrDefault();
+            var model = _DbSet.Include(x => x.Types).Where(w => w.Id.Equals(id)).FirstOrDefault();
             model.FlagForDelete(_IdentityService.Username, _UserAgent);
+            foreach(var item in model.Types)
+            {
+                item.FlagForDelete(_IdentityService.Username, _UserAgent);
+            }
             _DbSet.Update(model);
             return await _DbContext.SaveChangesAsync();
         }
 
         public ReadResponse<MachineSpinningModel> Read(int page, int size, string order, List<string> select, string keyword, string filter)
         {
-            IQueryable<MachineSpinningModel> Query = _DbSet;
+            IQueryable<MachineSpinningModel> Query = _DbSet.Include(x => x.Types);
 
             Query = Query
                 .Select(s => new MachineSpinningModel
@@ -117,7 +130,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                     Brand = s.Brand,
                     No = s.No,
                     Name = s.Name,
-                    Type = s.Type,
+                    //Type = s.Type,
                     Year = s.Year,
                     Line = s.Line,
                     UomId = s.UomId,
@@ -159,14 +172,16 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                    Brand = s.Brand,
                    Name = s.Name,
                    No = s.No,
-                   Type = s.Type,
+                   //Type = s.Type,
                    Year = s.Year,
                    Line = s.Line,
                    UnitCode = s.UnitCode,
                    UnitId = s.UnitId,
                    UnitName = s.UnitName,
                    UomId = s.UomId,
-                   UomUnit = s.UomUnit
+                   UomUnit = s.UomUnit,
+                   MachineCode = s.MachineCode,
+                   Types = s.Types
                }).ToList()
             );
 
@@ -177,12 +192,25 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
 
         public async Task<MachineSpinningModel> ReadByIdAsync(int id)
         {
-            return await _DbSet.Where(w => w.Id.Equals(id)).FirstOrDefaultAsync();
+            return await _DbSet.Include(x => x.Types).Where(w => w.Id.Equals(id)).FirstOrDefaultAsync();
         }
 
         public async Task<int> UpdateAsync(int id, MachineSpinningModel model)
         {
             model.FlagForUpdate(_IdentityService.Username, _UserAgent);
+            var dbSetDetail = _DbContext.Set<MachineSpinningProcessType>();
+            foreach(var item in dbSetDetail.Where(x => !model.Types.Any(y => y.Id == x.Id)))
+            {
+                item.FlagForDelete(_IdentityService.Username, _UserAgent);
+            }
+            foreach(var item in model.Types.Where(x => x.Id == 0))
+            {
+                item.FlagForCreate(_IdentityService.Username, _UserAgent);
+            }
+            foreach(var item in model.Types)
+            {
+                item.FlagForUpdate(_IdentityService.Username, _UserAgent);
+            }
             _DbSet.Update(model);
             return await _DbContext.SaveChangesAsync();
         }
@@ -227,17 +255,17 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                     ErrorMessage = string.Concat(ErrorMessage, "Kondisi Counter tidak boleh kosong, ");
                 }
 
-                if (string.IsNullOrWhiteSpace(machineSpinningVM.Type))
-                {
-                    ErrorMessage = string.Concat(ErrorMessage, "Jenis Proses tidak boleh kosong, ");
-                }
-                else
-                {
-                    if (!GetMachineTypes().Contains(machineSpinningVM.Type))
-                    {
-                        ErrorMessage = string.Concat(ErrorMessage, "Jenis Proses tidak termasuk kategori yang ditentukan, ");
-                    }
-                }
+                //if (string.IsNullOrWhiteSpace(machineSpinningVM.Type))
+                //{
+                //    ErrorMessage = string.Concat(ErrorMessage, "Jenis Proses tidak boleh kosong, ");
+                //}
+                //else
+                //{
+                //    if (!GetMachineTypes().Contains(machineSpinningVM.Type))
+                //    {
+                //        ErrorMessage = string.Concat(ErrorMessage, "Jenis Proses tidak termasuk kategori yang ditentukan, ");
+                //    }
+                //}
 
                 if (machineSpinningVM.Delivery == null || machineSpinningVM.Delivery <= 0)
                 {
@@ -280,13 +308,13 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                 {
 
                     if (dbData.Any(r => r._IsDeleted.Equals(false) && r.Id != machineSpinningVM.Id && r.Name.Equals(machineSpinningVM.Name) && r.No == machineSpinningVM.No
-                                && r.UnitName == machineSpinningVM.UnitName && r.Line == machineSpinningVM.Line && r.Brand == machineSpinningVM.Brand && r.Type == machineSpinningVM.Type))/* Name Unique */
+                                && r.UnitName == machineSpinningVM.UnitName && r.Line == machineSpinningVM.Line && r.Brand == machineSpinningVM.Brand /*&& r.Type == machineSpinningVM.Type*/))/* Name Unique */
                     {
                         ErrorMessage = string.Concat(ErrorMessage, "Nomor, Unit, Line, Merk, Type dan Jenis Proses Mesin sudah ada di database, ");
                     }
 
                     if (Data.Any(d => d != machineSpinningVM && d.Name.Equals(machineSpinningVM.Name) && d.UnitName.Equals(machineSpinningVM.UnitName) && d.No.Equals(machineSpinningVM.No)
-                            && d.Line == machineSpinningVM.Line && d.Brand == machineSpinningVM.Brand && d.Type == machineSpinningVM.Type))
+                            && d.Line == machineSpinningVM.Line && d.Brand == machineSpinningVM.Brand /*&& d.Type == machineSpinningVM.Type*/))
                     {
                         ErrorMessage = string.Concat(ErrorMessage, "Nomor, Unit, Line, Merk, Type dan Jenis Proses Mesin tidak boleh duplikat, ");
                     }
@@ -302,7 +330,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                     Error.Add("Line", machineSpinningVM.Line);
                     Error.Add("Merk Mesin", machineSpinningVM.Name);
                     Error.Add("Type Mesin", machineSpinningVM.Brand);
-                    Error.Add("Jenis Proses", machineSpinningVM.Type);
+                    //Error.Add("Jenis Proses", machineSpinningVM.Type);
                     Error.Add("Tahun Mesin", machineSpinningVM.Year);
                     Error.Add("Kondisi Mesin", machineSpinningVM.Condition);
                     Error.Add("Kondisi Counter", machineSpinningVM.CounterCondition);
@@ -388,53 +416,53 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
         private string GenerateCode(MachineSpinningModel model)
         {
             string value;
-            if (MachineTypes.TryGetValue(model.Type, out value))
-            {
-                int dataCount = _DbContext.MachineSpinnings.Count(x => x.Type == model.Type && x.Line == model.Line);
-                string dataCountString = (dataCount + 1).ToString("000");
+            //if (MachineTypes.TryGetValue(model.Type, out value))
+            //{
+            //    int dataCount = _DbContext.MachineSpinnings.Count(x => x.Type == model.Type && x.Line == model.Line);
+            //    string dataCountString = (dataCount + 1).ToString("000");
 
-                return value + dataCountString + model.Line;
-            }
+            //    return value + dataCountString + model.Line;
+            //}
             return "";
         }
 
         private List<MachineSpinningModel> GenerateCode(List<MachineSpinningModel> models)
         {
-            var groupedModels = models.GroupBy(x => new { x.Type, x.Line });
-            foreach (var item in groupedModels)
-            {
-                int counter = _DbContext.MachineSpinnings.Count(x => x.Type == item.Key.Type && x.Line == item.Key.Line);
-                foreach (var model in item)
-                {
-                   
-                    string value;
-                    if(MachineTypes.TryGetValue(item.Key.Type, out value))
-                    {
-                        counter++;
-                        model.Code = value + counter.ToString("000") + item.Key.Line;
-                    }
-                    else
-                    {
-                        model.Code = "";
-                    }
-                    
-                }
-            }
-            return groupedModels.SelectMany(x => x).ToList();
+            //var groupedModels = models.GroupBy(x => new { x.Type, x.Line });
+            //foreach (var item in groupedModels)
+            //{
+            //    int counter = _DbContext.MachineSpinnings.Count(x => x.Type == item.Key.Type && x.Line == item.Key.Line);
+            //    foreach (var model in item)
+            //    {
 
+            //        string value;
+            //        if(MachineTypes.TryGetValue(item.Key.Type, out value))
+            //        {
+            //            counter++;
+            //            model.Code = value + counter.ToString("000") + item.Key.Line;
+            //        }
+            //        else
+            //        {
+            //            model.Code = "";
+            //        }
+
+            //    }
+            //}
+            //return groupedModels.SelectMany(x => x).ToList();
+            return models;
             
         }
 
         public List<MachineSpinningModel> GetSimple()
         {
-            return this._DbSet.Select(x => new MachineSpinningModel()
+            return this._DbSet.Include(x => x.Types).Select(x => new MachineSpinningModel()
             {
                 Id = x.Id,
                 No = x.No,
                 Code = x.Code,
                 Brand = x.Brand,
                 Name = x.Name,
-                Type = x.Type,
+                //Type = x.Type,
                 Year = x.Year,
                 Condition = x.Condition,
                 CounterCondition = x.CounterCondition,
@@ -445,7 +473,9 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                 Line = x.Line,
                 UnitCode = x.UnitCode,
                 UnitId = x.UnitId,
-                UnitName = x.UnitName
+                UnitName = x.UnitName,
+                MachineCode = x.MachineCode,
+                Types = x.Types
             }).ToList();
         }
     }

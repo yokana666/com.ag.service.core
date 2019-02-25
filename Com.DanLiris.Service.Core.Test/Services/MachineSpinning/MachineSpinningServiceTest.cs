@@ -234,7 +234,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.MachineSpinning
             var service = new MachineSpinningService(GetServiceProvider().Object, _dbContext(GetCurrentMethod()));
 
             var viewModel = _dataUtil(service).GetDataToValidate(_dbContext(GetCurrentMethod()));
-            viewModel.Type = "aaaaa";
+            //viewModel.Type = "aaaaa";
             List<MachineSpinningViewModel> machineSpinnings = new List<MachineSpinningViewModel>() { viewModel };
             var Response = service.UploadValidate(machineSpinnings, null);
             Assert.False(Response.Item1);
