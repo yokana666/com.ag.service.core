@@ -57,6 +57,34 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
             return TestData;
         }
 
+        public MachineSpinningCsvViewModel GetDataToUpload(CoreDbContext dbContext)
+        {
+            SetUnitAndUOM(dbContext);
+            var header = Service.GetMachineTypes();
+            MachineSpinningCsvViewModel TestData = new MachineSpinningCsvViewModel()
+            {
+                No = "11",
+                Code = "Code",
+                Name = "Name",
+                Year = 2018,
+                Condition = "Condition",
+                Type = header.First(),
+                Delivery = 2,
+                CapacityPerHour = 1808.123,
+                CounterCondition = "test",
+                Brand = "test",
+                UomId = "1",
+                UomUnit = dbContext.UnitOfMeasurements.FirstOrDefault().Unit,
+                Line = "Line",
+                UnitCode = "UnitC",
+                UnitId = "1",
+                MachineCode = "Code",
+                UnitName = dbContext.Units.FirstOrDefault().Name
+            };
+
+            return TestData;
+        }
+
         public MachineSpinningViewModel GetDataToValidate(CoreDbContext dbContext)
         {
             SetUnitAndUOM(dbContext);

@@ -14,7 +14,10 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(Type))
+            {
+                yield return new ValidationResult("Type Tidak boleh kosong", new List<string>() { "Type" });
+            }
         }
     }
 }

@@ -41,7 +41,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.MachineSpinning
 
             mocks.Service.Setup(f => f.CsvHeader).Returns(header.Split(',').ToList());
 
-            mocks.Service.Setup(f => f.UploadValidate(It.IsAny<List<MachineSpinningViewModel>>(), It.IsAny<List<KeyValuePair<string, StringValues>>>())).Returns(new Tuple<bool, List<object>>(true, new List<object>()));
+            mocks.Service.Setup(f => f.UploadValidate(It.IsAny<List<MachineSpinningCsvViewModel>>(), It.IsAny<List<KeyValuePair<string, StringValues>>>())).Returns(new Tuple<bool, List<object>>(true, new List<object>()));
             MachineSpinningProfile profile = new MachineSpinningProfile();
             
             mocks.Mapper.Setup(x => x.ConfigurationProvider).Returns(new MapperConfiguration(cfg => cfg.AddProfile(profile)));
@@ -82,7 +82,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.MachineSpinning
 
             mocks.Service.Setup(f => f.CsvHeader).Returns(header.Split(',').ToList());
 
-            mocks.Service.Setup(f => f.UploadValidate(It.IsAny<List<MachineSpinningViewModel>>(), It.IsAny<List<KeyValuePair<string, StringValues>>>())).Returns(new Tuple<bool, List<object>>(true, new List<object>()));
+            mocks.Service.Setup(f => f.UploadValidate(It.IsAny<List<MachineSpinningCsvViewModel>>(), It.IsAny<List<KeyValuePair<string, StringValues>>>())).Returns(new Tuple<bool, List<object>>(true, new List<object>()));
             MachineSpinningProfile profile = new MachineSpinningProfile();
 
             mocks.Mapper.Setup(x => x.ConfigurationProvider).Returns(new MapperConfiguration(cfg => cfg.AddProfile(profile)));
@@ -111,7 +111,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.MachineSpinning
 
             mocks.Service.Setup(f => f.CsvHeader).Returns(header.Split(',').ToList());
 
-            mocks.Service.Setup(f => f.UploadValidate(It.IsAny<List<MachineSpinningViewModel>>(), It.IsAny<List<KeyValuePair<string, StringValues>>>())).Returns(new Tuple<bool, List<object>>(true, new List<object>()));
+            mocks.Service.Setup(f => f.UploadValidate(It.IsAny<List<MachineSpinningCsvViewModel>>(), It.IsAny<List<KeyValuePair<string, StringValues>>>())).Returns(new Tuple<bool, List<object>>(true, new List<object>()));
             MachineSpinningProfile profile = new MachineSpinningProfile();
 
             mocks.Mapper.Setup(x => x.ConfigurationProvider).Returns(new MapperConfiguration(cfg => cfg.AddProfile(profile)));
@@ -139,7 +139,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.MachineSpinning
 
             mocks.Service.Setup(f => f.CsvHeader).Returns(header.Split(',').ToList());
 
-            mocks.Service.Setup(f => f.UploadValidate(It.IsAny<List<MachineSpinningViewModel>>(), It.IsAny<List<KeyValuePair<string, StringValues>>>())).Returns(new Tuple<bool, List<object>>(false, new List<object>()));
+            mocks.Service.Setup(f => f.UploadValidate(It.IsAny<List<MachineSpinningCsvViewModel>>(), It.IsAny<List<KeyValuePair<string, StringValues>>>())).Returns(new Tuple<bool, List<object>>(false, new List<object>()));
             MachineSpinningProfile profile = new MachineSpinningProfile();
 
             mocks.Mapper.Setup(x => x.ConfigurationProvider).Returns(new MapperConfiguration(cfg => cfg.AddProfile(profile)));

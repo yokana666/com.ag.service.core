@@ -56,7 +56,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.MachineSpinning
                         Csv.Configuration.RegisterClassMap<MachineSpinningService.MachineSpinningMap>();
                         Csv.Configuration.HeaderValidated = null;
 
-                        List<MachineSpinningViewModel> Data = Csv.GetRecords<MachineSpinningViewModel>().ToList();
+                        List<MachineSpinningCsvViewModel> Data = Csv.GetRecords<MachineSpinningCsvViewModel>().ToList();
 
                         Tuple<bool, List<object>> Validated = Service.UploadValidate(Data, Request.Form.ToList());
 
