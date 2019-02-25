@@ -224,6 +224,15 @@ namespace Com.DanLiris.Service.Core.Test.Services.MachineSpinning
         }
 
         [Fact]
+        public void Should_Success_Map_From_CSV()
+        {
+            var service = new MachineSpinningService(GetServiceProvider().Object, _dbContext(GetCurrentMethod()));
+            var vm = _dataUtil(service).GetDataToUpload(_dbContext(GetCurrentMethod()));
+            var models = service.MapFromCsv(new List<MachineSpinningCsvViewModel>() { vm });
+            Assert.NotNull(models.Count > 0);
+        }
+
+        [Fact]
         public void Should_Success_Get_MachineTypes()
         {
             var service = new MachineSpinningService(GetServiceProvider().Object, _dbContext(GetCurrentMethod()));
