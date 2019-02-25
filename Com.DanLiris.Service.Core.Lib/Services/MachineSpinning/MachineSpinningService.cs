@@ -330,15 +330,14 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                 const int pageSize = 1000;
                 int offset = 0;
                 int processed = 0;
-
-                var batch = data.Where((item, index) => offset <= index && index < offset + pageSize);
+                var codedData = GenerateCode(data);
+                var batch = codedData.Where((item, index) => offset <= index && index < offset + pageSize);
                 using (var transaction = _DbContext.Database.BeginTransaction())
                 {
                     while (batch.Count() > 0)
                     {
                         foreach (var item in batch)
                         {
-                            item.Code = GenerateCode(item);
                             var unit = _DbContext.Units.FirstOrDefault(x => x.Name == item.UnitName);
                             item.UnitId = unit?.Id.ToString();
                             item.UnitCode = unit?.Code.ToString();
@@ -397,6 +396,33 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                 return value + dataCountString + model.Line;
             }
             return "";
+        }
+
+        private List<MachineSpinningModel> GenerateCode(List<MachineSpinningModel> models)
+        {
+            var groupedModels = models.GroupBy(x => new { x.Type, x.Line });
+            foreach (var item in groupedModels)
+            {
+                int counter = _DbContext.MachineSpinnings.Count(x => x.Type == item.Key.Type && x.Line == item.Key.Line);
+                foreach (var model in item)
+                {
+                   
+                    string value;
+                    if(MachineTypes.TryGetValue(item.Key.Type, out value))
+                    {
+                        counter++;
+                        model.Code = value + counter.ToString("000") + item.Key.Line;
+                    }
+                    else
+                    {
+                        model.Code = "";
+                    }
+                    
+                }
+            }
+            return groupedModels.SelectMany(x => x).ToList();
+
+            
         }
 
         public List<MachineSpinningModel> GetSimple()
