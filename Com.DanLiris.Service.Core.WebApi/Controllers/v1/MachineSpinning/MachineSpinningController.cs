@@ -64,7 +64,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.MachineSpinning
 
                         if (Validated.Item1) /* If Data Valid */
                         {
-                            List<MachineSpinningModel> data = Mapper.Map<List<MachineSpinningModel>>(Data);
+                            List<MachineSpinningModel> data = Service.MapFromCsv(Data);
                             
                             await Service.UploadData(data);
 

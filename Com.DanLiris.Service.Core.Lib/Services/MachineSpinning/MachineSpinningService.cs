@@ -137,7 +137,9 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                     UnitCode = s.UnitCode,
                     UnitId = s.UnitId,
                     UnitName = s.UnitName,
-                    UomUnit = s.UomUnit
+                    UomUnit = s.UomUnit,
+                    MachineCode = s.MachineCode,
+                    Types = s.Types
                 });
 
             List<string> searchAttributes = new List<string>()
@@ -307,13 +309,14 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                     }
                 }
 
-                if (!string.IsNullOrEmpty(machineSpinningVM.Name) && !string.IsNullOrEmpty(machineSpinningVM.UnitName) && !string.IsNullOrEmpty(machineSpinningVM.No))
+                if (!string.IsNullOrEmpty(machineSpinningVM.Name) && !string.IsNullOrEmpty(machineSpinningVM.UnitName) && !string.IsNullOrEmpty(machineSpinningVM.No) && !string.IsNullOrEmpty(machineSpinningVM.Line)
+                    && !string.IsNullOrEmpty(machineSpinningVM.Brand) && !string.IsNullOrEmpty(machineSpinningVM.MachineCode) && !string.IsNullOrEmpty(machineSpinningVM.Type))
                 {
 
                     if (dbData.Any(r => r._IsDeleted.Equals(false) && r.Id != machineSpinningVM.Id && r.Name.Equals(machineSpinningVM.Name) && r.No == machineSpinningVM.No
-                                && r.UnitName == machineSpinningVM.UnitName && r.Line == machineSpinningVM.Line && r.Brand == machineSpinningVM.Brand && r.MachineCode == machineSpinningVM.MachineCode && r.Types.Any(z=> z.Type == machineSpinningVM.Type)))/* Name Unique */
+                                && r.UnitName == machineSpinningVM.UnitName && r.Line == machineSpinningVM.Line && r.Brand == machineSpinningVM.Brand && r.MachineCode == machineSpinningVM.MachineCode))/* Name Unique */
                     {
-                        ErrorMessage = string.Concat(ErrorMessage, "Nomor, Unit, Line, Merk, Type, Jenis Proses dan Kode Mesin sudah ada di database, ");
+                        ErrorMessage = string.Concat(ErrorMessage, "Nomor, Unit, Line, Merk, Type dan Kode Mesin sudah ada di database, ");
                     }
 
                     if (Data.Any(d => d != machineSpinningVM && d.Name.Equals(machineSpinningVM.Name) && d.UnitName.Equals(machineSpinningVM.UnitName) && d.No.Equals(machineSpinningVM.No)
@@ -481,6 +484,45 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                 MachineCode = x.MachineCode,
                 Types = x.Types
             }).ToList();
+        }
+
+        public List<MachineSpinningModel> MapFromCsv(List<MachineSpinningCsvViewModel> data)
+        {
+            var grouped = data.GroupBy(x => new { x.No, x.UnitName, x.Line, x.Name, x.Brand, x.MachineCode });
+            List<MachineSpinningModel> result = new List<MachineSpinningModel>();
+            foreach(var item in grouped)
+            {
+                var newModel = new MachineSpinningModel()
+                {
+                    Brand = item.Key.Brand,
+                    CapacityPerHour = item.First().CapacityPerHour.GetValueOrDefault(),
+                    Code = "",
+                    Condition = item.First().Condition,
+                    CounterCondition = item.First().CounterCondition,
+                    Delivery = item.First().Delivery.GetValueOrDefault(),
+                    Line = item.Key.Line,
+                    MachineCode = item.Key.MachineCode,
+                    Name = item.Key.Name,
+                    No = item.Key.No,
+                    UnitCode = "",
+                    UnitId = "",
+                    UnitName = item.Key.UnitName,
+                    UomId = "",
+                    UomUnit = item.First().UomUnit,
+                    Year = item.First().Year.GetValueOrDefault(),
+                    Types = new List<MachineSpinningProcessType>()                    
+                };
+                foreach(var detail in item)
+                {
+                    var newType = new MachineSpinningProcessType()
+                    {
+                        Type = detail.Type
+                    };
+                    newModel.Types.Add(newType);
+                }
+                result.Add(newModel);
+            }
+            return result;
         }
     }
 
