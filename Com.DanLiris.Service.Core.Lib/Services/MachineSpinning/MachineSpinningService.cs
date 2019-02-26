@@ -524,6 +524,37 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
             }
             return result;
         }
+
+        public List<MachineSpinningModel> GetFilteredSpinning(string type, string unitId)
+        {
+            return this._DbSet.Include(x => x.Types).Where(x => x.UnitId == unitId && x.Types.Any(y => y.Type == type)).Select(x => new MachineSpinningModel()
+            {
+                Id = x.Id,
+                No = x.No,
+                Code = x.Code,
+                Brand = x.Brand,
+                Name = x.Name,
+                //Type = x.Type,
+                Year = x.Year,
+                Condition = x.Condition,
+                CounterCondition = x.CounterCondition,
+                Delivery = x.Delivery,
+                CapacityPerHour = x.CapacityPerHour,
+                UomId = x.UomId,
+                UomUnit = x.UomUnit,
+                Line = x.Line,
+                UnitCode = x.UnitCode,
+                UnitId = x.UnitId,
+                UnitName = x.UnitName,
+                MachineCode = x.MachineCode,
+                Types = x.Types.Select(y => new MachineSpinningProcessType()
+                {
+                    Type = y.Type,
+                    Id = y.Id,
+                    MachineSpinningId = y.MachineSpinningId
+                }).ToList()
+            }).ToList();
+        }
     }
 
 }

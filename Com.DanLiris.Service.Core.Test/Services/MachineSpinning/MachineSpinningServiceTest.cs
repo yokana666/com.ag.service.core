@@ -322,5 +322,13 @@ namespace Com.DanLiris.Service.Core.Test.Services.MachineSpinning
             var Response = service.GetSimple();
             Assert.NotNull(Response);
         }
+
+        [Fact]
+        public void TestSpinningFiltered()
+        {
+            var service = new MachineSpinningService(GetServiceProvider().Object, _dbContext(GetCurrentMethod()));
+            var Response = service.GetFilteredSpinning("","");
+            Assert.NotNull(Response);
+        }
     }
 }
