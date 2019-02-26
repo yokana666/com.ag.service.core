@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
 {
-    public interface IMachineSpinningService : IBaseService<MachineSpinningModel>, IBasicUploadCsvService<MachineSpinningViewModel>
+    public interface IMachineSpinningService : IBaseService<MachineSpinningModel>, IBasicUploadCsvService<MachineSpinningCsvViewModel>
     {
+        List<MachineSpinningModel> MapFromCsv(List<MachineSpinningCsvViewModel> data);
         Task<int> UploadData(List<MachineSpinningModel> data);
         MemoryStream DownloadTemplate();
         List<string> GetMachineTypes();

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Com.DanLiris.Service.Core.Lib.ViewModels
 {
-    public class MachineSpinningViewModel : BasicViewModel, IValidatableObject
+    public class MachineSpinningCsvViewModel : BasicViewModel, IValidatableObject
     {
         public string No { get; set; }
         public string Code { get; set; }
@@ -13,7 +13,7 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
         public string Name { get; set; }
         public int? Year { get; set; }
         public string Condition { get; set; }
-        //public string Type { get; set; }
+        public string Type { get; set; }
         public string CounterCondition { get; set; }
         public int? Delivery { get; set; }
         public double? CapacityPerHour { get; set; }
@@ -25,8 +25,7 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
         public string UnitName { get; set; }
         public string MachineCode { get; set; }
 
-
-        public List<MachineSpinningProcessTypeViewModel> Types { get; set; }
+        
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
@@ -50,7 +49,7 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
                 yield return new ValidationResult("Unit harus diisi", new List<string> { "Unit" });
 
             if (!string.IsNullOrEmpty(No) && !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(UnitName) && !string.IsNullOrEmpty(Line)
-                    && !string.IsNullOrEmpty(Brand) /*&& !string.IsNullOrEmpty(Type)*/)
+                    && !string.IsNullOrEmpty(Brand) && !string.IsNullOrEmpty(Type) && !string.IsNullOrEmpty(MachineCode))
             {
                 CoreDbContext dbContext = validationContext == null ? null : (CoreDbContext)validationContext.GetService(typeof(CoreDbContext));
                 var duplicate = dbContext.MachineSpinnings.Where(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Name.Equals(this.Name)
@@ -63,8 +62,7 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
                     yield return new ValidationResult("Mesin sudah ada", new List<string> { "Unit" });
                     yield return new ValidationResult("Mesin sudah ada", new List<string> { "Line" });
                     yield return new ValidationResult("Mesin sudah ada", new List<string> { "Brand" });
-                    //yield return new ValidationResult("Mesin sudah ada", new List<string> { "Type" });
-                    yield return new ValidationResult("Mesin sudah ada", new List<string> { "MachineCode" });
+                    yield return new ValidationResult("Mesin sudah ada", new List<string> { "Type" });
                 }
             }
 
@@ -83,10 +81,10 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
                 yield return new ValidationResult("Kondisi Counter harus diisi", new List<string> { "CounterCondition" });
             }
 
-            //if (string.IsNullOrWhiteSpace(Type))
-            //{
-            //    yield return new ValidationResult("Jenis Proses harus diisi", new List<string> { "Type" });
-            //}
+            if (string.IsNullOrWhiteSpace(Type))
+            {
+                yield return new ValidationResult("Jenis Proses harus diisi", new List<string> { "Type" });
+            }
 
             if (Delivery == null || Delivery <= 0)
             {
@@ -103,34 +101,11 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
                 yield return new ValidationResult("Kapasitas per Jam harus diisi", new List<string> { "CapacityPerHour" });
             }
 
+            if (string.IsNullOrEmpty(MachineCode))
+                yield return new ValidationResult("Kode Mesin harus diisi", new List<string> { "MachineCode" });
+
             if (string.IsNullOrEmpty(Line))
                 yield return new ValidationResult("Line harus diisi", new List<string> { "Line" });
-
-            if (string.IsNullOrEmpty(MachineCode))
-            {
-                yield return new ValidationResult("Machine Code harus diisi", new List<string>() { "MachineCode" });
-            }
-
-            if(Types == null || Types.Count == 0)
-            {
-                yield return new ValidationResult("Types harus diisi", new List<string>() { "Types" });
-            }
-            else
-            {
-                foreach(var item in Types)
-                {
-                    if (Types.Any(x => x != item && x.Type == item.Type))
-                    {
-                        yield return new ValidationResult("Jenis Proses Tidak bisa duplikat", new List<string>() { "Types" });
-                        break;
-                    }
-                        
-
-                }
-            }
-
-
         }
     }
-
 }

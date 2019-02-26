@@ -1,4 +1,5 @@
 ﻿using Com.Moonlay.Models;
+using System.Collections.Generic;
 
 namespace Com.DanLiris.Service.Core.Lib.Models
 {
@@ -9,7 +10,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 
         public string Brand { get; set; }
         public string Name { get; set; }
-        public string Type { get; set; }
+        //public string Type { get; set; }
         public int Year { get; set; }
         public string Condition { get; set; }
         public string CounterCondition { get; set; }
@@ -21,5 +22,9 @@ namespace Com.DanLiris.Service.Core.Lib.Models
         public string UnitId { get; set; }
         public string UnitCode { get; set; }
         public string UnitName { get; set; }
+        public string MachineCode { get; set; }
+
+
+        public virtual ICollection<MachineSpinningProcessType> Types { get; set; }
     }
 }
