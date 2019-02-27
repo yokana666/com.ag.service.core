@@ -176,5 +176,27 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.MachineSpinning
                 return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
             }
         }
+
+        [HttpGet("spinning-filtered")]
+        public IActionResult GetFilteredForSpinning(string type, string unitId)
+        {
+            try
+            {
+                List<MachineSpinningModel> result = Service.GetFilteredSpinning(type, unitId);
+                List<MachineSpinningViewModel> dataVM = Mapper.Map<List<MachineSpinningViewModel>>(result);
+                Dictionary<string, object> Result =
+                    new Helpers.ResultFormatter(ApiVersion, General.OK_STATUS_CODE, General.OK_MESSAGE)
+                    .Ok(result);
+
+                return Ok(Result);
+            }
+            catch (Exception e)
+            {
+                Dictionary<string, object> Result =
+                    new Helpers.ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, e.Message)
+                    .Fail();
+                return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
+            }
+        }
     }
 }

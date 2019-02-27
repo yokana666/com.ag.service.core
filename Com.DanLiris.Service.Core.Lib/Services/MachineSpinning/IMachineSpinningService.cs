@@ -14,5 +14,6 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
         MemoryStream DownloadTemplate();
         List<string> GetMachineTypes();
         List<MachineSpinningModel> GetSimple();
+        List<MachineSpinningModel> GetFilteredSpinning(string type, string unitId);
     }
 }
