@@ -94,17 +94,17 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             return Tuple.Create(Data, TotalData, OrderDictionary, SelectedFields);
         }
 
-        public override void OnCreating(GarmentComodity model)
-        {
-            CodeGenerator codeGenerator = new CodeGenerator();
+        //public override void OnCreating(GarmentComodity model)
+        //{
+        //    CodeGenerator codeGenerator = new CodeGenerator();
 
-            do
-            {
-                model.Code = codeGenerator.GenerateCode();
-            }
-            while (this.DbSet.Any(d => d.Code.Equals(model.Code)));
+        //    do
+        //    {
+        //        model.Code = codeGenerator.GenerateCode();
+        //    }
+        //    while (this.DbSet.Any(d => d.Code.Equals(model.Code)));
 
-            base.OnCreating(model);
-        }
+        //    base.OnCreating(model);
+        //}
     }
 }

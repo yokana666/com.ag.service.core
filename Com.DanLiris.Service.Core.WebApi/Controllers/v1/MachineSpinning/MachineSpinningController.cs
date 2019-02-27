@@ -7,12 +7,14 @@ using Com.DanLiris.Service.Core.Lib.ViewModels;
 using Com.DanLiris.Service.Core.WebApi.Helpers;
 using Com.DanLiris.Service.Core.WebApi.Utils;
 using CsvHelper;
+using CsvHelper.TypeConversion;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.MachineSpinning
@@ -54,7 +56,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.MachineSpinning
                         Csv.Configuration.RegisterClassMap<MachineSpinningService.MachineSpinningMap>();
                         Csv.Configuration.HeaderValidated = null;
 
-                        List<MachineSpinningViewModel> Data = Csv.GetRecords<MachineSpinningViewModel>().ToList();
+                        List<MachineSpinningCsvViewModel> Data = Csv.GetRecords<MachineSpinningCsvViewModel>().ToList();
 
                         Tuple<bool, List<object>> Validated = Service.UploadValidate(Data, Request.Form.ToList());
 
@@ -62,7 +64,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.MachineSpinning
 
                         if (Validated.Item1) /* If Data Valid */
                         {
-                            List<MachineSpinningModel> data = Mapper.Map<List<MachineSpinningModel>>(Data);
+                            List<MachineSpinningModel> data = Service.MapFromCsv(Data);
                             
                             await Service.UploadData(data);
 
@@ -104,6 +106,14 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.MachineSpinning
                     return BadRequest(Result);
                 }
             }
+            catch(TypeConverterException ex)
+            {
+                Dictionary<string, object> Result =
+                  new Utils.ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, "Tahun, Delivery atau Kapasitas diisi huruf")
+                  .Fail();
+
+                return StatusCode((int)HttpStatusCode.InternalServerError, Result);
+            }
             catch (Exception e)
             {
                 Dictionary<string, object> Result =
@@ -143,6 +153,50 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.MachineSpinning
         {
             var result = Service.GetMachineTypes();
             return Ok(result);
+        }
+
+        [HttpGet("simple")]
+        public IActionResult GetSimple()
+        {
+            try
+            {
+                List<MachineSpinningModel> result = Service.GetSimple();
+                List<MachineSpinningViewModel> dataVM = Mapper.Map<List<MachineSpinningViewModel>>(result);
+                Dictionary<string, object> Result =
+                    new Helpers.ResultFormatter(ApiVersion, General.OK_STATUS_CODE, General.OK_MESSAGE)
+                    .Ok(result);
+
+                return Ok(Result);
+            }
+            catch (Exception e)
+            {
+                Dictionary<string, object> Result =
+                    new Helpers.ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, e.Message)
+                    .Fail();
+                return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
+            }
+        }
+
+        [HttpGet("spinning-filtered")]
+        public IActionResult GetFilteredForSpinning(string type, string unitId)
+        {
+            try
+            {
+                List<MachineSpinningModel> result = Service.GetFilteredSpinning(type, unitId);
+                List<MachineSpinningViewModel> dataVM = Mapper.Map<List<MachineSpinningViewModel>>(result);
+                Dictionary<string, object> Result =
+                    new Helpers.ResultFormatter(ApiVersion, General.OK_STATUS_CODE, General.OK_MESSAGE)
+                    .Ok(result);
+
+                return Ok(Result);
+            }
+            catch (Exception e)
+            {
+                Dictionary<string, object> Result =
+                    new Helpers.ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, e.Message)
+                    .Fail();
+                return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
+            }
         }
     }
 }

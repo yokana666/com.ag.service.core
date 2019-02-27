@@ -1,4 +1,3 @@
-using Com.Danliris.Service.Core.Mongo.MongoModels;
 using Com.DanLiris.Service.Core.Lib.Services;
 using Com.Moonlay.Models;
 using System.Collections.Generic;
@@ -9,27 +8,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 {
     public class Uom : StandardEntity, IValidatableObject
     {
-        public Uom()
-        {
-        }
-
-        public Uom(UnitOfMeasurementMongo mongoUom)
-        {
-            Active = mongoUom._active;
-            UId = mongoUom._id.ToString();
-            Unit = mongoUom.unit;
-            _CreatedAgent = mongoUom._createAgent;
-            _CreatedBy = mongoUom._createdBy;
-            _CreatedUtc = mongoUom._createdDate;
-            _DeletedAgent = mongoUom._updateAgent;
-            _DeletedBy = mongoUom._updatedBy;
-            _DeletedUtc = mongoUom._updatedDate;
-            _IsDeleted = mongoUom._deleted;
-            _LastModifiedAgent = mongoUom._updateAgent;
-            _LastModifiedBy = mongoUom._updatedBy;
-            _LastModifiedUtc = mongoUom._updatedDate;
-        }
-
+        
         [MaxLength(255)]
         public string UId { get; set; }
 

@@ -41,7 +41,7 @@ namespace Com.DanLiris.Service.Core.Lib.Models
                 /* Service Validation */
                 StorageService service = (StorageService)validationContext.GetService(typeof(StorageService));
 
-                if (service.DbContext.Set<Storage>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Name.Equals(this.Name) && this.UnitId.Equals(this.UnitId)) > 0)
+                if (service.DbContext.Set<Storage>().Count(r => r._IsDeleted.Equals(false) && r.Id != this.Id && r.Name.Equals(this.Name) && r.UnitId.Equals(this.UnitId)) > 0)
                 {
                     validationResult.Add(new ValidationResult("Name and Unit already exists", new List<string> { "name" }));
                     validationResult.Add(new ValidationResult("Name and Unit already exists", new List<string> { "unit" }));

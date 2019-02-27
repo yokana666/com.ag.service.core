@@ -1209,6 +1209,59 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     b.ToTable("GarmentProducts");
                 });
 
+            modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.GarmentSection", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Active");
+
+                    b.Property<string>("Code");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Remark");
+
+                    b.Property<string>("UId")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_CreatedAgent")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("_CreatedUtc");
+
+                    b.Property<string>("_DeletedAgent")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_DeletedBy")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("_DeletedUtc");
+
+                    b.Property<bool>("_IsDeleted");
+
+                    b.Property<string>("_LastModifiedAgent")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_LastModifiedBy")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("_LastModifiedUtc");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GarmentSections");
+                });
+
             modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.GarmentSupplier", b =>
                 {
                     b.Property<int>("Id")
@@ -1476,9 +1529,11 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.Property<string>("Line");
 
+                    b.Property<string>("MachineCode");
+
                     b.Property<string>("Name");
 
-                    b.Property<string>("Type");
+                    b.Property<string>("No");
 
                     b.Property<string>("UnitCode");
 
@@ -1527,6 +1582,56 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MachineSpinnings");
+                });
+
+            modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.MachineSpinningProcessType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Active");
+
+                    b.Property<int>("MachineSpinningId");
+
+                    b.Property<string>("Type");
+
+                    b.Property<string>("_CreatedAgent")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("_CreatedUtc");
+
+                    b.Property<string>("_DeletedAgent")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_DeletedBy")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("_DeletedUtc");
+
+                    b.Property<bool>("_IsDeleted");
+
+                    b.Property<string>("_LastModifiedAgent")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_LastModifiedBy")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("_LastModifiedUtc");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MachineSpinningId");
+
+                    b.ToTable("MachineSpinningProcessType");
                 });
 
             modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.MaterialConstruction", b =>
@@ -1712,7 +1817,8 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.Property<string>("CurrencySymbol");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .HasMaxLength(1000);
 
                     b.Property<string>("Name");
 
@@ -1903,6 +2009,73 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Qualities");
+                });
+
+            modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.StandardMinuteValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Active");
+
+                    b.Property<string>("BuyerCode");
+
+                    b.Property<int>("BuyerId");
+
+                    b.Property<string>("BuyerName");
+
+                    b.Property<string>("ComodityCode");
+
+                    b.Property<int>("ComodityId");
+
+                    b.Property<string>("ComodityName");
+
+                    b.Property<decimal>("SMVCutting");
+
+                    b.Property<DateTimeOffset>("SMVDate");
+
+                    b.Property<decimal>("SMVFinishing");
+
+                    b.Property<decimal>("SMVSewing");
+
+                    b.Property<string>("UId")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_CreatedAgent")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("_CreatedUtc");
+
+                    b.Property<string>("_DeletedAgent")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_DeletedBy")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("_DeletedUtc");
+
+                    b.Property<bool>("_IsDeleted");
+
+                    b.Property<string>("_LastModifiedAgent")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_LastModifiedBy")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("_LastModifiedUtc");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StandardMinuteValues");
                 });
 
             modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.StandardTests", b =>
@@ -2320,6 +2493,14 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     b.HasOne("Com.DanLiris.Service.Core.Lib.Models.Account_and_Roles.Role", "Role")
                         .WithMany("Permissions")
                         .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.MachineSpinningProcessType", b =>
+                {
+                    b.HasOne("Com.DanLiris.Service.Core.Lib.Models.MachineSpinningModel", "MachineSpinning")
+                        .WithMany("Types")
+                        .HasForeignKey("MachineSpinningId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
