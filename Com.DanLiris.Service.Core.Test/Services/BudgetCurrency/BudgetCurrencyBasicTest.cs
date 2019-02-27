@@ -1,9 +1,13 @@
 ﻿using Com.Danliris.Service.Core.Test.Helpers;
 using Com.DanLiris.Service.Core.Lib;
 using Com.DanLiris.Service.Core.Lib.Services;
+using Com.DanLiris.Service.Core.Lib.ViewModels;
 using Com.DanLiris.Service.Core.Test.DataUtils;
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using Xunit;
 using Models = Com.DanLiris.Service.Core.Lib.Models;
 
@@ -21,16 +25,16 @@ namespace Com.DanLiris.Service.Core.Test.Services.BudgetCurrency
 		}
 
 		public override void EmptyCreateModel(Models.BudgetCurrency model)
-		{
-			model.Code = "Test";
-			model.Date = DateTime.Now;
+        {
+            model.Code = "Test";
+            model.Date = DateTime.Now;
 			model.Rate = 1;
 		}
 
 		public override void EmptyUpdateModel(Models.BudgetCurrency model)
-		{
-			model.Code = "Test";
-			model.Date = DateTime.Now;
+        {
+            model.Code = "Test";
+            model.Date = DateTime.Now;
 			model.Rate = 1;
 		}
 
@@ -61,8 +65,32 @@ namespace Com.DanLiris.Service.Core.Test.Services.BudgetCurrency
         public async void GetByTags()
         {
             Models.BudgetCurrency model = await DataUtil.GetTestDataAsync();
-            var Response = Services.GetByCode(model.Code, model.Date );
+            var Response = Services.GetByCode(model.Code );
             Assert.NotNull(Response);
         }
+
+
+        [Fact]
+        public async void Should_Error_Upload_CSV_Data_DuplicateCode()
+        {
+            BudgetCurrencyViewModel Vmodel5 = await DataUtil.GetNewData2();
+            BudgetCurrencyViewModel Vmodel6 = await DataUtil.GetNewData3();
+            var Response = Services.UploadValidate(new List<BudgetCurrencyViewModel> { Vmodel5, Vmodel6 }, new List<KeyValuePair<string, StringValues>>{});
+            Assert.Equal(Response.Item1, false);
+        }
+        
+        //[Fact]
+        //public async void Should_Success_Upload_CSV_Data_when_UseTax_False()
+        //{
+        //    BudgetCurrencyViewModel Vmodel6 = await DataUtil.GetNewData4();
+
+        //    const string DATE_KEYWORD = "date";
+        //    DateTime Date;
+        //    List<KeyValuePair<string, StringValues>> Body = null;
+        //    string DateString = Body.SingleOrDefault(s => s.Key.Equals(DATE_KEYWORD)).Value;
+        //    bool ValidDate = DateTime.TryParseExact(DateString, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out Date);
+        //    var Response = Services.UploadValidate(new List<BudgetCurrencyViewModel> { Vmodel6 }, new List<KeyValuePair<string, StringValues>> { });
+        //    Assert.Equal(Response.Item1, true);
+        //}
     }
 }

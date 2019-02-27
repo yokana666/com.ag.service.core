@@ -76,7 +76,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
                     ProductionOrderId = 1,
                     
                 },
-                Code = "Code",
+                Code = string.Format("Code {0}", guid),
                 Name = string.Format("TEST {0}", guid),
                 CurrencySymbol = "curr",
                 Active = true,
@@ -95,6 +95,14 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
         public override async Task TestCreateModel_Exist()
         {
             Skip.If(true);
+        }
+
+        [Fact]
+        public void TestSimple()
+        {
+            
+           var data = Service.GetSimple();
+            Assert.NotNull(data);
         }
     }
 }

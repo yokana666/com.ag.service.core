@@ -2,18 +2,17 @@
 using Com.DanLiris.Service.Core.Lib;
 using Com.DanLiris.Service.Core.Lib.Services;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 using Models = Com.DanLiris.Service.Core.Lib.Models;
+
 namespace Com.DanLiris.Service.Core.Test.Services.GarmentComodity
 {
     [Collection("ServiceProviderFixture Collection")]
     public class GarmentComodityBasicTest : BasicServiceTest<CoreDbContext, GarmentComodityService, Models.GarmentComodity>
     {
-        private static readonly string[] createAttrAssertions = { "Name" };
-        private static readonly string[] updateAttrAssertions = { "Name" };
-        private static readonly string[] existAttrCriteria = { "Name" };
+        private static readonly string[] createAttrAssertions = { "Code", "Name" };
+        private static readonly string[] updateAttrAssertions = { "Code", "Name" };
+        private static readonly string[] existAttrCriteria = { "Code", "Name" };
         public GarmentComodityBasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
         {
         }

@@ -10,6 +10,8 @@ namespace Com.DanLiris.Service.Core.Lib.AutoMapperProfiles
         {
             CreateMap<MachineSpinningModel, MachineSpinningViewModel>()
                 .ReverseMap();
+            CreateMap<MachineSpinningProcessType, MachineSpinningProcessTypeViewModel>()
+                .ReverseMap();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Com.DanLiris.Service.Core.Lib;
 using Com.DanLiris.Service.Core.Lib.Services;
+using Com.DanLiris.Service.Core.Lib.Services.MachineSpinning;
 using Com.DanLiris.Service.Core.Test.DataUtils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -60,7 +61,9 @@ namespace Com.DanLiris.Service.Core.Test
                 .AddTransient<GarmentCategoryService>(provider => new GarmentCategoryService(provider))
                 .AddTransient<GarmentBuyerService>(provider => new GarmentBuyerService(provider))
                 .AddTransient<GarmentComodityService>(provider => new GarmentComodityService(provider))
-				.AddTransient<GarmentSupplierDataUtil>()
+                .AddTransient<GarmentSectionService>(provider => new GarmentSectionService(provider))
+                .AddTransient<StandardMinuteValueService>(provider => new StandardMinuteValueService(provider))
+                .AddTransient<GarmentSupplierDataUtil>()
                 .AddTransient<GarmentBuyerBrandDataUtil>()
                 .AddTransient<GarmentBuyerDataUtil>()
                 .AddTransient<GarmentSupplierService>(provider => new GarmentSupplierService(provider))
@@ -71,8 +74,12 @@ namespace Com.DanLiris.Service.Core.Test
 				.AddTransient<GarmentCurrencyDataUtil>()
 				.AddTransient<BudgetCurrencyService>(provider => new BudgetCurrencyService(provider))
 				.AddTransient<BudgetCurrencyDataUtil>()
+                .AddTransient<UomService>(provider => new UomService(provider))
+                .AddTransient<UomServiceDataUtil>()
+                .AddTransient<MachineSpinningService>(provider => new MachineSpinningService(provider))
+                .AddTransient<MachineSpinningDataUtil>()
 
-				.BuildServiceProvider();
+                .BuildServiceProvider();
 
             CoreDbContext dbContext = ServiceProvider.GetService<CoreDbContext>();
             dbContext.Database.Migrate();

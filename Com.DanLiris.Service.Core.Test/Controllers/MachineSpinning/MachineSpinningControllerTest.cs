@@ -14,13 +14,23 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Com.DanLiris.Service.Core.Test.Controllers.MachineSpinning
 {
+    [Collection("TestFixture Collection")]
     public class MachineSpinningControllerTest : BaseControllerTest<MachineSpinningController, MachineSpinningModel, MachineSpinningViewModel, IMachineSpinningService>
     {
+        private const string URI = "v1/master/machine-spinnings";
+        protected TestServerFixture TestFixture { get; set; }
+        protected HttpClient Client
+        {
+            get { return this.TestFixture.Client; }
+        }
+
         [Fact]
         public void UploadFile_WithoutException_ReturnOK()
         {
@@ -31,7 +41,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.MachineSpinning
 
             mocks.Service.Setup(f => f.CsvHeader).Returns(header.Split(',').ToList());
 
-            mocks.Service.Setup(f => f.UploadValidate(It.IsAny<List<MachineSpinningViewModel>>(), It.IsAny<List<KeyValuePair<string, StringValues>>>())).Returns(new Tuple<bool, List<object>>(true, new List<object>()));
+            mocks.Service.Setup(f => f.UploadValidate(It.IsAny<List<MachineSpinningCsvViewModel>>(), It.IsAny<List<KeyValuePair<string, StringValues>>>())).Returns(new Tuple<bool, List<object>>(true, new List<object>()));
             MachineSpinningProfile profile = new MachineSpinningProfile();
             
             mocks.Mapper.Setup(x => x.ConfigurationProvider).Returns(new MapperConfiguration(cfg => cfg.AddProfile(profile)));
@@ -72,7 +82,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.MachineSpinning
 
             mocks.Service.Setup(f => f.CsvHeader).Returns(header.Split(',').ToList());
 
-            mocks.Service.Setup(f => f.UploadValidate(It.IsAny<List<MachineSpinningViewModel>>(), It.IsAny<List<KeyValuePair<string, StringValues>>>())).Returns(new Tuple<bool, List<object>>(true, new List<object>()));
+            mocks.Service.Setup(f => f.UploadValidate(It.IsAny<List<MachineSpinningCsvViewModel>>(), It.IsAny<List<KeyValuePair<string, StringValues>>>())).Returns(new Tuple<bool, List<object>>(true, new List<object>()));
             MachineSpinningProfile profile = new MachineSpinningProfile();
 
             mocks.Mapper.Setup(x => x.ConfigurationProvider).Returns(new MapperConfiguration(cfg => cfg.AddProfile(profile)));
@@ -101,7 +111,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.MachineSpinning
 
             mocks.Service.Setup(f => f.CsvHeader).Returns(header.Split(',').ToList());
 
-            mocks.Service.Setup(f => f.UploadValidate(It.IsAny<List<MachineSpinningViewModel>>(), It.IsAny<List<KeyValuePair<string, StringValues>>>())).Returns(new Tuple<bool, List<object>>(true, new List<object>()));
+            mocks.Service.Setup(f => f.UploadValidate(It.IsAny<List<MachineSpinningCsvViewModel>>(), It.IsAny<List<KeyValuePair<string, StringValues>>>())).Returns(new Tuple<bool, List<object>>(true, new List<object>()));
             MachineSpinningProfile profile = new MachineSpinningProfile();
 
             mocks.Mapper.Setup(x => x.ConfigurationProvider).Returns(new MapperConfiguration(cfg => cfg.AddProfile(profile)));
@@ -129,7 +139,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.MachineSpinning
 
             mocks.Service.Setup(f => f.CsvHeader).Returns(header.Split(',').ToList());
 
-            mocks.Service.Setup(f => f.UploadValidate(It.IsAny<List<MachineSpinningViewModel>>(), It.IsAny<List<KeyValuePair<string, StringValues>>>())).Returns(new Tuple<bool, List<object>>(false, new List<object>()));
+            mocks.Service.Setup(f => f.UploadValidate(It.IsAny<List<MachineSpinningCsvViewModel>>(), It.IsAny<List<KeyValuePair<string, StringValues>>>())).Returns(new Tuple<bool, List<object>>(false, new List<object>()));
             MachineSpinningProfile profile = new MachineSpinningProfile();
 
             mocks.Mapper.Setup(x => x.ConfigurationProvider).Returns(new MapperConfiguration(cfg => cfg.AddProfile(profile)));
@@ -174,6 +184,36 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.MachineSpinning
 
             var response = GetController(mocks).GetMachineTypes();
 
+            Assert.Equal((int)HttpStatusCode.OK, GetStatusCode(response));
+        }
+
+        [Fact]
+        public async Task GetSimple()
+        {
+            var mocks = GetMocks();
+            mocks.Service.Setup(f => f.GetSimple()).Throws(new Exception());
+
+            var response = GetController(mocks).GetSimple();
+            Assert.Equal((int)HttpStatusCode.InternalServerError, GetStatusCode(response));
+        }
+
+        [Fact]
+        public void GetSpinningFiltered_Fail()
+        {
+            var mocks = GetMocks();
+            mocks.Service.Setup(f => f.GetFilteredSpinning(It.IsAny<string>(), It.IsAny<string>())).Throws(new Exception());
+
+            var response = GetController(mocks).GetFilteredForSpinning("","");
+            Assert.Equal((int)HttpStatusCode.InternalServerError, GetStatusCode(response));
+        }
+
+        [Fact]
+        public void GetSpinningFiltered_Ok()
+        {
+            var mocks = GetMocks();
+            mocks.Service.Setup(f => f.GetFilteredSpinning(It.IsAny<string>(), It.IsAny<string>())).Returns(new List<MachineSpinningModel>());
+
+            var response = GetController(mocks).GetFilteredForSpinning("","");
             Assert.Equal((int)HttpStatusCode.OK, GetStatusCode(response));
         }
     }

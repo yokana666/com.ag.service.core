@@ -236,5 +236,16 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
             return Tuple.Create(Valid, ErrorList);
         }
+
+        public List<Unit> GetSimple()
+        {
+            return this.DbSet.Select(x => new Unit()
+            {
+                Id = x.Id,
+                Code = x.Code,
+                Description = x.Description,
+                Name = x.Name
+            }).ToList();
+        }
     }
 }

@@ -166,6 +166,10 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 				{
 					ErrorMessage = string.Concat(ErrorMessage, "Mata Uang tidak boleh kosong, ");
 				}
+                else if (Data.Any(d => d != budgetCurrencyVM && d.code.Equals(budgetCurrencyVM.code)))
+                {
+                    ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
+                }
 
 				double Rate = 0;
 				if (string.IsNullOrWhiteSpace(budgetCurrencyVM.rate))
@@ -210,6 +214,12 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 					{
 						ErrorMessage = string.Concat(ErrorMessage, "Mata Uang dan Tanggal tidak boleh duplikat, ");
 					}
+                    
+                    /* Service Validation */
+                    if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(budgetCurrencyVM.code)))
+                    {
+                        ErrorMessage = string.Concat(ErrorMessage, "Kode tidak boleh duplikat, ");
+                    }
 				}
 
 				if (string.IsNullOrEmpty(ErrorMessage))
@@ -245,7 +255,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 				.ToList();
 		}
 
-        public IQueryable<BudgetCurrency> GetByCode(string code, DateTime date)
+        public IQueryable<BudgetCurrency> GetByCode(string code)
         {
             IQueryable<BudgetCurrency> Query = this.DbContext.BudgetCurrencies;
             
@@ -259,7 +269,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                   "Code", "Date"
             };
 
-            Query = Query.Where(a=>a.Code.Equals(code) && a.Date <= date)
+            Query = Query.Where(a=>a.Code.Equals(code))
                 .Select(p => new BudgetCurrency
                 {
                     Code = p.Code,
