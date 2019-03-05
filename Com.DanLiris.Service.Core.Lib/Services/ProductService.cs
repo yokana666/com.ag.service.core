@@ -390,14 +390,11 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
         public List<Product> GetSimple()
         {
-            return this.DbSet.Select(x => new Product()
+            return DbSet.IgnoreQueryFilters().Select(x => new Product()
             {
                 Id = x.Id,
-                Name = x.Name,
                 Code = x.Code,
-                Price = x.Price,
-                Tags = x.Tags,
-                Description = x.Description
+                Name = x.Name
             }).ToList();
         }
 
