@@ -2,6 +2,8 @@
 using Com.DanLiris.Service.Core.Lib;
 using Com.DanLiris.Service.Core.Lib.Helpers.IdentityService;
 using Com.DanLiris.Service.Core.Lib.Helpers.ValidateService;
+using Com.DanLiris.Service.Core.Lib.IntegrationService;
+using Com.DanLiris.Service.Core.Lib.MongoRepositories;
 using Com.DanLiris.Service.Core.Lib.Services;
 using Com.DanLiris.Service.Core.Lib.Services.Account_and_Roles;
 using Com.DanLiris.Service.Core.Lib.Services.MachineSpinning;
@@ -13,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using MongoDB.Driver;
 using Newtonsoft.Json.Serialization;
 using System.Text;
 
@@ -98,6 +101,20 @@ namespace Com.DanLiris.Service.Core.WebApi
                     options.AssumeDefaultVersionWhenUnspecified = true;
                     options.DefaultApiVersion = new ApiVersion(1, 1);
                 });
+
+            services.Configure<MongoDbSettings>(
+               options =>
+               {
+                   options.ConnectionString = Configuration.GetConnectionString("MongoConnection") ?? Configuration["MongoConnection"];
+                   options.Database = Configuration.GetConnectionString("MongoDatabase") ?? Configuration["MongoDatabase"];
+               });
+
+            services.AddSingleton<IMongoClient, MongoClient>(
+                _ => new MongoClient(Configuration.GetConnectionString("MongoConnection") ?? Configuration["MongoConnection"]));
+
+            services.AddTransient<IMongoDbContext, MongoDbContext>();
+            services.AddTransient<IProductMongoRepository, ProductMongoRepository>();
+            services.AddTransient<IProductIntegrationService, ProductIntegrationService>();
 
             services.AddAutoMapper();
 
