@@ -184,9 +184,10 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.MachineSpinning
             {
                 List<MachineSpinningModel> result = Service.GetFilteredSpinning(type, unitId);
                 List<MachineSpinningViewModel> dataVM = Mapper.Map<List<MachineSpinningViewModel>>(result);
+                dataVM = dataVM.OrderBy(x => x.Name, StringComparer.OrdinalIgnoreCase).ThenBy(x => x.No, StringComparer.OrdinalIgnoreCase).ThenBy(x => x.UomUnit, StringComparer.OrdinalIgnoreCase).ToList();
                 Dictionary<string, object> Result =
                     new Helpers.ResultFormatter(ApiVersion, General.OK_STATUS_CODE, General.OK_MESSAGE)
-                    .Ok(result);
+                    .Ok(dataVM);
 
                 return Ok(Result);
             }
