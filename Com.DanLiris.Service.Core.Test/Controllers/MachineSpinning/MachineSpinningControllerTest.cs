@@ -211,7 +211,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.MachineSpinning
         public void GetSpinningFiltered_Ok()
         {
             var mocks = GetMocks();
-            mocks.Service.Setup(f => f.GetFilteredSpinning(It.IsAny<string>(), It.IsAny<string>())).Returns(new List<MachineSpinningModel>());
+            mocks.Service.Setup(f => f.GetFilteredSpinning(It.IsAny<string>(), It.IsAny<string>())).Returns(new List<MachineSpinningModel>() { new MachineSpinningModel()});
 
             var response = GetController(mocks).GetFilteredForSpinning("","");
             Assert.Equal((int)HttpStatusCode.OK, GetStatusCode(response));
