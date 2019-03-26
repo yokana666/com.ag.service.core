@@ -8,7 +8,9 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 {
     public class ProductSPPProperty : StandardEntity, IValidatableObject
     {
-       
+        [MaxLength(255)]
+        public string UId { get; set; }
+
         public Product Product { get; set; }
 
         [ForeignKey("Product"), Key]

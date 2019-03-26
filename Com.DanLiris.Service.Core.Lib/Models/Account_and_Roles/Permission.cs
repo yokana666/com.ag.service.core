@@ -8,6 +8,8 @@ namespace Com.DanLiris.Service.Core.Lib.Models.Account_and_Roles
 {
     public class Permission : StandardEntity, IValidatableObject
     {
+        [MaxLength(255)]
+        public string UId { get; set; }
         public int UnitId { get; set; }
         public string UnitCode { get; set; }
         public string Unit { get; set; }

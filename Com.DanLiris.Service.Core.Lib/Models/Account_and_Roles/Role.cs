@@ -10,6 +10,8 @@ namespace Com.DanLiris.Service.Core.Lib.Models.Account_and_Roles
 {
     public class Role : StandardEntity, IValidatableObject
     {
+        [MaxLength(255)]
+        public string UId { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
