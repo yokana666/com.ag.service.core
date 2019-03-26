@@ -207,6 +207,36 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ProcessType",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrderTypeCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrderTypeId = table.Column<int>(type: "int", nullable: false),
+                    OrderTypeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrderTypeRemark = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    _CreatedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    _DeletedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _DeletedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    _IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    _LastModifiedAgent = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _LastModifiedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    _LastModifiedUtc = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProcessType", x => x.Id);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AccountProfiles_AccountId",
                 table: "AccountProfiles",

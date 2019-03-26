@@ -43,11 +43,11 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.MachineSpinning
 
             mocks.Service.Setup(f => f.UploadValidate(It.IsAny<List<MachineSpinningCsvViewModel>>(), It.IsAny<List<KeyValuePair<string, StringValues>>>())).Returns(new Tuple<bool, List<object>>(true, new List<object>()));
             MachineSpinningProfile profile = new MachineSpinningProfile();
-            
+
             mocks.Mapper.Setup(x => x.ConfigurationProvider).Returns(new MapperConfiguration(cfg => cfg.AddProfile(profile)));
 
             mocks.Mapper.Setup(x => x.Map<List<MachineSpinningModel>>(It.IsAny<List<MachineSpinningViewModel>>())).Returns(new List<MachineSpinningModel>() { Model });
-            
+
             var controller = GetController(mocks);
             controller.ControllerContext.HttpContext.Request.Headers["x-timezone-offset"] = $"{It.IsAny<int>()}";
             controller.ControllerContext.HttpContext.Request.Headers.Add("Content-Type", "multipart/form-data");
@@ -64,7 +64,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.MachineSpinning
             var mocks = GetMocks();
             mocks.Service.Setup(f => f.UploadData(It.IsAny<List<MachineSpinningModel>>())).Throws(new Exception());
 
-           
+
             var controller = GetController(mocks);
             controller.ControllerContext.HttpContext.Request.Headers["x-timezone-offset"] = $"{It.IsAny<int>()}";
 
@@ -97,7 +97,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.MachineSpinning
 
             var response = controller.PostCSVFileAsync();
 
-           
+
             Assert.Equal((int)HttpStatusCode.BadRequest, GetStatusCode(response.Result));
         }
 
@@ -125,7 +125,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.MachineSpinning
             controller.ControllerContext.HttpContext.Request.Form = new FormCollection(new Dictionary<string, StringValues>(), new FormFileCollection { file });
 
             var response = controller.PostCSVFileAsync();
-            
+
             Assert.Equal((int)HttpStatusCode.NotFound, GetStatusCode(response.Result));
         }
 
@@ -203,7 +203,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.MachineSpinning
             var mocks = GetMocks();
             mocks.Service.Setup(f => f.GetFilteredSpinning(It.IsAny<string>(), It.IsAny<string>())).Throws(new Exception());
 
-            var response = GetController(mocks).GetFilteredForSpinning("","");
+            var response = GetController(mocks).GetFilteredForSpinning("", "");
             Assert.Equal((int)HttpStatusCode.InternalServerError, GetStatusCode(response));
         }
 
@@ -211,9 +211,13 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.MachineSpinning
         public void GetSpinningFiltered_Ok()
         {
             var mocks = GetMocks();
-            mocks.Service.Setup(f => f.GetFilteredSpinning(It.IsAny<string>(), It.IsAny<string>())).Returns(new List<MachineSpinningModel>());
+            mocks.Service.Setup(f => f.GetFilteredSpinning(It.IsAny<string>(), It.IsAny<string>())).Returns(new List<MachineSpinningModel>() { new MachineSpinningModel() {
+                Name = "Name",
+                No = "1",
+                UomUnit = "Unit"
+            } });
 
-            var response = GetController(mocks).GetFilteredForSpinning("","");
+            var response = GetController(mocks).GetFilteredForSpinning("", "");
             Assert.Equal((int)HttpStatusCode.OK, GetStatusCode(response));
         }
     }

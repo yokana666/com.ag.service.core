@@ -200,7 +200,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
         public async Task<int> UpdateAsync(int id, MachineSpinningModel model)
         {
             model.FlagForUpdate(_IdentityService.Username, _UserAgent);
-            var dbSetDetail = _DbContext.Set<MachineSpinningProcessType>();
+            var dbSetDetail = _DbContext.Set<MachineSpinningProcessType>().Where(x => x.MachineSpinningId == model.Id);
             foreach(var item in dbSetDetail.Where(x => !model.Types.Any(y => y.Id == x.Id)))
             {
                 item.FlagForDelete(_IdentityService.Username, _UserAgent);
