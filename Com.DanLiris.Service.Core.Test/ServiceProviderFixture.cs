@@ -78,6 +78,8 @@ namespace Com.DanLiris.Service.Core.Test
                 .AddTransient<UomServiceDataUtil>()
                 .AddTransient<MachineSpinningService>(provider => new MachineSpinningService(provider))
                 .AddTransient<MachineSpinningDataUtil>()
+                .AddTransient<AccountRoleDataUtil>()
+                .AddTransient<PermissionDataUtil>()
 
                 .BuildServiceProvider();
 
