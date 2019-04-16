@@ -50,7 +50,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.MachineSpinning
             mocks.Service.Setup(f => f.Read(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>(), It.IsAny<List<string>>(), It.IsAny<string>(), It.IsAny<string>())).Throws(new Exception());
 
             int statusCode = GetStatusCode(GetController(mocks).GetLoaderByUnitType());
-            Assert.Equal((int)HttpStatusCode.OK, statusCode);
+            Assert.Equal((int)HttpStatusCode.InternalServerError, statusCode);
         }
 
         [Fact]
