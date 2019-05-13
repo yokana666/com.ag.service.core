@@ -80,6 +80,11 @@ namespace Com.DanLiris.Service.Core.Test
                 .AddTransient<MachineSpinningDataUtil>()
                 .AddTransient<AccountRoleDataUtil>()
                 .AddTransient<PermissionDataUtil>()
+                .AddTransient(provider => new StorageService(provider))
+                .AddTransient(provider => new BuyerService(provider))
+                .AddTransient(provider => new CategoryService(provider))
+                .AddTransient(provider => new CurrencyService(provider))
+                .AddTransient(provider => new SupplierService(provider))
 
                 .BuildServiceProvider();
 
