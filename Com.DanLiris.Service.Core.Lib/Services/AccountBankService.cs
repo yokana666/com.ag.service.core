@@ -100,8 +100,9 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             {
                 Id = (int)accountBank.CurrencyId,
                 Code = accountBank.CurrencyCode,
-                Rate = accountBank.CurrencyId,
-                Symbol = accountBank.CurrencySymbol
+                Rate = accountBank.CurrencyRate,
+                Symbol = accountBank.CurrencySymbol,
+                Description = accountBank.CurrencyDescription
             };
 
             accountBankVM.Division = new DivisionViewModel
