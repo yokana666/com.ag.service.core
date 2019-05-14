@@ -71,7 +71,12 @@ namespace Com.DanLiris.Service.Core.Test
                         .AddTransient<UomServiceDataUtil>()
                         .AddTransient<MachineSpinningDataUtil>()
                         .AddTransient<ColorTypeDataUtil>()
-                        .AddTransient<FinishTypeDataUtil>();
+                        .AddTransient<FinishTypeDataUtil>()
+                        .AddTransient<StorageDataUtil>()
+                        .AddTransient<GarmentUnitDataUtil>()
+                        .AddTransient<SupplierDataUtil>()
+                        .AddTransient<CurrencyDataUtil>()
+                        .AddTransient<CategoryDataUtil>();
                 })
                 .UseStartup<Startup>();
 
