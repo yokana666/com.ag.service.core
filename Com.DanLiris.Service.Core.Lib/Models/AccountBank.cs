@@ -24,6 +24,8 @@ namespace Com.DanLiris.Service.Core.Lib.Models
 
         [StringLength(500)]
         public string AccountName { get; set; }
+        [StringLength(255)]
+        public string AccountCOA { get; set; }
 
         [StringLength(100)]
         public string AccountNumber { get; set; }
