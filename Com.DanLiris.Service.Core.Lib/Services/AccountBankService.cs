@@ -98,7 +98,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
             accountBankVM.Currency = new CurrencyViewModel
             {
-                Id = (int)accountBank.CurrencyId,
+                Id = accountBank.CurrencyId.GetValueOrDefault(),
                 Code = accountBank.CurrencyCode,
                 Rate = accountBank.CurrencyRate,
                 Symbol = accountBank.CurrencySymbol,
@@ -107,7 +107,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
             accountBankVM.Division = new DivisionViewModel
             {
-                Id = (int)accountBank.DivisionId,
+                Id = accountBank.DivisionId.GetValueOrDefault(),
                 Code = accountBank.DivisionCode,
                 Name= accountBank.DivisionName
             };
