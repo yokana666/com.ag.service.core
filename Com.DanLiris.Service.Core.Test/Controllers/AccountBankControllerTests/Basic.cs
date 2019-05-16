@@ -60,16 +60,22 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.AccountBankControllerTests
             };
         }
 
-        //[Fact]
-        //public async Task Get()
-        //{
-        //    var response = await this.Client.GetAsync(URI);
-        //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        //}
+        [Fact]
+        public async Task Get()
+        {
+            AccountBankViewModel bankVM = GenerateTestModel();
+            var post = await this.Client.PostAsync(URI, new StringContent(JsonConvert.SerializeObject(bankVM).ToString(), Encoding.UTF8, "application/json"));
+
+            var response = await this.Client.GetAsync(URI);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
 
         //[Fact]
         //public async Task GetById()
         //{
+        //    AccountBankViewModel bankVM = GenerateTestModel();
+        //    var post = await this.Client.PostAsync(URI, new StringContent(JsonConvert.SerializeObject(bankVM).ToString(), Encoding.UTF8, "application/json"));
+
         //    var response = await this.Client.GetAsync(string.Concat(URI, "/"));
         //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         //}
