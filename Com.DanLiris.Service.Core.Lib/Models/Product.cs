@@ -46,13 +46,16 @@ namespace Com.DanLiris.Service.Core.Lib.Models
         [StringLength(100)]
         public string Code { get; set; }
 
+        [StringLength(255)]
         public string Name { get; set; }
 
         public decimal Price { get; set; }
 
         public int? CurrencyId { get; set; }
 
+        [StringLength(255)]
         public string CurrencyCode { get; set; }
+        [StringLength(255)]
         public string CurrencySymbol { get; set; }
 
         [StringLength(1000)]
