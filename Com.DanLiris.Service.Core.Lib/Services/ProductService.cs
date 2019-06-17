@@ -28,7 +28,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
         public override Tuple<List<Product>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null, string Filter = "{}")
         {
-            IQueryable<Product> Query = this.DbContext.Products.Include(x => x.SPPProperties);
+            IQueryable<Product> Query = this.DbContext.Products;
             Dictionary<string, object> FilterDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(Filter);
             Query = ConfigureFilter(Query, FilterDictionary);
             Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(Order);
@@ -47,7 +47,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
             {
-                "Id", "Code", "Name", "UOM", "Currency",  "Price", "Tags", "_LastModifiedUtc", "SPPProperties"
+                "Id", "Code", "Name", "UOM", "Currency",  "Price", "Tags", "_LastModifiedUtc"
             };
 
             Query = Query
@@ -63,25 +63,25 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     CurrencySymbol = p.CurrencySymbol,
                     Price = p.Price,
                     Tags = p.Tags,
-                    SPPProperties = p.SPPProperties == null ? new ProductSPPProperty() : new ProductSPPProperty()
-                    {
-                        ColorName = p.SPPProperties.ColorName,
-                        DesignCode = p.SPPProperties.DesignCode,
-                        DesignNumber = p.SPPProperties.DesignNumber,
-                        ProductionOrderId = p.SPPProperties.ProductionOrderId,
-                        ProductionOrderNo = p.SPPProperties.ProductionOrderNo,
-                        BuyerAddress = p.SPPProperties.BuyerAddress,
-                        BuyerId = p.SPPProperties.BuyerId,
-                        BuyerName = p.SPPProperties.BuyerName,
-                        Weight = p.SPPProperties.Weight,
-                        Construction = p.SPPProperties.Construction,
-                        Grade = p.SPPProperties.Grade,
-                        Length = p.SPPProperties.Length,
-                        Lot = p.SPPProperties.Lot,
-                        OrderTypeCode = p.SPPProperties.OrderTypeCode,
-                        OrderTypeId = p.SPPProperties.OrderTypeId,
-                        OrderTypeName = p.SPPProperties.OrderTypeName
-                    },
+                    //SPPProperties = p.SPPProperties == null ? new ProductSPPProperty() : new ProductSPPProperty()
+                    //{
+                    //    ColorName = p.SPPProperties.ColorName,
+                    //    DesignCode = p.SPPProperties.DesignCode,
+                    //    DesignNumber = p.SPPProperties.DesignNumber,
+                    //    ProductionOrderId = p.SPPProperties.ProductionOrderId,
+                    //    ProductionOrderNo = p.SPPProperties.ProductionOrderNo,
+                    //    BuyerAddress = p.SPPProperties.BuyerAddress,
+                    //    BuyerId = p.SPPProperties.BuyerId,
+                    //    BuyerName = p.SPPProperties.BuyerName,
+                    //    Weight = p.SPPProperties.Weight,
+                    //    Construction = p.SPPProperties.Construction,
+                    //    Grade = p.SPPProperties.Grade,
+                    //    Length = p.SPPProperties.Length,
+                    //    Lot = p.SPPProperties.Lot,
+                    //    OrderTypeCode = p.SPPProperties.OrderTypeCode,
+                    //    OrderTypeId = p.SPPProperties.OrderTypeId,
+                    //    OrderTypeName = p.SPPProperties.OrderTypeName
+                    //},
                     _LastModifiedUtc = p._LastModifiedUtc
                 });
 
@@ -106,12 +106,16 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             }
 
             /* Pagination */
-            Pageable<Product> pageable = new Pageable<Product>(Query, Page - 1, Size);
-            List<Product> Data = pageable.Data.ToList<Product>();
+            //Pageable<Product> pageable = new Pageable<Product>(Query, Page - 1, Size);
 
-            int TotalData = pageable.TotalCount;
+            var totalData = Query.Count();
+            Query = Query.Skip((Page - 1) * Size).Take(Size);
 
-            return Tuple.Create(Data, TotalData, OrderDictionary, SelectedFields);
+            List<Product> Data = Query.ToList();
+
+            //int TotalData = Query.TotalCount;
+
+            return Tuple.Create(Data, totalData, OrderDictionary, SelectedFields);
         }
 
         public ProductViewModel MapToViewModel(Product product)
