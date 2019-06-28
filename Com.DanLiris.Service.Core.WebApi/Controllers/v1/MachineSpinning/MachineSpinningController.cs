@@ -37,7 +37,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.MachineSpinning
         {
             try
             {
-                Lib.Helpers.ReadResponse<MachineSpinningModel> read = Service.Read(page, size, order, select, keyword, filter);
+                Lib.Helpers.ReadResponse<MachineSpinningModel> read = Service.ReadNoOnly(page, size, order, select, keyword, filter);
 
                 List<MachineSpinningViewModel> dataVM = Mapper.Map<List<MachineSpinningViewModel>>(read.Data);
 
@@ -90,7 +90,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.MachineSpinning
                         if (Validated.Item1) /* If Data Valid */
                         {
                             List<MachineSpinningModel> data = Service.MapFromCsv(Data);
-                            
+
                             await Service.UploadData(data);
 
 
@@ -131,7 +131,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.MachineSpinning
                     return BadRequest(Result);
                 }
             }
-            catch(TypeConverterException ex)
+            catch (TypeConverterException ex)
             {
                 Dictionary<string, object> Result =
                   new Utils.ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, "Tahun, Delivery atau Kapasitas diisi huruf")
@@ -208,7 +208,15 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.MachineSpinning
             try
             {
                 List<MachineSpinningModel> result = Service.GetFilteredSpinning(type, unitId);
-                result = result.OrderBy(x => x.Name, StringComparer.OrdinalIgnoreCase).ThenBy(x => x.No, StringComparer.OrdinalIgnoreCase).ThenBy(x => x.UomUnit, StringComparer.OrdinalIgnoreCase).ToList();
+                if (type != null && type.Equals("Carding", StringComparison.OrdinalIgnoreCase))
+                {
+                    result = result.OrderBy(x => x.Line, StringComparer.OrdinalIgnoreCase).ThenBy(x => x.No, StringComparer.OrdinalIgnoreCase).ThenBy(x => x.Name, StringComparer.OrdinalIgnoreCase).ThenBy(x => x.UomUnit, StringComparer.OrdinalIgnoreCase).ToList();
+                }
+                else
+                {
+                    result = result.OrderBy(x => x.No, StringComparer.OrdinalIgnoreCase).ThenBy(x => x.Name, StringComparer.OrdinalIgnoreCase).ThenBy(x => x.UomUnit, StringComparer.OrdinalIgnoreCase).ToList();
+                }
+
                 List<MachineSpinningViewModel> dataVM = Mapper.Map<List<MachineSpinningViewModel>>(result);
                 Dictionary<string, object> Result =
                     new Helpers.ResultFormatter(ApiVersion, General.OK_STATUS_CODE, General.OK_MESSAGE)

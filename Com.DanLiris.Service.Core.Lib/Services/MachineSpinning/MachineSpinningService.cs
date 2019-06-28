@@ -147,8 +147,15 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                 "Brand", "Name", "No"
             };
 
-            Query = QueryHelper<MachineSpinningModel>.Search(Query, searchAttributes, keyword);
-
+            //Query = QueryHelper<MachineSpinningModel>.Search(Query, searchAttributes, keyword);
+            if(keyword != null)
+            {
+                var machineSpinningTypes = _DbContext.MachineSpinningProcessType.Where(x => x.Type.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0).Select(x => x.MachineSpinningId).Distinct().ToList();
+                Query = Query.Where(x => machineSpinningTypes.Contains(x.Id) ||
+                                            x.Brand.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                            x.Name.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                            x.No.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0);
+            }
             Dictionary<string, object> FilterDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(filter);
             Query = QueryHelper<MachineSpinningModel>.Filter(Query, FilterDictionary);
 
@@ -554,6 +561,87 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                     MachineSpinningId = y.MachineSpinningId
                 }).ToList()
             }).ToList();
+        }
+
+        public ReadResponse<MachineSpinningModel> ReadNoOnly(int page, int size, string order, List<string> select, string keyword, string filter)
+        {
+            IQueryable<MachineSpinningModel> Query = _DbSet.Include(x => x.Types);
+
+            Query = Query
+                .Select(s => new MachineSpinningModel
+                {
+                    Id = s.Id,
+                    _CreatedBy = s._CreatedBy,
+                    _CreatedUtc = s._CreatedUtc,
+                    Code = s.Code,
+                    _LastModifiedUtc = s._LastModifiedUtc,
+                    CapacityPerHour = s.CapacityPerHour,
+                    Condition = s.Condition,
+                    Delivery = s.Delivery,
+                    CounterCondition = s.CounterCondition,
+                    Brand = s.Brand,
+                    No = s.No,
+                    Name = s.Name,
+                    //Type = s.Type,
+                    Year = s.Year,
+                    Line = s.Line,
+                    UomId = s.UomId,
+                    UnitCode = s.UnitCode,
+                    UnitId = s.UnitId,
+                    UnitName = s.UnitName,
+                    UomUnit = s.UomUnit,
+                    MachineCode = s.MachineCode,
+                    Types = s.Types
+                });
+
+            List<string> searchAttributes = new List<string>()
+            {
+                "No"
+            };
+
+            Query = QueryHelper<MachineSpinningModel>.Search(Query, searchAttributes, keyword);
+
+            Dictionary<string, object> FilterDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(filter);
+            Query = QueryHelper<MachineSpinningModel>.Filter(Query, FilterDictionary);
+
+            Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(order);
+            Query = QueryHelper<MachineSpinningModel>.Order(Query, OrderDictionary);
+
+            Pageable<MachineSpinningModel> pageable = new Pageable<MachineSpinningModel>(Query, page - 1, size);
+            List<MachineSpinningModel> Data = pageable.Data.ToList();
+
+            List<MachineSpinningModel> list = new List<MachineSpinningModel>();
+            list.AddRange(
+               Data.Select(s => new MachineSpinningModel
+               {
+                   Id = s.Id,
+                   _CreatedBy = s._CreatedBy,
+                   _CreatedUtc = s._CreatedUtc,
+                   Code = s.Code,
+                   _LastModifiedUtc = s._LastModifiedUtc,
+                   CapacityPerHour = s.CapacityPerHour,
+                   Condition = s.Condition,
+                   Delivery = s.Delivery,
+                   CounterCondition = s.CounterCondition,
+                   Brand = s.Brand,
+                   Name = s.Name,
+                   No = s.No,
+                   //Type = s.Type,
+                   Year = s.Year,
+                   Line = s.Line,
+                   UnitCode = s.UnitCode,
+                   UnitId = s.UnitId,
+                   UnitName = s.UnitName,
+                   UomId = s.UomId,
+                   UomUnit = s.UomUnit,
+                   MachineCode = s.MachineCode,
+                   Types = s.Types
+               }).ToList()
+            );
+
+            int TotalData = pageable.TotalCount;
+
+            return new ReadResponse<MachineSpinningModel>(Query.ToList(), TotalData, OrderDictionary, new List<string>());
         }
     }
 

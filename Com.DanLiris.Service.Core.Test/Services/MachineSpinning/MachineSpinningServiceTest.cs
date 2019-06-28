@@ -330,5 +330,14 @@ namespace Com.DanLiris.Service.Core.Test.Services.MachineSpinning
             var Response = service.GetFilteredSpinning("","");
             Assert.NotNull(Response);
         }
+
+        [Fact]
+        public async void Should_Success_Get_DataByNo()
+        {
+            var service = new MachineSpinningService(GetServiceProvider().Object, _dbContext(GetCurrentMethod()));
+            var data = await _dataUtil(service).GetTestData(_dbContext(GetCurrentMethod()));
+            var Response = service.ReadNoOnly(1, 25, "{}", null, data.No, "{}");
+            Assert.NotEmpty(Response.Data);
+        }
     }
 }
