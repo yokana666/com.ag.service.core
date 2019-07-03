@@ -144,7 +144,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
 
             List<string> searchAttributes = new List<string>()
             {
-                "Brand", "Name", "No"
+                "Brand", "Name", "No", "UnitName"
             };
 
             //Query = QueryHelper<MachineSpinningModel>.Search(Query, searchAttributes, keyword);
@@ -154,13 +154,22 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
                 Query = Query.Where(x => machineSpinningTypes.Contains(x.Id) ||
                                             x.Brand.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0 ||
                                             x.Name.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                                            x.No.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0);
+                                            x.No.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                            x.UnitName.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >=0);
             }
             Dictionary<string, object> FilterDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(filter);
             Query = QueryHelper<MachineSpinningModel>.Filter(Query, FilterDictionary);
 
             Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(order);
-            Query = QueryHelper<MachineSpinningModel>.Order(Query, OrderDictionary);
+            if (OrderDictionary.Count.Equals(0))
+            {
+                Query = Query.OrderBy(x => x.MachineCode).ThenBy(x => x.Line).ThenBy(x => x.No);
+            }
+            else
+            {
+                Query = QueryHelper<MachineSpinningModel>.Order(Query, OrderDictionary);
+            }
+           
 
             Pageable<MachineSpinningModel> pageable = new Pageable<MachineSpinningModel>(Query, page - 1, size);
             List<MachineSpinningModel> Data = pageable.Data.ToList();
@@ -195,7 +204,6 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
             );
 
             int TotalData = pageable.TotalCount;
-
             return new ReadResponse<MachineSpinningModel>(list, TotalData, OrderDictionary, new List<string>());
         }
 

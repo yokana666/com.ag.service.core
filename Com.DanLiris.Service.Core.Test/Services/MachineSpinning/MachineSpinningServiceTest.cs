@@ -7,6 +7,7 @@ using Com.DanLiris.Service.Core.Test.DataUtils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Moq;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -69,6 +70,13 @@ namespace Com.DanLiris.Service.Core.Test.Services.MachineSpinning
             var data = await _dataUtil(service).GetTestData(_dbContext(GetCurrentMethod()));
             var Response = service.Read(1, 25, "{}", null, data.Name, "{}");
             Assert.NotEmpty(Response.Data);
+
+            Dictionary<string, string> order = new Dictionary<string, string>()
+            {
+                {"No", "asc" }
+            };
+            var response2 = service.Read(1, 25, JsonConvert.SerializeObject(order), null, data.Name, "{}");
+            Assert.NotEmpty(response2.Data);
         }
 
         [Fact]
