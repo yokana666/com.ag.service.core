@@ -24,6 +24,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
         public ProductService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
+            DbContext.Database.SetCommandTimeout(1000 * 60 * 2);
         }
 
         public override Tuple<List<Product>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null, string Filter = "{}")
@@ -245,13 +246,10 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             return product;
         }
 
-        /* Upload CSV */
-        private readonly List<string> Header = new List<string>()
+        public List<string> CsvHeader { get; } = new List<string>()
         {
             "Kode Barang", "Nama Barang", "Satuan", "Mata Uang", "Harga", "Tags", "Keterangan"
         };
-
-        public List<string> CsvHeader => Header;
 
         public sealed class ProductMap : ClassMap<ProductViewModel>
         {
@@ -412,84 +410,96 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
         public async Task<bool> CreateProduct(PackingModel packings)
         {
-            var productNames = (from packingDetail in packings.PackingDetails
-                                select string.Format("{0}/{1}/{2}/{3}/{4}/{5}", packings.ProductionOrderNo, packings.ColorName, packings.Construction,
+            //DbContext.Database.SetCommandTimeout(1000 * 60 * 10);
+
+            var packingProducts = packings.PackingDetails.Select(packingDetail => string.Format("{0}/{1}/{2}/{3}/{4}/{5}", packings.ProductionOrderNo, packings.ColorName, packings.Construction,
                                 packingDetail.Lot, packingDetail.Grade, packingDetail.Length) +
-                                (string.IsNullOrWhiteSpace(packingDetail.Remark) ? "" : string.Format("/{0}", packingDetail.Remark)))
-                                .Except((from product in DbSet where product._IsDeleted == false select product.Name));
-            if (productNames.Count() > 0)
+                                (string.IsNullOrWhiteSpace(packingDetail.Remark) ? "" : string.Format("/{0}", packingDetail.Remark))).ToList();
+
+            //var productNames = (from packingDetail in packings.PackingDetails
+            //                    select )
+            //                    .Except((from product in DbSet where product._IsDeleted == false select product.Name));
+
+            var uom = DbContext.UnitOfMeasurements.FirstOrDefault(f => f.Unit.Equals(packings.PackingUom));
+            if (uom == null)
             {
-                var uomId = (from uom in DbContext.UnitOfMeasurements
-                             where uom.Unit == packings.PackingUom && uom._IsDeleted == false
-                             select uom.Id).FirstOrDefault();
-                if (uomId == 0)
+                uom = new Uom
                 {
-                    Uom uom = new Uom
+                    Active = true,
+                    Unit = packings.PackingUom,
+                    _IsDeleted = false,
+                    _CreatedBy = this.Username,
+                    _CreatedUtc = DateTimeOffset.Now.DateTime,
+                    _CreatedAgent = UserAgent
+                };
+                DbContext.UnitOfMeasurements.Add(uom);
+                await DbContext.SaveChangesAsync();
+
+                //uomId = uom.Id;
+            }
+
+            var tags = string.Format("sales contract #{0}", packings.SalesContractNo);
+            CodeGenerator codeGenerator = new CodeGenerator();
+            var listProductToCreate = new List<Product>();
+            foreach (var packingDetail in packings.PackingDetails)
+            {
+                var packingProduct = string.Format("{0}/{1}/{2}/{3}/{4}/{5}", packings.ProductionOrderNo, packings.ColorName, packings.Construction, packingDetail.Lot, packingDetail.Grade, packingDetail.Length) + (string.IsNullOrWhiteSpace(packingDetail.Remark) ? "" : string.Format("/{0}", packingDetail.Remark));
+
+                var existingProduct = DbContext.Products.FirstOrDefault(f => f.Name.Equals(packingProduct));
+
+                if (existingProduct == null)
+                {
+                    var productToCreate = new Product()
                     {
                         Active = true,
-                        Unit = packings.PackingUom,
+                        Code = codeGenerator.GenerateCode(),
+                        Name = packingProduct,
+                        UomId = uom.Id,
+                        UomUnit = packings.PackingUom,
+                        Tags = tags,
+                        SPPProperties = new ProductSPPProperty()
+                        {
+                            ProductionOrderId = packings.ProductionOrderId,
+                            ProductionOrderNo = packings.ProductionOrderNo,
+                            DesignCode = packings.DesignCode,
+                            DesignNumber = packings.DesignNumber,
+                            OrderTypeId = packings.OrderTypeId,
+                            OrderTypeCode = packings.OrderTypeCode,
+                            OrderTypeName = packings.OrderTypeName,
+                            BuyerId = packings.BuyerId,
+                            BuyerName = packings.BuyerName,
+                            BuyerAddress = packings.BuyerAddress,
+                            ColorName = packings.ColorName,
+                            Construction = packings.Construction,
+                            Lot = packingDetail.Lot,
+                            Grade = packingDetail.Grade,
+                            Weight = packingDetail.Weight,
+                            Length = packingDetail.Length
+                        },
                         _IsDeleted = false,
                         _CreatedBy = this.Username,
                         _CreatedUtc = DateTimeOffset.Now.DateTime,
                         _CreatedAgent = UserAgent
                     };
-                    await DbContext.UnitOfMeasurements.AddAsync(uom);
-                    await DbContext.SaveChangesAsync();
 
-                    uomId = uom.Id;
+                    listProductToCreate.Add(productToCreate);
                 }
-                var tags = string.Format("sales contract #{0}", packings.SalesContractNo);
-                CodeGenerator codeGenerator = new CodeGenerator();
-                IEnumerable<Product> products = from packingDetail in packings.PackingDetails
-                                                where productNames.Contains(string.Format("{0}/{1}/{2}/{3}/{4}/{5}", packings.ProductionOrderNo, packings.ColorName, packings.Construction,
-                                                    packingDetail.Lot, packingDetail.Grade, packingDetail.Length) +
-                                                    (string.IsNullOrWhiteSpace(packingDetail.Remark) ? "" : string.Format("/{0}", packingDetail.Remark)))
-                                                select new Product
-                                                {
-                                                    Active = true,
-                                                    Code = codeGenerator.GenerateCode(),
-                                                    Name = string.Format("{0}/{1}/{2}/{3}/{4}/{5}", packings.ProductionOrderNo, packings.ColorName, packings.Construction,
-                                                        packingDetail.Lot, packingDetail.Grade, packingDetail.Length) +
-                                                        (string.IsNullOrWhiteSpace(packingDetail.Remark) ? "" : string.Format("/{0}", packingDetail.Remark)),
-                                                    UomId = uomId,
-                                                    UomUnit = packings.PackingUom,
-                                                    Tags = tags,
-                                                    SPPProperties = new ProductSPPProperty()
-                                                    {
-                                                        ProductionOrderId = packings.ProductionOrderId,
-                                                        ProductionOrderNo = packings.ProductionOrderNo,
-                                                        DesignCode = packings.DesignCode,
-                                                        DesignNumber = packings.DesignNumber,
-                                                        OrderTypeId = packings.OrderTypeId,
-                                                        OrderTypeCode = packings.OrderTypeCode,
-                                                        OrderTypeName = packings.OrderTypeName,
-                                                        BuyerId = packings.BuyerId,
-                                                        BuyerName = packings.BuyerName,
-                                                        BuyerAddress = packings.BuyerAddress,
-                                                        ColorName = packings.ColorName,
-                                                        Construction = packings.Construction,
-                                                        Lot = packingDetail.Lot,
-                                                        Grade = packingDetail.Grade,
-                                                        Weight = packingDetail.Weight,
-                                                        Length = packingDetail.Length
-                                                    },
-                                                    _IsDeleted = false,
-                                                    _CreatedBy = this.Username,
-                                                    _CreatedUtc = DateTimeOffset.Now.DateTime,
-                                                    _CreatedAgent = UserAgent
-                                                };
-                await DbContext.AddRangeAsync(products);
-                var rowAffected = await DbContext.SaveChangesAsync();
-                if (rowAffected > 0)
-                {
-                    return true;
-                }
+
+            }
+
+            if (listProductToCreate.Count > 0)
+                await DbContext.AddRangeAsync(listProductToCreate);
+
+
+            var rowAffected = await DbContext.SaveChangesAsync();
+            if (rowAffected > 0)
+            {
+                return true;
             }
             else
             {
                 return true;
             }
-            return false;
         }
 
         public Task<List<ProductViewModel>> GetProductByProductionOrderNo(string productionOrderNo)
@@ -541,6 +551,11 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     Weight = x.Weight
                 }
             }).ToListAsync();
+        }
+
+        public Task<Product> GetProductByName(string productName)
+        {
+            return DbSet.FirstOrDefaultAsync(f => f.Name.Equals(productName));
         }
     }
 }
