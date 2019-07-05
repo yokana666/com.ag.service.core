@@ -71,13 +71,16 @@ namespace Com.DanLiris.Service.Core.Lib
         public DbSet<GarmentSection> GarmentSections { get; set; }
         public DbSet<StandardMinuteValue> StandardMinuteValues { get; set; }
         public DbSet<MachineSpinningProcessType> MachineSpinningProcessType { get; set; }
+        public DbSet<MappingCategory> MappingCategories { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Buyer>()
                 .HasIndex(b => b.Code);
-            
+
+            modelBuilder.Entity<MappingCategory>()
+                .HasKey(x => x.Id);
         }
     }
 }
