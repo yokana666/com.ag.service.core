@@ -168,6 +168,7 @@ namespace Com.DanLiris.Service.Core.WebApi
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetService<CoreDbContext>();
+                context.Database.SetCommandTimeout(1000 * 60 * 10);
                 context.Database.Migrate();
             }
             app.UseAuthentication();
