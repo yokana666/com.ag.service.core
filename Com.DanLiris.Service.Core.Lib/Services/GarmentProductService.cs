@@ -531,8 +531,9 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     Name = p.Name,
                     Width = p.Width ,
                     Code=p.Code,
-                    Id=p.Id
-
+                    Id=p.Id,
+                    UomId = p.UomId,
+                    UomUnit = p.UomUnit
                 });
 
             /* Order */
