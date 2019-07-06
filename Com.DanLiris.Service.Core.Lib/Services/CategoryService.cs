@@ -83,6 +83,94 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             return Tuple.Create(Data, TotalData, OrderDictionary, SelectedFields);
         }
 
+        public  Tuple<List<CategoryViewModel>, int, Dictionary<string, string>> JoinDivision(int Page = 1, int Size = 25, string Order = "{}", string Keyword = null, string Filter = "{}")
+        {
+            //IQueryable<Category> Query = this.DbContext.Categories;
+            //IQueryable<Division> divisions = DbContext.Divisions;
+
+            var Query = from t1 in DbContext.Categories
+                     from t2 in DbContext.Divisions
+                     where t1.Name.IndexOf(Keyword, StringComparison.OrdinalIgnoreCase) >= 0 || t2.Name.IndexOf(Keyword, StringComparison.OrdinalIgnoreCase) >= 0
+                     select new CategoryViewModel()
+                     {
+                         code = t1.Code,
+                         codeRequirement = t1.CodeRequirement,
+                         divisionId = t2.Id,
+                         divisionName = t2.Name,
+                         name = t1.Name,
+                         UId = t1.UId,
+                         _id = t1.Id,
+                         _updatedDate = t1._LastModifiedUtc
+                     };
+            Dictionary<string, object> FilterDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(Filter);
+            if (FilterDictionary != null && !FilterDictionary.Count.Equals(0))
+            {
+                foreach (var f in FilterDictionary)
+                {
+                    string Key = f.Key;
+                    object Value = f.Value;
+                    string filterQuery = string.Concat(string.Empty, Key, " == @0");
+
+                    Query = Query.Where(filterQuery, Value);
+                }
+            }
+            //qu = ConfigureFilter(Query, FilterDictionary);
+            Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(Order);
+
+            ///* Search With Keyword */
+            //if (Keyword != null)
+            //{
+            //    List<string> SearchAttributes = new List<string>()
+            //    {
+            //        "Code", "Name"
+            //    };
+
+            //    Query = Query.Where(General.BuildSearch(SearchAttributes), Keyword);
+            //}
+
+            ///* Const Select */
+            //List<string> SelectedFields = new List<string>()
+            //{
+            //    "_id", "code", "name"
+            //};
+
+            //Query = Query
+            //    .Select(b => new Category
+            //    {
+            //        Id = b.Id,
+            //        Code = b.Code,
+            //        Name = b.Name
+            //    });
+
+            /* Order */
+            if (OrderDictionary.Count.Equals(0))
+            {
+                OrderDictionary.Add("_updatedDate", General.DESCENDING);
+
+                Query = Query.OrderByDescending(b => b._updatedDate); /* Default Order */
+            }
+            else
+            {
+                string Key = OrderDictionary.Keys.First();
+                string OrderType = OrderDictionary[Key];
+                string TransformKey = General.TransformOrderBy(Key);
+
+                BindingFlags IgnoreCase = BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance;
+
+                Query = OrderType.Equals(General.ASCENDING) ?
+                    Query.OrderBy(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b)) :
+                    Query.OrderByDescending(b => b.GetType().GetProperty(TransformKey, IgnoreCase).GetValue(b));
+            }
+
+            /* Pagination */
+            Pageable<CategoryViewModel> pageable = new Pageable<CategoryViewModel>(Query, Page - 1, Size);
+            List<CategoryViewModel> Data = pageable.Data.ToList<CategoryViewModel>();
+
+            int TotalData = pageable.TotalCount;
+
+            return Tuple.Create(Data, TotalData, OrderDictionary);
+        }
+
         public CategoryViewModel MapToViewModel(Category category)
         {
             CategoryViewModel categoryVM = new CategoryViewModel();

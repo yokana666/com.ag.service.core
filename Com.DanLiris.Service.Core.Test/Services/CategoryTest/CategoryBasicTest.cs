@@ -3,8 +3,10 @@ using Com.DanLiris.Service.Core.Lib;
 using Com.DanLiris.Service.Core.Lib.Models;
 using Com.DanLiris.Service.Core.Lib.Services;
 using System;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Com.DanLiris.Service.Core.Test.Services.CategoryTest
@@ -41,6 +43,24 @@ namespace Com.DanLiris.Service.Core.Test.Services.CategoryTest
                 Code = string.Format("CategoryCode {0}", guid),
                 Name = string.Format("CategoryName {0}", guid),
             };
+        }
+
+        [Fact]
+        public async Task TestJoinDivision()
+        {
+            CategoryService service = this.Service;
+            DivisionService divisionService = ServiceProvider.GetService<DivisionService>();
+            string guid = Guid.NewGuid().ToString();
+
+            var division = new Lib.Models.Division()
+            {
+                Name = String.Concat("TEST DIVISION ", guid),
+            };
+            Category createdData = await this.GetCreatedTestData(service);
+            var createdDivision = await divisionService.CreateModel(division);
+
+            var data = service.JoinDivision();
+            Assert.NotNull(data);
         }
     }
 }
