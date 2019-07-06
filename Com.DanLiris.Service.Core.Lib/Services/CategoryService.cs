@@ -90,7 +90,8 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
             var Query = from t1 in DbContext.Categories
                      from t2 in DbContext.Divisions
-                     where t1.Name.IndexOf(Keyword, StringComparison.OrdinalIgnoreCase) >= 0 || t2.Name.IndexOf(Keyword, StringComparison.OrdinalIgnoreCase) >= 0
+                     where (!string.IsNullOrEmpty(t1.Name) && t1.Name.IndexOf(Keyword, StringComparison.OrdinalIgnoreCase) >= 0)
+                            || (!string.IsNullOrEmpty(t2.Name) && t2.Name.IndexOf(Keyword, StringComparison.OrdinalIgnoreCase) >= 0)
                      select new CategoryViewModel()
                      {
                          code = t1.Code,
