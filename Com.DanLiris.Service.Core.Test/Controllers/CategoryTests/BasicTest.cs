@@ -45,7 +45,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.CategoryTests
         public async Task Should_Exception_Get_JoinDivision_Data()
         {
             var response = await this.Client.GetAsync(URI + "/join-division?keyword=null&order=null&filter=null");
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
 
             var json = response.Content.ReadAsStringAsync().Result;
             Dictionary<string, object> result = JsonConvert.DeserializeObject<Dictionary<string, object>>(json.ToString());
