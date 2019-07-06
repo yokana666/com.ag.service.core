@@ -40,5 +40,18 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.CategoryTests
             Assert.True(result.ContainsKey("data"));
             Assert.True(result["data"].GetType().Name.Equals("JArray"));
         }
+
+        [Fact]
+        public async Task Should_Exception_Get_JoinDivision_Data()
+        {
+            var response = await this.Client.GetAsync(URI + "/join-division?keyword=null&order=null&filter=null");
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            var json = response.Content.ReadAsStringAsync().Result;
+            Dictionary<string, object> result = JsonConvert.DeserializeObject<Dictionary<string, object>>(json.ToString());
+
+            Assert.True(result.ContainsKey("apiVersion"));
+            Assert.True(result.ContainsKey("message"));
+        }
     }
 }
