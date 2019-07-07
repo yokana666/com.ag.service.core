@@ -70,6 +70,7 @@ namespace Com.DanLiris.Service.Core.Lib
         public DbSet<MachineSpinningModel> MachineSpinnings { get; set; }
         public DbSet<GarmentSection> GarmentSections { get; set; }
         public DbSet<StandardMinuteValue> StandardMinuteValues { get; set; }
+        public DbSet<MachineSpinningProcessType> MachineSpinningProcessType { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
