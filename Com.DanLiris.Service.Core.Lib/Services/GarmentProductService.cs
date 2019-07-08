@@ -332,7 +332,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         }
 		public GarmentProduct GetByName( string name)
 		{
-			return this.DbSet.FirstOrDefault(p => (p.Name.ToString()==name) && p._IsDeleted == false);
+			return this.DbSet.FirstOrDefault(p => (p.Name==name) && p._IsDeleted == false);
 			
 		}
 		public IQueryable<GarmentProduct> GetDistinctProductComposition(string Keyword, string Filter)
@@ -531,8 +531,9 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     Name = p.Name,
                     Width = p.Width ,
                     Code=p.Code,
-                    Id=p.Id
-
+                    Id=p.Id,
+                    UomId = p.UomId,
+                    UomUnit = p.UomUnit
                 });
 
             /* Order */
