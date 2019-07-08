@@ -10,5 +10,9 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
         public string name { get; set; }
 
         public string codeRequirement { get; set; }
+
+        public int divisionId { get; set; }
+
+        public string divisionName { get; set; }
     }
 }

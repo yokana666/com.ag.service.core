@@ -29,6 +29,8 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
             {
                 Code = string.Format("CategoryCode {0}", guid),
                 Name = string.Format("CategoryName {0}", guid),
+                DivisionId = 0,
+                CodeRequirement = string.Format("CodeRequirement {0}" , guid)
             };
         }
 

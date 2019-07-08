@@ -21,6 +21,10 @@ namespace Com.DanLiris.Service.Core.Lib.Models
         [StringLength(500)]
         public string CodeRequirement { get; set; }
 
+        public int DivisionId { get; set; }
+
+        //public Division Division { get; set; }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             List<ValidationResult> validationResult = new List<ValidationResult>();
