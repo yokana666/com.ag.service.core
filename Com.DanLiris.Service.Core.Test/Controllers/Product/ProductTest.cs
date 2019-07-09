@@ -83,12 +83,12 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Product
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
         }
 
-        [Fact]
-        public async Task GetByProductionOrderNo()
-        {
-            var response = await this.Client.GetAsync(string.Concat(URI, "/byProductionOrderNo"));
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        }
+        //[Fact]
+        //public async Task GetByProductionOrderNo()
+        //{
+        //    var response = await this.Client.GetAsync(string.Concat(URI, "/byProductionOrderNo"));
+        //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        //}
 
         [Fact]
         public async Task GetSimple()
