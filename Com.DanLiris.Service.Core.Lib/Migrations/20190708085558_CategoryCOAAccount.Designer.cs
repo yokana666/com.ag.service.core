@@ -11,9 +11,10 @@ using System;
 namespace Com.DanLiris.Service.Core.Lib.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    partial class CoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190708085558_CategoryCOAAccount")]
+    partial class CategoryCOAAccount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -494,20 +495,8 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.Property<int>("DivisionId");
 
-                    b.Property<string>("ImportDebtCOA")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("LocalDebtCOA")
-                        .HasMaxLength(50);
-
                     b.Property<string>("Name")
                         .HasMaxLength(500);
-
-                    b.Property<string>("PurchasingCOA")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("StockCOA")
-                        .HasMaxLength(50);
 
                     b.Property<string>("UId")
                         .HasMaxLength(255);
@@ -547,6 +536,55 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.CategoryCOAAccount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Active");
+
+                    b.Property<string>("COACode")
+                        .HasMaxLength(50);
+
+                    b.Property<int>("CategoryId");
+
+                    b.Property<string>("_CreatedAgent")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("_CreatedUtc");
+
+                    b.Property<string>("_DeletedAgent")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_DeletedBy")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("_DeletedUtc");
+
+                    b.Property<bool>("_IsDeleted");
+
+                    b.Property<string>("_LastModifiedAgent")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_LastModifiedBy")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("_LastModifiedUtc");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CategoryCOAAccounts");
                 });
 
             modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.ColorTypes", b =>
@@ -769,9 +807,6 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Active");
-
-                    b.Property<string>("COACode")
-                        .HasMaxLength(50);
 
                     b.Property<string>("Code")
                         .HasMaxLength(100);
@@ -2389,9 +2424,6 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Active");
-
-                    b.Property<string>("COACode")
-                        .HasMaxLength(50);
 
                     b.Property<string>("Code")
                         .HasMaxLength(100);
