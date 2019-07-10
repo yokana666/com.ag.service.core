@@ -14,7 +14,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
     [Route("v{version:apiVersion}/master/categories")]
     public class CategoriesController : BasicController<CategoryService, Category, CategoryViewModel, CoreDbContext>
     {
-        private static readonly string ApiVersion = "1.0";
+        private new static readonly string ApiVersion = "1.0";
         public CategoriesController(CategoryService service) : base(service, ApiVersion)
         {
         }
