@@ -11,9 +11,10 @@ using System;
 namespace Com.DanLiris.Service.Core.Lib.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    partial class CoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190709035809_COACodeUnitDivisionCategory")]
+    partial class COACodeUnitDivisionCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -770,8 +771,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.Property<bool>("Active");
 
-                    b.Property<string>("COACode")
-                        .HasMaxLength(50);
+                    b.Property<string>("COACode");
 
                     b.Property<string>("Code")
                         .HasMaxLength(100);
@@ -2390,8 +2390,7 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.Property<bool>("Active");
 
-                    b.Property<string>("COACode")
-                        .HasMaxLength(50);
+                    b.Property<string>("COACode");
 
                     b.Property<string>("Code")
                         .HasMaxLength(100);

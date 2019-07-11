@@ -11,9 +11,10 @@ using System;
 namespace Com.DanLiris.Service.Core.Lib.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    partial class CoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190705115058_AddDivisionIdCategory")]
+    partial class AddDivisionIdCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -494,20 +495,8 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
 
                     b.Property<int>("DivisionId");
 
-                    b.Property<string>("ImportDebtCOA")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("LocalDebtCOA")
-                        .HasMaxLength(50);
-
                     b.Property<string>("Name")
                         .HasMaxLength(500);
-
-                    b.Property<string>("PurchasingCOA")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("StockCOA")
-                        .HasMaxLength(50);
 
                     b.Property<string>("UId")
                         .HasMaxLength(255);
@@ -769,9 +758,6 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Active");
-
-                    b.Property<string>("COACode")
-                        .HasMaxLength(50);
 
                     b.Property<string>("Code")
                         .HasMaxLength(100);
@@ -1675,22 +1661,6 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                     b.ToTable("MachineSpinningProcessType");
                 });
 
-            modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.MappingCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("CategoryId");
-
-                    b.Property<int>("DivisionId");
-
-                    b.Property<int>("ProductId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MappingCategories");
-                });
-
             modelBuilder.Entity("Com.DanLiris.Service.Core.Lib.Models.MaterialConstruction", b =>
                 {
                     b.Property<int>("Id")
@@ -2389,9 +2359,6 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Active");
-
-                    b.Property<string>("COACode")
-                        .HasMaxLength(50);
 
                     b.Property<string>("Code")
                         .HasMaxLength(100);

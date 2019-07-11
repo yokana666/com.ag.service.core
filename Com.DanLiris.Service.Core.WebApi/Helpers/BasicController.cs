@@ -195,8 +195,8 @@ namespace Com.DanLiris.Service.Core.WebApi.Helpers
         where TModel : StandardEntity, IValidatableObject
         where TService : BasicService<TDbContext, TModel>, IMap<TModel, TViewModel>
     {
-        private readonly TService Service;
-        private string ApiVersion;
+        protected readonly TService Service;
+        protected string ApiVersion;
 
         public BasicController(TService Service, string ApiVersion)
         {
