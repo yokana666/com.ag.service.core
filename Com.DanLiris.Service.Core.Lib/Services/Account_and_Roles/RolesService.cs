@@ -156,7 +156,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services.Account_and_Roles
 
         public async override Task<Role> ReadModelById(int Id)
         {
-            return DbSet.Where(d => d.Id.Equals(Id)).Include(i => i.Permissions).FirstOrDefault();
+            return await DbSet.Where(d => d.Id.Equals(Id)).Include(i => i.Permissions).FirstOrDefaultAsync();
         }
 
         public async override Task<int> CreateModel(Role role)

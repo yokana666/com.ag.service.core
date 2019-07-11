@@ -43,7 +43,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
             {
-                "_id", "code", "name"
+                "_id", "code", "name", 
             };
 
             Query = Query
@@ -188,6 +188,10 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             categoryVM._updateAgent = category._LastModifiedAgent;
             categoryVM.code = category.Code;
             categoryVM.name = category.Name;
+            categoryVM.ImportDebtCOA = category.ImportDebtCOA;
+            categoryVM.LocalDebtCOA = category.LocalDebtCOA;
+            categoryVM.PurchasingCOA = category.PurchasingCOA;
+            categoryVM.StockCOA = category.StockCOA;
             categoryVM.codeRequirement = category.CodeRequirement;
 
             return categoryVM;
@@ -210,6 +214,10 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             category.Code = categoryVM.code;
             category.Name = categoryVM.name;
             category.CodeRequirement = categoryVM.codeRequirement;
+            category.ImportDebtCOA = categoryVM.ImportDebtCOA;
+            category.LocalDebtCOA = categoryVM.LocalDebtCOA;
+            category.PurchasingCOA = categoryVM.PurchasingCOA;
+            category.StockCOA = categoryVM.StockCOA;
 
             return category;
         }
