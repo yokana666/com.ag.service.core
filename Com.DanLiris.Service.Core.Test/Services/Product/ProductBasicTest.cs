@@ -104,5 +104,13 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
            var data = Service.GetSimple();
             Assert.NotNull(data);
         }
+
+        [Fact]
+        public async Task TestGetForSpinning()
+        {
+            var createdData = await this.GetCreatedTestData(Service);
+            var data = await Service.GetProductForSpinning(createdData.Id);
+            Assert.NotNull(data);
+        }
     }
 }

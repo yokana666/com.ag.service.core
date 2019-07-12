@@ -1,4 +1,5 @@
 ﻿using Com.DanLiris.Service.Core.Lib.ViewModels;
+using Com.DanLiris.Service.Core.Test.DataUtils;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,10 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Product
                 Currency = new ProductCurrencyViewModel { Symbol = "rp", Code = "idr", Id = 1 },
             };
         }
+        protected ProductServiceDataUtil DataUtil
+        {
+            get { return (ProductServiceDataUtil)this.TestFixture.Service.GetService(typeof(ProductServiceDataUtil)); }
+        }
 
         public string GeneratePackingModel()
         {
@@ -61,6 +66,14 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Product
         public async Task GetById()
         {
             var response = await this.Client.GetAsync(string.Concat(URI, "/"));
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task GetByIdForSpinning()
+        {
+            var Model = await DataUtil.GetTestDataAsync();
+            var response = await this.Client.GetAsync(string.Concat(URI, "/", Model.Id));
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 

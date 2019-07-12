@@ -404,8 +404,8 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
         public override Task<Product> ReadModelById(int Id)
         {
-            base.DbContext.Set<ProductSPPProperty>().Load();
-            return base.ReadModelById(Id);
+            //base.DbContext.Set<ProductSPPProperty>().Load();
+            return DbSet.Include(x => x.SPPProperties).AsNoTracking().FirstOrDefaultAsync(x => x.Id == Id);
         }
 
         public async Task<bool> CreateProduct(PackingModel packings)
@@ -556,6 +556,11 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         public Task<Product> GetProductByName(string productName)
         {
             return DbSet.FirstOrDefaultAsync(f => f.Name.Equals(productName));
+        }
+
+        public Task<Product> GetProductForSpinning(int Id)
+        {
+            return DbContext.Products.AsNoTracking().FirstOrDefaultAsync(x => x.Id == Id);
         }
     }
 }

@@ -24,6 +24,40 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
             this.service = service;
         }
 
+        [HttpGet("spinning/{_id}")]
+        public async Task<IActionResult> GetByIdForSpinning([FromRoute] int _id)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var model = await Service.GetProductForSpinning(_id);
+
+                if (model == null)
+                {
+                    Dictionary<string, object> ResultNotFound =
+                        new ResultFormatter(ApiVersion, General.NOT_FOUND_STATUS_CODE, General.NOT_FOUND_MESSAGE)
+                        .Fail();
+                    return NotFound(ResultNotFound);
+                }
+
+                Dictionary<string, object> Result =
+                    new ResultFormatter(ApiVersion, General.OK_STATUS_CODE, General.OK_MESSAGE)
+                    .Ok<Product, ProductViewModel>(model, Service.MapToViewModel);
+                return Ok(Result);
+            }
+            catch (Exception e)
+            {
+                Dictionary<string, object> Result =
+                    new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, e.Message)
+                    .Fail();
+                return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
+            }
+        }
+
         [HttpGet("byId")]
         public IActionResult GetByIds([Bind(Prefix = "productList[]")]List<string> productList)
         {
