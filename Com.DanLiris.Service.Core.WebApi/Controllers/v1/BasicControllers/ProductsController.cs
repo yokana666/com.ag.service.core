@@ -24,8 +24,8 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
             this.service = service;
         }
 
-        [HttpGet("spinning/{_id}")]
-        public async Task<IActionResult> GetByIdForSpinning([FromRoute] int _id)
+        [HttpGet("spinning/{id}")]
+        public async Task<IActionResult> GetByIdForSpinning([FromRoute] int id)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
                     return BadRequest(ModelState);
                 }
 
-                var model = await Service.GetProductForSpinning(_id);
+                var model = await Service.GetProductForSpinning(id);
 
                 if (model == null)
                 {

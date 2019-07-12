@@ -73,14 +73,14 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Product
         public async Task GetByIdForSpinning()
         {
             var Model = await DataUtil.GetTestDataAsync();
-            var response = await this.Client.GetAsync(string.Concat(URI, "/spinning", Model.Id));
+            var response = await this.Client.GetAsync(string.Concat(URI, "/spinning/", Model.Id));
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
         [Fact]
         public async Task GetByIdForSpinning_NoFound()
         {
-            var response = await this.Client.GetAsync(string.Concat(URI, "/spinning", 0));
+            var response = await this.Client.GetAsync(string.Concat(URI, "/spinning/", 0));
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
 
