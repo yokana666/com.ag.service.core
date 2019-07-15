@@ -29,7 +29,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
         public override Tuple<List<Product>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null, string Filter = "{}")
         {
-            IQueryable<Product> Query = this.DbContext.Products;
+            IQueryable<Product> Query = this.DbContext.Products.AsNoTracking();
             Dictionary<string, object> FilterDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(Filter);
             Query = ConfigureFilter(Query, FilterDictionary);
             Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(Order);
@@ -51,40 +51,40 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 "Id", "Code", "Name", "UOM", "Currency",  "Price", "Tags", "_LastModifiedUtc"
             };
 
-            Query = Query
-                .Select(p => new Product
-                {
-                    Id = p.Id,
-                    Code = p.Code,
-                    Name = p.Name,
-                    UomId = p.UomId,
-                    UomUnit = p.UomUnit,
-                    CurrencyId = p.CurrencyId,
-                    CurrencyCode = p.CurrencyCode,
-                    CurrencySymbol = p.CurrencySymbol,
-                    Price = p.Price,
-                    Tags = p.Tags,
-                    //SPPProperties = p.SPPProperties == null ? new ProductSPPProperty() : new ProductSPPProperty()
-                    //{
-                    //    ColorName = p.SPPProperties.ColorName,
-                    //    DesignCode = p.SPPProperties.DesignCode,
-                    //    DesignNumber = p.SPPProperties.DesignNumber,
-                    //    ProductionOrderId = p.SPPProperties.ProductionOrderId,
-                    //    ProductionOrderNo = p.SPPProperties.ProductionOrderNo,
-                    //    BuyerAddress = p.SPPProperties.BuyerAddress,
-                    //    BuyerId = p.SPPProperties.BuyerId,
-                    //    BuyerName = p.SPPProperties.BuyerName,
-                    //    Weight = p.SPPProperties.Weight,
-                    //    Construction = p.SPPProperties.Construction,
-                    //    Grade = p.SPPProperties.Grade,
-                    //    Length = p.SPPProperties.Length,
-                    //    Lot = p.SPPProperties.Lot,
-                    //    OrderTypeCode = p.SPPProperties.OrderTypeCode,
-                    //    OrderTypeId = p.SPPProperties.OrderTypeId,
-                    //    OrderTypeName = p.SPPProperties.OrderTypeName
-                    //},
-                    _LastModifiedUtc = p._LastModifiedUtc
-                });
+            //Query = Query
+            //    .Select(p => new Product
+            //    {
+            //        Id = p.Id,
+            //        Code = p.Code,
+            //        Name = p.Name,
+            //        UomId = p.UomId,
+            //        UomUnit = p.UomUnit,
+            //        CurrencyId = p.CurrencyId,
+            //        CurrencyCode = p.CurrencyCode,
+            //        CurrencySymbol = p.CurrencySymbol,
+            //        Price = p.Price,
+            //        Tags = p.Tags,
+            //        //SPPProperties = p.SPPProperties == null ? new ProductSPPProperty() : new ProductSPPProperty()
+            //        //{
+            //        //    ColorName = p.SPPProperties.ColorName,
+            //        //    DesignCode = p.SPPProperties.DesignCode,
+            //        //    DesignNumber = p.SPPProperties.DesignNumber,
+            //        //    ProductionOrderId = p.SPPProperties.ProductionOrderId,
+            //        //    ProductionOrderNo = p.SPPProperties.ProductionOrderNo,
+            //        //    BuyerAddress = p.SPPProperties.BuyerAddress,
+            //        //    BuyerId = p.SPPProperties.BuyerId,
+            //        //    BuyerName = p.SPPProperties.BuyerName,
+            //        //    Weight = p.SPPProperties.Weight,
+            //        //    Construction = p.SPPProperties.Construction,
+            //        //    Grade = p.SPPProperties.Grade,
+            //        //    Length = p.SPPProperties.Length,
+            //        //    Lot = p.SPPProperties.Lot,
+            //        //    OrderTypeCode = p.SPPProperties.OrderTypeCode,
+            //        //    OrderTypeId = p.SPPProperties.OrderTypeId,
+            //        //    OrderTypeName = p.SPPProperties.OrderTypeName
+            //        //},
+            //        _LastModifiedUtc = p._LastModifiedUtc
+            //    }).AsNoTracking();
 
             /* Order */
             if (OrderDictionary.Count.Equals(0))
