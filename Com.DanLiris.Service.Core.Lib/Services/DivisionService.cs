@@ -45,7 +45,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
                 {
-                    "Id", "Code", "Name"
+                    "Id", "Code", "Name", "COACode"
                 };
 
             Query = Query
@@ -53,7 +53,8 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 {
                     Id = b.Id,
                     Code = b.Code,
-                    Name = b.Name
+                    Name = b.Name,
+                    COACode = b.COACode
                 });
 
             /* Order */

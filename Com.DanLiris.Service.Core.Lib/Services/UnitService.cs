@@ -45,7 +45,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
             {
-                "Id", "Code", "Division", "Name"
+                "Id", "Code", "Division", "Name", "COACode"
             };
 
             Query = Query
@@ -56,7 +56,8 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     DivisionId = u.DivisionId,
                     DivisionCode = u.DivisionCode,
                     DivisionName = u.DivisionName,
-                    Name = u.Name
+                    Name = u.Name,
+                    COACode = u.COACode
                 });
 
             /* Order */
@@ -109,6 +110,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             unitVM.Division.Name = unit.DivisionName;
             unitVM.Name = unit.Name;
             unitVM.Description = unit.Description;
+            unitVM.COACode = unit.COACode;
             
             return unitVM;
         }
@@ -133,6 +135,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             unit.DivisionName = unitVM.Division.Name;
             unit.Name = unitVM.Name;
             unit.Description = unitVM.Description;
+            unit.COACode = unitVM.COACode;
 
             return unit;
         }
