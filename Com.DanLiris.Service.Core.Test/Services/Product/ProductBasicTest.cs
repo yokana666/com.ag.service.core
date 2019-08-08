@@ -106,6 +106,14 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
         }
 
         [Fact]
+        public void TestReadModelNullTags()
+        {
+
+            Tuple<List<Models.Product>, int, Dictionary<string, string>, List<string>> data = Service.ReadModelNullTags();
+            Assert.NotNull(data);
+        }
+
+        [Fact]
         public async Task TestGetForSpinning()
         {
             var createdData = await this.GetCreatedTestData(Service);
