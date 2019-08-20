@@ -1,14 +1,14 @@
-﻿using Com.DanLiris.Service.Core.Lib.Models;
+﻿using Com.DanLiris.Service.Core.Lib.Helpers;
+using Com.DanLiris.Service.Core.Lib.Interfaces;
+using Com.DanLiris.Service.Core.Lib.Models;
+using Com.DanLiris.Service.Core.Lib.ViewModels;
+using Com.Moonlay.NetCore.Lib;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using Com.DanLiris.Service.Core.Lib.Helpers;
-using Newtonsoft.Json;
 using System.Reflection;
-using Com.Moonlay.NetCore.Lib;
-using Com.DanLiris.Service.Core.Lib.ViewModels;
-using Com.DanLiris.Service.Core.Lib.Interfaces;
 
 namespace Com.DanLiris.Service.Core.Lib.Services
 {
@@ -41,7 +41,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
             {
-                "Id", "Code", "BankName", "BankAddress", "AccountName", "AccountNumber", "SwiftCode", "Currency","Division"
+                "Id", "Code", "BankName", "BankAddress", "AccountName", "AccountNumber", "SwiftCode", "Currency","Division", "AccountCOA"
             };
 
             Query = Query
@@ -56,10 +56,11 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                     SwiftCode = a.SwiftCode,
                     CurrencyId = a.CurrencyId,
                     CurrencyCode = a.CurrencyCode,
-                    DivisionCode=a.DivisionCode,
-                    DivisionId=a.DivisionId,
-                    DivisionName=a.DivisionName,
-                    _LastModifiedUtc=a._LastModifiedUtc
+                    DivisionCode = a.DivisionCode,
+                    DivisionId = a.DivisionId,
+                    DivisionName = a.DivisionName,
+                    _LastModifiedUtc = a._LastModifiedUtc,
+                    AccountCOA = a.AccountCOA
                 });
 
             /* Order */
@@ -109,7 +110,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             {
                 Id = accountBank.DivisionId.GetValueOrDefault(),
                 Code = accountBank.DivisionCode,
-                Name= accountBank.DivisionName
+                Name = accountBank.DivisionName
             };
             return accountBankVM;
         }
@@ -123,7 +124,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             {
                 accountBank.CurrencyId = accountBankVM.Currency.Id;
                 accountBank.CurrencyCode = accountBankVM.Currency.Code;
-                accountBank.CurrencyRate = accountBankVM.Currency.Rate; 
+                accountBank.CurrencyRate = accountBankVM.Currency.Rate;
                 accountBank.CurrencySymbol = accountBankVM.Currency.Symbol;
             }
             else
