@@ -87,7 +87,8 @@ namespace Com.DanLiris.Service.Core.WebApi
                 .AddScoped<GarmentSectionService>()
                 .AddScoped<StandardMinuteValueService>()
                 .AddTransient<IMachineSpinningService, MachineSpinningService>()
-                .AddScoped<RolesService>();
+                .AddScoped<RolesService>()
+                .AddScoped<SizeService>();
 
 
             RegisterServices(services);
