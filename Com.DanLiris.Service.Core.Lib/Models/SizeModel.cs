@@ -18,17 +18,18 @@ namespace Com.DanLiris.Service.Core.Lib.Models
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             SizeService service = validationContext.GetService<SizeService>();
+            List<ValidationResult> validationResult = new List<ValidationResult>();
 
             if (string.IsNullOrWhiteSpace(this.Size))
             {
-                yield return new ValidationResult("Size harus diisi", new List<string> { "Size" });
+                validationResult.Add(new ValidationResult("Size is required", new List<string> { "Size" }));
             }
             else
             {
                 if (service.DbSet.Count(r => r.Id != this.Id && r.Size.Equals(this.Size) && r._IsDeleted.Equals(false)) > 0)
-                    yield return new ValidationResult("Size sudah ada", new List<string> { "Size" });
+                    validationResult.Add(new ValidationResult("Size already exists", new List<string> { "Size" }));
             }
-
+            return validationResult;
         }
     }
 }

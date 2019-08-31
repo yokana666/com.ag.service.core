@@ -18,10 +18,7 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
 
         public SizeViewModel GetEmptyData()
         {
-            SizeViewModel Data = new SizeViewModel();
-
-            Data.Size = "";
-            return Data;
+            return new SizeViewModel();
         }
 
         public override SizeModel GetNewData()
@@ -29,7 +26,7 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
             string guid = Guid.NewGuid().ToString();
             SizeModel TestData = new SizeModel
             {
-                Size = "S",
+                Size = string.Format("TEST {0}", guid),
                 UId = guid
             };
 

@@ -12,9 +12,9 @@ namespace Com.DanLiris.Service.Core.Test.Services.SizeTests
     [Collection("ServiceProviderFixture Collection")]
     public class SizeBasicTest : BasicServiceTest<CoreDbContext, SizeService, Models.SizeModel>
     {
-        private static readonly string[] createAttrAssertions = { "Name" };
-        private static readonly string[] updateAttrAssertions = { "Name" };
-        private static readonly string[] existAttrCriteria = { "Name" };
+        private static readonly string[] createAttrAssertions = { "Size" };
+        private static readonly string[] updateAttrAssertions = { "Size" };
+        private static readonly string[] existAttrCriteria = { "Size" };
 
         public SizeBasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
         {
@@ -35,7 +35,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.SizeTests
 
             return new Models.SizeModel()
             {
-                Size = "S",
+                Size = string.Format("TEST {0}", guid),
             };
         }
     }

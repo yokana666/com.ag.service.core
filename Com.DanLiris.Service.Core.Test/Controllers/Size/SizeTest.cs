@@ -34,7 +34,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Size
 
             return new SizeViewModel()
             {
-                Size = "s",
+                Size = string.Format("TEST {0}", guid),
             };
         }
         protected ProductServiceDataUtil DataUtil
