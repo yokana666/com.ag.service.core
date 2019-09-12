@@ -248,7 +248,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
 
         public GarmentCurrency GetSingleByCode(string code)
         {
-            return DbSet.FirstOrDefault(f => f.Code == code);
+            return DbSet.OrderByDescending(o => o._LastModifiedUtc).FirstOrDefault(f => f.Code == code);
         }
 	}
 }
