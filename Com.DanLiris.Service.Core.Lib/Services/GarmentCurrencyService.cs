@@ -245,5 +245,10 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             return this.DbSet.Where(p => code.Contains(p.Code) && p._IsDeleted == false)
                 .ToList();
         }
+
+        public GarmentCurrency GetSingleByCode(string code)
+        {
+            return DbSet.FirstOrDefault(f => f.Code == code);
+        }
 	}
 }
