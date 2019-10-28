@@ -13,6 +13,8 @@ namespace Com.DanLiris.Service.Core.Lib.ViewModels
 
         public string AccountName { get; set; }
 
+        public string AccountCOA { get; set; }
+
         public string AccountNumber { get; set; }
 
         public string SwiftCode { get; set; }
