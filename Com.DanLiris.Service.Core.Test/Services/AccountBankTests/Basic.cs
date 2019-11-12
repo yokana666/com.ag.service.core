@@ -43,6 +43,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.AccountBankTests
             return new AccountBank()
             {
                 Code = guid,
+                BankCode = guid,
                 AccountName = "TEST BANK" + guid,
                 BankName = "TEST BANK" + guid,
                 AccountNumber = "TEST BANK" + guid,
@@ -57,7 +58,8 @@ namespace Com.DanLiris.Service.Core.Test.Services.AccountBankTests
                 CurrencyRate=1,
                 SwiftCode = "TEST BANK",
                 DivisionId=1,
-                CurrencyId=1
+                CurrencyId=1,
+                AccountCOA = "COA"
             };
         }
     }
