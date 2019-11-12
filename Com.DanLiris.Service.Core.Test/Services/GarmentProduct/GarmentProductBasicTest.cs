@@ -116,12 +116,13 @@ namespace Com.DanLiris.Service.Core.Test.Services.StandardTest
             }
         }
 
-        //Assert.NotNull(Response);
-        // [SkippableFact]
-        // public override async Task TestCreateModel_Exist()
-        // {
-        //     Skip.If(true);
-        // }
+        // Assert.NotNull(Response);
+        [SkippableFact]
+        public override async Task TestCreateModel_Exist()
+        {
+            await Task.FromResult(1);
+            Skip.If(true);
+        }
 
         [Fact]
         public void Should_Error_Upload_CSV_Data_with_false_UOM()
