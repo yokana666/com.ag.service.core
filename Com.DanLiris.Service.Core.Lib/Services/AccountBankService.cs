@@ -32,7 +32,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             {
                 List<string> SearchAttributes = new List<string>()
                 {
-                    "BankName", "BankAddress", "AccountName", "AccountNumber"
+                    "BankName", "BankAddress", "AccountName", "AccountNumber", "BankCode"
                 };
 
                 Query = Query.Where(General.BuildSearch(SearchAttributes), Keyword);
@@ -41,7 +41,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             /* Const Select */
             List<string> SelectedFields = new List<string>()
             {
-                "Id", "Code", "BankName", "BankAddress", "AccountName", "AccountNumber", "SwiftCode", "Currency","Division", "AccountCOA"
+                "Id", "Code", "BankCode", "BankName", "BankAddress", "AccountName", "AccountNumber", "SwiftCode", "Currency","Division", "AccountCOA"
             };
 
             Query = Query
