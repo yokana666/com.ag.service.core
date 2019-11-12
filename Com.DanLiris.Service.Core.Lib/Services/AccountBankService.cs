@@ -49,6 +49,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 {
                     Id = a.Id,
                     Code = a.Code,
+                    BankCode = a.BankCode,
                     BankName = a.BankName,
                     BankAddress = a.BankAddress,
                     AccountName = a.AccountName,

@@ -50,7 +50,7 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
             return TestData;
         }
 
-        public async Task<GarmentProduct> GetNewData2()
+        public GarmentProduct GetNewData2()
         {
             string guid = Guid.NewGuid().ToString();
             GarmentProduct TestData = new GarmentProduct
@@ -71,7 +71,7 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
             return TestData;
         }
 
-        public async Task<GarmentProduct> GetNewData3()
+        public GarmentProduct GetNewData3()
         {
             string guid = Guid.NewGuid().ToString();
             GarmentProduct TestData = new GarmentProduct
@@ -91,7 +91,7 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
 
             return TestData;
         }
-        public async Task<GarmentProductViewModel> GetNewData4()
+        public GarmentProductViewModel GetNewData4()
         {
             string guid = Guid.NewGuid().ToString();
             GarmentProductViewModel TestData = new GarmentProductViewModel
@@ -114,7 +114,7 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
 
             return TestData;
         }
-        public async Task<GarmentProductViewModel> GetNewData5()
+        public GarmentProductViewModel GetNewData5()
         {
             string guid = Guid.NewGuid().ToString();
             GarmentProductViewModel TestData = new GarmentProductViewModel
@@ -148,7 +148,7 @@ namespace Com.DanLiris.Service.Core.Test.DataUtils
 
         public async Task<GarmentProduct> GetTestDataAsync2()
         {
-            var Data = await GetNewData3();
+            var Data = GetNewData3();
             await this.Service.CreateModel(Data);
             return Data;
         }

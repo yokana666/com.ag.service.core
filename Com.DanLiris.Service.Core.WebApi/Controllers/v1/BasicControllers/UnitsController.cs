@@ -15,7 +15,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
     [Route("v{version:apiVersion}/master/units")]
     public class UnitsController : BasicController<UnitService, Unit, UnitViewModel, CoreDbContext>
     {
-        private static readonly string ApiVersion = "1.0";
+        private new static readonly string ApiVersion = "1.0";
         private readonly UnitService service;
         public UnitsController(UnitService service) : base(service, ApiVersion)
         {

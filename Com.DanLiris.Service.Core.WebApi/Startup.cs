@@ -48,7 +48,7 @@ namespace Com.DanLiris.Service.Core.WebApi
             string secret = Configuration["Secret"];
 
             services
-                .AddDbContext<CoreDbContext>(options => options.UseSqlServer(connectionString))
+                .AddDbContext<CoreDbContext>(options => options.UseSqlServer("Server=localhost;Database=com.danliris.service.core;User Id=SA;Password=Standar123.;"))
                 .AddScoped<AccountBankService>()
                 //.AddScoped<AccountService>()
                 .AddScoped<DesignMotiveService>()
@@ -121,7 +121,7 @@ namespace Com.DanLiris.Service.Core.WebApi
             //    });
 
             string Secret = Configuration.GetValue<string>("Secret") ?? Configuration["Secret"];
-            SymmetricSecurityKey Key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Secret));
+            SymmetricSecurityKey Key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("Secret"));
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

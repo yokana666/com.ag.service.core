@@ -12,7 +12,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
     [Route("v{version:apiVersion}/master/storages")]
     public class StoragesController : BasicController<StorageService, Storage, StorageViewModel, CoreDbContext>
     {
-        private static readonly string ApiVersion = "1.0";
+        private new static readonly string ApiVersion = "1.0";
 
         public StoragesController(StorageService service) : base(service, ApiVersion)
         {

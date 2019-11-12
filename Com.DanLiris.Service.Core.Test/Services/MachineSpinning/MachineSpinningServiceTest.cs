@@ -312,7 +312,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.MachineSpinning
         }
 
         [Fact]
-        public async void Should_Fail_Upload_Validate_NotExist_Type()
+        public void Should_Fail_Upload_Validate_NotExist_Type()
         {
             var service = new MachineSpinningService(GetServiceProvider().Object, _dbContext(GetCurrentMethod()));
 

@@ -25,7 +25,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCurrency
 		{
 		}
 
-        protected GarmentCurrencyDataUtil DataUtil
+        protected new GarmentCurrencyDataUtil DataUtil
         {
             get { return (GarmentCurrencyDataUtil)this.TestFixture.Service.GetService(typeof(GarmentCurrencyDataUtil)); }
         }

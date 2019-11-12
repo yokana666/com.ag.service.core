@@ -35,6 +35,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.AccountBankControllerTests
             return new AccountBankViewModel()
             {
                 Code = guid,
+                BankCode = $"Bank Code {guid}",
                 BankName = string.Format("TEST Bank {0}", guid),
                 BankAddress = string.Format("TEST Bank {0}", guid),
                 AccountName = string.Format("TEST Bank {0}", guid),
