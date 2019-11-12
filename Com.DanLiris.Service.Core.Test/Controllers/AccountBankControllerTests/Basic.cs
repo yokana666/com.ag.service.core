@@ -51,7 +51,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.AccountBankControllerTests
                 },
                 Currency= new CurrencyViewModel
                 {
-                    Code = "CurrencyCode",
+                    Code = "IDR",
                     Id=1,
                     Description = string.Format("TEST Bank {0}", guid),
                     Rate=1,

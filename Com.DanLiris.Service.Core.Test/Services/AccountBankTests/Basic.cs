@@ -54,7 +54,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.AccountBankTests
                 DivisionName = "TEST BANK",
                 Fax = "TEST BANK",
                 Phone = "TEST BANK",
-                CurrencySymbol = "TEST BANK",
+                CurrencySymbol = "IDR",
                 CurrencyRate=1,
                 SwiftCode = "TEST BANK",
                 DivisionId=1,
