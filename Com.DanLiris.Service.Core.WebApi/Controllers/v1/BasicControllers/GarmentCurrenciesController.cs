@@ -15,7 +15,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
     [Route("v{version:apiVersion}/master/garment-currencies")]
     public class GarmentCurrenciesController : BasicController<GarmentCurrencyService, GarmentCurrency, GarmentCurrencyViewModel, CoreDbContext>
     {
-        private static readonly string ApiVersion = "1.0";
+        private new static readonly string ApiVersion = "1.0";
 		GarmentCurrencyService service;
 
         public GarmentCurrenciesController(GarmentCurrencyService service) : base(service, ApiVersion)

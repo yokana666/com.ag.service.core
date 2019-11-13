@@ -437,7 +437,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services.MachineSpinning
 
         private string GenerateCode(MachineSpinningModel model)
         {
-            string value;
+            // string value;
             //if (MachineTypes.TryGetValue(model.Type, out value))
             //{
             //    int dataCount = _DbContext.MachineSpinnings.Count(x => x.Type == model.Type && x.Line == model.Line);

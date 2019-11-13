@@ -134,7 +134,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.MachineSpinning
             catch (TypeConverterException ex)
             {
                 Dictionary<string, object> Result =
-                  new Utils.ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, "Tahun, Delivery atau Kapasitas diisi huruf")
+                  new Utils.ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, "Tahun, Delivery atau Kapasitas diisi huruf\n" + ex.Message)
                   .Fail();
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, Result);

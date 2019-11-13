@@ -35,26 +35,27 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.AccountBankControllerTests
             return new AccountBankViewModel()
             {
                 Code = guid,
-                BankName = string.Format("TEST Bank {0}", guid),
-                BankAddress = string.Format("TEST Bank {0}", guid),
-                AccountName = string.Format("TEST Bank {0}", guid),
-                AccountNumber = string.Format("TEST Bank {0}", guid),
-                Fax = string.Format("TEST Bank {0}", guid),
-                Phone = string.Format("TEST Bank {0}", guid),
-                SwiftCode = string.Format("TEST Bank {0}", guid),
+                BankCode = guid,
+                BankName = "TestBank",
+                BankAddress = "TestBank",
+                AccountName = "TestBank",
+                AccountNumber = "TestBank",
+                Fax = "TestBank",
+                Phone = "TestBank",
+                SwiftCode = "TestBank",
                 Division= new DivisionViewModel
                 {
-                    Name = string.Format("TEST Bank {0}", guid),
-                    Code= string.Format("TEST Bank {0}", guid),
+                    Name = "DivisionName",
+                    Code= "DivisionCode",
                     Id=1
                 },
                 Currency= new CurrencyViewModel
                 {
-                    Code = string.Format("TEST Bank {0}", guid),
+                    Code = "IDR",
                     Id=1,
                     Description = string.Format("TEST Bank {0}", guid),
                     Rate=1,
-                    Symbol = string.Format("TEST Bank {0}", guid),
+                    Symbol = "IDR",
                 },
                 
             };

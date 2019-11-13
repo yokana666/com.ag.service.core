@@ -11,9 +11,10 @@ using System;
 namespace Com.DanLiris.Service.Core.Lib.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    partial class CoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191112163839_AddAccountBank")]
+    partial class AddAccountBank
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -214,33 +215,33 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("AccountCOA")
-                        .HasMaxLength(64);
+                        .HasMaxLength(32);
 
                     b.Property<string>("AccountName")
-                        .HasMaxLength(512);
+                        .HasMaxLength(256);
 
                     b.Property<string>("AccountNumber")
-                        .HasMaxLength(128);
+                        .HasMaxLength(64);
 
                     b.Property<bool>("Active");
 
                     b.Property<string>("BankAddress")
-                        .HasMaxLength(512);
+                        .HasMaxLength(256);
 
                     b.Property<string>("BankCode")
-                        .HasMaxLength(64);
-
-                    b.Property<string>("BankName")
-                        .HasMaxLength(512);
-
-                    b.Property<string>("Code")
-                        .HasMaxLength(64);
-
-                    b.Property<string>("CurrencyCode")
                         .HasMaxLength(32);
 
+                    b.Property<string>("BankName")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("Code")
+                        .HasMaxLength(32);
+
+                    b.Property<string>("CurrencyCode")
+                        .HasMaxLength(16);
+
                     b.Property<string>("CurrencyDescription")
-                        .HasMaxLength(1024);
+                        .HasMaxLength(512);
 
                     b.Property<int?>("CurrencyId");
 
@@ -250,24 +251,24 @@ namespace Com.DanLiris.Service.Core.Lib.Migrations
                         .HasMaxLength(8);
 
                     b.Property<string>("DivisionCode")
-                        .HasMaxLength(32);
+                        .HasMaxLength(16);
 
                     b.Property<int?>("DivisionId");
 
                     b.Property<string>("DivisionName")
-                        .HasMaxLength(64);
+                        .HasMaxLength(32);
 
                     b.Property<string>("Fax")
-                        .HasMaxLength(128);
+                        .HasMaxLength(64);
 
                     b.Property<string>("Phone")
-                        .HasMaxLength(128);
+                        .HasMaxLength(64);
 
                     b.Property<string>("SwiftCode")
-                        .HasMaxLength(256);
+                        .HasMaxLength(128);
 
                     b.Property<string>("UId")
-                        .HasMaxLength(128);
+                        .HasMaxLength(64);
 
                     b.Property<string>("_CreatedAgent")
                         .IsRequired()
