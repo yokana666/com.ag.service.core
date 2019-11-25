@@ -209,7 +209,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.MachineSpinning
         }
 
         [Fact]
-        public async Task GetSimple()
+        public void GetSimple()
         {
             var mocks = GetMocks();
             mocks.Service.Setup(f => f.GetSimple()).Throws(new Exception());

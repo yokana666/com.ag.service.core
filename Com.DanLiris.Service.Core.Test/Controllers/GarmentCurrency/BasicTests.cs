@@ -25,7 +25,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCurrency
 		{
 		}
 
-        protected GarmentCurrencyDataUtil DataUtil
+        protected new GarmentCurrencyDataUtil DataUtil
         {
             get { return (GarmentCurrencyDataUtil)this.TestFixture.Service.GetService(typeof(GarmentCurrencyDataUtil)); }
         }
@@ -57,6 +57,24 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCurrency
             Models.GarmentCurrency model = await DataUtil.GetTestDataAsync();
             var response = await this.Client.GetAsync($"{byCodeUri}/{model.Code}");
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Should_Success_Get_Single_Data_By_Code()
+        {
+            string byCodeUri = "v1/master/garment-currencies/single-by-code";
+            Models.GarmentCurrency model = await DataUtil.GetTestDataAsync();
+            var response = await this.Client.GetAsync($"{byCodeUri}/{model.Code}");
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Should_Error_Get_Single_Data_By_Code()
+        {
+            string byCodeUri = "v1/master/garment-currencies/single-by-code";
+            Models.GarmentCurrency model = await DataUtil.GetTestDataAsync();
+            var response = await this.Client.GetAsync($"{byCodeUri}/any");
+            Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
     [Route("v{version:apiVersion}/master/account-banks")]
     public class AccountBanksController : BasicController<AccountBankService, AccountBank, AccountBankViewModel, CoreDbContext>
     {
-        private static readonly string ApiVersion = "1.0";
+        private new static readonly string ApiVersion = "1.0";
 
         public AccountBanksController(AccountBankService service) : base(service, ApiVersion)
         {

@@ -72,6 +72,7 @@ namespace Com.DanLiris.Service.Core.Lib
         public DbSet<StandardMinuteValue> StandardMinuteValues { get; set; }
         public DbSet<MachineSpinningProcessType> MachineSpinningProcessType { get; set; }
         public DbSet<MappingCategory> MappingCategories { get; set; }
+        public DbSet<SizeModel> Sizes { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

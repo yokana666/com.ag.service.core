@@ -16,7 +16,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
     [Route("v{version:apiVersion}/master/products")]
     public class ProductsController : BasicController<ProductService, Product, ProductViewModel, CoreDbContext>
     {
-        private static readonly string ApiVersion = "1.0";
+        private new static readonly string ApiVersion = "1.0";
         ProductService service;
 
         public ProductsController(ProductService service) : base(service, ApiVersion)

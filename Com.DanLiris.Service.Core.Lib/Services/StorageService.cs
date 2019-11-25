@@ -30,7 +30,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             {
                 List<string> SearchAttributes = new List<string>()
                 {
-                    "Code", "Name"
+                    "Code", "Name", "UnitName"
                 };
 
                 Query = Query.Where(General.BuildSearch(SearchAttributes), Keyword);
