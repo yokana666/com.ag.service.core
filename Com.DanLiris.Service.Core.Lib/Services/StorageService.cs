@@ -160,7 +160,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         {
             var query = DbSet.AsQueryable();
 
-            if (string.IsNullOrWhiteSpace(keyword))
+            if (!string.IsNullOrWhiteSpace(keyword))
             {
                 query = query.Where(entity => entity.Name.Contains(keyword));
             }
