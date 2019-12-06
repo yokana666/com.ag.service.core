@@ -26,10 +26,7 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
         {
             var result = await Service.GetStorageByName(keyword, page, size);
 
-            return Ok(new
-            {
-                data = result
-            });
+            return Ok(result);
         }
     }
 }
