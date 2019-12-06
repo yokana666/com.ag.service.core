@@ -24,12 +24,12 @@ namespace Com.DanLiris.Service.Core.WebApi.Controllers.v1.BasicControllers
         [HttpGet("by-storage-name")]
         public async Task<IActionResult> GetByStorageName(string keyword, int page = 1, int size = 25)
         {
-                var result = await Service.GetStorageByName(keyword, page, size);
+            var result = await Service.GetStorageByName(keyword, page, size);
 
-                return Ok(new
-                {
-                    data = result
-                });
+            return Ok(new
+            {
+                data = result
+            });
         }
     }
 }

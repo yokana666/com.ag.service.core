@@ -45,60 +45,6 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Product
             };
         }
 
-        public ProductViewModel GenerateInvalidYarnModel()
-        {
-            string guid = Guid.NewGuid().ToString();
-
-            return new ProductViewModel()
-            {
-                Name = string.Format("TEST {0}", guid),
-                Code = "Code",
-                Active = true,
-                Description = "desc",
-                Price = 12,
-                Tags = "tags",
-                Type = "Yarn",
-                UOM = new ProductUomViewModel { Unit = "unit", Id = 1 },
-                Currency = new ProductCurrencyViewModel { Symbol = "rp", Code = "idr", Id = 1 },
-            };
-        }
-
-        public ProductViewModel GenerateInvalidGreigeModel()
-        {
-            string guid = Guid.NewGuid().ToString();
-
-            return new ProductViewModel()
-            {
-                Name = string.Format("TEST {0}", guid),
-                Code = "Code",
-                Active = true,
-                Description = "desc",
-                Price = 12,
-                Tags = "tags",
-                Type = "Greige",
-                UOM = new ProductUomViewModel { Unit = "unit", Id = 1 },
-                Currency = new ProductCurrencyViewModel { Symbol = "rp", Code = "idr", Id = 1 },
-            };
-        }
-
-        public ProductViewModel GenerateInvalidFabricModel()
-        {
-            string guid = Guid.NewGuid().ToString();
-
-            return new ProductViewModel()
-            {
-                Name = string.Format("TEST {0}", guid),
-                Code = "Code",
-                Active = true,
-                Description = "desc",
-                Price = 12,
-                Tags = "tags",
-                Type = "Fabric",
-                UOM = new ProductUomViewModel { Unit = "unit", Id = 1 },
-                Currency = new ProductCurrencyViewModel { Symbol = "rp", Code = "idr", Id = 1 },
-            };
-        }
-
         protected ProductServiceDataUtil DataUtil
         {
             get { return (ProductServiceDataUtil)this.TestFixture.Service.GetService(typeof(ProductServiceDataUtil)); }
@@ -154,36 +100,6 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Product
             var response = await this.Client.PostAsync(URI, new StringContent(JsonConvert.SerializeObject(productViewModel).ToString(), Encoding.UTF8, "application/json"));
 
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-        }
-
-        [Fact]
-        public async Task Post_Validation_Error_Yarn()
-        {
-
-            ProductViewModel productViewModel = GenerateInvalidYarnModel();
-            var response = await this.Client.PostAsync(URI, new StringContent(JsonConvert.SerializeObject(productViewModel).ToString(), Encoding.UTF8, "application/json"));
-
-            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        }
-
-        [Fact]
-        public async Task Post_Validation_Error_Greige()
-        {
-
-            ProductViewModel productViewModel = GenerateInvalidGreigeModel();
-            var response = await this.Client.PostAsync(URI, new StringContent(JsonConvert.SerializeObject(productViewModel).ToString(), Encoding.UTF8, "application/json"));
-
-            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        }
-
-        [Fact]
-        public async Task Post_Validation_Error_Fabric()
-        {
-
-            ProductViewModel productViewModel = GenerateInvalidFabricModel();
-            var response = await this.Client.PostAsync(URI, new StringContent(JsonConvert.SerializeObject(productViewModel).ToString(), Encoding.UTF8, "application/json"));
-
-            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
         [Fact]
