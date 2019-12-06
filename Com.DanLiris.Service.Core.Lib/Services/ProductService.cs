@@ -196,17 +196,6 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 Name = product.Name,
                 Price = product.Price,
 
-                Type = product.Type,
-                YarnType1 = product.YarnType1,
-                YarnType2 = product.YarnType2,
-                WovenType = product.WovenType,
-                Construction = product.Construction,
-                Width = product.Width,
-                Grade = product.Grade,
-                Lot = product.Lot,
-                Composition = product.Composition,
-                Design = product.Design,
-
                 Currency = new ProductCurrencyViewModel
                 {
                     Id = product.CurrencyId,
@@ -313,17 +302,6 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             }
 
             product.Tags = productVM.Tags;
-
-            product.Type = productVM.Type;
-            product.YarnType1 = productVM.YarnType1;
-            product.YarnType2 = productVM.YarnType2;
-            product.WovenType = productVM.WovenType;
-            product.Construction = productVM.Construction;
-            product.Width = productVM.Width;
-            product.Grade = productVM.Grade;
-            product.Lot = productVM.Lot;
-            product.Composition = productVM.Composition;
-            product.Design = productVM.Design;
 
             return product;
         }

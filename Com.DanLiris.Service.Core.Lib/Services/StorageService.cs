@@ -170,9 +170,9 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 Code = entity.Code,
                 Id = entity.Id,
                 Name = entity.Name,
-                Unit = new ViewModels.Unit()
+                Unit = new UnitStorage()
                 {
-                    Division = new ViewModels.Division()
+                    Division = new DivisionStorage()
                     {
                         Name = entity.DivisionName
                     },
