@@ -143,7 +143,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 "Id", "Code", "Name", "UOM", "Currency",  "Price", "Tags", "_LastModifiedUtc"
             };
 
-            
+
 
             /* Order */
             if (OrderDictionary.Count.Equals(0))
@@ -195,6 +195,7 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 Code = product.Code,
                 Name = product.Name,
                 Price = product.Price,
+
                 Currency = new ProductCurrencyViewModel
                 {
                     Id = product.CurrencyId,

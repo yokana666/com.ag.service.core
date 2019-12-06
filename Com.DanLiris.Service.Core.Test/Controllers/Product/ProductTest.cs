@@ -44,6 +44,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Product
                 Currency = new ProductCurrencyViewModel { Symbol = "rp", Code = "idr", Id = 1 },
             };
         }
+
         protected ProductServiceDataUtil DataUtil
         {
             get { return (ProductServiceDataUtil)this.TestFixture.Service.GetService(typeof(ProductServiceDataUtil)); }
