@@ -9,8 +9,8 @@ namespace Com.DanLiris.Service.Core.Test.Services.BuyerTest
     [Collection("ServiceProviderFixture Collection")]
     public class BuyerBasicTest : BasicServiceTest<CoreDbContext, BuyerService, Buyer>
     {
-        private static readonly string[] createAttrAssertions = { "Name", "Code", "Country", "Type", "Tempo" };
-        private static readonly string[] updateAttrAssertions = { "Name", "Code", "Country", "Type", "Tempo" };
+        private static readonly string[] createAttrAssertions = { "Name", "Code", "Country", "Type", "Tempo", "NPPWP" };
+        private static readonly string[] updateAttrAssertions = { "Name", "Code", "Country", "Type", "Tempo", "NPPWP" };
         private static readonly string[] existAttrCriteria = { "Code" };
         public BuyerBasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
         {
@@ -21,6 +21,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.BuyerTest
             model.Name = string.Empty;
             model.Country = string.Empty;
             model.Type = string.Empty;
+            model.NPWP = string.Empty;
             model.Tempo = -1;
         }
 
@@ -30,6 +31,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.BuyerTest
             model.Name = string.Empty;
             model.Country = string.Empty;
             model.Type = string.Empty;
+            model.NPWP = string.Empty;
             model.Tempo = -1;
         }
 
@@ -43,6 +45,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.BuyerTest
                 Name = string.Format("BuyerName {0}", guid),
                 Country = string.Format("BuyerCountry {0}", guid),
                 Type = string.Format("BuyerType {0}", guid),
+                NPWP = string.Format("BuyerNPWP {0}", guid),
             };
         }
     }
