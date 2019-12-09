@@ -9,8 +9,8 @@ namespace Com.DanLiris.Service.Core.Test.Services.BuyerTest
     [Collection("ServiceProviderFixture Collection")]
     public class BuyerBasicTest : BasicServiceTest<CoreDbContext, BuyerService, Buyer>
     {
-        private static readonly string[] createAttrAssertions = { "Name", "Code", "Country", "Type", "Tempo", "NPWP" };
-        private static readonly string[] updateAttrAssertions = { "Name", "Code", "Country", "Type", "Tempo", "NPWP" };
+        private static readonly string[] createAttrAssertions = { "Name", "Code", "Country", "Type", "Tempo" };
+        private static readonly string[] updateAttrAssertions = { "Name", "Code", "Country", "Type", "Tempo" };
         private static readonly string[] existAttrCriteria = { "Code" };
         public BuyerBasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
         {
