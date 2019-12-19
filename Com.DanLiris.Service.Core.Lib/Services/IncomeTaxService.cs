@@ -132,10 +132,13 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             return incomeTax;
         }
 
-        public List<string> CsvHeader { get; } = new List<string>()
+        /* Upload CSV */
+        private readonly List<string> Header = new List<string>()
         {
             "Nama", "Rate", "Deskripsi"
         };
+
+        public List<string> CsvHeader => Header;
 
         public sealed class IncomeTaxMap : ClassMap<IncomeTaxViewModel>
         {
