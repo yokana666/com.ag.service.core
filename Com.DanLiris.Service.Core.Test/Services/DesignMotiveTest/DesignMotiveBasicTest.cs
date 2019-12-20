@@ -21,12 +21,14 @@ namespace Com.DanLiris.Service.Core.Test.Services.DesignMotiveTest
         }
         public override void EmptyCreateModel(DesignMotive model)
         {
+            model.Code = string.Empty;
             model.Name = string.Empty;
 
         }
 
         public override void EmptyUpdateModel(DesignMotive model)
         {
+            model.Code = string.Empty;
             model.Name = string.Empty;
 
         }
