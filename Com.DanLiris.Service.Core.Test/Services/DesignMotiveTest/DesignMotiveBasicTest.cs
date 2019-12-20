@@ -14,20 +14,19 @@ namespace Com.DanLiris.Service.Core.Test.Services.DesignMotiveTest
     {
         private static readonly string[] createAttrAssertions = { "Name" };
         private static readonly string[] updateAttrAssertions = { "Name" };
-        private static readonly string[] existAttrCriteria = { "Code" };
+        private static readonly string[] existAttrCriteria = { "Name" };
+
         public DesignMotiveBasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
         {
         }
         public override void EmptyCreateModel(DesignMotive model)
         {
-            model.Code = string.Empty;
             model.Name = string.Empty;
 
         }
 
         public override void EmptyUpdateModel(DesignMotive model)
         {
-            model.Code = string.Empty;
             model.Name = string.Empty;
 
         }
