@@ -73,7 +73,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.BuyerTest
         }
 
         [Fact]
-        public async Task Post_fail()
+        public async Task Post_Failed_Internal_Server_Error()
         {
 
             BuyerViewModel VM = null;
@@ -83,14 +83,10 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.BuyerTest
         }
 
         [Fact]
-        public async Task Post_badreq()
+        public async Task Post_Failed_Bad_Request()
         {
             BuyerViewModel VM = GenerateTestModel();
-            PropertyInfo prop = VM.GetType().GetProperty("Code", BindingFlags.Public | BindingFlags.Instance);
-            if (null != prop && prop.CanWrite)
-            {
-                prop.SetValue(VM, "Value", null);
-            }
+            VM.Code = null;
             var response = await this.Client.PostAsync(URI, new StringContent(JsonConvert.SerializeObject(VM).ToString(), Encoding.UTF8, "application/json"));
 
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
