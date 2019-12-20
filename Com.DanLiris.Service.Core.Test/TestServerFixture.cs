@@ -52,6 +52,7 @@ namespace Com.DanLiris.Service.Core.Test
                 .ConfigureServices(services =>
                 {
                     services
+                        .AddTransient<BuyerDataUtil>()
                         .AddTransient<BudgetServiceDataUtil>()
                         .AddTransient<MaterialConstructionServiceDataUtil>()
                         .AddTransient<QualityServiceDataUtil>()
