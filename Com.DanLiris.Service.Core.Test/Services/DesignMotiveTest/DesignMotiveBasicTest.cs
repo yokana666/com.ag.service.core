@@ -12,24 +12,25 @@ namespace Com.DanLiris.Service.Core.Test.Services.DesignMotiveTest
     [Collection("ServiceProviderFixture Collection")]
     public class DesignMotiveBasicTest : BasicServiceTest<CoreDbContext, DesignMotiveService, DesignMotive>
     {
-        private static readonly string[] createAttrAssertions = { "Name" };
+        private static readonly string[] createAttrAssertions = { "Name", };
         private static readonly string[] updateAttrAssertions = { "Name" };
-        private static readonly string[] existAttrCriteria = { "Name" };
+        private static readonly string[] existAttrCriteria = { "Code" };
 
         public DesignMotiveBasicTest(ServiceProviderFixture fixture, string[] createAttrAssertions, string[] updateAttrAssertions, string[] existAttrCriteria) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
         {
         }
-
         public override void EmptyCreateModel(DesignMotive model)
         {
             model.Code = string.Empty;
             model.Name = string.Empty;
+
         }
 
         public override void EmptyUpdateModel(DesignMotive model)
         {
             model.Code = string.Empty;
             model.Name = string.Empty;
+
         }
 
         public override DesignMotive GenerateTestModel()
@@ -38,7 +39,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.DesignMotiveTest
 
             return new DesignMotive()
             {
-                Name = String.Concat("TEST MOTIVE DESIGN", guid),
+                Name = string.Format("TEST {0}", guid),
             };
         }
     }
