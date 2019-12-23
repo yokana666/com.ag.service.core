@@ -53,5 +53,10 @@ namespace Com.DanLiris.Service.Core.Test.Services.HolydayService
                 DivisionName = string.Format("TEST {0}", guid)
             };
         }
+
+        public override void TestReadModel()
+        {
+            base.TestReadModel();
+        }
     }
 }
