@@ -23,4 +23,8 @@
     <ProjectReference Include="..\Com.DanLiris.Service.Core.WebApi\Com.DanLiris.Service.Core.WebApi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\OrderType\" />
+  </ItemGroup>
+
 </Project>
