@@ -40,6 +40,16 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.HolidayBasicTest
             get { return (HolidayService)this.TestFixture.Service.GetService(typeof(HolidayService)); }
         }
 
+        public HolidayDivisionViewModel Division()
+        {
+            string guid = Guid.NewGuid().ToString();
+
+            return new HolidayDivisionViewModel()
+            {
+                name = string.Format("TEST {0}", guid),
+            };
+        }
+
         public HolidayViewModel GenerateTestModel()
         {
             string guid = Guid.NewGuid().ToString();
@@ -50,7 +60,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.HolidayBasicTest
                 code = string.Format("TEST {0}", guid),
                 date = DateTime.Now,
                 description = "description",
-                
+                division = Division(),
             };
         }
 
