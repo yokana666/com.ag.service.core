@@ -7,15 +7,15 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace Com.DanLiris.Service.Core.Test.Services.HolydayService
+namespace Com.DanLiris.Service.Core.Test.Services.Holyday
 {
     [Collection("ServiceProviderFixture Collection")]
-    public class HolidayServiceBasicTest : BasicServiceTest<CoreDbContext, HolidayService, Holiday>
+    public class HolidayBasicTest : BasicServiceTest<CoreDbContext, HolidayService, Holiday>
     {
         private static readonly string[] createAttrAssertions = { "date", "name", "division", "description" };
         private static readonly string[] updateAttrAssertions = { "date", "name", "division", "description" };
         private static readonly string[] existAttrCriteria = { };
-        public HolidayServiceBasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
+        public HolidayBasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
         {
         }
 
