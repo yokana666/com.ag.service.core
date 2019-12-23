@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <Folder Include="Controllers\OrderType\" />
-    <Folder Include="Services\DesignMotiveTest\" />
   </ItemGroup>
 
 </Project>
