@@ -92,7 +92,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCurrency
             string byCodeUri = "v1/master/garment-currencies/single-by-code-date";
             Models.GarmentCurrency model = await DataUtil.GetTestDataAsync();
             var response = await this.Client.GetAsync($"{byCodeUri}?stringDate={model.Date.ToString()}");
-            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+            Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
         }
     }
 }
