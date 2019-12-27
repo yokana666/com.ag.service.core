@@ -76,5 +76,23 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCurrency
             var response = await this.Client.GetAsync($"{byCodeUri}/any");
             Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
         }
+
+        [Fact]
+        public async Task Should_Success_Get_Single_Data_By_Code_Date()
+        {
+            string byCodeUri = "v1/master/garment-currencies/single-by-code-date";
+            Models.GarmentCurrency model = await DataUtil.GetTestDataAsync();
+            var response = await this.Client.GetAsync($"{byCodeUri}?code={model.Code}&stringDate={model.Date.ToString()}");
+            Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Should_Error_Get_Single_Data_By_Code_Date()
+        {
+            string byCodeUri = "v1/master/garment-currencies/single-by-code";
+            Models.GarmentCurrency model = await DataUtil.GetTestDataAsync();
+            var response = await this.Client.GetAsync($"{byCodeUri}?code=any&stringDate={model.Date.ToString()}");
+            Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+        }
     }
 }
