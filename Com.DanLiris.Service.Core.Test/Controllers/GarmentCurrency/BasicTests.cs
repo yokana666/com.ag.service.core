@@ -91,7 +91,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCurrency
         {
             string byCodeUri = "v1/master/garment-currencies/single-by-code";
             Models.GarmentCurrency model = await DataUtil.GetTestDataAsync();
-            var response = await this.Client.GetAsync($"{byCodeUri}?code=any&stringDate={model.Date.ToString()}");
+            var response = await this.Client.GetAsync($"{byCodeUri}?stringDate={model.Date.ToString()}");
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
     }
