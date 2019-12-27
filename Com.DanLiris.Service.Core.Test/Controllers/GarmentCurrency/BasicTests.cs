@@ -89,7 +89,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCurrency
         [Fact]
         public async Task Should_Error_Get_Single_Data_By_Code_Date()
         {
-            string byCodeUri = "v1/master/garment-currencies/single-by-code";
+            string byCodeUri = "v1/master/garment-currencies/single-by-code-date";
             Models.GarmentCurrency model = await DataUtil.GetTestDataAsync();
             var response = await this.Client.GetAsync($"{byCodeUri}?stringDate={model.Date.ToString()}");
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
