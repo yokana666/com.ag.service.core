@@ -26,7 +26,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.BudgetCurrencyTest
         [Fact]
         public async Task GetById()
         {
-            var response = await this.Client.GetAsync(string.Concat(URI, "/"));
+            var response = await this.Client.GetAsync(string.Concat(URI, "/byId"));
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
