@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentBuyerBrandTest
 {
@@ -24,6 +25,13 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentBuyerBrandTest
 
         public BasicTests(TestServerFixture fixture) : base(fixture, URI, CreateValidationAttributes, UpdateValidationAttributes)
         {
+        }
+
+        [Fact]
+        public async Task Should_Succes_Get_By_Name()
+        {
+            var response = await this.Client.GetAsync(string.Concat(URI, "/byname?", $"keyword={Model.Name}"));
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
     }
 }
