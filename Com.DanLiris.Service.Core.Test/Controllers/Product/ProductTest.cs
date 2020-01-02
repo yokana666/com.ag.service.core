@@ -125,5 +125,19 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Product
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
+        [Fact]
+        public async Task Should_Success_GetById()
+        {
+            var response = await this.Client.GetAsync(string.Concat(URI, "/byId"));
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Should_Success_GetByName()
+        {
+            var response = await this.Client.GetAsync(string.Concat(URI, "/by-name"));
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
     }
 }
