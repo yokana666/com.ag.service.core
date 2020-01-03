@@ -30,8 +30,15 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentBuyerBrandTest
         [Fact]
         public async Task Should_Succes_Get_By_Name()
         {
-            var response = await this.Client.GetAsync(string.Concat(URI, "/byname?", $"keyword={Model.Name}"));
+            var response = await this.Client.GetAsync(string.Concat(URI, "/byname?", $"Keyword={Model.Name}"));
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Should_Exception_Get_By_Name()
+        {
+            var response = await this.Client.GetAsync(URI + "/byname?Keyword=null&filter=name");
+            Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
         }
     }
 }
