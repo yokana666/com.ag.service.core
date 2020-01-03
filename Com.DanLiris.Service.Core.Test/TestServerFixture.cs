@@ -53,6 +53,7 @@ namespace Com.DanLiris.Service.Core.Test
                 {
                     services
                     .AddTransient<DesignMotiveDataUtil>()
+                        .AddTransient<UnitDataUtil>()
                         .AddTransient<OrderTypeDataUtil>()
                         .AddTransient<ProcessTypeDataUtil>()
                         .AddTransient<TermOfPaymentDataUtil>()

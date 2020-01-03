@@ -34,6 +34,8 @@ namespace Com.DanLiris.Service.Core.Test
                 {
                     options.UseSqlServer(connectionString);
                 }, ServiceLifetime.Transient)
+                .AddTransient<UnitService>(provider => new UnitService(provider))
+                .AddTransient<UnitDataUtil>()
                 .AddTransient<OrderTypeService>(provider => new OrderTypeService(provider) { Username = "TEST" })
                 .AddTransient<OrderTypeDataUtil>()
                 .AddTransient<ProcessTypeService>(provider => new ProcessTypeService(provider))
