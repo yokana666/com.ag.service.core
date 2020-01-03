@@ -42,5 +42,15 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Uom
             var response = await this.Client.GetAsync(string.Concat(URI, "/simple"));
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
+
+        [Fact]
+        public async Task Should_Exception_GetSimple()
+        {
+            UomViewModel VM = null;
+
+            var response = await this.Client.PostAsync(URI, new StringContent(JsonConvert.SerializeObject(VM).ToString(), Encoding.UTF8, "application/json"));
+
+            Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+        }
     }
 }
