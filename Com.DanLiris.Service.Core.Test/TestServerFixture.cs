@@ -52,7 +52,8 @@ namespace Com.DanLiris.Service.Core.Test
                 .ConfigureServices(services =>
                 {
                     services
-                    .AddTransient<DesignMotiveDataUtil>()
+                        .AddTransient<DivisionDataUtil>()
+                        .AddTransient<DesignMotiveDataUtil>()
                         .AddTransient<UnitDataUtil>()
                         .AddTransient<OrderTypeDataUtil>()
                         .AddTransient<ProcessTypeDataUtil>()
