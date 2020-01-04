@@ -75,10 +75,18 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentProduct
         [Fact]
         public async Task GetById()
         {
-            var response = await this.Client.GetAsync(string.Concat(URI, "/"));
+            var response = await this.Client.GetAsync(string.Concat(URI, "/byId"));
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
-		[Fact]
+
+        [Fact]
+        public async Task GetByName()
+        {
+            var response = await this.Client.GetAsync(string.Concat(URI, "/byName"));
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
         public async Task Post()
         {
 
