@@ -234,11 +234,11 @@ namespace Com.DanLiris.Service.Core.Lib.Services
             return Tuple.Create(Valid, ErrorList);
         }
 
-		public List<GarmentCurrency> GetByIds(List<int> ids)
-		{
-			return this.DbSet.Where(p => ids.Contains(p.Id) && p._IsDeleted == false)
-				.ToList();
-		}
+        public List<GarmentCurrency> GetByIds(List<int> ids)
+        {
+            return this.DbSet.Where(p => ids.Contains(p.Id) && p._IsDeleted == false)
+                .ToList();
+        }
 
         public List<GarmentCurrency> GetByCode(string code)
         {
@@ -250,5 +250,21 @@ namespace Com.DanLiris.Service.Core.Lib.Services
         {
             return DbSet.OrderByDescending(o => o._LastModifiedUtc).FirstOrDefault(f => f.Code == code);
         }
-	}
+
+        public GarmentCurrency GetSingleByCodeDate(string code, DateTimeOffset date)
+        {
+            var currencyWithCodeYear = DbSet.OrderBy(o => o.Date).Where(f => f.Code == code && f.Date.Year == date.Year);
+            if (currencyWithCodeYear.Count() == 0)
+            {
+                return GetSingleByCode(code);
+            }
+            else
+            {
+                return date >= currencyWithCodeYear.Last().Date ? currencyWithCodeYear.Last() :
+                    date <= currencyWithCodeYear.First().Date ? currencyWithCodeYear.First() :
+                    currencyWithCodeYear.Last(d => d.Date <= date);
+                
+            }
+        }
+    }
 }
