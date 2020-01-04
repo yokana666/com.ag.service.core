@@ -71,6 +71,13 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Product
         }
 
         [Fact]
+        public async Task Should_Exception_GetNulTags()
+        {
+            var response = await this.Client.GetAsync(URI + "/null-tags?Select=null&Keyword=null&Filter=name");
+            Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+        }
+
+        [Fact]
         public async Task GetById()
         {
             var response = await this.Client.GetAsync(string.Concat(URI, "/"));
