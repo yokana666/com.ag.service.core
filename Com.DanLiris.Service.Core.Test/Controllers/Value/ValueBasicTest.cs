@@ -12,7 +12,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Value
     public class ValueBasicTest
     {
 
-        private const string URI = "v1/master/values";
+        private const string URI = "v1/values";
 
         protected TestServerFixture TestFixture { get; set; }
 
@@ -27,10 +27,10 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Value
         }
 
         [Fact]
-        public async Task Should_Not_Found_Get()
+        public async Task Get()
         {
             var response = await this.Client.GetAsync(URI);
-            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
     }
 }
