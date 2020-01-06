@@ -51,6 +51,14 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCurrency
         //}
 
         [Fact]
+        public async Task Should_Success_Get_ById()
+        {
+            string byCodeUri = "v1/master/garment-currencies/byId";
+            var response = await this.Client.GetAsync(byCodeUri);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+        
+        [Fact]
         public async Task Should_Success_Get_Data_By_Code()
         {
             string byCodeUri = "v1/master/garment-currencies/byCode";

@@ -1,6 +1,6 @@
-﻿using Com.DanLiris.Service.Core.Lib.Services;
+﻿using Com.DanLiris.Service.Core.Lib.Models;
+using Com.DanLiris.Service.Core.Lib.Services;
 using Com.DanLiris.Service.Core.Lib.ViewModels;
-using Com.DanLiris.Service.Core.Lib.Models;
 using Com.DanLiris.Service.Core.Test.DataUtils;
 using Newtonsoft.Json;
 using System;
@@ -11,12 +11,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Com.DanLiris.Service.Core.Test.Controllers.DesignMotiveTest
+namespace Com.DanLiris.Service.Core.Test.Controllers.UnitTest
 {
     [Collection("TestFixture Collection")]
-    public class DesignMotiveBasicTest
+    public class UnitBasicTest
     {
-        private const string URI = "v1/master/design-motives";
+        private const string URI = "v1/master/units";
 
         protected TestServerFixture TestFixture { get; set; }
 
@@ -25,37 +25,44 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.DesignMotiveTest
             get { return this.TestFixture.Client; }
         }
 
-        public DesignMotiveBasicTest(TestServerFixture fixture)
+        public UnitBasicTest(TestServerFixture fixture)
         {
             TestFixture = fixture;
         }
 
-        protected DesignMotiveDataUtil DataUtil
+        protected UnitDataUtil DataUtil
         {
-            get { return (DesignMotiveDataUtil)this.TestFixture.Service.GetService(typeof(DesignMotiveDataUtil)); }
+            get { return (UnitDataUtil)this.TestFixture.Service.GetService(typeof(UnitDataUtil)); }
         }
 
-        protected DesignMotiveService Service
+        protected UnitService Service
         {
-            get { return (DesignMotiveService)this.TestFixture.Service.GetService(typeof(DesignMotiveService)); }
+            get { return (UnitService)this.TestFixture.Service.GetService(typeof(UnitService)); }
         }
 
 
-        public DesignMotiveViewModel GenerateTestModel()
+        public UnitViewModel GenerateTestModel()
         {
             string guid = Guid.NewGuid().ToString();
 
-            return new DesignMotiveViewModel()
+            return new UnitViewModel()
             {
-                Name = string.Format("TEST {0}", guid),
                 Code = string.Format("TEST {0}", guid),
+                Name = string.Format("Unit {0}", guid),
+                Description = "Description",
+                Division = new DivisionViewModel
+                {
+                    Name = "DivisionName",
+                    Code= "DivisionCode",
+                    Id=1
+                },
             };
         }
 
         [Fact]
         public async Task Post()
         {
-            DesignMotiveViewModel VM = GenerateTestModel();
+            UnitViewModel VM = GenerateTestModel();
             var response = await this.Client.PostAsync(URI, new StringContent(JsonConvert.SerializeObject(VM).ToString(), Encoding.UTF8, "application/json"));
 
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
@@ -65,7 +72,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.DesignMotiveTest
         public async Task Post_Failed_Internal_Server_Error()
         {
 
-            DesignMotiveViewModel VM = null;
+            UnitViewModel VM = null;
             var response = await this.Client.PostAsync(URI, new StringContent(JsonConvert.SerializeObject(VM).ToString(), Encoding.UTF8, "application/json"));
 
             Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
@@ -74,8 +81,8 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.DesignMotiveTest
         [Fact]
         public async Task Post_Failed_Bad_Request()
         {
-            DesignMotiveViewModel VM = GenerateTestModel();
-            VM.Name = null;
+            UnitViewModel VM = GenerateTestModel();
+            VM.Code = null;
             var response = await this.Client.PostAsync(URI, new StringContent(JsonConvert.SerializeObject(VM).ToString(), Encoding.UTF8, "application/json"));
 
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -98,8 +105,8 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.DesignMotiveTest
         [Fact]
         public async Task Delete()
         {
-            DesignMotive motive = await DataUtil.GetTestDataAsync();
-            DesignMotiveViewModel VM = Service.MapToViewModel(motive);
+            Unit Unit = await DataUtil.GetTestDataAsync();
+            UnitViewModel VM = Service.MapToViewModel(Unit);
             var response = await this.Client.DeleteAsync(string.Concat(URI, "/", VM.Id));
 
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
@@ -108,8 +115,8 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.DesignMotiveTest
         [Fact]
         public async Task Update()
         {
-            DesignMotive motive = await DataUtil.GetTestDataAsync();
-            DesignMotiveViewModel VM = Service.MapToViewModel(motive);
+            Unit Unit = await DataUtil.GetTestDataAsync();
+            UnitViewModel VM = Service.MapToViewModel(Unit);
             var response = await this.Client.PutAsync(string.Concat(URI, "/", VM.Id), new StringContent(JsonConvert.SerializeObject(VM).ToString(), Encoding.UTF8, "application/json"));
 
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
@@ -121,5 +128,13 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.DesignMotiveTest
             var response = await this.Client.GetAsync(string.Concat(URI, "/", 0));
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
+
+        [Fact]
+        public async Task GetSimple()
+        {
+            var response = await this.Client.GetAsync(string.Concat(URI, "/simple"));
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
     }
 }

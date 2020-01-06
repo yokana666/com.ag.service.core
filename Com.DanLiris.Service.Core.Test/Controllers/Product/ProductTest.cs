@@ -71,6 +71,13 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Product
         }
 
         [Fact]
+        public async Task Should_Exception_GetNulTags()
+        {
+            var response = await this.Client.GetAsync(URI + "/null-tags?Select=null&Keyword=null&Filter=name");
+            Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+        }
+
+        [Fact]
         public async Task GetById()
         {
             var response = await this.Client.GetAsync(string.Concat(URI, "/"));
@@ -122,6 +129,20 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Product
         public async Task GetSimple()
         {
             var response = await this.Client.GetAsync(string.Concat(URI, "/simple"));
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Should_Success_GetById()
+        {
+            var response = await this.Client.GetAsync(string.Concat(URI, "/byId"));
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Should_Success_GetByName()
+        {
+            var response = await this.Client.GetAsync(string.Concat(URI, "/by-name"));
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
