@@ -51,6 +51,14 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCurrency
         //}
 
         [Fact]
+        public async Task Should_Success_Get_ById()
+        {
+            string byCodeUri = "v1/master/garment-currencies/byId";
+            var response = await this.Client.GetAsync(byCodeUri);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+        
+        [Fact]
         public async Task Should_Success_Get_Data_By_Code()
         {
             string byCodeUri = "v1/master/garment-currencies/byCode";
@@ -74,6 +82,24 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.GarmentCurrency
             string byCodeUri = "v1/master/garment-currencies/single-by-code";
             Models.GarmentCurrency model = await DataUtil.GetTestDataAsync();
             var response = await this.Client.GetAsync($"{byCodeUri}/any");
+            Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Should_Success_Get_Single_Data_By_Code_Date()
+        {
+            string byCodeUri = "v1/master/garment-currencies/single-by-code-date";
+            Models.GarmentCurrency model = await DataUtil.GetTestDataAsync();
+            var response = await this.Client.GetAsync($"{byCodeUri}?code={model.Code}&stringDate={model.Date.ToString()}");
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Should_Error_Get_Single_Data_By_Code_Date()
+        {
+            string byCodeUri = "v1/master/garment-currencies/single-by-code-date";
+            Models.GarmentCurrency model = await DataUtil.GetTestDataAsync();
+            var response = await this.Client.GetAsync($"{byCodeUri}?stringDate={model.Date.ToString()}");
             Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
         }
     }

@@ -44,6 +44,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Product
                 Currency = new ProductCurrencyViewModel { Symbol = "rp", Code = "idr", Id = 1 },
             };
         }
+
         protected ProductServiceDataUtil DataUtil
         {
             get { return (ProductServiceDataUtil)this.TestFixture.Service.GetService(typeof(ProductServiceDataUtil)); }
@@ -67,6 +68,13 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Product
         {
             var response = await this.Client.GetAsync(URI+"/null-tags");
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Should_Exception_GetNulTags()
+        {
+            var response = await this.Client.GetAsync(URI + "/null-tags?Select=null&Keyword=null&Filter=name");
+            Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
         }
 
         [Fact]
@@ -121,6 +129,20 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Product
         public async Task GetSimple()
         {
             var response = await this.Client.GetAsync(string.Concat(URI, "/simple"));
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Should_Success_GetById()
+        {
+            var response = await this.Client.GetAsync(string.Concat(URI, "/byId"));
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Should_Success_GetByName()
+        {
+            var response = await this.Client.GetAsync(string.Concat(URI, "/by-name"));
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 

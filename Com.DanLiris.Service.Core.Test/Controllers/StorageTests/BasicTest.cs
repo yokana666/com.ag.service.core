@@ -6,7 +6,9 @@ using Com.DanLiris.Service.Core.Test.DataUtils;
 using Com.DanLiris.Service.Core.Test.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Com.DanLiris.Service.Core.Test.Controllers.StorageTests
@@ -21,6 +23,14 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.StorageTests
 
         public BasicTest(TestServerFixture fixture) : base(fixture, URI, CreateValidationAttributes, UpdateValidationAttributes)
         {
+        }
+
+        [Fact]
+        public async Task GetStorageByName()
+        {
+            var Model = await DataUtil.GetTestDataAsync();
+            var response = await this.Client.GetAsync(string.Concat(URI, "/by-storage-name?", $"keyword={Model.Name}"));
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
     }
 }
