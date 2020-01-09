@@ -56,5 +56,17 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Upload
             var response = await Client.PostAsync(URI, multiContent);
             Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
         }
+
+        [Fact]
+        public async Task Should_Bad_Request()
+        {
+            var content = new FormUrlEncodedContent(new[]
+            {
+             new KeyValuePair<string, string>("", "")
+            });
+
+            var response = await Client.PostAsync(URI, content);
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
     }
 }
