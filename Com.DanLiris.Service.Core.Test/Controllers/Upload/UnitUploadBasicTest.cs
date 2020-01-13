@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Com.DanLiris.Service.Core.Lib.Models;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -12,6 +13,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Upload
     public class UnitUploadBasicTest
     {
         private const string URI = "v1/master/upload-units";
+        private const string divisionURI = "v1/master/upload-divisions";
 
         protected TestServerFixture TestFixture { get; set; }
 
@@ -24,13 +26,31 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Upload
         {
             get { return this.TestFixture.Client; }
         }
+        
+        public async Task<string> Division()
+        {
+            MultipartFormDataContent multiContent = new MultipartFormDataContent();
+            string guid = Guid.NewGuid().ToString();
+            string header = "Nama,Deskripsi";
+            string content = $"{guid},Deskripsi";
+
+            var payload = Encoding.UTF8.GetBytes(header + "\n" + content);
+            multiContent.Add(new ByteArrayContent(payload), "files", "data.csv"); // name must be "files"
+            var response = await Client.PostAsync(divisionURI, multiContent);
+            return guid;
+        }
 
         [Fact]
         public async Task Should_Success_Upload_CSV()
         {
+            var division =  await this.Division();
             MultipartFormDataContent multiContent = new MultipartFormDataContent();
 
-            var payload = Encoding.UTF8.GetBytes("Kode Unit,Divisi,Nama,Deskripsi");
+            string guid = Guid.NewGuid().ToString();
+            string header = "Kode Unit,Divisi,Nama,Deskripsi";
+            string content = $"{guid},{division},TEST {guid},Deskripsi";
+
+            var payload = Encoding.UTF8.GetBytes(header + "\n" + content);
             multiContent.Add(new ByteArrayContent(payload), "files", "data.csv"); // name must be "files"
             var response = await Client.PostAsync(URI, multiContent);
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);

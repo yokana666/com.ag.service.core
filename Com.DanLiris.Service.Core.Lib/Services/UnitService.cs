@@ -196,7 +196,8 @@ namespace Com.DanLiris.Service.Core.Lib.Services
                 if (string.IsNullOrEmpty(ErrorMessage))
                 {
                     /* Service Validation */
-                    division = this.DbContext.Set<Division>().FirstOrDefault(d => d._IsDeleted.Equals(false) && d.Name.Equals(unitVM.Division.Name));
+                    var dbSetDivison = this.DbContext.Set<Division>();
+                    division = dbSetDivison.FirstOrDefault(d => d._IsDeleted.Equals(false) && d.Name.Equals(unitVM.Division.Name));
 
                     if (this.DbSet.Any(d => d._IsDeleted.Equals(false) && d.Code.Equals(unitVM.Code)))
                     {
