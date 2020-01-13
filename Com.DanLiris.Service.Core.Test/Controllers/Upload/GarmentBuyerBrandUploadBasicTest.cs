@@ -30,10 +30,26 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Upload
         {
             MultipartFormDataContent multiContent = new MultipartFormDataContent();
 
+
             var payload = Encoding.UTF8.GetBytes("Kode Brand,Nama Brand,Kode Buyer");
             multiContent.Add(new ByteArrayContent(payload), "files", "data.csv"); // name must be "files"
             var response = await Client.PostAsync(URI, multiContent);
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Should_Success_Upload_CSV_Using_Memory_Stream()
+        {
+            MultipartFormDataContent multiContent = new MultipartFormDataContent();
+            string guid = Guid.NewGuid().ToString();
+            string header = "Kode Brand,Nama Brand,Kode Buyer";
+            string content1 = "AAA,TEST,AAA2";
+            string content2 = "AAA,TEST,AAA2";
+
+            var payload = Encoding.UTF8.GetBytes(header + "\n" + content1 + "\n" + content2);
+            multiContent.Add(new ByteArrayContent(payload), "files", "data.csv"); // name must be "files"
+            var response = await Client.PostAsync(URI, multiContent);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
         [Fact]

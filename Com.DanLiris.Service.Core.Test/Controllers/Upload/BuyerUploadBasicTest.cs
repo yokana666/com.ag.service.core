@@ -37,6 +37,20 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Upload
         }
 
         [Fact]
+        public async Task Should_Success_Upload_CSV_Using_Mermory_Stream()
+        {
+            MultipartFormDataContent multiContent = new MultipartFormDataContent();
+            string header = "Kode Buyer,Nama,Alamat,Kota,Negara,NPWP,Jenis Buyer,Kontak,Tempo";
+            string content1 = "AAA,Nama,Alamat,Kota,Albania,NPWP,Lokal,Kontak,1";
+            string content2 = "AAA,Nama,Alamat,Kota,Albania,NPWP,Lokal,Kontak,1";
+
+            var payload = Encoding.UTF8.GetBytes(header + "\n" + content1 + "\n" + content2);
+            multiContent.Add(new ByteArrayContent(payload), "files", "data.csv"); // name must be "files"
+            var response = await Client.PostAsync(URI, multiContent);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
         public async Task Should_Not_Found_Upload_CSV()
         {
             MultipartFormDataContent multiContent = new MultipartFormDataContent();
