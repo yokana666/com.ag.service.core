@@ -12,6 +12,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Upload
     public class GarmentBuyerBrandUploadBasicTest
     {
         private const string URI = "v1/master/garment-buyer-brand-upload";
+        private const string gbURI = "v1/master/upload-garment-buyers";
 
         protected TestServerFixture TestFixture{ get; set; }
 
@@ -25,13 +26,29 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Upload
             TestFixture = fixture;
         }
 
+        public async Task<string> postGarmentBuyer()
+        {
+            MultipartFormDataContent multiContent = new MultipartFormDataContent();
+            string guid = Guid.NewGuid().ToString();
+            string header = "Kode Buyer,Nama,Alamat,Kota,Negara,NPWP,Jenis Buyer,Kontak,Tempo";
+            string content = $"{guid},TEST,Alamat,Kota,Afghanistan,NPWP,Lokal,Kontak,1";
+
+            var payload = Encoding.UTF8.GetBytes(header + "\n" + content);
+            multiContent.Add(new ByteArrayContent(payload), "files", "data.csv"); // name must be "files"
+            var response = await Client.PostAsync(gbURI, multiContent);
+            return guid;
+        }
+
         [Fact]
         public async Task Should_Success_Upload_CSV()
         {
+            var buyer = await postGarmentBuyer();
             MultipartFormDataContent multiContent = new MultipartFormDataContent();
+            string guid = Guid.NewGuid().ToString();
+            string header = "Kode Brand,Nama Brand,Kode Buyer";
+            string content = $"{guid},Test {guid},{buyer}";
 
-
-            var payload = Encoding.UTF8.GetBytes("Kode Brand,Nama Brand,Kode Buyer");
+            var payload = Encoding.UTF8.GetBytes(header + "\n" + content);
             multiContent.Add(new ByteArrayContent(payload), "files", "data.csv"); // name must be "files"
             var response = await Client.PostAsync(URI, multiContent);
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
