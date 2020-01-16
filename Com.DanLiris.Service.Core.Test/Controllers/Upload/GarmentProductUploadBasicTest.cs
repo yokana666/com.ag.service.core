@@ -46,7 +46,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Upload
             MultipartFormDataContent multiContent = new MultipartFormDataContent();
             string guid = Guid.NewGuid().ToString();
             string header = "Jenis Produk,Kode Barang,Nama Barang,Satuan,Komposisi,Const,Yarn,Width,Tags,Keterangan";
-            string content = $"FABRIC,{guid},FABRIC,{uom},Komposisi,Const,Yarn,Widht,Tags,Keterangan";
+            string content = $"FABRIC,{guid},FABRIC,{uom},{guid},Const,Yarn,Widht,Tags,Keterangan";
 
             var payload = Encoding.UTF8.GetBytes(header + "\n" + content);
             multiContent.Add(new ByteArrayContent(payload), "files", "data.csv"); // name must be "files"
