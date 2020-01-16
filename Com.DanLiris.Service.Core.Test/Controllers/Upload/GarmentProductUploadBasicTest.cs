@@ -12,6 +12,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Upload
     public class GarmentProductUploadBasicTest
     {
         private const string URI = "v1/master/upload-garmentProducts";
+        private const string uomURI = "v1/master/upload-uoms";
 
         protected TestServerFixture TestFixture { get; set; }
 
@@ -25,12 +26,29 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Upload
             TestFixture = fixture;
         }
 
+        public async Task<string> uploadUOM()
+        {
+            MultipartFormDataContent multiContent = new MultipartFormDataContent();
+            string guid = Guid.NewGuid().ToString();
+            string header = "Unit";
+            string content = $"{guid}";
+
+            var payload = Encoding.UTF8.GetBytes(header + "\n" + content);
+            multiContent.Add(new ByteArrayContent(payload), "files", "data.csv"); // name must be "files"
+            var response = await Client.PostAsync(uomURI, multiContent);
+            return guid;
+        }
+
         [Fact]
         public async Task Should_Success_Upload_CSV()
         {
+            var uom = await uploadUOM();
             MultipartFormDataContent multiContent = new MultipartFormDataContent();
+            string guid = Guid.NewGuid().ToString();
+            string header = "Jenis Produk,Kode Barang,Nama Barang,Satuan,Komposisi,Const,Yarn,Width,Tags,Keterangan";
+            string content = $"FABRIC,{guid},FABRIC,{uom},Komposisi,Const,Yarn,Widht,Tags,Keterangan";
 
-            var payload = Encoding.UTF8.GetBytes("Jenis Produk,Kode Barang,Nama Barang,Satuan,Komposisi,Const,Yarn,Width,Tags,Keterangan");
+            var payload = Encoding.UTF8.GetBytes(header + "\n" + content);
             multiContent.Add(new ByteArrayContent(payload), "files", "data.csv"); // name must be "files"
             var response = await Client.PostAsync(URI, multiContent);
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);

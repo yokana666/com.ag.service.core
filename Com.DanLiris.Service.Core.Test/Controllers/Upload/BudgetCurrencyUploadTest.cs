@@ -14,6 +14,7 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Upload
     public class BudgetCurrencyUploadTest
     {
         private const string URI = "v1/master/upload-budget-currencies";
+        private const string currURI = "v1/master/upload-currencies";
 
         protected TestServerFixture TestFixture { get; set; }
 
@@ -25,6 +26,34 @@ namespace Com.DanLiris.Service.Core.Test.Controllers.Upload
         protected HttpClient Client
         {
             get { return this.TestFixture.Client; }
+        }
+
+        public async Task<string> uploadCurrency()
+        {
+            MultipartFormDataContent multiContent = new MultipartFormDataContent();
+            string guid = Guid.NewGuid().ToString();
+            string header = "Kode,Simbol,Rate,Keterangan";
+            string content = $"{guid},RP,1,Ini adalah {guid}";
+
+            var payload = Encoding.UTF8.GetBytes(header + "\n" + content);
+            multiContent.Add(new ByteArrayContent(payload), "files", "data.csv"); // name must be "files"
+            var response = await Client.PostAsync(currURI, multiContent);
+            return guid;
+        }
+
+        [Fact]
+        public async Task Should_Success_Upload_CSV()
+        {
+            var currency =await uploadCurrency();
+            MultipartFormDataContent multiContent = new MultipartFormDataContent();
+            string header = "Mata Uang,Kurs,Keterangan";
+            string content = $"{currency},1,Keterangan";
+
+            var payload = Encoding.UTF8.GetBytes(header + "\n" + content);
+            multiContent.Add(new ByteArrayContent(payload), "files", "data.csv"); // name must be "files"
+            multiContent.Add(new StringContent("2020-01-01"), "date");
+            var response = await Client.PostAsync(URI, multiContent);
+            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         }
 
         [Fact]
