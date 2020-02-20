@@ -12,7 +12,7 @@ namespace Com.DanLiris.Service.Core.Test.Services.GarmentComodity
     {
         private static readonly string[] createAttrAssertions = { "Code", "Name" };
         private static readonly string[] updateAttrAssertions = { "Code", "Name" };
-        private static readonly string[] existAttrCriteria = { "Code", "Name" };
+        private static readonly string[] existAttrCriteria = { "Code" };
         public GarmentComodityBasicTest(ServiceProviderFixture fixture) : base(fixture, createAttrAssertions, updateAttrAssertions, existAttrCriteria)
         {
         }
