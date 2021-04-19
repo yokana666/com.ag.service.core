@@ -73,6 +73,17 @@ namespace Com.DanLiris.Service.Core.Lib
         public DbSet<MachineSpinningProcessType> MachineSpinningProcessType { get; set; }
         public DbSet<MappingCategory> MappingCategories { get; set; }
         public DbSet<SizeModel> Sizes { get; set; }
+        public DbSet<GarmentLeftoverWarehouseBuyerModel> GarmentLeftoverWarehouseBuyers { get; set; }
+        public DbSet<GarmentShippingStaffModel> GarmentShippingStaffs { get; set; }
+        public DbSet<GarmentFabricTypeModel> GarmentFabricTypes { get; set; }
+        public DbSet<GarmentEMKLModel> GarmentEMKLs { get; set; }
+        public DbSet<GarmentForwarderModel> GarmentForwarders { get; set; }
+        public DbSet<GarmentTransactionTypeModel> GarmentTransactionTypes { get; set; }
+        public DbSet<GarmentLeftoverWarehouseProductModel> GarmentLeftoverWarehouseProducts { get; set; }
+        public DbSet<GarmentLeftoverWarehouseComodityModel> GarmentLeftoverWarehouseComodities { get; set; }
+        public DbSet<GarmentCourierModel> GarmentCouriers { get; set; }
+        public DbSet<GarmentInsuranceModel> GarmentInsurances { get; set; }
+        public DbSet<GarmentAdditionalChargesModel> GarmentAdditionalCharges { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
